@@ -1,0 +1,26 @@
+HKCR
+{
+	COMRaskroy.ParsedCuts.1 = s 'ParsedCuts Class'
+	{
+		CLSID = s '{D3715FAF-D060-4B29-BF50-9C0377AF6FBA}'
+	}
+	COMRaskroy.ParsedCuts = s 'ParsedCuts Class'
+	{
+		CLSID = s '{D3715FAF-D060-4B29-BF50-9C0377AF6FBA}'
+		CurVer = s 'COMRaskroy.ParsedCuts.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {D3715FAF-D060-4B29-BF50-9C0377AF6FBA} = s 'ParsedCuts Class'
+		{
+			ProgID = s 'COMRaskroy.ParsedCuts.1'
+			VersionIndependentProgID = s 'COMRaskroy.ParsedCuts'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{40443BA8-6056-4700-8665-6C9A43730A98}'
+		}
+	}
+}

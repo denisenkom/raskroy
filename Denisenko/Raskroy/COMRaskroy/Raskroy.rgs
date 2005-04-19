@@ -1,0 +1,26 @@
+HKCR
+{
+	COMRaskroy.Raskroy.1 = s 'Raskroy Class'
+	{
+		CLSID = s '{1659A58C-EE79-4303-B273-23390FD76749}'
+	}
+	COMRaskroy.Raskroy = s 'Raskroy Class'
+	{
+		CLSID = s '{1659A58C-EE79-4303-B273-23390FD76749}'
+		CurVer = s 'COMRaskroy.Raskroy.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {1659A58C-EE79-4303-B273-23390FD76749} = s 'Raskroy Class'
+		{
+			ProgID = s 'COMRaskroy.Raskroy.1'
+			VersionIndependentProgID = s 'COMRaskroy.Raskroy'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{40443BA8-6056-4700-8665-6C9A43730A98}'
+		}
+	}
+}

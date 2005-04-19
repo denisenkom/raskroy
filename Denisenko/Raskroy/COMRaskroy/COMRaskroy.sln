@@ -1,0 +1,128 @@
+Microsoft Visual Studio Solution File, Format Version 7.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "COMRaskroy", "COMRaskroy.vcproj", "{B8CB01BA-150C-4A9A-9A4B-2E219F236C67}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ModelingRaskroy", "..\ModelingRaskroy\ModelingRaskroy.vbproj", "{AF94A5BA-EB98-44E9-95D7-D538453B3835}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test", "..\test\test.vcproj", "{8874806A-DFB8-4791-95B0-F88090F6EB03}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rasklib", "..\rasklib\rasklib.vcproj", "{37269501-2A2C-41EC-9958-0EB1E5C0CC4C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Planer", "..\Planer\Planer.vcproj", "{9847D2D2-52A1-4797-A950-9BD1E0D28515}"
+EndProject
+Global
+	GlobalSection(SourceCodeControl) = preSolution
+		SccNumberOfProjects = 6
+		SccLocalPath0 = .
+		CanCheckoutShared = false
+		SolutionUniqueID = {F838F20E-6575-4C6A-BB62-EF40CAFC943A}
+		SccProjectUniqueName1 = COMRaskroy.vcproj
+		SccLocalPath1 = .
+		CanCheckoutShared = false
+		SccProjectUniqueName2 = ..\\ModelingRaskroy\\ModelingRaskroy.vbproj
+		SccProjectName2 = \u0022$/RaskroyProj/ModelingRaskroy\u0022,\u0020KKAAAAAA
+		SccLocalPath2 = ..\\ModelingRaskroy
+		CanCheckoutShared = false
+		SccProjectUniqueName3 = ..\\test\\test.vcproj
+		SccProjectName3 = \u0022$/RaskroyProj/test\u0022,\u0020JKAAAAAA
+		SccLocalPath3 = ..\\test
+		CanCheckoutShared = false
+		SccProjectUniqueName4 = ..\\rasklib\\rasklib.vcproj
+		SccProjectName4 = \u0022$/RaskroyProj/rasklib\u0022,\u0020LKAAAAAA
+		SccLocalPath4 = ..\\rasklib
+		CanCheckoutShared = false
+		SccProjectUniqueName5 = ..\\Planer\\Planer.vcproj
+		SccProjectName5 = \u0022$/RaskroyProj/Planer\u0022,\u0020RKAAAAAA
+		SccLocalPath5 = ..\\Planer
+		CanCheckoutShared = false
+	EndGlobalSection
+	GlobalSection(SolutionConfiguration) = preSolution
+		ConfigName.0 = Debug
+		ConfigName.1 = Release
+		ConfigName.2 = Release MinDependency
+		ConfigName.3 = Release MinSize
+		ConfigName.4 = Unicode Debug
+		ConfigName.5 = Unicode Release MinDependency
+		ConfigName.6 = Unicode Release MinSize
+	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
+		{B8CB01BA-150C-4A9A-9A4B-2E219F236C67}.0 = {37269501-2A2C-41EC-9958-0EB1E5C0CC4C}
+		{AF94A5BA-EB98-44E9-95D7-D538453B3835}.0 = {B8CB01BA-150C-4A9A-9A4B-2E219F236C67}
+		{8874806A-DFB8-4791-95B0-F88090F6EB03}.0 = {37269501-2A2C-41EC-9958-0EB1E5C0CC4C}
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{B8CB01BA-150C-4A9A-9A4B-2E219F236C67}.Debug.ActiveCfg = Debug|Win32
+		{B8CB01BA-150C-4A9A-9A4B-2E219F236C67}.Debug.Build.0 = Debug|Win32
+		{B8CB01BA-150C-4A9A-9A4B-2E219F236C67}.Release.ActiveCfg = Release MinSize|Win32
+		{B8CB01BA-150C-4A9A-9A4B-2E219F236C67}.Release.Build.0 = Release MinSize|Win32
+		{B8CB01BA-150C-4A9A-9A4B-2E219F236C67}.Release MinDependency.ActiveCfg = Release MinDependency|Win32
+		{B8CB01BA-150C-4A9A-9A4B-2E219F236C67}.Release MinDependency.Build.0 = Release MinDependency|Win32
+		{B8CB01BA-150C-4A9A-9A4B-2E219F236C67}.Release MinSize.ActiveCfg = Release MinSize|Win32
+		{B8CB01BA-150C-4A9A-9A4B-2E219F236C67}.Release MinSize.Build.0 = Release MinSize|Win32
+		{B8CB01BA-150C-4A9A-9A4B-2E219F236C67}.Unicode Debug.ActiveCfg = Unicode Debug|Win32
+		{B8CB01BA-150C-4A9A-9A4B-2E219F236C67}.Unicode Debug.Build.0 = Unicode Debug|Win32
+		{B8CB01BA-150C-4A9A-9A4B-2E219F236C67}.Unicode Release MinDependency.ActiveCfg = Unicode Release MinDependency|Win32
+		{B8CB01BA-150C-4A9A-9A4B-2E219F236C67}.Unicode Release MinDependency.Build.0 = Unicode Release MinDependency|Win32
+		{B8CB01BA-150C-4A9A-9A4B-2E219F236C67}.Unicode Release MinSize.ActiveCfg = Unicode Release MinSize|Win32
+		{B8CB01BA-150C-4A9A-9A4B-2E219F236C67}.Unicode Release MinSize.Build.0 = Unicode Release MinSize|Win32
+		{AF94A5BA-EB98-44E9-95D7-D538453B3835}.Debug.ActiveCfg = Debug|.NET
+		{AF94A5BA-EB98-44E9-95D7-D538453B3835}.Debug.Build.0 = Debug|.NET
+		{AF94A5BA-EB98-44E9-95D7-D538453B3835}.Release.ActiveCfg = Release|.NET
+		{AF94A5BA-EB98-44E9-95D7-D538453B3835}.Release.Build.0 = Release|.NET
+		{AF94A5BA-EB98-44E9-95D7-D538453B3835}.Release MinDependency.ActiveCfg = Release|.NET
+		{AF94A5BA-EB98-44E9-95D7-D538453B3835}.Release MinDependency.Build.0 = Release|.NET
+		{AF94A5BA-EB98-44E9-95D7-D538453B3835}.Release MinSize.ActiveCfg = Release|.NET
+		{AF94A5BA-EB98-44E9-95D7-D538453B3835}.Release MinSize.Build.0 = Release|.NET
+		{AF94A5BA-EB98-44E9-95D7-D538453B3835}.Unicode Debug.ActiveCfg = Debug|.NET
+		{AF94A5BA-EB98-44E9-95D7-D538453B3835}.Unicode Debug.Build.0 = Debug|.NET
+		{AF94A5BA-EB98-44E9-95D7-D538453B3835}.Unicode Release MinDependency.ActiveCfg = Release|.NET
+		{AF94A5BA-EB98-44E9-95D7-D538453B3835}.Unicode Release MinDependency.Build.0 = Release|.NET
+		{AF94A5BA-EB98-44E9-95D7-D538453B3835}.Unicode Release MinSize.ActiveCfg = Release|.NET
+		{AF94A5BA-EB98-44E9-95D7-D538453B3835}.Unicode Release MinSize.Build.0 = Release|.NET
+		{8874806A-DFB8-4791-95B0-F88090F6EB03}.Debug.ActiveCfg = Debug|Win32
+		{8874806A-DFB8-4791-95B0-F88090F6EB03}.Debug.Build.0 = Debug|Win32
+		{8874806A-DFB8-4791-95B0-F88090F6EB03}.Release.ActiveCfg = Release|Win32
+		{8874806A-DFB8-4791-95B0-F88090F6EB03}.Release.Build.0 = Release|Win32
+		{8874806A-DFB8-4791-95B0-F88090F6EB03}.Release MinDependency.ActiveCfg = Release|Win32
+		{8874806A-DFB8-4791-95B0-F88090F6EB03}.Release MinDependency.Build.0 = Release|Win32
+		{8874806A-DFB8-4791-95B0-F88090F6EB03}.Release MinSize.ActiveCfg = Release|Win32
+		{8874806A-DFB8-4791-95B0-F88090F6EB03}.Release MinSize.Build.0 = Release|Win32
+		{8874806A-DFB8-4791-95B0-F88090F6EB03}.Unicode Debug.ActiveCfg = Debug|Win32
+		{8874806A-DFB8-4791-95B0-F88090F6EB03}.Unicode Debug.Build.0 = Debug|Win32
+		{8874806A-DFB8-4791-95B0-F88090F6EB03}.Unicode Release MinDependency.ActiveCfg = Release|Win32
+		{8874806A-DFB8-4791-95B0-F88090F6EB03}.Unicode Release MinDependency.Build.0 = Release|Win32
+		{8874806A-DFB8-4791-95B0-F88090F6EB03}.Unicode Release MinSize.ActiveCfg = Release|Win32
+		{8874806A-DFB8-4791-95B0-F88090F6EB03}.Unicode Release MinSize.Build.0 = Release|Win32
+		{37269501-2A2C-41EC-9958-0EB1E5C0CC4C}.Debug.ActiveCfg = Debug|Win32
+		{37269501-2A2C-41EC-9958-0EB1E5C0CC4C}.Debug.Build.0 = Debug|Win32
+		{37269501-2A2C-41EC-9958-0EB1E5C0CC4C}.Release.ActiveCfg = Release|Win32
+		{37269501-2A2C-41EC-9958-0EB1E5C0CC4C}.Release.Build.0 = Release|Win32
+		{37269501-2A2C-41EC-9958-0EB1E5C0CC4C}.Release MinDependency.ActiveCfg = Release|Win32
+		{37269501-2A2C-41EC-9958-0EB1E5C0CC4C}.Release MinDependency.Build.0 = Release|Win32
+		{37269501-2A2C-41EC-9958-0EB1E5C0CC4C}.Release MinSize.ActiveCfg = Release|Win32
+		{37269501-2A2C-41EC-9958-0EB1E5C0CC4C}.Release MinSize.Build.0 = Release|Win32
+		{37269501-2A2C-41EC-9958-0EB1E5C0CC4C}.Unicode Debug.ActiveCfg = Debug|Win32
+		{37269501-2A2C-41EC-9958-0EB1E5C0CC4C}.Unicode Debug.Build.0 = Debug|Win32
+		{37269501-2A2C-41EC-9958-0EB1E5C0CC4C}.Unicode Release MinDependency.ActiveCfg = Release|Win32
+		{37269501-2A2C-41EC-9958-0EB1E5C0CC4C}.Unicode Release MinDependency.Build.0 = Release|Win32
+		{37269501-2A2C-41EC-9958-0EB1E5C0CC4C}.Unicode Release MinSize.ActiveCfg = Release|Win32
+		{37269501-2A2C-41EC-9958-0EB1E5C0CC4C}.Unicode Release MinSize.Build.0 = Release|Win32
+		{9847D2D2-52A1-4797-A950-9BD1E0D28515}.Debug.ActiveCfg = Debug|Win32
+		{9847D2D2-52A1-4797-A950-9BD1E0D28515}.Debug.Build.0 = Debug|Win32
+		{9847D2D2-52A1-4797-A950-9BD1E0D28515}.Release.ActiveCfg = Release|Win32
+		{9847D2D2-52A1-4797-A950-9BD1E0D28515}.Release.Build.0 = Release|Win32
+		{9847D2D2-52A1-4797-A950-9BD1E0D28515}.Release MinDependency.ActiveCfg = Release|Win32
+		{9847D2D2-52A1-4797-A950-9BD1E0D28515}.Release MinDependency.Build.0 = Release|Win32
+		{9847D2D2-52A1-4797-A950-9BD1E0D28515}.Release MinSize.ActiveCfg = Release|Win32
+		{9847D2D2-52A1-4797-A950-9BD1E0D28515}.Release MinSize.Build.0 = Release|Win32
+		{9847D2D2-52A1-4797-A950-9BD1E0D28515}.Unicode Debug.ActiveCfg = Debug|Win32
+		{9847D2D2-52A1-4797-A950-9BD1E0D28515}.Unicode Debug.Build.0 = Debug|Win32
+		{9847D2D2-52A1-4797-A950-9BD1E0D28515}.Unicode Release MinDependency.ActiveCfg = Release|Win32
+		{9847D2D2-52A1-4797-A950-9BD1E0D28515}.Unicode Release MinDependency.Build.0 = Release|Win32
+		{9847D2D2-52A1-4797-A950-9BD1E0D28515}.Unicode Release MinSize.ActiveCfg = Release|Win32
+		{9847D2D2-52A1-4797-A950-9BD1E0D28515}.Unicode Release MinSize.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

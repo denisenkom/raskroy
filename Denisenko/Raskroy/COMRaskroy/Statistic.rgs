@@ -1,0 +1,26 @@
+HKCR
+{
+	COMRaskroy.Statistic.1 = s 'Statistic Class'
+	{
+		CLSID = s '{F678F0B5-BFB8-47F9-86A1-DF1E809CE9DF}'
+	}
+	COMRaskroy.Statistic = s 'Statistic Class'
+	{
+		CLSID = s '{F678F0B5-BFB8-47F9-86A1-DF1E809CE9DF}'
+		CurVer = s 'COMRaskroy.Statistic.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {F678F0B5-BFB8-47F9-86A1-DF1E809CE9DF} = s 'Statistic Class'
+		{
+			ProgID = s 'COMRaskroy.Statistic.1'
+			VersionIndependentProgID = s 'COMRaskroy.Statistic'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{40443BA8-6056-4700-8665-6C9A43730A98}'
+		}
+	}
+}
