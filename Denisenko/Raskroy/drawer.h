@@ -1,29 +1,33 @@
-#ifndef RASKROY_DRAWER_H_INCLUDER
-#define RASKROY_DRAWER_H_INCLUDER
+#ifndef DrawerH
+#define DrawerH
 
 #include <windows.h>
-#include "parser.h"
+#include "Parser.h"
 
-namespace raskroy {
-	class drawer {
-		HDC hdc;
-		HWND hwnd;
-		HPEN hblackpen, hredpen;
-		HBRUSH hwhitebrush, hhatchbrush;
+namespace Denisenko {
+namespace Raskroy {
 
-		void create_pens_brushes(void);
-		void if_own_dc_than_release(void);
+class Drawer {
+	HDC hdc;
+	HWND hwnd;
+	HPEN hblackpen, hredpen;
+	HBRUSH hwhitebrush, hhatchbrush;
 
-	public:
-		drawer(void);
-		drawer(HDC);
-		drawer(HWND);
-		~drawer(void);
+	void create_pens_brushes(void);
+	void if_own_dc_than_release(void);
 
-		void reset_dc(HDC = 0);
-		void reset_wnd(HWND);
-		void draw(int width, int height, const t_parsed_parts&, const t_parsed_cuts&, const t_part& sheet);
-	};
-}
+public:
+	Drawer(void);
+	Drawer(HDC);
+	Drawer(HWND);
+	~Drawer(void);
 
-#endif	// RASKROY_DRAWER_H_INCLUDER
+	void reset_dc(HDC = 0);
+	void reset_wnd(HWND);
+	void draw(int width, int height, const t_parsed_parts&, const t_parsed_cuts&, const t_part& sheet);
+};
+
+} // namespace Denisenko
+} // namespace Raskroy
+
+#endif // DrawerH

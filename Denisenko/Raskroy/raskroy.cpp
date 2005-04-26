@@ -1,7 +1,10 @@
 #include "stdafx.h"
 #include "raskroy.h"
 
-void raskroy::gilotine::remove_exosted_sizes(void)
+namespace Denisenko {
+namespace Raskroy {
+
+void Raskroy::remove_exosted_sizes(void)
 {
 	for (unsigned s = 0; s <= 1; s++)
 	{
@@ -30,7 +33,7 @@ void raskroy::gilotine::remove_exosted_sizes(void)
 	}
 }
 
-bool raskroy::gilotine::make_one_raskroy_result(/*[out]*/ t_result& res)
+bool Raskroy::make_one_raskroy_result(/*[out]*/ t_result& res)
 {
 	// проверить остались ли детали
 	for (t_amounts::const_iterator i = remains.begin(); i != remains.end(); i++)
@@ -74,3 +77,6 @@ contine_raskroy:
 	res = best_result;
 	return true;
 }
+
+} // namespace Denisenko
+} // namespace Raskroy

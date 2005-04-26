@@ -1,5 +1,5 @@
-#ifndef COMMON_H_INCLUDED
-#define COMMON_H_INCLUDED
+#ifndef CommonH
+#define CommonH
 
 #include <stdlib.h>
 #include <assert.h>
@@ -8,7 +8,8 @@
 #include <algorithm>
 #include "types.hpp"
 
-namespace raskroy {
+namespace Denisenko {
+namespace Raskroy {
 
 	/*struct t_min_part {
 		raskroy::t_rect rect;
@@ -432,4 +433,7 @@ namespace raskroy {
 
 }
 
-#endif	// COMMON_H_INCLUDED
+} // Raskroy
+} // Denisenko
+
+#endif	// CommonH

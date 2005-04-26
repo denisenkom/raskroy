@@ -1,15 +1,16 @@
 #include "stdafx.h"
-#include "drawer.h"
+#include "Drawer.h"
 
-namespace raskroy {
+namespace Denisenko {
+namespace Raskroy {
 
-drawer::drawer(void)
+Drawer::Drawer(void)
 	: hwnd(0), hdc(0)
 {
 	create_pens_brushes();
 }
 
-drawer::drawer(HWND hwnd)
+Drawer::Drawer(HWND hwnd)
 	: hwnd(hwnd)
 {
 	// владеем DC
@@ -19,7 +20,7 @@ drawer::drawer(HWND hwnd)
 	create_pens_brushes();
 }
 
-drawer::drawer(HDC hdc)
+Drawer::Drawer(HDC hdc)
 	: hwnd(0), hdc(hdc)
 {
 	// не владеем DC
@@ -27,7 +28,7 @@ drawer::drawer(HDC hdc)
 	create_pens_brushes();
 }
 
-drawer::~drawer(void)
+Drawer::~Drawer(void)
 {
 	if_own_dc_than_release();
 	BOOL bres;
@@ -37,7 +38,7 @@ drawer::~drawer(void)
 	bres = DeleteObject(hblackpen); assert(bres);
 }
 
-void drawer::create_pens_brushes(void)
+void Drawer::create_pens_brushes(void)
 {
 	hblackpen = CreatePen(PS_SOLID, 1, RGB(0, 0, 0));
 	assert(hblackpen);
@@ -55,7 +56,7 @@ void drawer::create_pens_brushes(void)
 	assert(hwhitebrush);
 }
 
-void drawer::if_own_dc_than_release(void)
+void Drawer::if_own_dc_than_release(void)
 {
 	if (hwnd)	// это значит владение DC
 	{
@@ -64,14 +65,14 @@ void drawer::if_own_dc_than_release(void)
 	}
 }
 
-void drawer::reset_dc(HDC hdc)
+void Drawer::reset_dc(HDC hdc)
 {
 	if_own_dc_than_release();
 	hwnd = 0;
 	this->hdc = hdc;
 }
 
-void drawer::reset_wnd(HWND hwnd)
+void Drawer::reset_wnd(HWND hwnd)
 {
 	if_own_dc_than_release();
 	this->hwnd = hwnd;
@@ -80,7 +81,7 @@ void drawer::reset_wnd(HWND hwnd)
 	assert(hdc);
 }
 
-void drawer::draw(int width, int height, const t_parsed_parts& parts, const t_parsed_cuts& cuts, const t_part& sheet)
+void Drawer::draw(int width, int height, const t_parsed_parts& parts, const t_parsed_cuts& cuts, const t_part& sheet)
 {
     double scalex = width/sheet.rect.size[0];
     double scaley = height/sheet.rect.size[1];
@@ -138,4 +139,5 @@ void drawer::draw(int width, int height, const t_parsed_parts& parts, const t_pa
     }}
 }
 
-}
+} // namespace Denisenko
+} // namespace Raskroy

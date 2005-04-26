@@ -1,10 +1,11 @@
 #include "stdafx.h"
-//#include "types.hpp"
-#include "parser.h"
+#include "types.hpp"
+#include "Parser.h"
 
-namespace raskroy {
+namespace Denisenko {
+namespace Raskroy {
 
-scalar parser::details(unsigned s, scalar pos[2], const t_rect &rect, const t_raskroy::t_details &details)
+scalar Parser::details(unsigned s, scalar pos[2], const t_rect &rect, const t_raskroy::t_details &details)
 {
 	scalar acc = 0;
 	for (t_raskroy::t_details::const_iterator i = details.begin(); i != details.end(); i++)
@@ -39,7 +40,7 @@ scalar parser::details(unsigned s, scalar pos[2], const t_rect &rect, const t_ra
 	return acc;
 }
 
-void parser::recursive(scalar pos[2], const t_rect &rect, const t_raskroy &raskroy)
+void Parser::recursive(scalar pos[2], const t_rect &rect, const t_raskroy &raskroy)
 {
 	t_parsed_cut cut;
 	cut.s = !raskroy.s;
@@ -97,7 +98,7 @@ void parser::recursive(scalar pos[2], const t_rect &rect, const t_raskroy &raskr
 	}
 }
 
-void parser::parse(const t_result& result1, t_parsed_result& result2, scalar saw_thickness)
+void Parser::parse(const t_result& result1, t_parsed_result& result2, scalar saw_thickness)
 {
 	this->saw_thickness = saw_thickness;
 	half_saw_thickness = saw_thickness/2;
@@ -115,4 +116,5 @@ void parser::parse(const t_result& result1, t_parsed_result& result2, scalar saw
 	recursive(pos, result1.sheet->rect, result1.raskroy);
 }
 
-}
+} // namespace Denisenko
+} // namespace Raskroy

@@ -1,7 +1,7 @@
 CC = cl.exe
 OBJDIR = obj/
 SRCDIR = ./
-OBJS = $(OBJDIR)parser.obj $(OBJDIR)drawer.obj $(OBJDIR)perebor.obj $(OBJDIR)raskroy.obj $(OBJDIR)perebor_2d.obj
+OBJS = $(OBJDIR)Parser.obj $(OBJDIR)drawer.obj $(OBJDIR)perebor.obj $(OBJDIR)raskroy.obj $(OBJDIR)Perebor2d.obj
 TARGET = raskroy
 STDAFX = stdafx
 
@@ -16,17 +16,17 @@ lib: $(OBJS)
 $(OBJDIR)$(TARGET).pch: $(STDAFX).cpp $(STDAFX).h
 	$(CC) $(COMMCFLAGS) /Yc "$(STDAFX).h" $(STDAFX).cpp
 
-$(OBJDIR)parser.obj: $(SRCDIR)parser.cpp $(SRCDIR)parser.h $(OBJDIR)$(TARGET).pch
-	$(CC) $(CFLAGS) $(SRCDIR)parser.cpp
+$(OBJDIR)Parser.obj: $(SRCDIR)Parser.cpp $(SRCDIR)Parser.h $(OBJDIR)$(TARGET).pch
+	$(CC) $(CFLAGS) $(SRCDIR)Parser.cpp
 
-$(OBJDIR)drawer.obj: $(SRCDIR)drawer.cpp $(SRCDIR)drawer.h $(SRCDIR)parser.h $(OBJDIR)$(TARGET).pch
+$(OBJDIR)drawer.obj: $(SRCDIR)drawer.cpp $(SRCDIR)drawer.h $(SRCDIR)Parser.h $(OBJDIR)$(TARGET).pch
 	$(CC) $(CFLAGS) $(SRCDIR)drawer.cpp
 
 $(OBJDIR)perebor.obj: $(SRCDIR)perebor.cpp $(SRCDIR)perebor.h $(SRCDIR)common.h $(OBJDIR)$(TARGET).pch
 	$(CC) $(CFLAGS) $(SRCDIR)perebor.cpp
 
-$(OBJDIR)raskroy.obj: $(SRCDIR)raskroy.cpp $(SRCDIR)raskroy.h $(SRCDIR)perebor_2d.h $(OBJDIR)$(TARGET).pch
+$(OBJDIR)raskroy.obj: $(SRCDIR)raskroy.cpp $(SRCDIR)raskroy.h $(SRCDIR)Perebor2d.h $(OBJDIR)$(TARGET).pch
 	$(CC) $(CFLAGS) $(SRCDIR)raskroy.cpp
 
-$(OBJDIR)perebor_2d.obj: $(SRCDIR)perebor_2d.cpp $(SRCDIR)perebor_2d.h $(SRCDIR)perebor.h $(OBJDIR)$(TARGET).pch
-	$(CC) $(CFLAGS) $(SRCDIR)perebor_2d.cpp
+$(OBJDIR)Perebor2d.obj: $(SRCDIR)Perebor2d.cpp $(SRCDIR)Perebor2d.h $(SRCDIR)perebor.h $(OBJDIR)$(TARGET).pch
+	$(CC) $(CFLAGS) $(SRCDIR)Perebor2d.cpp
