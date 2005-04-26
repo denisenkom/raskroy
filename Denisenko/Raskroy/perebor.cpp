@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "perebor.h"
+#include "Perebor.h"
 
 namespace Denisenko {
 namespace Raskroy {
@@ -11,7 +11,7 @@ namespace Raskroy {
 //	[io] i
 //	[i] end
 //	[i] remains
-scalar perebor::recursive(scalar size, t_amounts &rashod)
+scalar Perebor::recursive(scalar size, t_amounts &rashod)
 {
 	scalar register size1;
 	unsigned n;
@@ -75,7 +75,7 @@ scalar perebor::recursive(scalar size, t_amounts &rashod)
 //		[o] details - расположение деталей, на вход подается пустой контейнер
 //		[o] rashod - расход деталей
 // Возвращает true если хотя бы одна деталь установлена
-bool perebor::make(const t_size &size, scalar other_size, t_raskroy::t_details &details, t_amounts &rashod)
+bool Perebor::make(const t_size &size, scalar other_size, t_raskroy::t_details &details, t_amounts &rashod)
 {
 	if (other_size < size.other_sizes.min->size)
 		return false;

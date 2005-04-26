@@ -1,5 +1,5 @@
 #include "common.h"
-#include "perebor_2d.h"
+#include "Perebor2d.h"
 
 // TODO: процент завершения
 // TODO: есть глюк в тесте 1 на странице 1
@@ -8,7 +8,7 @@ namespace Denisenko {
 namespace Raskroy {
 
 class Raskroy {
-	perebor_2d perebor_2d;
+	Perebor2d Perebor2d;
 
 	//criteria default_criteria;
 	//const criteria* pcriteria;
@@ -30,40 +30,40 @@ public:
 
 	Raskroy(void)
 		: /*pcriteria(&default_criteria),*/
-			perebor_2d(sizes, minimum_size, remains/*, default_criteria*/),
+			Perebor2d(sizes, minimum_size, remains/*, default_criteria*/),
 			control_sheet_remains(false)
 	{
 	}
 
 	void set_cut_width(double x) throw ()
 	{
-		perebor_2d.set_cut_width(x);
+		Perebor2d.set_cut_width(x);
 	}
 
 	double get_cut_width(void) throw ()
 	{
-		return perebor_2d.get_cut_width();
+		return Perebor2d.get_cut_width();
 	}
 
 	void set_recursion_max_depth(unsigned depth) throw ()
 	{
-		perebor_2d.max_recursion_depth = depth;
+		Perebor2d.max_recursion_depth = depth;
 	}
 
 	unsigned get_recursion_max_depth(void) throw ()
 	{
-		return perebor_2d.max_recursion_depth;
+		return Perebor2d.max_recursion_depth;
 	}
 
 	void set_monitor(monitor& monitor) throw ()
 	{
-		perebor_2d.set_monitor(monitor);
+		Perebor2d.set_monitor(monitor);
 	}
 
 	/*void set_criteria(const criteria& c) throw ()
 	{
 		pcriteria = &c;
-		perebor_2d.set_criteria(c);
+		Perebor2d.set_criteria(c);
 	}*/
 
 	bool first(const t_parts& parts, const t_parts& sheets, /*[out]*/ t_result& res)

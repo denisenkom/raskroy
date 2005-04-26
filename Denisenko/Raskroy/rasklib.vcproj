@@ -127,7 +127,7 @@
 				RelativePath="perebor.cpp">
 			</File>
 			<File
-				RelativePath="perebor_2d.cpp">
+				RelativePath=".\Perebor2d.cpp">
 			</File>
 			<File
 				RelativePath="raskroy.cpp">
@@ -164,7 +164,7 @@
 				RelativePath="perebor.h">
 			</File>
 			<File
-				RelativePath="perebor_2d.h">
+				RelativePath=".\Perebor2d.h">
 			</File>
 			<File
 				RelativePath="raskroy.h">

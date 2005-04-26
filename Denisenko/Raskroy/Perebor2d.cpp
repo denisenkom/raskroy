@@ -64,24 +64,24 @@ bool Perebor2d::recursive(t_sizes::iterator begin, const t_rect &rect, t_stat &s
 			break;
 
 		t_raskroy::t_details details;
-		if (!perebor.make(*i, rect.size[!s], details, rashod_perebor))
+		if (!Perebor.make(*i, rect.size[!s], details, rashod_perebor))
 			continue;
 
 		//stat1.sum_cut_length += rect.size[!s];
 		// Добавляем опилки
-		scalar opilki1 = perebor.opilki + (rect.size[!s] - perebor.remain)*perebor.saw_thickness;
-		scalar opilki2 = perebor.remain*perebor.saw_thickness;
+		scalar opilki1 = Perebor.opilki + (rect.size[!s] - Perebor.remain)*Perebor.saw_thickness;
+		scalar opilki2 = Perebor.remain*Perebor.saw_thickness;
 		// Вычисляем остаточный квадрат
 		t_rect remain_rect;
 		remain_rect.size[s] = i->size;
-		remain_rect.size[!s] = perebor.remain;
+		remain_rect.size[!s] = Perebor.remain;
 		// Вычисляем квадрат для рекурсии
 		t_rect recurse_rect(rect);
 		// Величина, на которую будет уменьшен квадрат рекурсии
-		scalar reduce = i->size + perebor.saw_thickness;
+		scalar reduce = i->size + Perebor.saw_thickness;
 
 		// Рассчет кратности
-		int max_kratnostj = int((rect.size[s] + perebor.saw_thickness)/(i->size + perebor.saw_thickness));
+		int max_kratnostj = int((rect.size[s] + Perebor.saw_thickness)/(i->size + Perebor.saw_thickness));
 		if (max_kratnostj > 1)
 		{
 			int kol_krat = remains/rashod_perebor;

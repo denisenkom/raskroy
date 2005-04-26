@@ -52,7 +52,7 @@ contine_raskroy:
 		t_stat stat(0);
 		t_raskroy raskroy;
 		t_amounts rashod;
-		if (!perebor_2d.bylen_bywid(si->rect, stat, 0, raskroy, rashod) && !first && !(/*pcriteria->quality(*/stat/*)*/ > /*pcriteria->quality(*/best_result.stat/*)*/))
+		if (!Perebor2d.bylen_bywid(si->rect, stat, 0, raskroy, rashod) && !first && !(/*pcriteria->quality(*/stat/*)*/ > /*pcriteria->quality(*/best_result.stat/*)*/))
 			continue;
 
 		best_result.amount = remains/rashod;

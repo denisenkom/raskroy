@@ -1,4 +1,4 @@
-#include "perebor.h"
+#include "Perebor.h"
 
 namespace Denisenko {
 namespace Raskroy {
@@ -8,7 +8,7 @@ class Perebor2d {
 	t_sizes *sizes;
 	scalar *minimum_size;
 	unsigned recursion_depth;
-	perebor perebor;
+	Perebor Perebor;
 	monitor default_monitor;
 	monitor *pmonitor;
 
@@ -20,10 +20,10 @@ public:
 	Perebor2d(t_sizes sizes[], scalar min_size[], t_amounts &remains/*, criteria &criteria*/)
 		: recursion_depth(0), max_recursion_depth(8), /*pcriteria(&criteria),*/
 		pmonitor(&default_monitor), sizes(sizes), minimum_size(min_size),
-		remains(remains), perebor(remains, 4) {}
+		remains(remains), Perebor(remains, 4) {}
 	void set_monitor(monitor &x) throw () {pmonitor = &x;}
-	void set_cut_width(double x) throw () {perebor.saw_thickness = x;}
-	double get_cut_width(void) throw () {return perebor.saw_thickness;}
+	void set_cut_width(double x) throw () {Perebor.saw_thickness = x;}
+	double get_cut_width(void) throw () {return Perebor.saw_thickness;}
 
 	bool bylen_bywid(const t_rect&, t_stat&, int s, t_raskroy&, t_amounts &rashod);
 };
