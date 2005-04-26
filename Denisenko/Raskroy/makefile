@@ -1,6 +1,6 @@
 CC = cl.exe
 OBJDIR = obj/
-SRCDIR = ../
+SRCDIR = ./
 OBJS = $(OBJDIR)parser.obj $(OBJDIR)drawer.obj $(OBJDIR)perebor.obj $(OBJDIR)raskroy.obj $(OBJDIR)perebor_2d.obj
 TARGET = raskroy
 STDAFX = stdafx
