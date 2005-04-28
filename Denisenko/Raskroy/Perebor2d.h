@@ -4,28 +4,23 @@ namespace Denisenko {
 namespace Raskroy {
 
 class Perebor2d {
-	t_amounts &remains;
-	t_sizes *sizes;
-	scalar *minimum_size;
-	unsigned recursion_depth;
-	Perebor Perebor;
-	monitor default_monitor;
-	monitor *pmonitor;
+	t_amounts &_remains;
+	t_sizes *_sizes;
+	scalar *_minSize;
+	Perebor _perebor;
 
-	bool recursive(t_sizes::iterator begin, const t_rect&, t_stat&, int s, t_raskroy&, t_amounts &rashod);
+	bool Recursion(t_sizes::iterator begin, const t_rect&, t_stat&, int s, t_raskroy&, t_amounts &rashod);
 
 public:
-	unsigned max_recursion_depth;
 
-	Perebor2d(t_sizes sizes[], scalar min_size[], t_amounts &remains/*, criteria &criteria*/)
-		: recursion_depth(0), max_recursion_depth(8), /*pcriteria(&criteria),*/
-		pmonitor(&default_monitor), sizes(sizes), minimum_size(min_size),
-		remains(remains), Perebor(remains, 4) {}
-	void SetMonitor(monitor &x) throw () {pmonitor = &x;}
-	void SetCutWidth(double x) throw () {Perebor.saw_thickness = x;}
-	double GetCutWidth(void) throw () {return Perebor.saw_thickness;}
+	Perebor2d(t_sizes sizes[], scalar minSize[], t_amounts &remains)
+		: _sizes(sizes), _minSize(minSize), _remains(remains), _perebor(remains, 4) {}
 
-	bool bylen_bywid(const t_rect&, t_stat&, int s, t_raskroy&, t_amounts &rashod);
+	void SetCutWidth(double x) throw () {_perebor.saw_thickness = x;}
+
+	double GetCutWidth(void) throw () {return _perebor.saw_thickness;}
+
+	bool Optimize(const t_rect&, t_stat&, int s, t_raskroy&, t_amounts &rashod);
 };
 
 } // namespace Denisenko

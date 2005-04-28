@@ -36,12 +36,6 @@ public:
 
 	double GetCutWidth(void) throw () {return _perebor2d.GetCutWidth();}
 
-	void SetRecursionMaxDepth(unsigned depth) throw () {_perebor2d.max_recursion_depth = depth;}
-
-	unsigned GetRecursionMaxDepth(void) throw () {return _perebor2d.max_recursion_depth;}
-
-	void SetMonitor(monitor &monitor) throw () {_perebor2d.SetMonitor(monitor);}
-
 	//void SetCriteria(const criteria& c) throw ()
 	//{
 	//	pcriteria = &c;

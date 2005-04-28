@@ -40,7 +40,7 @@ scalar Parser::details(unsigned s, scalar pos[2], const t_rect &rect, const t_ra
 	return acc;
 }
 
-void Parser::recursive(scalar pos[2], const t_rect &rect, const t_raskroy &raskroy)
+void Parser::Recursion(scalar pos[2], const t_rect &rect, const t_raskroy &raskroy)
 {
 	t_parsed_cut cut;
 	cut.s = !raskroy.s;
@@ -85,7 +85,7 @@ void Parser::recursive(scalar pos[2], const t_rect &rect, const t_raskroy &raskr
 		rect1.size[!raskroy.s] = rect.size[!raskroy.s]-remain;
 		pos1[raskroy.s] = pos[raskroy.s];
 		pos1[!raskroy.s] = pos[!raskroy.s] + remain;
-		recursive(pos1, rect1, *raskroy.watchRemain());
+		Recursion(pos1, rect1, *raskroy.watchRemain());
 	}
 
 	if (raskroy.watchRecurse())
@@ -94,7 +94,7 @@ void Parser::recursive(scalar pos[2], const t_rect &rect, const t_raskroy &raskr
 		rect1.size[raskroy.s] = rect.size[raskroy.s] - (raskroy.cut+saw_thickness)*raskroy.kratnostj;
 		pos1[raskroy.s] = pos[raskroy.s] + (raskroy.cut+saw_thickness)*raskroy.kratnostj;
 		pos1[!raskroy.s] = pos[!raskroy.s];
-		recursive(pos1, rect1, *raskroy.watchRecurse());
+		Recursion(pos1, rect1, *raskroy.watchRecurse());
 	}
 }
 
@@ -113,7 +113,7 @@ void Parser::parse(const t_result& result1, t_parsed_result& result2, scalar saw
 	result2.stat = result1.stat;
 	result2.sheet = *result1.sheet;
 	scalar pos[2] = {0, 0};
-	recursive(pos, result1.sheet->rect, result1.raskroy);
+	Recursion(pos, result1.sheet->rect, result1.raskroy);
 }
 
 } // namespace Denisenko

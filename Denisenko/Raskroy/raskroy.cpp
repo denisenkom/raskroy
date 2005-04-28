@@ -49,7 +49,7 @@ bool Raskroy::MakeOneResult(t_result& out)
 		t_stat stat(0);
 		t_raskroy raskroy;
 		t_amounts rashod;
-		if (!_perebor2d.bylen_bywid(si->rect, stat, 0, raskroy, rashod)
+		if (!_perebor2d.Optimize(si->rect, stat, 0, raskroy, rashod)
 			&& !first
 			&& !(/*pcriteria->quality(*/stat/*)*/ > /*pcriteria->quality(*/bestResult.stat/*)*/))
 			continue;

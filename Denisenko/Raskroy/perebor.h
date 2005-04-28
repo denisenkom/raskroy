@@ -8,7 +8,7 @@ class Perebor {
 	t_other_sizes::const_iterator end;
 	t_amounts &remains;
 
-	scalar recursive(scalar size, t_amounts &rashod);
+	scalar Recursion(scalar size, t_amounts &rashod);
 
 public:
 	scalar remain;

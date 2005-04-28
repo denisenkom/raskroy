@@ -11,7 +11,7 @@ namespace Raskroy {
 //	[io] i
 //	[i] end
 //	[i] remains
-scalar Perebor::recursive(scalar size, t_amounts &rashod)
+scalar Perebor::Recursion(scalar size, t_amounts &rashod)
 {
 	scalar register size1;
 	unsigned n;
@@ -27,7 +27,7 @@ scalar Perebor::recursive(scalar size, t_amounts &rashod)
 		{
 			scalar remain;
 			i++;
-			remain = recursive(size1, rashod1);
+			remain = Recursion(size1, rashod1);
 			i--;
 			if (remain < best || first)
 			{
@@ -84,7 +84,7 @@ bool Perebor::make(const t_size &size, scalar other_size, t_raskroy::t_details &
 	i = size.other_sizes.begin();
 	end = size.other_sizes.end(); end--;
 	// рекурсивный подбор для размеров [i..end]
-	remain = recursive(other_size, rashod);
+	remain = Recursion(other_size, rashod);
 	if (remain == other_size)	// если ничего небыло расположено
 		return false;
 

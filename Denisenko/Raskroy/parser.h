@@ -23,7 +23,7 @@ class Parser
 	scalar saw_thickness, half_saw_thickness;
 
 	scalar details(unsigned s, scalar pos[2], const t_rect&, const t_raskroy::t_details&);
-	void recursive(scalar pos[2], const t_rect&, const t_raskroy&);
+	void Recursion(scalar pos[2], const t_rect&, const t_raskroy&);
 public:
 	scalar details_summary_square;	// сумарная площадь деталей
 	Parser(void) : poutresult(0), saw_thickness(0), half_saw_thickness(0) {}
