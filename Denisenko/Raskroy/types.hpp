@@ -1,5 +1,5 @@
-namespace Denisenko {
-namespace Raskroy {
+#ifndef TypesH
+#define TypesH
 
 namespace Denisenko {
 namespace Raskroy {
@@ -175,3 +175,5 @@ public:
 
 } // namespace Denisenko
 } // namespace Raskroy
+
+#endif // TypesH
