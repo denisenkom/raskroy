@@ -4,77 +4,75 @@
 namespace Denisenko {
 namespace Raskroy {
 
-void Raskroy::remove_exosted_sizes(void)
+void Raskroy::RemoveExostedSizes(void)
 {
 	for (unsigned s = 0; s <= 1; s++)
 	{
-		t_sizes::iterator sizei = sizes[s].begin();
-		while (sizei != sizes[s].end())
+		for (t_sizes::iterator si = _sizes[s].begin(); si != _sizes[s].end(); )
 		{
-			t_other_sizes::iterator osi = sizei->other_sizes.begin();
-			while (osi != sizei->other_sizes.end())
+			t_other_sizes::iterator osi = si->other_sizes.begin();
+			while (osi != si->other_sizes.end())
 			{
-				if (remains[osi->offset] == 0)
+				if (_remains[osi->offset] == 0)
 				{
-					sizei->other_sizes.erase(osi);
-					osi = sizei->other_sizes.begin();
+					si->other_sizes.erase(osi);
+					osi = si->other_sizes.begin();
 				}
 				else
 					osi++;
 			}
-			if (sizei->other_sizes.empty())
+			if (si->other_sizes.empty())
 			{
-				sizes[s].erase(sizei);
-				sizei = sizes[s].begin();
+				_sizes[s].erase(si);
+				si = _sizes[s].begin();
 			}
 			else
-				sizei++;
+				si++;
 		}
 	}
 }
 
-bool Raskroy::make_one_raskroy_result(/*[out]*/ t_result& res)
+bool Raskroy::MakeOneResult(t_result& out)
 {
 	// проверить остались ли детали
-	for (t_amounts::const_iterator i = remains.begin(); i != remains.end(); i++)
+	for (t_amounts::const_iterator i = _remains.begin(); i != _remains.end(); i++)
 		if (*i > 0)
-			goto contine_raskroy;
+			break;
+	if (i == _remains.end())
+		return false; // детали кончились
 
-	// детали кончились
-	return false;
-
-contine_raskroy:
-	t_result best_result;
-	t_amounts best_rashod;
+	t_result bestResult;
+	t_amounts bestRashod;
 	bool first = true;
-	for (t_parts::iterator si = sheets.begin(); si != sheets.end(); si++)
+	for (t_parts::iterator si = _sheets.begin(); si != _sheets.end(); si++)
 	{
 		t_stat stat(0);
 		t_raskroy raskroy;
 		t_amounts rashod;
-		if (!Perebor2d.bylen_bywid(si->rect, stat, 0, raskroy, rashod) && !first && !(/*pcriteria->quality(*/stat/*)*/ > /*pcriteria->quality(*/best_result.stat/*)*/))
+		if (!_perebor2d.bylen_bywid(si->rect, stat, 0, raskroy, rashod)
+			&& !first
+			&& !(/*pcriteria->quality(*/stat/*)*/ > /*pcriteria->quality(*/bestResult.stat/*)*/))
 			continue;
 
-		best_result.amount = remains/rashod;
-		if (control_sheet_remains)
-			if (best_result.amount > si->amount)	// недостаточно листов
+		bestResult.amount = _remains / rashod;
+		if (ControlRemains)
+			if (bestResult.amount > si->amount) // недостаточно листов
 				continue;
 
-		best_result.stat = stat;
-		best_result.raskroy = raskroy;
-		best_result.sheet = si;
-		best_rashod = rashod;
+		bestResult.stat = stat;
+		bestResult.raskroy = raskroy;
+		bestResult.sheet = si;
+		bestRashod = rashod;
 		first = false;
 	}
 	if (first)
-		throw err_cannot_set_parts(sheets, sizes, remains);
+		throw err_cannot_set_parts(_sheets, _sizes, _remains);
 
-	remains -= best_rashod*best_result.amount;
-	remove_exosted_sizes();
-	common_stat += best_result.stat;
-	if (control_sheet_remains)
-		best_result.sheet->amount -= best_result.amount;
-	res = best_result;
+	_remains -= bestRashod * bestResult.amount;
+	RemoveExostedSizes();
+	if (ControlRemains)
+		bestResult.sheet->amount -= bestResult.amount;
+	out = bestResult;
 	return true;
 }
 

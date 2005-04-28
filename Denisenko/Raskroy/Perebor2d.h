@@ -21,9 +21,9 @@ public:
 		: recursion_depth(0), max_recursion_depth(8), /*pcriteria(&criteria),*/
 		pmonitor(&default_monitor), sizes(sizes), minimum_size(min_size),
 		remains(remains), Perebor(remains, 4) {}
-	void set_monitor(monitor &x) throw () {pmonitor = &x;}
-	void set_cut_width(double x) throw () {Perebor.saw_thickness = x;}
-	double get_cut_width(void) throw () {return Perebor.saw_thickness;}
+	void SetMonitor(monitor &x) throw () {pmonitor = &x;}
+	void SetCutWidth(double x) throw () {Perebor.saw_thickness = x;}
+	double GetCutWidth(void) throw () {return Perebor.saw_thickness;}
 
 	bool bylen_bywid(const t_rect&, t_stat&, int s, t_raskroy&, t_amounts &rashod);
 };

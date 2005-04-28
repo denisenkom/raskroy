@@ -8,77 +8,58 @@ namespace Denisenko {
 namespace Raskroy {
 
 class Raskroy {
-	Perebor2d Perebor2d;
+	Perebor2d _perebor2d;
 
 	//criteria default_criteria;
 	//const criteria* pcriteria;
 
-	t_amounts remains;
+	t_amounts _remains;
 
-	t_sizes sizes[2];
-	scalar minimum_size[2];
+	t_sizes _sizes[2];
+	scalar _minSize[2];
 
-	t_parts sheets;
+	t_parts _sheets;
 
 
-	void remove_exosted_sizes(void);
-	bool make_one_raskroy_result(t_result&);
+	void RemoveExostedSizes(void);
+	bool MakeOneResult(t_result&);
 
 public:
-	bool control_sheet_remains;
-	t_stat common_stat;
+	bool ControlRemains;
 
 	Raskroy(void)
 		: /*pcriteria(&default_criteria),*/
-			Perebor2d(sizes, minimum_size, remains/*, default_criteria*/),
-			control_sheet_remains(false)
+			_perebor2d(_sizes, _minSize, _remains/*, default_criteria*/),
+			ControlRemains(false) {}
+
+	void SetCutWidth(double x) throw () {_perebor2d.SetCutWidth(x);}
+
+	double GetCutWidth(void) throw () {return _perebor2d.GetCutWidth();}
+
+	void SetRecursionMaxDepth(unsigned depth) throw () {_perebor2d.max_recursion_depth = depth;}
+
+	unsigned GetRecursionMaxDepth(void) throw () {return _perebor2d.max_recursion_depth;}
+
+	void SetMonitor(monitor &monitor) throw () {_perebor2d.SetMonitor(monitor);}
+
+	//void SetCriteria(const criteria& c) throw ()
+	//{
+	//	pcriteria = &c;
+	//	Perebor2d.SetCriteria(c);
+	//}
+
+	bool First(const t_parts &parts, const t_parts &sheets, t_result &res)
 	{
+		//assert(pcriteria);
+		_sheets = sheets;
+		t_sizes::make_list(_sizes, parts, _remains);
+		return MakeOneResult(res);
 	}
 
-	void set_cut_width(double x) throw ()
+	bool Next(t_result &res)
 	{
-		Perebor2d.set_cut_width(x);
-	}
-
-	double get_cut_width(void) throw ()
-	{
-		return Perebor2d.get_cut_width();
-	}
-
-	void set_recursion_max_depth(unsigned depth) throw ()
-	{
-		Perebor2d.max_recursion_depth = depth;
-	}
-
-	unsigned get_recursion_max_depth(void) throw ()
-	{
-		return Perebor2d.max_recursion_depth;
-	}
-
-	void set_monitor(monitor& monitor) throw ()
-	{
-		Perebor2d.set_monitor(monitor);
-	}
-
-	/*void set_criteria(const criteria& c) throw ()
-	{
-		pcriteria = &c;
-		Perebor2d.set_criteria(c);
-	}*/
-
-	bool first(const t_parts& parts, const t_parts& sheets, /*[out]*/ t_result& res)
-	{
-		/*assert(pcriteria);*/
-		this->sheets = sheets;
-		common_stat = t_stat(0);
-		t_sizes::make_list(sizes, parts, remains);
-		return make_one_raskroy_result(res);
-	}
-
-	bool next(/*[out]*/ t_result& res)
-	{
-		/*assert(pcriteria);*/
-		return make_one_raskroy_result(res);
+		//assert(pcriteria);
+		return MakeOneResult(res);
 	}
 };
 
