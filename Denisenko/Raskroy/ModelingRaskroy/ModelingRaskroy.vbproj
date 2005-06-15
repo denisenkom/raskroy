@@ -1,8 +1,8 @@
 <VisualStudioProject>
     <VisualBasic
         ProjectType = "Local"
-        ProductVersion = "7.0.9466"
-        SchemaVersion = "1.0"
+        ProductVersion = "7.10.3077"
+        SchemaVersion = "2.0"
         ProjectGuid = "{AF94A5BA-EB98-44E9-95D7-D538453B3835}"
         SccProjectName = "SAK"
         SccLocalPath = "SAK"
