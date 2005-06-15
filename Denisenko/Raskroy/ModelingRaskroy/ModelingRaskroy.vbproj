@@ -84,7 +84,7 @@
                 <Reference
                     Name = "DAO"
                     Guid = "{00025E01-0000-0000-C000-000000000046}"
-                    VersionMajor = "4"
+                    VersionMajor = "5"
                     VersionMinor = "0"
                     Lcid = "0"
                     WrapperTool = "tlbimp"
