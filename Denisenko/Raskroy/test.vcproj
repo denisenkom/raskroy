@@ -167,7 +167,7 @@
 				RelativePath=".\stdafx.h">
 			</File>
 			<File
-				RelativePath=".\types.hpp">
+				RelativePath=".\types.h">
 			</File>
 		</Filter>
 		<Filter
