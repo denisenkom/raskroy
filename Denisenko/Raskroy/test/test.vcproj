@@ -145,28 +145,7 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc">
 			<File
-				RelativePath="common.h">
-			</File>
-			<File
-				RelativePath="drawer.h">
-			</File>
-			<File
-				RelativePath="parser.h">
-			</File>
-			<File
-				RelativePath="perebor.h">
-			</File>
-			<File
-				RelativePath="perebor_2d.h">
-			</File>
-			<File
-				RelativePath="raskroy.h">
-			</File>
-			<File
 				RelativePath="stdafx.h">
-			</File>
-			<File
-				RelativePath="types.hpp">
 			</File>
 		</Filter>
 		<Filter
