@@ -7,7 +7,7 @@ namespace Raskroy {
 Drawer::Drawer(void)
 	: m_hwnd(0), m_hdc(0)
 {
-	create_pens_brushes();
+	CreatePensBrushes();
 }
 
 Drawer::Drawer(HWND hwnd)
@@ -17,7 +17,7 @@ Drawer::Drawer(HWND hwnd)
 	assert(IsWindow(hwnd));
 	m_hdc = GetDC(hwnd);
 	assert(m_hdc);
-	create_pens_brushes();
+	CreatePensBrushes();
 }
 
 Drawer::Drawer(HDC hdc)
@@ -25,20 +25,24 @@ Drawer::Drawer(HDC hdc)
 {
 	// не владеем DC
 	assert(hdc);
-	create_pens_brushes();
+	CreatePensBrushes();
 }
 
 Drawer::~Drawer(void)
 {
-	if_own_dc_than_release();
+	IfOwnDCThanRelease();
 	BOOL bres;
-	bres = DeleteObject(m_hwhitebrush); assert(bres);
-	bres = DeleteObject(m_hhatchbrush); assert(bres);
-	bres = DeleteObject(m_hredpen); assert(bres);
-	bres = DeleteObject(m_hblackpen); assert(bres);
+	bres = DeleteObject(m_hwhitebrush);
+	assert(bres);
+	bres = DeleteObject(m_hhatchbrush);
+	assert(bres);
+	bres = DeleteObject(m_hredpen);
+	assert(bres);
+	bres = DeleteObject(m_hblackpen);
+	assert(bres);
 }
 
-void Drawer::create_pens_brushes(void)
+void Drawer::CreatePensBrushes(void)
 {
 	m_hblackpen = CreatePen(PS_SOLID, 1, RGB(0, 0, 0));
 	assert(m_hblackpen);
@@ -56,25 +60,26 @@ void Drawer::create_pens_brushes(void)
 	assert(m_hwhitebrush);
 }
 
-void Drawer::if_own_dc_than_release(void)
+void Drawer::IfOwnDCThanRelease(void)
 {
 	if (m_hwnd)	// это значит владение DC
 	{
 		assert(IsWindow(m_hwnd));
-		int ires = ReleaseDC(m_hwnd, m_hdc); assert(ires);
+		int ires = ReleaseDC(m_hwnd, m_hdc);
+		assert(ires);
 	}
 }
 
 void Drawer::ResetDC(HDC hdc)
 {
-	if_own_dc_than_release();
+	IfOwnDCThanRelease();
 	m_hwnd = 0;
 	m_hdc = hdc;
 }
 
 void Drawer::ResetWnd(HWND hwnd)
 {
-	if_own_dc_than_release();
+	IfOwnDCThanRelease();
 	m_hwnd = hwnd;
 	assert(IsWindow(hwnd));
 	m_hdc = GetDC(hwnd);
@@ -83,8 +88,8 @@ void Drawer::ResetWnd(HWND hwnd)
 
 void Drawer::Draw(int width, int height, const t_parsed_parts& parts, const t_parsed_cuts& cuts, const t_part& sheet)
 {
-    double scalex = width/sheet.rect.size[0];
-    double scaley = height/sheet.rect.size[1];
+    double scalex = width / sheet.rect.size[0];
+    double scaley = height / sheet.rect.size[1];
     double scale;
     if (scalex < scaley)
     	scale = scalex;
@@ -96,7 +101,7 @@ void Drawer::Draw(int width, int height, const t_parsed_parts& parts, const t_pa
 	// рисуем лист
 	hres = SelectObject(m_hdc, m_hhatchbrush);
 	assert(hres != NULL);
-	BOOL bres = Rectangle(m_hdc, 0, 0, int(sheet.rect.size[0]*scale), int(sheet.rect.size[1]*scale));
+	BOOL bres = Rectangle(m_hdc, 0, 0, int(sheet.rect.size[0] * scale), int(sheet.rect.size[1] * scale));
     assert(bres != FALSE);
 
 	// рисуем детали
@@ -105,10 +110,10 @@ void Drawer::Draw(int width, int height, const t_parsed_parts& parts, const t_pa
     {for (t_parsed_parts::const_iterator i = parts.begin(); i != parts.end(); i++)
     {
     	RECT Rect;
-        Rect.left = LONG(i->pos[0]*scale);
-        Rect.top = LONG(i->pos[1]*scale);
-        Rect.right = LONG((i->pos[0]+i->rect.size[0])*scale);
-        Rect.bottom = LONG((i->pos[1]+i->rect.size[1])*scale);
+        Rect.left = LONG(i->pos[0] * scale);
+        Rect.top = LONG(i->pos[1] * scale);
+        Rect.right = LONG((i->pos[0] + i->rect.size[0]) * scale);
+        Rect.bottom = LONG((i->pos[1] + i->rect.size[1]) * scale);
 		bres = Rectangle(m_hdc, Rect.left, Rect.top, Rect.right, Rect.bottom);
     	assert(bres != FALSE);
 		int par2 = 0, par3 = 0;
@@ -124,16 +129,16 @@ void Drawer::Draw(int width, int height, const t_parsed_parts& parts, const t_pa
 	assert(hres != NULL);
     {for (t_parsed_cuts::const_iterator i = cuts.begin(); i != cuts.end(); i++)
     {
-		bres = MoveToEx(m_hdc, int(i->pos[0]*scale), int(i->pos[1]*scale), NULL);
+		bres = MoveToEx(m_hdc, int(i->pos[0] * scale), int(i->pos[1] * scale), NULL);
 		assert(bres);
     	if (i->s)
 		{
-			bres = LineTo(m_hdc, int((i->pos[0])*scale), int((i->pos[1]+i->length)*scale));
+			bres = LineTo(m_hdc, int((i->pos[0]) * scale), int((i->pos[1] + i->length) * scale));
         	assert(bres);
 		}
         else
 		{
-			bres = LineTo(m_hdc, int((i->pos[0]+i->length)*scale), int(i->pos[1]*scale));
+			bres = LineTo(m_hdc, int((i->pos[0] + i->length) * scale), int(i->pos[1] * scale));
         	assert(bres);
 		}
     }}

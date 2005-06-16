@@ -15,8 +15,8 @@ class Drawer {
 	HBRUSH m_hwhitebrush;
 	HBRUSH m_hhatchbrush;
 
-	void create_pens_brushes(void);
-	void if_own_dc_than_release(void);
+	void CreatePensBrushes(void);
+	void IfOwnDCThanRelease(void);
 
 public:
 	Drawer(void);
