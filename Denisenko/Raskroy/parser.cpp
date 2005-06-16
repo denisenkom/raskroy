@@ -17,7 +17,7 @@ scalar Parser::Details(unsigned s, scalar pos[2], const t_rect &rect, const t_ra
 			part.rect.size[s] = rect.size[s];
 			part.rect.size[!s] = i->size;
 
-			details_summary_square += rect.size[s] * i->size;
+			m_detailsSummarySquare += rect.size[s] * i->size;
 
 			//part.part = 
 			assert(m_pOutResult);
@@ -103,7 +103,7 @@ void Parser::Parse(const t_result& result1, t_parsed_result& result2, scalar saw
 	m_sawThickness = sawThickness;
 	m_halfSawThickness = sawThickness / 2;
 
-	details_summary_square = 0;
+	m_detailsSummarySquare = 0;
 	m_pOutResult = &result2;
 	assert(m_pOutResult);
 	m_pOutResult->cuts.clear();

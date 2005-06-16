@@ -151,7 +151,7 @@ void test_gilotine()
 		Parser pr;
 		t_parsed_result pres;
 		pr.Parse(res, pres, g.GetCutWidth());
-		assert(pr.details_summary_square == s.begin()->rect.square()-res.stat.opilki-res.stat.unuseful_remain-res.stat.useful_remain);
+		assert(pr.get_DetailsSummarySquare() == s.begin()->rect.square()-res.stat.opilki-res.stat.unuseful_remain-res.stat.useful_remain);
 		//stringstream fname;
 		//fname << "raskroy" << index++ << ".emf";
 		HDC hdcemf;
