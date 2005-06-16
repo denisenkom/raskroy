@@ -16,9 +16,9 @@ public:
 	Perebor2d(t_sizes sizes[], scalar minSize[], t_amounts &remains)
 		: _sizes(sizes), _minSize(minSize), _remains(remains), _perebor(remains, 4) {}
 
-	void SetCutWidth(double x) throw () {_perebor.saw_thickness = x;}
+	void SetCutWidth(double x) throw () {_perebor.put_SawThickness(x);}
 
-	double GetCutWidth(void) throw () {return _perebor.saw_thickness;}
+	double GetCutWidth(void) throw () {return _perebor.get_SawThickness();}
 
 	bool Optimize(const t_rect&, t_stat&, int s, t_raskroy&, t_amounts &rashod);
 };

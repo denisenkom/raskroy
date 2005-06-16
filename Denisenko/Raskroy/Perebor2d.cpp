@@ -69,19 +69,19 @@ bool Perebor2d::Recursion(t_sizes::iterator begin, const t_rect &rect, t_stat &s
 
 		//stat1.sum_cut_length += rect.size[!s];
 		// Добавляем опилки
-		scalar opilki1 = _perebor.opilki + (rect.size[!s] - _perebor.remain)*_perebor.saw_thickness;
-		scalar opilki2 = _perebor.remain * _perebor.saw_thickness;
+		scalar opilki1 = _perebor.get_Opilki() + (rect.size[!s] - _perebor.get_Remain()) * _perebor.get_SawThickness();
+		scalar opilki2 = _perebor.get_Remain() * _perebor.get_SawThickness();
 		// Вычисляем остаточный квадрат
 		t_rect remain_rect;
 		remain_rect.size[s] = i->size;
-		remain_rect.size[!s] = _perebor.remain;
+		remain_rect.size[!s] = _perebor.get_Remain();
 		// Вычисляем квадрат для рекурсии
 		t_rect recurse_rect(rect);
 		// Величина, на которую будет уменьшен квадрат рекурсии
-		scalar reduce = i->size + _perebor.saw_thickness;
+		scalar reduce = i->size + _perebor.get_SawThickness();
 
 		// Рассчет кратности
-		int max_kratnostj = int((rect.size[s] + _perebor.saw_thickness)/(i->size + _perebor.saw_thickness));
+		int max_kratnostj = int((rect.size[s] + _perebor.get_SawThickness())/(i->size + _perebor.get_SawThickness()));
 		if (max_kratnostj > 1)
 		{
 			int kol_krat = _remains / rashod_perebor;

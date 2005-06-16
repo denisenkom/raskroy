@@ -48,7 +48,7 @@ void test_perebor()
 		{
 			cout << i->size << ":" << i->num << endl;
 		}
-		cout << "The remain is:" << p.remain << endl;
+		cout << "The remain is:" << p.get_Remain() << endl;
 	}
 }
 
