@@ -26,8 +26,8 @@
 extern CComModule _Module;
 #include <atlcom.h>
 #include <atlctl.h>
-#include "..\..\raskroy.h"
-#include "..\..\drawer.h"
+#include "..\raskroy.h"
+#include "..\drawer.h"
 
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.

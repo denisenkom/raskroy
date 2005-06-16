@@ -11,7 +11,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Planer", "Planer\Planer.vcp
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test", "test\test.vcproj", "{8874806A-DFB8-4791-95B0-F88090F6EB03}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test", "test.vcproj", "{6DF9EF9B-D557-4298-97A8-6895B167FD2F}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
@@ -33,9 +33,8 @@ Global
 		SccProjectName3 = \u0022$/Denisenko/Raskroy/Planer\u0022,\u0020CXBAAAAA
 		SccLocalPath3 = Planer
 		CanCheckoutShared = false
-		SccProjectUniqueName4 = test\\test.vcproj
-		SccProjectName4 = \u0022$/Denisenko/Raskroy/test\u0022,\u0020FXBAAAAA
-		SccLocalPath4 = test
+		SccProjectUniqueName4 = test.vcproj
+		SccLocalPath4 = .
 		CanCheckoutShared = false
 	EndGlobalSection
 	GlobalSection(SolutionConfiguration) = preSolution
@@ -90,20 +89,20 @@ Global
 		{9847D2D2-52A1-4797-A950-9BD1E0D28515}.Unicode Release MinDependency.Build.0 = Release|Win32
 		{9847D2D2-52A1-4797-A950-9BD1E0D28515}.Unicode Release MinSize.ActiveCfg = Release|Win32
 		{9847D2D2-52A1-4797-A950-9BD1E0D28515}.Unicode Release MinSize.Build.0 = Release|Win32
-		{8874806A-DFB8-4791-95B0-F88090F6EB03}.Debug.ActiveCfg = Debug|Win32
-		{8874806A-DFB8-4791-95B0-F88090F6EB03}.Debug.Build.0 = Debug|Win32
-		{8874806A-DFB8-4791-95B0-F88090F6EB03}.Release.ActiveCfg = Release|Win32
-		{8874806A-DFB8-4791-95B0-F88090F6EB03}.Release.Build.0 = Release|Win32
-		{8874806A-DFB8-4791-95B0-F88090F6EB03}.Release MinDependency.ActiveCfg = Release|Win32
-		{8874806A-DFB8-4791-95B0-F88090F6EB03}.Release MinDependency.Build.0 = Release|Win32
-		{8874806A-DFB8-4791-95B0-F88090F6EB03}.Release MinSize.ActiveCfg = Release|Win32
-		{8874806A-DFB8-4791-95B0-F88090F6EB03}.Release MinSize.Build.0 = Release|Win32
-		{8874806A-DFB8-4791-95B0-F88090F6EB03}.Unicode Debug.ActiveCfg = Debug|Win32
-		{8874806A-DFB8-4791-95B0-F88090F6EB03}.Unicode Debug.Build.0 = Debug|Win32
-		{8874806A-DFB8-4791-95B0-F88090F6EB03}.Unicode Release MinDependency.ActiveCfg = Release|Win32
-		{8874806A-DFB8-4791-95B0-F88090F6EB03}.Unicode Release MinDependency.Build.0 = Release|Win32
-		{8874806A-DFB8-4791-95B0-F88090F6EB03}.Unicode Release MinSize.ActiveCfg = Release|Win32
-		{8874806A-DFB8-4791-95B0-F88090F6EB03}.Unicode Release MinSize.Build.0 = Release|Win32
+		{6DF9EF9B-D557-4298-97A8-6895B167FD2F}.Debug.ActiveCfg = Debug|Win32
+		{6DF9EF9B-D557-4298-97A8-6895B167FD2F}.Debug.Build.0 = Debug|Win32
+		{6DF9EF9B-D557-4298-97A8-6895B167FD2F}.Release.ActiveCfg = Release|Win32
+		{6DF9EF9B-D557-4298-97A8-6895B167FD2F}.Release.Build.0 = Release|Win32
+		{6DF9EF9B-D557-4298-97A8-6895B167FD2F}.Release MinDependency.ActiveCfg = Release|Win32
+		{6DF9EF9B-D557-4298-97A8-6895B167FD2F}.Release MinDependency.Build.0 = Release|Win32
+		{6DF9EF9B-D557-4298-97A8-6895B167FD2F}.Release MinSize.ActiveCfg = Release|Win32
+		{6DF9EF9B-D557-4298-97A8-6895B167FD2F}.Release MinSize.Build.0 = Release|Win32
+		{6DF9EF9B-D557-4298-97A8-6895B167FD2F}.Unicode Debug.ActiveCfg = Debug|Win32
+		{6DF9EF9B-D557-4298-97A8-6895B167FD2F}.Unicode Debug.Build.0 = Debug|Win32
+		{6DF9EF9B-D557-4298-97A8-6895B167FD2F}.Unicode Release MinDependency.ActiveCfg = Release|Win32
+		{6DF9EF9B-D557-4298-97A8-6895B167FD2F}.Unicode Release MinDependency.Build.0 = Release|Win32
+		{6DF9EF9B-D557-4298-97A8-6895B167FD2F}.Unicode Release MinSize.ActiveCfg = Release|Win32
+		{6DF9EF9B-D557-4298-97A8-6895B167FD2F}.Unicode Release MinSize.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
 		common.h = common.h
