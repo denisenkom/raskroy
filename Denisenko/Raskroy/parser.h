@@ -21,15 +21,16 @@ struct t_parsed_result
 
 class Parser
 {
-	t_parsed_result* poutresult;
-	scalar saw_thickness, half_saw_thickness;
+	t_parsed_result *m_pOutResult;
+	scalar m_sawThickness;
+	scalar m_halfSawThickness;
 
-	scalar details(unsigned s, scalar pos[2], const t_rect&, const t_raskroy::t_details&);
+	scalar Details(unsigned s, scalar pos[2], const t_rect&, const t_raskroy::t_details&);
 	void Recursion(scalar pos[2], const t_rect&, const t_raskroy&);
 public:
 	scalar details_summary_square;	// сумарная площадь деталей
-	Parser(void) : poutresult(0), saw_thickness(0), half_saw_thickness(0) {}
-	void parse(const t_result&, t_parsed_result&, scalar cut_thickness);
+	Parser(void) : m_pOutResult(0), m_sawThickness(0), m_halfSawThickness(0) {}
+	void Parse(const t_result&, t_parsed_result&, scalar cutThickness);
 };
 
 } // namespace Denisenko
