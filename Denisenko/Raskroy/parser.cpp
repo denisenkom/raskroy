@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "types.hpp"
+#include "types.h"
 #include "Parser.h"
 
 namespace Denisenko {

@@ -2,7 +2,7 @@
 #define ParserH
 
 #include "common.h"
-#include "types.hpp"
+#include "types.h"
 
 namespace Denisenko {
 namespace Raskroy {

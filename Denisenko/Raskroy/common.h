@@ -6,7 +6,7 @@
 #include <list>
 #include <vector>
 #include <algorithm>
-#include "types.hpp"
+#include "types.h"
 
 namespace Denisenko {
 namespace Raskroy {
