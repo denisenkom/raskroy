@@ -159,7 +159,7 @@ void test_gilotine()
 		assert(hdcemf);
 		Drawer d(hdcemf);
 		int horzsize = ::GetDeviceCaps(hdcemf, HORZSIZE);
-		d.draw(::GetDeviceCaps(hdcemf, HORZRES), ::GetDeviceCaps(hdcemf, VERTRES),
+		d.Draw(::GetDeviceCaps(hdcemf, HORZRES), ::GetDeviceCaps(hdcemf, VERTRES),
 			pres.parts, pres.cuts, pres.sheet);
 
 		HENHMETAFILE hemf;

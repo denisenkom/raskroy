@@ -65,14 +65,14 @@ void Drawer::if_own_dc_than_release(void)
 	}
 }
 
-void Drawer::reset_dc(HDC hdc)
+void Drawer::ResetDC(HDC hdc)
 {
 	if_own_dc_than_release();
 	hwnd = 0;
 	this->hdc = hdc;
 }
 
-void Drawer::reset_wnd(HWND hwnd)
+void Drawer::ResetWnd(HWND hwnd)
 {
 	if_own_dc_than_release();
 	this->hwnd = hwnd;
@@ -81,7 +81,7 @@ void Drawer::reset_wnd(HWND hwnd)
 	assert(hdc);
 }
 
-void Drawer::draw(int width, int height, const t_parsed_parts& parts, const t_parsed_cuts& cuts, const t_part& sheet)
+void Drawer::Draw(int width, int height, const t_parsed_parts& parts, const t_parsed_cuts& cuts, const t_part& sheet)
 {
     double scalex = width/sheet.rect.size[0];
     double scaley = height/sheet.rect.size[1];
