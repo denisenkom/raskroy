@@ -8,17 +8,17 @@ namespace Denisenko {
 namespace Raskroy {
 
 class Raskroy {
-	Perebor2d _perebor2d;
+	Perebor2d m_perebor2d;
 
 	//criteria default_criteria;
 	//const criteria* pcriteria;
 
-	t_amounts _remains;
+	t_amounts m_remains;
 
-	t_sizes _sizes[2];
-	scalar _minSize[2];
+	t_sizes m_sizes[2];
+	scalar m_minSize[2];
 
-	t_parts _sheets;
+	t_parts m_sheets;
 
 
 	void RemoveExostedSizes(void);
@@ -29,11 +29,11 @@ public:
 
 	Raskroy(void)
 		: /*pcriteria(&default_criteria),*/
-			_perebor2d(_sizes, _minSize, _remains/*, default_criteria*/),
+			m_perebor2d(m_sizes, m_minSize, m_remains/*, default_criteria*/),
 			ControlRemains(false) {}
 
-	void put_SawThickness(double x) throw () {_perebor2d.put_SawThickness(x);}
-	double get_SawThickness(void) throw () {return _perebor2d.get_SawThickness();}
+	void put_SawThickness(double x) throw () {m_perebor2d.put_SawThickness(x);}
+	double get_SawThickness(void) throw () {return m_perebor2d.get_SawThickness();}
 
 	//void SetCriteria(const criteria& c) throw ()
 	//{
@@ -44,8 +44,8 @@ public:
 	bool First(const t_parts &parts, const t_parts &sheets, t_result &res)
 	{
 		//assert(pcriteria);
-		_sheets = sheets;
-		t_sizes::make_list(_sizes, parts, _remains);
+		m_sheets = sheets;
+		t_sizes::make_list(m_sizes, parts, m_remains);
 		return MakeOneResult(res);
 	}
 
