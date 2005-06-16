@@ -18,25 +18,25 @@ EndProject
 Global
 	GlobalSection(SourceCodeControl) = preSolution
 		SccNumberOfProjects = 5
-		SccProjectUniqueName0 = COM\\COMRaskroy.vcproj
-		SccProjectName0 = \u0022$/Denisenko/Raskroy/COM\u0022,\u0020AXBAAAAA
-		SccLocalPath0 = COM
-		CanCheckoutShared = false
-		SccProjectUniqueName1 = ModelingRaskroy\\ModelingRaskroy.vbproj
-		SccProjectName1 = \u0022$/Denisenko/Raskroy/ModelingRaskroy\u0022,\u0020BXBAAAAA
-		SccLocalPath1 = ModelingRaskroy
-		CanCheckoutShared = false
-		SccProjectUniqueName2 = Planer\\Planer.vcproj
-		SccProjectName2 = \u0022$/Denisenko/Raskroy/Planer\u0022,\u0020CXBAAAAA
-		SccLocalPath2 = Planer
-		CanCheckoutShared = false
-		SccProjectUniqueName3 = test\\test.vcproj
-		SccProjectName3 = \u0022$/Denisenko/Raskroy/test\u0022,\u0020FXBAAAAA
-		SccLocalPath3 = test
-		CanCheckoutShared = false
-		SccLocalPath4 = .
+		SccLocalPath0 = .
 		CanCheckoutShared = false
 		SolutionUniqueID = {6BDB5BE9-B48C-4FF7-BDEB-FFB932B3F004}
+		SccProjectUniqueName1 = COM\\COMRaskroy.vcproj
+		SccProjectName1 = \u0022$/Denisenko/Raskroy/COM\u0022,\u0020AXBAAAAA
+		SccLocalPath1 = COM
+		CanCheckoutShared = false
+		SccProjectUniqueName2 = ModelingRaskroy\\ModelingRaskroy.vbproj
+		SccProjectName2 = \u0022$/Denisenko/Raskroy/ModelingRaskroy\u0022,\u0020BXBAAAAA
+		SccLocalPath2 = ModelingRaskroy
+		CanCheckoutShared = false
+		SccProjectUniqueName3 = Planer\\Planer.vcproj
+		SccProjectName3 = \u0022$/Denisenko/Raskroy/Planer\u0022,\u0020CXBAAAAA
+		SccLocalPath3 = Planer
+		CanCheckoutShared = false
+		SccProjectUniqueName4 = test\\test.vcproj
+		SccProjectName4 = \u0022$/Denisenko/Raskroy/test\u0022,\u0020FXBAAAAA
+		SccLocalPath4 = test
+		CanCheckoutShared = false
 	EndGlobalSection
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -104,6 +104,25 @@ Global
 		{8874806A-DFB8-4791-95B0-F88090F6EB03}.Unicode Release MinDependency.Build.0 = Release|Win32
 		{8874806A-DFB8-4791-95B0-F88090F6EB03}.Unicode Release MinSize.ActiveCfg = Release|Win32
 		{8874806A-DFB8-4791-95B0-F88090F6EB03}.Unicode Release MinSize.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionItems) = postSolution
+		common.h = common.h
+		drawer.cpp = drawer.cpp
+		drawer.h = drawer.h
+		parser.cpp = parser.cpp
+		parser.h = parser.h
+		perebor.h = perebor.h
+		Perebor2d.cpp = Perebor2d.cpp
+		Perebor2d.h = Perebor2d.h
+		perebor_2d.cpp = perebor_2d.cpp
+		perebor_2d.h = perebor_2d.h
+		raskroy.cpp = raskroy.cpp
+		raskroy.h = raskroy.h
+		raskroy_nstd.h = raskroy_nstd.h
+		stdafx.cpp = stdafx.cpp
+		stdafx.h = stdafx.h
+		test.cpp = test.cpp
+		types.hpp = types.hpp
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
