@@ -4,6 +4,9 @@
 namespace Denisenko {
 namespace Raskroy {
 
+const scalar MIN_USEFUL_SIZE1 = 70.0;
+const scalar MIN_USEFUL_SIZE2 = 200-34;
+
 // Раскрой листа по длине и по ширине, возвращает лучший выриант
 // Параметры:
 //		[i] rect - размер листа
@@ -161,8 +164,8 @@ bool Perebor2d::Recursion(t_sizes::iterator begin, const t_rect &rect, t_stat &s
 	scalar rem = rect.square();
 	if (rem == 0)
 		return false;
-	bool useful = (rect.size[0] >= 70 && rect.size[1] >= 200-34)
-		|| (rect.size[1] >= 70 && rect.size[0] >= 200-34);
+	bool useful = (rect.size[0] >= MIN_USEFUL_SIZE1 && rect.size[1] >= MIN_USEFUL_SIZE2)
+		|| (rect.size[1] >= MIN_USEFUL_SIZE1 && rect.size[0] >= MIN_USEFUL_SIZE2);
 	assert(rem > 0);
 	useful ? stat.useful_remain += rem, stat.useful_num++ : stat.unuseful_remain += rem, stat.useful_num++;
 	return false;

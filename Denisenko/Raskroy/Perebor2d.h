@@ -3,6 +3,8 @@
 namespace Denisenko {
 namespace Raskroy {
 
+const float DEFAULT_SAW_THICKNESS = 4.0;
+
 class Perebor2d {
 	t_amounts &m_remains;
 	t_sizes *m_sizes;
@@ -14,7 +16,7 @@ class Perebor2d {
 public:
 
 	Perebor2d(t_sizes sizes[], scalar minSize[], t_amounts &remains)
-		: m_sizes(sizes), m_minSize(minSize), m_remains(remains), m_perebor(remains, 4) {}
+		: m_sizes(sizes), m_minSize(minSize), m_remains(remains), m_perebor(remains, DEFAULT_SAW_THICKNESS) {}
 
 	void put_SawThickness(double x) throw () {m_perebor.put_SawThickness(x);}
 	double get_SawThickness(void) throw () {return m_perebor.get_SawThickness();}
