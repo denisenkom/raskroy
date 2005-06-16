@@ -8,10 +8,12 @@ namespace Denisenko {
 namespace Raskroy {
 
 class Drawer {
-	HDC hdc;
-	HWND hwnd;
-	HPEN hblackpen, hredpen;
-	HBRUSH hwhitebrush, hhatchbrush;
+	HDC m_hdc;
+	HWND m_hwnd;
+	HPEN m_hblackpen;
+	HPEN m_hredpen;
+	HBRUSH m_hwhitebrush;
+	HBRUSH m_hhatchbrush;
 
 	void create_pens_brushes(void);
 	void if_own_dc_than_release(void);
