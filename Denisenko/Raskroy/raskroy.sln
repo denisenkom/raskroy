@@ -111,6 +111,7 @@ Global
 		drawer.h = drawer.h
 		parser.cpp = parser.cpp
 		parser.h = parser.h
+		perebor.cpp = perebor.cpp
 		perebor.h = perebor.h
 		Perebor2d.cpp = Perebor2d.cpp
 		Perebor2d.h = Perebor2d.h
