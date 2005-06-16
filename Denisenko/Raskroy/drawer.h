@@ -2,7 +2,7 @@
 #define DrawerH
 
 #include <windows.h>
-#include "Parser.h"
+#include "parser.h"
 
 namespace Denisenko {
 namespace Raskroy {

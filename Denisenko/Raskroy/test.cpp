@@ -2,15 +2,18 @@
 //
 
 #include "stdafx.h"
+#include <windows.h>
+#include <iostream>
 #include "raskroy.h"
+#include "parser.h"
 #include "drawer.h"
-#include <sstream>
+
+using namespace Denisenko::Raskroy;
+using namespace std;
 
 void test_perebor()
 {
 	// testing perebor
-	using namespace raskroy;
-	using namespace std;
 	t_size sz;
 	sz.size = 100;
 
@@ -33,7 +36,7 @@ void test_perebor()
 	rem.push_back(2);
 	rem.push_back(3);
 
-	perebor p(rem, 4);
+	Perebor p(rem, 4);
 	t_stat stat;
 	t_raskroy::t_details det;
 	t_amounts rash;
@@ -50,10 +53,8 @@ void test_perebor()
 	}
 }
 
-void display_sizes(raskroy::t_sizes sizes[])
+void display_sizes(t_sizes sizes[])
 {
-	using namespace raskroy;
-	using namespace std;
 	for (int s = 0; s != 2; s++)
 	{
 		cout << "s=" << s << endl;
@@ -72,10 +73,8 @@ std::ostream& operator << (std::ostream &os, const std::string &str)
 	return os << str.c_str();
 }
 
-void print_raskroy(int level, const raskroy::t_raskroy &ras)
+void print_raskroy(int level, const t_raskroy &ras)
 {
-	using namespace std;
-	using namespace raskroy;
 	string spaces(level, ' ');
 	cout << spaces << "begin {\n";
 	cout << spaces << "Cutting by s=" << ras.s << " cut=" << ras.cut;
@@ -102,9 +101,7 @@ void print_raskroy(int level, const raskroy::t_raskroy &ras)
 
 void test_gilotine()
 {
-	using namespace raskroy;
-	using namespace std;
-	gilotine g;
+	Raskroy g;
 	t_parts p;
 
 	p.push_back(t_part(900, 605, true, 2));
@@ -146,22 +143,22 @@ void test_gilotine()
 	s.push_back(t_part(1810, 1210));
 	//s.push_back(t_part(1000, 1000));
 	t_result res;
-	bool bres = g.first(p, s, res);
+	bool bres = g.First(p, s, res);
 	//int index = 1;
 	while (bres)
 	{
 		cout << "Raskroy.\n";
 		print_raskroy(0, res.raskroy);
-		parser pr;
+		Parser pr;
 		t_parsed_result pres;
-		pr.parse(res, pres, g.get_cut_width());
+		pr.parse(res, pres, g.GetCutWidth());
 		assert(pr.details_summary_square == s.begin()->rect.square()-res.stat.opilki-res.stat.unuseful_remain-res.stat.useful_remain);
 		//stringstream fname;
 		//fname << "raskroy" << index++ << ".emf";
 		HDC hdcemf;
 		hdcemf = ::CreateEnhMetaFile(NULL, /*fname.str().c_str()*/NULL, NULL, 0);
 		assert(hdcemf);
-		drawer d(hdcemf);
+		Drawer d(hdcemf);
 		int horzsize = ::GetDeviceCaps(hdcemf, HORZSIZE);
 		d.draw(::GetDeviceCaps(hdcemf, HORZRES), ::GetDeviceCaps(hdcemf, VERTRES),
 			pres.parts, pres.cuts, pres.sheet);
@@ -177,7 +174,7 @@ void test_gilotine()
 		assert(bres2);
 		bres2 = DeleteEnhMetaFile(hemf);
 		assert(bres2);
-		bres = g.next(res);
+		bres = g.Next(res);
 	}
 }
 

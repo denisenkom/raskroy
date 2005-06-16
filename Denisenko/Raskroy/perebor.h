@@ -1,3 +1,6 @@
+#ifndef PereborH
+#define PereborH
+
 #include "common.h"
 
 namespace Denisenko {
@@ -21,3 +24,5 @@ public:
 
 } // namespace Denisenko
 } // namespace Raskroy
+
+#endif // PereborH

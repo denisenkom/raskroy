@@ -1,6 +1,8 @@
+#ifndef ParserH
+#define ParserH
+
 #include "common.h"
 #include "types.hpp"
-#include "raskroy.h"
 
 namespace Denisenko {
 namespace Raskroy {
@@ -32,3 +34,5 @@ public:
 
 } // namespace Denisenko
 } // namespace Raskroy
+
+#endif // ParserH
