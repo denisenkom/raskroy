@@ -2,7 +2,6 @@
 //
 
 #include "stdafx.h"
-#include <windows.h>
 #include <iostream>
 #include "raskroy.h"
 #include "parser.h"

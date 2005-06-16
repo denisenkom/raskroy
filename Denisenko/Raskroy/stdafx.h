@@ -2,8 +2,10 @@
 
 #pragma once
 
+#include <windows.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <iostream>
 #include <list>
 #include <vector>
 #include <algorithm>
