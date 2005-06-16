@@ -8,12 +8,12 @@ void Raskroy::RemoveExostedSizes(void)
 {
 	for (unsigned s = 0; s <= 1; s++)
 	{
-		for (t_sizes::iterator si = _sizes[s].begin(); si != _sizes[s].end(); )
+		for (t_sizes::iterator si = m_sizes[s].begin(); si != m_sizes[s].end(); )
 		{
 			t_other_sizes::iterator osi = si->other_sizes.begin();
 			while (osi != si->other_sizes.end())
 			{
-				if (_remains[osi->offset] == 0)
+				if (m_remains[osi->offset] == 0)
 				{
 					si->other_sizes.erase(osi);
 					osi = si->other_sizes.begin();
@@ -23,8 +23,8 @@ void Raskroy::RemoveExostedSizes(void)
 			}
 			if (si->other_sizes.empty())
 			{
-				_sizes[s].erase(si);
-				si = _sizes[s].begin();
+				m_sizes[s].erase(si);
+				si = m_sizes[s].begin();
 			}
 			else
 				si++;
@@ -35,26 +35,26 @@ void Raskroy::RemoveExostedSizes(void)
 bool Raskroy::MakeOneResult(t_result& out)
 {
 	// проверить остались ли детали
-	for (t_amounts::const_iterator i = _remains.begin(); i != _remains.end(); i++)
+	for (t_amounts::const_iterator i = m_remains.begin(); i != m_remains.end(); i++)
 		if (*i > 0)
 			break;
-	if (i == _remains.end())
+	if (i == m_remains.end())
 		return false; // детали кончились
 
 	t_result bestResult;
 	t_amounts bestRashod;
 	bool first = true;
-	for (t_parts::iterator si = _sheets.begin(); si != _sheets.end(); si++)
+	for (t_parts::iterator si = m_sheets.begin(); si != m_sheets.end(); si++)
 	{
 		t_stat stat(0);
 		t_raskroy raskroy;
 		t_amounts rashod;
-		if (!_perebor2d.Optimize(si->rect, stat, 0, raskroy, rashod)
+		if (!m_perebor2d.Optimize(si->rect, stat, 0, raskroy, rashod)
 			&& !first
 			&& !(/*pcriteria->quality(*/stat/*)*/ > /*pcriteria->quality(*/bestResult.stat/*)*/))
 			continue;
 
-		bestResult.amount = _remains / rashod;
+		bestResult.amount = m_remains / rashod;
 		if (ControlRemains)
 			if (bestResult.amount > si->amount) // недостаточно листов
 				continue;
@@ -66,9 +66,9 @@ bool Raskroy::MakeOneResult(t_result& out)
 		first = false;
 	}
 	if (first)
-		throw err_cannot_set_parts(_sheets, _sizes, _remains);
+		throw err_cannot_set_parts(m_sheets, m_sizes, m_remains);
 
-	_remains -= bestRashod * bestResult.amount;
+	m_remains -= bestRashod * bestResult.amount;
 	RemoveExostedSizes();
 	if (ControlRemains)
 		bestResult.sheet->amount -= bestResult.amount;
