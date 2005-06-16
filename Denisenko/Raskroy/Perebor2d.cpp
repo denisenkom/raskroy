@@ -15,12 +15,12 @@ inline bool Perebor2d::Optimize(const t_rect &rect, t_stat &stat, int s, t_raskr
 {
 	// ѕробуем расположить по размеру s
 	t_stat stat2(stat);
-	if (Recursion(_sizes[s].begin(), rect, stat, s, raskroy, rashod))
+	if (Recursion(m_sizes[s].begin(), rect, stat, s, raskroy, rashod))
 	{
 		// ≈сли удачно, то пробуем расположить по размеру !s
 		t_amounts rashod2;
 		t_raskroy raskroy2;
-		if (Recursion(_sizes[!s].begin(), rect, stat2, !s, raskroy2, rashod2)
+		if (Recursion(m_sizes[!s].begin(), rect, stat2, !s, raskroy2, rashod2)
 			&& /*pcriteria->quality(*/stat2/*)*/ > /*pcriteria->quality(*/stat/*)*/)
 		{
 			// ≈сли удачно и личше чем по s, то результат будет как по !s
@@ -45,18 +45,18 @@ inline bool Perebor2d::Optimize(const t_rect &rect, t_stat &stat, int s, t_raskr
 //
 bool Perebor2d::Recursion(t_sizes::iterator begin, const t_rect &rect, t_stat &stat, int s, t_raskroy &raskroy, t_amounts &rashod)
 {
-	if (begin == _sizes[s].end())
+	if (begin == m_sizes[s].end())
 		// здесь может произойти зацикливание
-		return Recursion(_sizes[!s].begin(), rect, stat, !s, raskroy, rashod);
+		return Recursion(m_sizes[!s].begin(), rect, stat, !s, raskroy, rashod);
 
 	bool first = true;
-	t_stat best_stat;	// лучша€ статистика внутри цикла, при выходе прибавл€етс€ к входной статистике
+	t_stat bestStat;	// лучша€ статистика внутри цикла, при выходе прибавл€етс€ к входной статистике
 
 	// переменные располагаем здесь чтобы избежать лишней инициализации
-	t_amounts rashod_perebor, vrashod, rashod1;
-	t_raskroy remain_raskroy;	
-	t_raskroy recurse_raskroy;
-	for (t_sizes::iterator i = begin; i != _sizes[s].end(); i++)
+	t_amounts rashodPerebor, vrashod, rashod1;
+	t_raskroy remainRaskroy;	
+	t_raskroy recurseRaskroy;
+	for (t_sizes::iterator i = begin; i != m_sizes[s].end(); i++)
 	{
 		// если размер слишком большой, то закончить цикл,
 		// т.к. следующие размеры будут еще больше
@@ -64,85 +64,85 @@ bool Perebor2d::Recursion(t_sizes::iterator begin, const t_rect &rect, t_stat &s
 			break;
 
 		t_raskroy::t_details details;
-		if (!_perebor.make(*i, rect.size[!s], details, rashod_perebor))
+		if (!m_perebor.make(*i, rect.size[!s], details, rashodPerebor))
 			continue;
 
 		//stat1.sum_cut_length += rect.size[!s];
 		// ƒобавл€ем опилки
-		scalar opilki1 = _perebor.get_Opilki() + (rect.size[!s] - _perebor.get_Remain()) * _perebor.get_SawThickness();
-		scalar opilki2 = _perebor.get_Remain() * _perebor.get_SawThickness();
+		scalar opilki1 = m_perebor.get_Opilki() + (rect.size[!s] - m_perebor.get_Remain()) * m_perebor.get_SawThickness();
+		scalar opilki2 = m_perebor.get_Remain() * m_perebor.get_SawThickness();
 		// ¬ычисл€ем остаточный квадрат
-		t_rect remain_rect;
-		remain_rect.size[s] = i->size;
-		remain_rect.size[!s] = _perebor.get_Remain();
+		t_rect remainRect;
+		remainRect.size[s] = i->size;
+		remainRect.size[!s] = m_perebor.get_Remain();
 		// ¬ычисл€ем квадрат дл€ рекурсии
-		t_rect recurse_rect(rect);
+		t_rect recurseRect(rect);
 		// ¬еличина, на которую будет уменьшен квадрат рекурсии
-		scalar reduce = i->size + _perebor.get_SawThickness();
+		scalar reduce = i->size + m_perebor.get_SawThickness();
 
 		// –ассчет кратности
-		int max_kratnostj = int((rect.size[s] + _perebor.get_SawThickness())/(i->size + _perebor.get_SawThickness()));
-		if (max_kratnostj > 1)
+		int maxKratnostj = int((rect.size[s] + m_perebor.get_SawThickness())/(i->size + m_perebor.get_SawThickness()));
+		if (maxKratnostj > 1)
 		{
-			int kol_krat = _remains / rashod_perebor;
-			if (max_kratnostj > kol_krat)
-				max_kratnostj = kol_krat;
+			int kolKrat = m_remains / rashodPerebor;
+			if (maxKratnostj > kolKrat)
+				maxKratnostj = kolKrat;
 		}
 
 		t_stat stat1(0);
 		/*stat1.useful_remain = 0;
 		stat1.unuseful_remain = 0;
 		stat1.useful_num = 0;*/
-		rashod1 = rashod_perebor;
-		for (int kratnostj = 1; kratnostj <= max_kratnostj; kratnostj++)
+		rashod1 = rashodPerebor;
+		for (int kratnostj = 1; kratnostj <= maxKratnostj; kratnostj++)
 		{
 			//  орректировка расхода, статистики, квадратов в зависимости от кратности
 			if (kratnostj > 1)
 			{
-				rashod1 = rashod_perebor*kratnostj;
-				remain_rect.size[s] += i->size;
+				rashod1 = rashodPerebor * kratnostj;
+				remainRect.size[s] += i->size;
 			}
-			recurse_rect.size[s] -= reduce;
-			stat1.opilki = opilki1*kratnostj + opilki2;
-			if (recurse_rect.size[s] < 0)
+			recurseRect.size[s] -= reduce;
+			stat1.opilki = opilki1 * kratnostj + opilki2;
+			if (recurseRect.size[s] < 0)
 			{
-				stat1.opilki += rect.size[!s]*recurse_rect.size[s];
-				recurse_rect.size[s] = 0;
+				stat1.opilki += rect.size[!s] * recurseRect.size[s];
+				recurseRect.size[s] = 0;
 			}
 
 			//  роим остаточный квадрат
 			//  орректируем остатки в зависимости от получившегос€ расхода
-			_remains -= rashod1;	// потом нужно будет восстановить остатки
-			bool have_remain;
-			if (have_remain = Optimize(remain_rect, stat1, !s, remain_raskroy, vrashod))
+			m_remains -= rashod1;	// потом нужно будет восстановить остатки
+			bool haveRemain;
+			if (haveRemain = Optimize(remainRect, stat1, !s, remainRaskroy, vrashod))
 			//if (Recursion(sizes[!s].begin(), rect1, stat1, !s, remain_raskroy, rashod))
 			{
 				// ≈сли есть крой, то дополнительно корректируем остатки и расход
 				rashod1 += vrashod;
-				_remains -= vrashod;
+				m_remains -= vrashod;
 			}
 
 			//if (!first && pcriteria->compare(&best_stat, &stat1))	// already bad
 			//	continue;
 
 			// ¬ызываем рекурсию
-			bool have_recurse = Recursion(i + 1, recurse_rect, stat1, s, recurse_raskroy, vrashod);
-			_remains += rashod1;	// восстанавливаем остатки
+			bool haveRecurse = Recursion(i + 1, recurseRect, stat1, s, recurseRaskroy, vrashod);
+			m_remains += rashod1;	// восстанавливаем остатки
 
 			// если результат лучше лучшего или первый то
-			if (stat1 > best_stat || first)
+			if (stat1 > bestStat || first)
 			{
-				best_stat = stat1;
+				bestStat = stat1;
 				raskroy.set(s,
 					kratnostj,
 					i->size, details,
-					have_remain ? &remain_raskroy : 0,
-					have_recurse ? &recurse_raskroy : 0);
+					haveRemain ? &remainRaskroy : 0,
+					haveRecurse ? &recurseRaskroy : 0);
 
 				// rashod1 - расход в переборе+в остаточной части
 				// vrashod - расход в ресурсивной части
 				rashod = rashod1;
-				if (have_recurse)
+				if (haveRecurse)
 					rashod += vrashod;
 				first = false;
 			}
@@ -152,7 +152,7 @@ bool Perebor2d::Recursion(t_sizes::iterator begin, const t_rect &rect, t_stat &s
 	if (!first)
 	{
 		// ƒобавл€ем нашу лучшую статистику к входной статистике
-		stat += best_stat;
+		stat += bestStat;
 		// –аскрой и расход уже хранитс€ в нужном месте
 		return true;
 	}

@@ -32,9 +32,8 @@ public:
 			_perebor2d(_sizes, _minSize, _remains/*, default_criteria*/),
 			ControlRemains(false) {}
 
-	void SetCutWidth(double x) throw () {_perebor2d.SetCutWidth(x);}
-
-	double GetCutWidth(void) throw () {return _perebor2d.GetCutWidth();}
+	void put_SawThickness(double x) throw () {_perebor2d.put_SawThickness(x);}
+	double get_SawThickness(void) throw () {return _perebor2d.get_SawThickness();}
 
 	//void SetCriteria(const criteria& c) throw ()
 	//{

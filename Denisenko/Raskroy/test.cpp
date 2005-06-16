@@ -150,7 +150,7 @@ void test_gilotine()
 		print_raskroy(0, res.raskroy);
 		Parser pr;
 		t_parsed_result pres;
-		pr.Parse(res, pres, g.GetCutWidth());
+		pr.Parse(res, pres, g.get_SawThickness());
 		assert(pr.get_DetailsSummarySquare() == s.begin()->rect.square()-res.stat.opilki-res.stat.unuseful_remain-res.stat.useful_remain);
 		//stringstream fname;
 		//fname << "raskroy" << index++ << ".emf";
