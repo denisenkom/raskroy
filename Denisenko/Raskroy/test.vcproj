@@ -161,9 +161,6 @@
 				RelativePath=".\raskroy.h">
 			</File>
 			<File
-				RelativePath=".\raskroy_nstd.h">
-			</File>
-			<File
 				RelativePath=".\stdafx.h">
 			</File>
 			<File

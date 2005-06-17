@@ -142,9 +142,9 @@ void test_gilotine()
 	s.push_back(t_part(1810, 1210));
 	//s.push_back(t_part(1000, 1000));
 	t_result res;
-	bool bres = g.First(p, s, res);
+	g.Begin(p, s);
 	//int index = 1;
-	while (bres)
+	while (g.NextResult(res))
 	{
 		cout << "Raskroy.\n";
 		print_raskroy(0, res.raskroy);
@@ -173,7 +173,6 @@ void test_gilotine()
 		assert(bres2);
 		bres2 = DeleteEnhMetaFile(hemf);
 		assert(bres2);
-		bres = g.Next(res);
 	}
 }
 

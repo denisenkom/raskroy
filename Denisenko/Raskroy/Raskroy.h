@@ -22,7 +22,6 @@ class Raskroy {
 
 
 	void RemoveExostedSizes(void);
-	bool MakeOneResult(t_result&);
 
 public:
 	bool ControlRemains;
@@ -41,19 +40,13 @@ public:
 	//	Perebor2d.SetCriteria(c);
 	//}
 
-	bool First(const t_parts &parts, const t_parts &sheets, t_result &res)
-	{
+	void Begin(const t_parts &parts, const t_parts &sheets) {
 		//assert(pcriteria);
 		m_sheets = sheets;
 		t_sizes::make_list(m_sizes, parts, m_remains);
-		return MakeOneResult(res);
 	}
 
-	bool Next(t_result &res)
-	{
-		//assert(pcriteria);
-		return MakeOneResult(res);
-	}
+	bool NextResult(t_result &res);
 };
 
 } // namespace Denisenko

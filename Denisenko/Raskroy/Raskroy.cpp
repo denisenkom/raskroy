@@ -32,7 +32,7 @@ void Raskroy::RemoveExostedSizes(void)
 	}
 }
 
-bool Raskroy::MakeOneResult(t_result& out)
+bool Raskroy::NextResult(t_result& out)
 {
 	// проверить остались ли детали
 	for (t_amounts::const_iterator i = m_remains.begin(); i != m_remains.end(); i++)
