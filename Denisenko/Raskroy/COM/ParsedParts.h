@@ -4,6 +4,7 @@
 #define __PARSEDPARTS_H_
 
 #include "resource.h"       // main symbols
+#include "..\Parser.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CParsedParts
@@ -11,7 +12,7 @@ class ATL_NO_VTABLE CParsedParts :
 	public CComObjectRootEx<CComSingleThreadModel>,
 	public CComCoClass<CParsedParts, &CLSID_ParsedParts>,
 	public IDispatchImpl<IParsedParts, &IID_IParsedParts, &LIBID_COMRASKROYLib>,
-	public raskroy::t_parsed_parts
+	public Denisenko::Raskroy::t_parsed_parts
 {
 public:
 	CParsedParts()

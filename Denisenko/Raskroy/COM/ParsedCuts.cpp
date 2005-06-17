@@ -4,6 +4,9 @@
 #include "ParsedCut.h"
 #include "ParsedCuts.h"
 #include "convertors.h"
+#include "..\Types.h"
+
+using namespace Denisenko::Raskroy;
 
 /////////////////////////////////////////////////////////////////////////////
 // CParsedCuts
@@ -45,7 +48,7 @@ STDMETHODIMP CParsedCuts::get_Item(long Index, IParsedCut **Cut)
 	*Cut = new CComObject<CParsedCut>();
 	if (*Cut)
 	{
-		raskroy::t_parsed_cut &cut = *(begin()+Index);
+		t_parsed_cut &cut = *(begin()+Index);
 		(*Cut)->put_X(cut.pos[0]);
 		(*Cut)->put_Y(cut.pos[1]);
 		(*Cut)->put_S(cut.s);

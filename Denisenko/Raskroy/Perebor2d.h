@@ -1,3 +1,6 @@
+#ifndef Perebor2dH
+#define Perebor2dH
+
 #include "Perebor.h"
 
 namespace Denisenko {
@@ -25,3 +28,5 @@ public:
 
 } // namespace Denisenko
 } // namespace Raskroy
+
+#endif // Perebor2dH

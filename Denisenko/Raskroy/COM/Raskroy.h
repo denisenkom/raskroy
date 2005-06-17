@@ -4,6 +4,7 @@
 #define __RASKROY_H_
 
 #include "resource.h"       // main symbols
+#include "..\raskroy.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CRaskroy
@@ -11,7 +12,7 @@ class ATL_NO_VTABLE CRaskroy :
 	public CComObjectRootEx<CComSingleThreadModel>,
 	public CComCoClass<CRaskroy, &CLSID_Raskroy>,
 	public IDispatchImpl<IRaskroy, &IID_IRaskroy, &LIBID_COMRASKROYLib>,
-	raskroy::gilotine
+	Denisenko::Raskroy::Raskroy
 {
 public:
 	CRaskroy();
@@ -32,7 +33,7 @@ public:
 	STDMETHOD(get_RecursionDepth)(/*[out, retval]*/ short *pVal);
 	STDMETHOD(put_RecursionDepth)(/*[in]*/ short newVal);
 private:
-	raskroy::monitor monitor;
+	//Denisenko::Raskroy::Monitor monitor;
 	//raskroy::criteria criteria;
 	HRESULT CRaskroy::FirstNextProc(class FirstNextClass &cls, /*[out]*/ IResult **pRes, /*[out, retval]*/ BOOL * bRes) throw ();
 public:

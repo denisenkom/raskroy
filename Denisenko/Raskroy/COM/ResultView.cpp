@@ -52,8 +52,8 @@ HRESULT CResultView::OnDraw(ATL_DRAWINFO& di)
 	}
 	else
 	{
-		reset_dc(di.hdcDraw);
-		draw(di.prcBounds->right, di.prcBounds->bottom, result.parts, result.cuts, result.sheet);
+		ResetDC(di.hdcDraw);
+		Draw(di.prcBounds->right, di.prcBounds->bottom, result.parts, result.cuts, result.sheet);
 	}
 
 	return S_OK;

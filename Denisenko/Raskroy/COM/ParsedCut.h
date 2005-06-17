@@ -4,6 +4,7 @@
 #define __PARSEDCUT_H_
 
 #include "resource.h"       // main symbols
+#include "..\Parser.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CParsedCut
@@ -11,15 +12,15 @@ class ATL_NO_VTABLE CParsedCut :
 	public CComObjectRootEx<CComSingleThreadModel>,
 	public CComCoClass<CParsedCut, &CLSID_ParsedCut>,
 	public IDispatchImpl<IParsedCut, &IID_IParsedCut, &LIBID_COMRASKROYLib>,
-	private raskroy::t_parsed_cut
+	private Denisenko::Raskroy::t_parsed_cut
 {
 public:
 	CParsedCut()
 	{
 	}
 
-	CParsedCut(const raskroy::t_parsed_cut &cut)
-		: raskroy::t_parsed_cut(cut)
+	CParsedCut(const Denisenko::Raskroy::t_parsed_cut &cut)
+		: Denisenko::Raskroy::t_parsed_cut(cut)
 	{
 	}
 

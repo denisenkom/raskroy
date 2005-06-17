@@ -4,34 +4,36 @@
 #include "Raskroy.h"
 #include "convertors.h"
 
+using namespace Denisenko::Raskroy;
+
 /////////////////////////////////////////////////////////////////////////////
 // CRaskroy
 CRaskroy::CRaskroy()
 {
-	set_monitor(monitor);
+	//set_monitor(monitor);
 }
 
 STDMETHODIMP CRaskroy::get_RecursionDepth(short *pVal)
 {
 	assert(pVal);
-	*pVal = this->get_recursion_max_depth();
+	//*pVal = this->get_recursion_max_depth();
 	return S_OK;
 }
 
 STDMETHODIMP CRaskroy::put_RecursionDepth(short newVal)
 {
-	this->set_recursion_max_depth(newVal);
+	//this->set_recursion_max_depth(newVal);
 	return S_OK;
 }
 
 class FirstNextClass
 {
 protected:
-	raskroy::gilotine &r;
-	FirstNextClass(raskroy::gilotine &r) : r(r) {};
+	Denisenko::Raskroy::Raskroy &r;
+	FirstNextClass(Denisenko::Raskroy::Raskroy &r) : r(r) {};
 public:
 	virtual bool CheckArgs() throw () = 0;
-	virtual bool Work(raskroy::t_result &res) = 0;
+	virtual bool Work(t_result &res) = 0;
 };
 
 class FirstClass : public FirstNextClass
@@ -39,7 +41,7 @@ class FirstClass : public FirstNextClass
 	ISheets * Parts;
 	ISheets * Sheets;
 public:
-	FirstClass(raskroy::gilotine &r, ISheets * Parts, ISheets * Sheets)
+	FirstClass(Denisenko::Raskroy::Raskroy &r, ISheets * Parts, ISheets * Sheets)
 		: FirstNextClass(r),
 		Parts(Parts),
 		Sheets(Sheets)
@@ -49,25 +51,25 @@ public:
 		return !(Parts == 0 || Sheets == 0);
 	}
 
-	virtual bool Work(raskroy::t_result &res)
+	virtual bool Work(t_result &res)
 	{
-		raskroy::t_parts parts = convert(*Parts), sheets = convert(*Sheets);
-		return r.first(parts, sheets, res);
+		t_parts parts = convert(*Parts), sheets = convert(*Sheets);
+		return r.First(parts, sheets, res);
 	}
 };
 
 class NextClass : public FirstNextClass
 {
 public:
-	NextClass(raskroy::gilotine &r) : FirstNextClass(r) {}
+	NextClass(Denisenko::Raskroy::Raskroy &r) : FirstNextClass(r) {}
 
 	virtual bool CheckArgs() throw () {
 		return true;
 	}
 
-	virtual bool Work(raskroy::t_result &res)
+	virtual bool Work(t_result &res)
 	{
-		return r.next(res);
+		return r.Next(res);
 	}
 };
 
@@ -76,16 +78,16 @@ HRESULT CRaskroy::FirstNextProc(FirstNextClass &cls, /*[out]*/ IResult **pRes,
 {
 	if (!cls.CheckArgs() || !bRes)
 		return E_INVALIDARG;	// неправильные параметры
-	raskroy::t_result res;
+	t_result res;
 	try
 	{
 		if (!cls.Work(res))
 			*bRes = FALSE;
 		else
 		{
-			raskroy::parser parser;
-			raskroy::t_parsed_result parsed_res;
-			parser.parse(res, parsed_res, get_cut_width());
+			Parser parser;
+			t_parsed_result parsed_res;
+			parser.Parse(res, parsed_res, get_SawThickness());
 			*pRes = convert(parsed_res);
 			*bRes = TRUE;
 		}
@@ -95,7 +97,7 @@ HRESULT CRaskroy::FirstNextProc(FirstNextClass &cls, /*[out]*/ IResult **pRes,
 		MessageBox(NULL, err.what(), 0, MB_ICONSTOP);
 		return E_UNEXPECTED;
 	}
-	catch (raskroy::err_part_invalid& err)
+	catch (err_part_invalid& err)
 	{
 		std::string str;
 		str = "Неправильная деталь: ";
@@ -105,21 +107,21 @@ HRESULT CRaskroy::FirstNextProc(FirstNextClass &cls, /*[out]*/ IResult **pRes,
 		MessageBox(NULL, str.c_str(), 0, MB_ICONSTOP);
 		return E_INVALIDARG;
 	}
-	catch (raskroy::err_cannot_set_parts &e)
+	catch (err_cannot_set_parts &e)
 	{
 		std::stringstream ss;
 		ss << "На листах:\n";
-		for (raskroy::t_parts::const_iterator i = e.sheets.begin(); i != e.sheets.end(); i++)
+		for (t_parts::const_iterator i = e.sheets.begin(); i != e.sheets.end(); i++)
 		{
 			ss << i->rect.size[0] << 'x' << i->rect.size[1] << ' ';
 		}
 		ss << "\nнельзя расположить детали с длиной:\n";
-		for (raskroy::t_sizes::const_iterator i = e.sizes[0].begin(); i != e.sizes[0].end(); i++)
+		for (t_sizes::const_iterator i = e.sizes[0].begin(); i != e.sizes[0].end(); i++)
 		{
 			ss << i->size << ' ';
 		}
 		ss << "\nи шириной:\n";
-		for (raskroy::t_sizes::const_iterator i = e.sizes[1].begin(); i != e.sizes[1].end(); i++)
+		for (t_sizes::const_iterator i = e.sizes[1].begin(); i != e.sizes[1].end(); i++)
 		{
 			ss << i->size << ' ';
 		}
@@ -153,13 +155,13 @@ STDMETHODIMP CRaskroy::Next(/*[out]*/ IResult **pRes,/*[out, res]*/ BOOL *bRes)
 STDMETHODIMP CRaskroy::get_CutWidth(/*[out, res]*/ DOUBLE* pVal)
 {
 	assert(pVal);
-	*pVal = get_cut_width();
+	*pVal = get_SawThickness();
 	return S_OK;
 }
 
 STDMETHODIMP CRaskroy::put_CutWidth(DOUBLE newVal)
 {
-	set_cut_width(newVal);
+	put_SawThickness(newVal);
 	return S_OK;
 }
 

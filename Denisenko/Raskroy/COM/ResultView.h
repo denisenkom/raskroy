@@ -5,6 +5,7 @@
 
 #include "resource.h"       // main symbols
 #include <atlctl.h>
+#include "..\Drawer.h"
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -19,7 +20,7 @@ class ATL_NO_VTABLE CResultView :
 	public IOleObjectImpl<CResultView>,
 	public IOleControlImpl<CResultView>,
 	public IOleInPlaceObjectWindowlessImpl<CResultView>,
-	private raskroy::drawer
+	private Denisenko::Raskroy::Drawer
 {
 public:
 	CResultView()
@@ -85,7 +86,7 @@ public:
 	HRESULT OnDraw(ATL_DRAWINFO& di);
 
 private:
-	raskroy::t_parsed_result result;
+	Denisenko::Raskroy::t_parsed_result result;
 	//IResult *iresult;
 	BSTR m_Value;
 public:

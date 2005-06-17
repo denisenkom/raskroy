@@ -11,7 +11,7 @@ class ATL_NO_VTABLE CParsedCuts :
 	public CComObjectRootEx<CComSingleThreadModel>,
 	public CComCoClass<CParsedCuts, &CLSID_ParsedCuts>,
 	public IDispatchImpl<IParsedCuts, &IID_IParsedCuts, &LIBID_COMRASKROYLib>,
-	public raskroy::t_parsed_cuts
+	public Denisenko::Raskroy::t_parsed_cuts
 {
 public:
 	CParsedCuts()

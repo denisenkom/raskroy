@@ -1,36 +1,37 @@
 #include "errors.h"
+#include "..\parser.h"
 
-raskroy::t_parsed_cut
+Denisenko::Raskroy::t_parsed_cut
 	convert(struct IParsedCut &Cut);
 
-raskroy::t_parsed_part
+Denisenko::Raskroy::t_parsed_part
 	convert(struct IParsedPart &Part);
 
-raskroy::t_parsed_cuts
+Denisenko::Raskroy::t_parsed_cuts
 	convert(struct IParsedCuts &Cuts);
 
-raskroy::t_parsed_parts
+Denisenko::Raskroy::t_parsed_parts
 	convert(struct IParsedParts &Parts);
 
-raskroy::t_stat
+Denisenko::Raskroy::t_stat
 	convert(struct IStatistic &Statistic);
 
-raskroy::t_part
+Denisenko::Raskroy::t_part
 	convert(struct ISheet &Sheet);
 
-raskroy::t_parts
+Denisenko::Raskroy::t_parts
 	convert(struct ISheets &Sheets);
 
-raskroy::t_parsed_result
+Denisenko::Raskroy::t_parsed_result
 	convert(struct IResult &Result);
 
 struct IParsedCut*
-	convert(const raskroy::t_parsed_cut&);
+	convert(const Denisenko::Raskroy::t_parsed_cut&);
 
 struct IParsedPart*
-	convert(const raskroy::t_parsed_part&);
+	convert(const Denisenko::Raskroy::t_parsed_part&);
 
 struct IResult*
-	convert(const raskroy::t_parsed_result&);
+	convert(const Denisenko::Raskroy::t_parsed_result&);
 
-raskroy::t_parsed_result convert(BSTR str);
+Denisenko::Raskroy::t_parsed_result convert(BSTR str);

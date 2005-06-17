@@ -8,9 +8,11 @@
 #include "convertors.h"
 #include "Result.h"
 
-raskroy::t_parsed_cut convert(IParsedCut &Cut)
+using namespace Denisenko::Raskroy;
+
+t_parsed_cut convert(IParsedCut &Cut)
 {
-	raskroy::t_parsed_cut cut;
+	t_parsed_cut cut;
 	Cut.get_Length(&cut.length);
 	long x;
 	Cut.get_S(&x);
@@ -20,9 +22,9 @@ raskroy::t_parsed_cut convert(IParsedCut &Cut)
 	return cut;
 }
 
-raskroy::t_parsed_part convert(IParsedPart &Part)
+t_parsed_part convert(IParsedPart &Part)
 {
-	raskroy::t_parsed_part part;
+	t_parsed_part part;
 	Part.get_X(&part.pos[0]);
 	Part.get_Y(&part.pos[1]);
 	Part.get_Length(&part.rect.size[0]);
@@ -30,11 +32,11 @@ raskroy::t_parsed_part convert(IParsedPart &Part)
 	return part;
 }
 
-raskroy::t_parsed_cuts convert(IParsedCuts &Cuts)
+t_parsed_cuts convert(IParsedCuts &Cuts)
 {
 	long count;
 	Cuts.get_Count(&count);
-	raskroy::t_parsed_cuts cuts(count);
+	t_parsed_cuts cuts(count);
 	for (long i = 0; i < count; i++)
 	{
 		IParsedCut *Cut;
@@ -45,11 +47,11 @@ raskroy::t_parsed_cuts convert(IParsedCuts &Cuts)
 	return cuts;
 }
 
-raskroy::t_parsed_parts convert(IParsedParts &Parts)
+t_parsed_parts convert(IParsedParts &Parts)
 {
 	long count;
 	Parts.get_Count(&count);
-	raskroy::t_parsed_parts parts(count);
+	t_parsed_parts parts(count);
 	for (long i = 0; i < count; i++)
 	{
 		IParsedPart *Part;
@@ -60,9 +62,9 @@ raskroy::t_parsed_parts convert(IParsedParts &Parts)
 	return parts;
 }
 
-raskroy::t_part convert(ISheet &Sheet)
+t_part convert(ISheet &Sheet)
 {
-	raskroy::t_part part;
+	t_part part;
 	Sheet.get_Length(&part.rect.size[0]);
 	Sheet.get_Width(&part.rect.size[1]);
 
@@ -77,11 +79,11 @@ raskroy::t_part convert(ISheet &Sheet)
 	return part;
 }
 
-raskroy::t_parts convert(ISheets &Sheets)
+t_parts convert(ISheets &Sheets)
 {
 	long count;
 	Sheets.get_Count(&count);
-	raskroy::t_parts parts;
+	t_parts parts;
 	for (long i = 0; i < count; i++)
 	{
 		ISheet* Sheet;
@@ -92,9 +94,9 @@ raskroy::t_parts convert(ISheets &Sheets)
 	return parts;
 }
 
-raskroy::t_parsed_result convert(IResult &Result)
+t_parsed_result convert(IResult &Result)
 {
-	raskroy::t_parsed_result result;
+	t_parsed_result result;
 
 	long amount;
 	Result.get_Amount(&amount);
@@ -125,7 +127,7 @@ void _CoCreateInstance(REFCLSID rclsid, LPUNKNOWN pUnkOuter, DWORD dwClsContext,
 		throw error_COM("CoCreateInstance", hres);
 }
 
-IParsedCut* convert(const raskroy::t_parsed_cut &in)
+IParsedCut* convert(const t_parsed_cut &in)
 {
 	IParsedCut *out;
 	_CoCreateInstance(CLSID_ParsedCut, NULL, CLSCTX_ALL, IID_IParsedCut, (void**)&out);
@@ -140,7 +142,7 @@ IParsedCut* convert(const raskroy::t_parsed_cut &in)
 	return out;
 }
 
-IParsedPart* convert(const raskroy::t_parsed_part &in)
+IParsedPart* convert(const t_parsed_part &in)
 {
 	IParsedPart *out;
 	HRESULT hres;
@@ -157,7 +159,7 @@ class fn_add_cut {
 	IParsedCuts &Cuts;
 public:
 	fn_add_cut(IParsedCuts &Cuts) :	Cuts(Cuts) {}
-	void operator () (raskroy::t_parsed_cut x)	{
+	void operator () (t_parsed_cut x)	{
 		IParsedCut *Cut = convert(x); Cuts.Add(Cut); Cut->Release();
 	}
 };
@@ -166,12 +168,12 @@ class fn_add_part {
 	IParsedParts &Parts;
 public:
 	fn_add_part(IParsedParts &Parts) :	Parts(Parts) {}
-	void operator () (raskroy::t_parsed_part x) {
+	void operator () (t_parsed_part x) {
 		IParsedPart *Part = convert(x); Parts.Add(Part); Part->Release();
 	}
 };
 
-IParsedCuts* convert(const raskroy::t_parsed_cuts &cuts)
+IParsedCuts* convert(const t_parsed_cuts &cuts)
 {
 	IParsedCuts *res;
 	HRESULT hres;
@@ -182,7 +184,7 @@ IParsedCuts* convert(const raskroy::t_parsed_cuts &cuts)
 	return res;
 }
 
-IParsedParts* convert(const raskroy::t_parsed_parts &parts)
+IParsedParts* convert(const t_parsed_parts &parts)
 {
 	IParsedParts *res;
 	HRESULT hres;
@@ -193,7 +195,7 @@ IParsedParts* convert(const raskroy::t_parsed_parts &parts)
 	return res;
 }
 
-ISheet* convert(const raskroy::t_part &part)
+ISheet* convert(const t_part &part)
 {
 	ISheet *Sheet;
 	HRESULT hres;
@@ -247,7 +249,7 @@ template <class Var> void readfn(BSTR &ss, Var &var)
 	}
 }
 
-IResult* convert(const raskroy::t_parsed_result &res)
+IResult* convert(const t_parsed_result &res)
 {
 	HRESULT hres;
 	IResult *Result;
@@ -273,7 +275,7 @@ IResult* convert(const raskroy::t_parsed_result &res)
 		writefn(ss, res.amount);	// Количество листов
 		short x = res.parts.size();
 		writefn(ss, x);	// Количество деталей
-		for (raskroy::t_parsed_parts::const_iterator i = res.parts.begin(); i != res.parts.end(); i++)
+		for (t_parsed_parts::const_iterator i = res.parts.begin(); i != res.parts.end(); i++)
 		{
 			writefn(ss, i->pos[0]);	// X
 			writefn(ss, i->pos[1]);	// Y
@@ -282,7 +284,7 @@ IResult* convert(const raskroy::t_parsed_result &res)
 		}
 		x = res.cuts.size();
 		writefn(ss, x);	// Количество резов
-		for (raskroy::t_parsed_cuts::const_iterator i = res.cuts.begin(); i != res.cuts.end(); i++)
+		for (t_parsed_cuts::const_iterator i = res.cuts.begin(); i != res.cuts.end(); i++)
 		{
 			writefn(ss, i->pos[0]);	// X
 			writefn(ss, i->pos[1]);	// Y
@@ -315,16 +317,16 @@ IResult* convert(const raskroy::t_parsed_result &res)
 	return Result;
 }
 
-raskroy::t_parsed_result convert(BSTR str)
+t_parsed_result convert(BSTR str)
 {
-	raskroy::t_parsed_result res;
+	t_parsed_result res;
 	readfn(str, res.sheet.rect.size[0]);
 	readfn(str, res.sheet.rect.size[1]);
 	readfn(str, res.amount);	// Количество листов
 	short x;
 	readfn(str, x);	// Количество деталей
 	res.parts.resize(x);
-	for (raskroy::t_parsed_parts::const_iterator i = res.parts.begin(); i != res.parts.end(); i++)
+	for (t_parsed_parts::const_iterator i = res.parts.begin(); i != res.parts.end(); i++)
 	{
 		readfn(str, i->pos[0]);	// X
 		readfn(str, i->pos[1]);	// Y
@@ -333,7 +335,7 @@ raskroy::t_parsed_result convert(BSTR str)
 	}
 	readfn(str, x);	// Количество резов
 	res.cuts.resize(x);
-	for (raskroy::t_parsed_cuts::const_iterator i = res.cuts.begin(); i != res.cuts.end(); i++)
+	for (t_parsed_cuts::const_iterator i = res.cuts.begin(); i != res.cuts.end(); i++)
 	{
 		readfn(str, i->pos[0]);	// X
 		readfn(str, i->pos[1]);	// Y
