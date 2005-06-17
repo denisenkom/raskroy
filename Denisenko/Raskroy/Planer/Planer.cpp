@@ -7,14 +7,14 @@
 class order
 {
 	time_t date_of_release;
-	t_details details;
+	//t_details details;
 };
 
 typedef std::list<order> t_orders;
 
 order template_orders[] = {
-	order(),
-}
+	order()//,
+};
 
 void insert_order(order & x)
 {
@@ -32,7 +32,7 @@ void insert_order(order & x)
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	tm x;
+	//tm x;
 
 	return 0;
 }
