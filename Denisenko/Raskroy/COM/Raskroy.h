@@ -1,13 +1,9 @@
-// Raskroy.h : Declaration of the CRaskroy
-
 #ifndef __RASKROY_H_
 #define __RASKROY_H_
 
-#include "resource.h"       // main symbols
+#include "resource.h"
 #include "..\raskroy.h"
 
-/////////////////////////////////////////////////////////////////////////////
-// CRaskroy
 class ATL_NO_VTABLE CRaskroy : 
 	public CComObjectRootEx<CComSingleThreadModel>,
 	public CComCoClass<CRaskroy, &CLSID_Raskroy>,
@@ -26,17 +22,9 @@ BEGIN_COM_MAP(CRaskroy)
 	COM_INTERFACE_ENTRY(IDispatch)
 END_COM_MAP()
 
-// IRaskroy
 public:
-	STDMETHOD(First)(ISheets *Parts, ISheets *Sheets, IResult **ppRes, BOOL *bRes);
-	STDMETHOD(Next)(IResult **ppRes, BOOL *bRes);
-	STDMETHOD(get_RecursionDepth)(/*[out, retval]*/ short *pVal);
-	STDMETHOD(put_RecursionDepth)(/*[in]*/ short newVal);
-private:
-	//Denisenko::Raskroy::Monitor monitor;
-	//raskroy::criteria criteria;
-	HRESULT CRaskroy::FirstNextProc(class FirstNextClass &cls, /*[out]*/ IResult **pRes, /*[out, retval]*/ BOOL * bRes) throw ();
-public:
+	STDMETHOD(Begin)(ISheets *Parts, ISheets *Sheets);
+	STDMETHOD(NextResult)(IResult **ppRes, BOOL *bRes);
 	STDMETHOD(get_CutWidth)(DOUBLE* pVal);
 	STDMETHOD(put_CutWidth)(DOUBLE newVal);
 };

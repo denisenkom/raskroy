@@ -732,9 +732,6 @@ echo Warning : Cannot register Unicode DLL on Windows 95
 				RelativePath="..\raskroy.h">
 			</File>
 			<File
-				RelativePath="..\raskroy_nstd.h">
-			</File>
-			<File
 				RelativePath="..\stdafx.cpp">
 				<FileConfiguration
 					Name="Debug|Win32">

@@ -153,14 +153,10 @@ import "ocidl.idl";
 	]
 	interface IRaskroy : IDispatch
 	{
-		[propget, id(1), helpstring("property RecursionDepth")] HRESULT RecursionDepth([out, retval] short *pVal);
-		[propput, id(1), helpstring("property RecursionDepth")] HRESULT RecursionDepth([in] short newVal);
-		[id(2), helpstring("method Run")] HRESULT First(
+		[id(2), helpstring("method Run")] HRESULT Begin(
 			[in] ISheets *Parts,
-			[in] ISheets *Sheets,
-			[out, ref] IResult **Result,
-			[out, retval] BOOL *Res);
-		[id(3), helpstring("method Run")] HRESULT Next([out, ref] IResult **Result, [out, retval] BOOL *Res);
+			[in] ISheets *Sheets);
+		[id(3), helpstring("method Run")] HRESULT NextResult([out, ref] IResult **Result, [out, retval] BOOL *Res);
 		[propget, id(4), helpstring("property CutWidth")] HRESULT CutWidth([out, retval] DOUBLE* pVal);
 		[propput, id(4), helpstring("property CutWidth")] HRESULT CutWidth([in] DOUBLE newVal);
 	};

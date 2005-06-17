@@ -107,16 +107,15 @@ Module Module1
 			Dim result As COMRASKROYLib.Result
 			'Dim y As New System.Threading.Thread(AddressOf element.Run)
 			'y.Start()
-			If raskroy.First(package.Parts, package.Sheets, result) Then
-				Do
-					package.Results.Add(result)
-					sumScrap = sumScrap + (result.UsefulScrap + result.Opilki + result.UnUsefulScrap) * result.Amount
-					sumRashod = sumRashod + result.Amount
-					Console.Write(".")
-				Loop While raskroy.Next(result)
-				package.Rashod = sumRashod
-				Console.WriteLine("Finished raskroy for " & package.Color & ", dsp " & package.Dsp & " кол-во листов = " & sumRashod & " сумарный отход (кв.м.) = " & sumScrap / 1000000)
-			End If
+			raskroy.Begin(package.Parts, package.Sheets)
+			While raskroy.NextResult(result)
+				package.Results.Add(result)
+				sumScrap = sumScrap + (result.UsefulScrap + result.Opilki + result.UnUsefulScrap) * result.Amount
+				sumRashod = sumRashod + result.Amount
+				Console.Write(".")
+			End While
+			package.Rashod = sumRashod
+			Console.WriteLine("Finished raskroy for " & package.Color & ", dsp " & package.Dsp & " кол-во листов = " & sumRashod & " сумарный отход (кв.м.) = " & sumScrap / 1000000)
 		Next
 		SavePackages(db, packages)
 		Console.WriteLine("Press enter to exit...")
