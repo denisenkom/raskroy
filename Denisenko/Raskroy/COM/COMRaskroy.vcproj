@@ -255,7 +255,7 @@ echo regsvr32 exec. time &gt; &quot;$(OutDir)\regsvr32.trg&quot;
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="odbc32.lib odbccp32.lib ..\rasklib\debug\rasklib.lib"
+				AdditionalDependencies="odbc32.lib odbccp32.lib"
 				OutputFile=".\Debug/COMRaskroy.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="TRUE"
@@ -687,6 +687,67 @@ echo Warning : Cannot register Unicode DLL on Windows 95
 			</File>
 			<File
 				RelativePath=".\Statistic.rgs">
+			</File>
+		</Filter>
+		<Filter
+			Name="raskroy"
+			Filter="">
+			<File
+				RelativePath="..\common.h">
+			</File>
+			<File
+				RelativePath="..\drawer.cpp">
+			</File>
+			<File
+				RelativePath="..\drawer.h">
+			</File>
+			<File
+				RelativePath="..\parser.cpp">
+			</File>
+			<File
+				RelativePath="..\parser.h">
+			</File>
+			<File
+				RelativePath="..\perebor.cpp">
+			</File>
+			<File
+				RelativePath="..\perebor.h">
+			</File>
+			<File
+				RelativePath="..\Perebor2d.cpp">
+			</File>
+			<File
+				RelativePath="..\Perebor2d.h">
+			</File>
+			<File
+				RelativePath="..\raskroy.cpp">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\raskroy.h">
+			</File>
+			<File
+				RelativePath="..\raskroy_nstd.h">
+			</File>
+			<File
+				RelativePath="..\stdafx.cpp">
+				<FileConfiguration
+					Name="Debug|Win32">
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/$(InputName)1.obj"/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\stdafx.h">
+			</File>
+			<File
+				RelativePath="..\types.h">
 			</File>
 		</Filter>
 	</Files>
