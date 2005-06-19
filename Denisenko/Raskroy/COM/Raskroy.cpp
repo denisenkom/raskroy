@@ -3,6 +3,8 @@
 #include "Raskroy.h"
 #include "convertors.h"
 
+using namespace std;
+using namespace ATL;
 using namespace Denisenko::Raskroy;
 
 CRaskroy::CRaskroy()
@@ -33,50 +35,39 @@ STDMETHODIMP CRaskroy::NextResult(IResult **pResult, BOOL *bRes)
 			*pResult = 0;
 		return S_OK;
 	}
-	catch (error_COM& err)
+	catch (err_part_invalid& ex)
 	{
-		MessageBox(NULL, err.what(), 0, MB_ICONSTOP);
-		return E_UNEXPECTED;
+		CComBSTR str = (CComBSTR(L"Неправильная деталь: ") += CComBSTR(ex.member)
+			+= CComBSTR(L"=") += CComBSTR(ex.value));
+		return AtlReportError(GetObjectCLSID(), str);
 	}
-	catch (err_part_invalid& err)
+	catch (err_cannot_set_parts &ex)
 	{
-		std::string str;
-		str = "Неправильная деталь: ";
-		str += err.member;
-		str += "=";
-		str += err.value;
-		MessageBox(NULL, str.c_str(), 0, MB_ICONSTOP);
-		return E_INVALIDARG;
+		wstringstream ss;
+		ss << L"На листах:\n";
+		for (t_parts::const_iterator i = ex.sheets.begin(); i != ex.sheets.end(); i++)
+		{
+			ss << i->rect.size[0] << L'x' << i->rect.size[1] << L' ';
+		}
+		ss << L"\nнельзя расположить детали с длиной:\n";
+		for (t_sizes::const_iterator i = ex.sizes[0].begin(); i != ex.sizes[0].end(); i++)
+		{
+			ss << i->size << L' ';
+		}
+		ss << L"\nи шириной:\n";
+		for (t_sizes::const_iterator i = ex.sizes[1].begin(); i != ex.sizes[1].end(); i++)
+		{
+			ss << i->size << L' ';
+		}
+		return AtlReportError(GetObjectCLSID(), ss.str().c_str());
 	}
-	catch (err_cannot_set_parts &e)
+	catch (exception& ex)
 	{
-		std::stringstream ss;
-		ss << "На листах:\n";
-		for (t_parts::const_iterator i = e.sheets.begin(); i != e.sheets.end(); i++)
-		{
-			ss << i->rect.size[0] << 'x' << i->rect.size[1] << ' ';
-		}
-		ss << "\nнельзя расположить детали с длиной:\n";
-		for (t_sizes::const_iterator i = e.sizes[0].begin(); i != e.sizes[0].end(); i++)
-		{
-			ss << i->size << ' ';
-		}
-		ss << "\nи шириной:\n";
-		for (t_sizes::const_iterator i = e.sizes[1].begin(); i != e.sizes[1].end(); i++)
-		{
-			ss << i->size << ' ';
-		}
-		MessageBox(NULL, ss.str().c_str(), 0, MB_ICONSTOP);
-		return E_INVALIDARG;
-	}
-	catch (std::exception& ex)
-	{
-		MessageBox(NULL, ex.what(), 0, MB_ICONSTOP);
-		return E_UNEXPECTED;
+		return AtlReportError(GetObjectCLSID(), ex.what());
 	}
 }
 
-STDMETHODIMP CRaskroy::get_CutWidth(/*[out, res]*/ DOUBLE* pVal)
+STDMETHODIMP CRaskroy::get_CutWidth(DOUBLE* pVal)
 {
 	assert(pVal);
 	*pVal = get_SawThickness();

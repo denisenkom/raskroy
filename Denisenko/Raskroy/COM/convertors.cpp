@@ -86,10 +86,11 @@ t_parts convert(ISheets &Sheets)
 	t_parts parts;
 	for (long i = 0; i < count; i++)
 	{
-		ISheet* Sheet;
-		Sheets.get_Item(i, &Sheet);
-		parts.push_back(convert(*Sheet));
-		Sheet->Release();
+		CComVariant varSheet;
+		Sheets.get_Item(i, &varSheet);
+		CComPtr<ISheet> sheet;
+		varSheet.pdispVal->QueryInterface(IID_ISheet, (void**)&sheet);
+		parts.push_back(convert(*sheet));
 	}
 	return parts;
 }

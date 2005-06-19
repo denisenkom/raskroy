@@ -747,6 +747,9 @@ echo Warning : Cannot register Unicode DLL on Windows 95
 				RelativePath="..\types.h">
 			</File>
 		</Filter>
+		<File
+			RelativePath=".\SheetsTest.vbs">
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

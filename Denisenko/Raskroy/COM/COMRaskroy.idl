@@ -34,11 +34,12 @@ import "ocidl.idl";
 	]
 	interface ISheets : IDispatch
 	{
-		[id(1), helpstring("Adds sheet to collection")] HRESULT Add([in] ISheet *Sheet);
-		[propget, id(2), helpstring("property Count")] HRESULT Count([out, retval] long *pVal);
-		[propget, id(3), helpstring("property Item")] HRESULT Item([in] long Index, [out, retval] ISheet **pVal);
-		[propput, id(3), helpstring("property Item")] HRESULT Item([in] long Index, [in] ISheet *pnewVal);
-		[id(4), helpstring("method Add2")] HRESULT Add2([in] DOUBLE Length, [in] DOUBLE Width, [in] long Amount, [in] BOOL Rotate);
+        [id(DISPID_NEWENUM), propget] HRESULT _NewEnum([out, retval] IUnknown** ppUnk);
+        [id(DISPID_VALUE), propget] HRESULT Item([in] long Index, [out, retval] VARIANT* pVal);
+		[id(DISPID_VALUE), propput] HRESULT Item([in] long Index, [in] VARIANT pnewVal);
+        [id(1), propget] HRESULT Count([out, retval] long* pVal);
+		[id(2)] HRESULT Add([in] VARIANT Sheet);
+		[id(3)] HRESULT Add2([in] DOUBLE Length, [in] DOUBLE Width, [in] long Amount, [in] BOOL Rotate);
 	};
 	[
 		object,
