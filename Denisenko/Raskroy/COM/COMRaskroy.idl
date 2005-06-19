@@ -6,7 +6,7 @@
 
 import "oaidl.idl";
 import "ocidl.idl";
-#include "olectl.h"
+//#include "olectl.h"
 	[
 		object,
 		uuid(58EBA5A6-FC50-49F9-9D01-D9CDF15C677E),
