@@ -111,49 +111,48 @@ STDMETHODIMP CResult::get_UsefulScrap(DOUBLE* pVal)
 {
 	if (!pVal)
 		return E_INVALIDARG;
-	*pVal = stat.useful_remain;
+	*pVal = stat.UsefulRemain;
 	return S_OK;
 }
 
 STDMETHODIMP CResult::put_UsefulScrap(DOUBLE newVal)
 {
-	stat.useful_remain = newVal;
+	stat.UsefulRemain = newVal;
 	return S_OK;
 }
 
 STDMETHODIMP CResult::get_UnUsefulScrap(DOUBLE* pVal)
 {
-	*pVal = stat.unuseful_remain;
-
+	*pVal = stat.UnusefulRemain;
 	return S_OK;
 }
 
 STDMETHODIMP CResult::put_UnUsefulScrap(DOUBLE newVal)
 {
-	stat.unuseful_remain = newVal;
+	stat.UnusefulRemain = newVal;
 	return S_OK;
 }
 
 STDMETHODIMP CResult::get_UsefulNum(long* pVal)
 {
-	*pVal = stat.useful_num;
+	*pVal = stat.UsefulNum;
 	return S_OK;
 }
 
 STDMETHODIMP CResult::put_UsefulNum(long newVal)
 {
-	stat.useful_num = newVal;
+	stat.UsefulNum = newVal;
 	return S_OK;
 }
 
 STDMETHODIMP CResult::get_Opilki(DOUBLE* pVal)
 {
-	*pVal = stat.opilki;
+	*pVal = stat.Opilki;
 	return S_OK;
 }
 
 STDMETHODIMP CResult::put_Opilki(DOUBLE newVal)
 {
-	stat.opilki = newVal;
+	stat.Opilki = newVal;
 	return S_OK;
 }

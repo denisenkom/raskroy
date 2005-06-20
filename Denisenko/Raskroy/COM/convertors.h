@@ -13,7 +13,7 @@ Denisenko::Raskroy::t_parsed_cuts
 Denisenko::Raskroy::t_parsed_parts
 	convert(struct IParsedParts &Parts);
 
-Denisenko::Raskroy::t_stat
+Denisenko::Raskroy::Stat
 	convert(struct IStatistic &Statistic);
 
 Denisenko::Raskroy::Part

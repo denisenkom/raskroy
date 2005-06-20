@@ -36,7 +36,7 @@ void test_perebor()
 	rem.push_back(3);
 
 	Perebor p(rem, 4);
-	t_stat stat;
+	Stat stat;
 	t_raskroy::t_details det;
 	t_amounts rash;
 	scalar size = 260+4*4;
@@ -151,7 +151,7 @@ void test_gilotine()
 		Parser pr;
 		t_parsed_result pres;
 		pr.Parse(res, pres, g.get_SawThickness());
-		assert(pr.get_DetailsSummarySquare() == s.begin()->Rect.Square() - res.stat.opilki - res.stat.unuseful_remain - res.stat.useful_remain);
+		assert(pr.get_DetailsSummarySquare() == s.begin()->Rect.Square() - res.stat.Opilki - res.stat.UnusefulRemain - res.stat.UsefulRemain);
 		//stringstream fname;
 		//fname << "raskroy" << index++ << ".emf";
 		HDC hdcemf;

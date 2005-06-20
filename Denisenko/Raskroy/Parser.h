@@ -26,7 +26,7 @@ struct t_parsed_result
 {
 	t_parsed_parts parts;
 	t_parsed_cuts cuts;
-	t_stat stat;
+	Stat stat;
 	Part sheet;
 	unsigned amount;
 };

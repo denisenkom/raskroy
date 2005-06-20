@@ -47,7 +47,7 @@ bool Raskroy::NextResult(t_result& out)
 	bool first = true;
 	for (t_parts::iterator si = m_sheets.begin(); si != m_sheets.end(); si++)
 	{
-		t_stat stat(0);
+		Stat stat(0);
 		t_raskroy raskroy;
 		t_amounts rashod;
 		if (!m_perebor2d.Optimize(si->Rect, stat, 0, raskroy, rashod)

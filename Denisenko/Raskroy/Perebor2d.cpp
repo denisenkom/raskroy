@@ -14,10 +14,10 @@ const scalar MIN_USEFUL_SIZE2 = 200-34;
 //		[o] raskroy - раскрой листа
 //		[o] rashod - расход деталей
 //
-inline bool Perebor2d::Optimize(const Rect &rect, t_stat &stat, int s, t_raskroy &raskroy, t_amounts &rashod)
+inline bool Perebor2d::Optimize(const Rect &rect, Stat &stat, int s, t_raskroy &raskroy, t_amounts &rashod)
 {
 	// Пробуем расположить по размеру s
-	t_stat stat2(stat);
+	Stat stat2(stat);
 	if (Recursion(m_sizes[s].begin(), rect, stat, s, raskroy, rashod))
 	{
 		// Если удачно, то пробуем расположить по размеру !s
@@ -46,14 +46,14 @@ inline bool Perebor2d::Optimize(const Rect &rect, t_stat &stat, int s, t_raskroy
 //		[o] raskroy - раскрой листа
 //		[o] rashod - расход деталей
 //
-bool Perebor2d::Recursion(t_sizes::iterator begin, const Rect &rect, t_stat &stat, int s, t_raskroy &raskroy, t_amounts &rashod)
+bool Perebor2d::Recursion(t_sizes::iterator begin, const Rect &rect, Stat &stat, int s, t_raskroy &raskroy, t_amounts &rashod)
 {
 	if (begin == m_sizes[s].end())
 		// здесь может произойти зацикливание
 		return Recursion(m_sizes[!s].begin(), rect, stat, !s, raskroy, rashod);
 
 	bool first = true;
-	t_stat bestStat;	// лучшая статистика внутри цикла, при выходе прибавляется к входной статистике
+	Stat bestStat;	// лучшая статистика внутри цикла, при выходе прибавляется к входной статистике
 
 	// переменные располагаем здесь чтобы избежать лишней инициализации
 	t_amounts rashodPerebor, vrashod, rashod1;
@@ -92,7 +92,7 @@ bool Perebor2d::Recursion(t_sizes::iterator begin, const Rect &rect, t_stat &sta
 				maxKratnostj = kolKrat;
 		}
 
-		t_stat stat1(0);
+		Stat stat1(0);
 		/*stat1.useful_remain = 0;
 		stat1.unuseful_remain = 0;
 		stat1.useful_num = 0;*/
@@ -106,10 +106,10 @@ bool Perebor2d::Recursion(t_sizes::iterator begin, const Rect &rect, t_stat &sta
 				remainRect.Size[s] += i->size;
 			}
 			recurseRect.Size[s] -= reduce;
-			stat1.opilki = opilki1 * kratnostj + opilki2;
+			stat1.Opilki = opilki1 * kratnostj + opilki2;
 			if (recurseRect.Size[s] < 0)
 			{
-				stat1.opilki += rect.Size[!s] * recurseRect.Size[s];
+				stat1.Opilki += rect.Size[!s] * recurseRect.Size[s];
 				recurseRect.Size[s] = 0;
 			}
 
@@ -167,7 +167,7 @@ bool Perebor2d::Recursion(t_sizes::iterator begin, const Rect &rect, t_stat &sta
 	bool useful = (rect.Size[0] >= MIN_USEFUL_SIZE1 && rect.Size[1] >= MIN_USEFUL_SIZE2)
 		|| (rect.Size[1] >= MIN_USEFUL_SIZE1 && rect.Size[0] >= MIN_USEFUL_SIZE2);
 	assert(rem > 0);
-	useful ? stat.useful_remain += rem, stat.useful_num++ : stat.unuseful_remain += rem, stat.useful_num++;
+	useful ? stat.UsefulRemain += rem, stat.UsefulNum++ : stat.UnusefulRemain += rem, stat.UsefulNum++;
 	return false;
 }
 

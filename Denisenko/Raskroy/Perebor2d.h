@@ -14,7 +14,7 @@ class Perebor2d {
 	scalar *m_minSize;
 	Perebor m_perebor;
 
-	bool Recursion(t_sizes::iterator begin, const Rect&, t_stat&, int s, t_raskroy&, t_amounts &rashod);
+	bool Recursion(t_sizes::iterator begin, const Rect&, Stat&, int s, t_raskroy&, t_amounts &rashod);
 
 public:
 
@@ -23,7 +23,7 @@ public:
 
 	void put_SawThickness(double x) throw () {m_perebor.put_SawThickness(x);}
 	double get_SawThickness(void) throw () {return m_perebor.get_SawThickness();}
-	bool Optimize(const Rect&, t_stat&, int s, t_raskroy&, t_amounts &rashod);
+	bool Optimize(const Rect&, Stat&, int s, t_raskroy&, t_amounts &rashod);
 };
 
 } // namespace Denisenko

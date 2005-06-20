@@ -52,7 +52,7 @@ private:
 	long amount;
 	ISheet* isheet;
 	BSTR str;
-	Denisenko::Raskroy::t_stat stat;
+	Denisenko::Raskroy::Stat stat;
 public:
 	STDMETHOD(get_String)(BSTR* pVal);
 	STDMETHOD(put_String)(BSTR newVal);

@@ -300,10 +300,10 @@ IResult* convert(const t_parsed_result &res)
 				ss2 << wchar_t(*i) << wchar_t(*(i+1));
 		}*/
 		Result->put_String((BSTR)ss.c_str());
-		Result->put_UsefulScrap(res.stat.useful_remain);
-		Result->put_UsefulNum(res.stat.useful_num);
-		Result->put_UnUsefulScrap(res.stat.unuseful_remain);
-		Result->put_Opilki(res.stat.opilki);
+		Result->put_UsefulScrap(res.stat.UsefulRemain);
+		Result->put_UsefulNum(res.stat.UsefulNum);
+		Result->put_UnUsefulScrap(res.stat.UnusefulRemain);
+		Result->put_Opilki(res.stat.Opilki);
 	}
 	catch (...)
 	{

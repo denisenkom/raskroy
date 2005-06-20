@@ -38,47 +38,46 @@ struct Part {
 	}
 };	// 16+4+4+4+4=32B
 
-struct t_stat {
-	scalar opilki;
-	scalar useful_remain;
-	scalar unuseful_remain;
-	unsigned useful_num;
+typedef std::vector<Part> t_parts_vector;
+typedef std::list<Part> t_parts;
 
-	t_stat() {}
+struct Stat {
+	scalar Opilki;
+	scalar UsefulRemain;
+	scalar UnusefulRemain;
+	unsigned UsefulNum;
 
-	t_stat(int zero) : opilki(0), useful_remain(0),	unuseful_remain(0), useful_num(0) {}
+	Stat() {}
 
-	t_stat& operator += (const t_stat& x)
+	Stat(int zero) : Opilki(0), UsefulRemain(0), UnusefulRemain(0), UsefulNum(0) {}
+
+	Stat& operator += (const Stat& x)
 	{
-		opilki += x.opilki;
-		useful_remain += x.useful_remain;
-		unuseful_remain += x.unuseful_remain;
-		useful_num += x.useful_num;
+		Opilki += x.Opilki;
+		UsefulRemain += x.UsefulRemain;
+		UnusefulRemain += x.UnusefulRemain;
+		UsefulNum += x.UsefulNum;
 		return *this;
 	}
 
 	// меньше значит хуже
-	bool operator < (const t_stat &b)
+	bool operator < (const Stat &b)
 	{
-		if (useful_remain + unuseful_remain + opilki > b.useful_remain + b.unuseful_remain + b.opilki)
+		if (UsefulRemain + UnusefulRemain + Opilki > b.UsefulRemain + b.UnusefulRemain + b.Opilki)
 			return true;
-		if (useful_remain + unuseful_remain + opilki < b.useful_remain + b.unuseful_remain + b.opilki)
+		if (UsefulRemain + UnusefulRemain + Opilki < b.UsefulRemain + b.UnusefulRemain + b.Opilki)
 			return false;
-		/*if (opilki + unuseful_remain > b.opilki + b.unuseful_remain)
+		//if (Opilki + UnusefulRemain > b.Opilki + b.UnusefulRemain)
+		//	return true;
+		//if (Opilki + UnusefulRemain < b.Opilki + b.UnusefulRemain)
+		//	return false;
+		if (UsefulNum > b.UsefulNum)
 			return true;
-		if (opilki + unuseful_remain < b.opilki + b.unuseful_remain)
-			return false;*/
-		if (useful_num > b.useful_num)
-			return true;
-		//if (useful_num < b.useful_num)
+		//if (UsefulNum < b.UsefulNum)
 		//	return false;
 		return false;
 	}
 };
-
-typedef std::vector<Part> t_parts_vector;
-typedef std::list<Part> t_parts_list;
-typedef t_parts_list t_parts;
 
 struct t_raskroy {
 	struct t_detail {scalar size; unsigned num;};
@@ -122,7 +121,7 @@ private:
 struct t_result {
 	t_raskroy raskroy;
 	t_parts::iterator sheet;
-	t_stat stat;
+	Stat stat;
 	unsigned amount;
 
 	t_result(void) : amount(0) {}
