@@ -73,7 +73,7 @@ OtherSizes::iterator OtherSizes::Find(scalar size)
 	return end();
 }
 
-void OtherSizes::Prepare(void)
+void OtherSizes::SetMin(void)
 {
 	iterator min = begin();
 	for (iterator otherSize = begin(); otherSize != end(); otherSize++)
@@ -110,36 +110,11 @@ void Sizes::AddSize(scalar size, scalar otherSize, unsigned amount, Amounts &amo
 	}
 }
 
-// [io] sizes - входит массив из 2х не инициализированных списков размеров, выходят заполненные списки
-// [i] parts
-// [o] ammounts - выходит массив количеств деталей
-void Sizes::MakeList(Sizes sizes[], const Parts &parts, Amounts &amounts)
+void Sizes::AddPart(Part &part, unsigned s, Amounts &amounts)
 {
-	amounts.clear();
-	sizes[0].clear();
-	sizes[1].clear();
-	unsigned offset;
-	for (Parts::const_iterator pPart = parts.begin(); pPart != parts.end(); pPart++)
-	{
-		const Part &part = *pPart;
-		for (int s = 0; s != 2; s++)
-		{
-			sizes[s].AddSize(part.Rect.Size[s], part.Rect.Size[!s], part.Amount, amounts, s == 1, offset);
-			if (part.Rotate && part.Rect.Size[s] != part.Rect.Size[!s])
-				sizes[s].AddSize(part.Rect.Size[!s], part.Rect.Size[s], part.Amount, amounts, true, offset);
-		}
-	}
-	// Сортировка размеров
-	for (int s = 0; s != 2; s++)
-	{
-		std::sort(sizes[s].begin(), sizes[s].end());
-		for (Sizes::iterator pSize = sizes[s].begin(); pSize != sizes[s].end(); pSize++)
-		{
-			std::sort(pSize->OtherSizes.begin(), pSize->OtherSizes.end());
-			// установка указателя на минимальный размер
-			pSize->OtherSizes.Prepare();
-		}
-	}
+	AddSize(part.Rect.Size[s], part.Rect.Size[!s], part.Amount, amounts, s == 1, part.AmountOffset);
+	if (part.Rotate && part.Rect.Size[s] != part.Rect.Size[!s])
+		AddSize(part.Rect.Size[!s], part.Rect.Size[s], part.Amount, amounts, true, part.AmountOffset);
 }
 
 Amounts& Amounts::operator += (const Amounts &amounts)

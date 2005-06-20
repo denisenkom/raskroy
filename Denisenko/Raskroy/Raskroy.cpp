@@ -34,6 +34,27 @@ void Raskroy::RemoveExostedSizes(void)
 	}
 }
 
+void Raskroy::Begin(Parts &parts, const Parts &sheets)
+{
+	m_remains.clear();
+	for (int s = 0; s <= 1; s++)
+	{
+		m_sizes[s].clear();
+		for (Parts::iterator pPart = parts.begin(); pPart != parts.end(); pPart++)
+			m_sizes[s].AddPart(*pPart, s, m_remains);
+
+		// Сортировка размеров
+		std::sort(m_sizes[s].begin(), m_sizes[s].end());
+		for (Sizes::iterator pSize = m_sizes[s].begin(); pSize != m_sizes[s].end(); pSize++)
+		{
+			std::sort(pSize->OtherSizes.begin(), pSize->OtherSizes.end());
+			// установка указателя на минимальный размер
+			pSize->OtherSizes.SetMin();
+		}
+	}
+	m_sheets = sheets;
+}
+
 bool Raskroy::NextResult(t_result& out)
 {
 	// проверить остались ли детали

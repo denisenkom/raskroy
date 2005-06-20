@@ -26,6 +26,7 @@ struct Part {
 	Rect Rect;
 	bool Rotate;
 	unsigned Amount;
+	unsigned AmountOffset;
 
 	Part() {}
 	Part(scalar length, scalar width, bool rotate = false, unsigned amount = 0)
@@ -154,7 +155,7 @@ public:
 	iterator Min;
 
 	iterator Find(scalar size);
-	void Prepare(void);
+	void SetMin(void);
 };
 
 struct Size {
@@ -167,7 +168,7 @@ class Sizes : public std::vector<Size> {
 	iterator Find(scalar size);
 	void AddSize(scalar s, scalar otherSize, unsigned amount, Amounts &amounts, bool haveOffset, unsigned &offset);
 public:
-	static void MakeList(Sizes sizes[], const Parts &parts, Amounts &amounts);
+	void AddPart(Part &part, unsigned s, Amounts &amounts);
 };
 
 } // namespace Denisenko

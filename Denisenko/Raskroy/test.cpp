@@ -28,7 +28,7 @@ void test_perebor()
 	os.Offset = 1;
 	os.Value = 30;
 	sz.OtherSizes.push_back(os);
-	sz.OtherSizes.Prepare();
+	sz.OtherSizes.SetMin();
 
 	Amounts rem;
 	rem.push_back(1);
@@ -130,15 +130,6 @@ void test_gilotine()
 	//p.push_back(Part(625, 752, false, 1));
 	Parts s;
 
-	Sizes sizes[2];
-	Amounts am;
-	Sizes::MakeList(sizes, p, am);
-	/*cout << "displayng not sorted sizes\n";
-	display_sizes(sizes);
-	std::sort(sizes[0].begin(), sizes[0].end());
-	std::sort(sizes[1].begin(), sizes[1].end());*/
-	cout << "displayng sorted sizes\n";
-	display_sizes(sizes);
 
 	s.push_back(Part(1810, 1210));
 	//s.push_back(Part(1000, 1000));
