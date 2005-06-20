@@ -28,7 +28,7 @@ void test_perebor()
 	os.Offset = 1;
 	os.Value = 30;
 	sz.OtherSizes.push_back(os);
-	sz.OtherSizes.prepare();
+	sz.OtherSizes.Prepare();
 
 	t_amounts rem;
 	rem.push_back(1);
@@ -61,7 +61,7 @@ void display_sizes(t_sizes sizes[])
 		{
 			const Size &size = *i;
 			cout << size.Value << ": ";
-			for (t_other_sizes::const_iterator j = size.OtherSizes.begin(); j != size.OtherSizes.end(); j++)
+			for (OtherSizes::const_iterator j = size.OtherSizes.begin(); j != size.OtherSizes.end(); j++)
 				cout << j->Value << " ";
 			cout << endl;
 		}

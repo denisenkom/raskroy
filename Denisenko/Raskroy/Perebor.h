@@ -7,8 +7,8 @@ namespace Denisenko {
 namespace Raskroy {
 
 class Perebor {
-	t_other_sizes::const_iterator m_i;
-	t_other_sizes::const_iterator m_end;
+	OtherSizes::const_iterator m_i;
+	OtherSizes::const_iterator m_end;
 	t_amounts &m_remains;
 	scalar m_remain;
 	scalar m_sawThickness;

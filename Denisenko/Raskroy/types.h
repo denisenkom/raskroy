@@ -147,18 +147,18 @@ public:
 	bool operator < (const OtherSize& b) const {return Value < b.Value;}
 };
 
-class t_other_sizes : public std::vector<OtherSize>
+class OtherSizes : public std::vector<OtherSize>
 {
 public:
-	iterator min;
+	iterator Min;
 
-	iterator find(scalar size);
-	void prepare(void);
+	iterator Find(scalar size);
+	void Prepare(void);
 };
 
 struct Size {
 	scalar Value;
-	t_other_sizes OtherSizes;
+	OtherSizes OtherSizes;
 	bool operator < (const Size& b) const {return Value < b.Value;}
 };
 

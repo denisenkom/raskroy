@@ -11,7 +11,7 @@ void Raskroy::RemoveExostedSizes(void)
 	{
 		for (t_sizes::iterator size = m_sizes[s].begin(); size != m_sizes[s].end(); )
 		{
-			t_other_sizes::iterator otherSize = size->OtherSizes.begin();
+			OtherSizes::iterator otherSize = size->OtherSizes.begin();
 			while (otherSize != size->OtherSizes.end())
 			{
 				if (m_remains[otherSize->Offset] == 0)

@@ -53,22 +53,21 @@ void t_raskroy::attachRecurse(t_raskroy &recurse) {
 		precurse = new t_raskroy(recurse);
 }
 
-t_other_sizes::iterator t_other_sizes::find(scalar size)
+OtherSizes::iterator OtherSizes::Find(scalar size)
 {
-	for (iterator i = begin(); i != end(); i++)
-		if (i->Value == size)
-			return i;
+	for (iterator otherSize = begin(); otherSize != end(); otherSize++)
+		if (otherSize->Value == size)
+			return otherSize;
 	return end();
 }
 
-void t_other_sizes::prepare(void)
+void OtherSizes::Prepare(void)
 {
-	min = begin();
-	iterator i = begin();
-	i++;
-	for (; i != end(); i++)
-		if (i->Value < min->Value)
-			min = i;
+	iterator min = begin();
+	for (iterator otherSize = begin(); otherSize != end(); otherSize++)
+		if (otherSize->Value < min->Value)
+			min = otherSize;
+	Min = min;
 }
 
 t_sizes::iterator t_sizes::find(scalar size)
@@ -95,8 +94,8 @@ OtherSize t_sizes::make_other_size(scalar os, unsigned amount, t_amounts &amount
 
 void t_sizes::add_size(scalar s, scalar os, unsigned amount, t_amounts &amounts, bool have_offset, unsigned &offset)
 {
-	iterator i = find(s);
-	if (i == end())
+	iterator pSize = find(s);
+	if (pSize == end())
 	{
 		Size size;
 		size.Value = s;
@@ -105,11 +104,11 @@ void t_sizes::add_size(scalar s, scalar os, unsigned amount, t_amounts &amounts,
 	}
 	else
 	{
-		t_other_sizes::iterator j = i->OtherSizes.find(os);
-		if (j == i->OtherSizes.end())
-			i->OtherSizes.push_back(make_other_size(os, amount, amounts, have_offset, offset));
+		OtherSizes::iterator pOtherSize = pSize->OtherSizes.Find(os);
+		if (pOtherSize == pSize->OtherSizes.end())
+			pSize->OtherSizes.push_back(make_other_size(os, amount, amounts, have_offset, offset));
 		else
-			amounts[j->Offset] += amount;
+			amounts[pOtherSize->Offset] += amount;
 	}
 }
 
@@ -140,7 +139,7 @@ void t_sizes::make_list(t_sizes sizes[], const Parts &parts, t_amounts &amounts)
 		{
 			std::sort(i->OtherSizes.begin(), i->OtherSizes.end());
 			// установка указателя на минимальный размер
-			i->OtherSizes.prepare();
+			i->OtherSizes.Prepare();
 		}
 	}
 }

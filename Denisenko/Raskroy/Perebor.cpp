@@ -77,7 +77,7 @@ scalar Perebor::Recursion(scalar size, t_amounts &rashod)
 // ¬озвращает true если хот€ бы одна деталь установлена
 bool Perebor::make(const Size &size, scalar otherSize, t_raskroy::t_details &details, t_amounts &rashod)
 {
-	if (otherSize < size.OtherSizes.min->Value)
+	if (otherSize < size.OtherSizes.Min->Value)
 		return false;
 
 	// настройка переменных дл€ рекурсии
