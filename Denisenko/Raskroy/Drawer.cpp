@@ -86,10 +86,10 @@ void Drawer::ResetWnd(HWND hwnd)
 	assert(m_hdc);
 }
 
-void Drawer::Draw(int width, int height, const t_parsed_parts& parts, const t_parsed_cuts& cuts, const t_part& sheet)
+void Drawer::Draw(int width, int height, const t_parsed_parts& parts, const t_parsed_cuts& cuts, const Part& sheet)
 {
-    double scalex = width / sheet.rect.Size[0];
-    double scaley = height / sheet.rect.Size[1];
+    double scalex = width / sheet.Rect.Length;
+    double scaley = height / sheet.Rect.Width;
     double scale;
     if (scalex < scaley)
     	scale = scalex;
@@ -101,7 +101,7 @@ void Drawer::Draw(int width, int height, const t_parsed_parts& parts, const t_pa
 	// рисуем лист
 	hres = SelectObject(m_hdc, m_hhatchbrush);
 	assert(hres != NULL);
-	BOOL bres = Rectangle(m_hdc, 0, 0, int(sheet.rect.Size[0] * scale), int(sheet.rect.Size[1] * scale));
+	BOOL bres = Rectangle(m_hdc, 0, 0, int(sheet.Rect.Length * scale), int(sheet.Rect.Width * scale));
     assert(bres != FALSE);
 
 	// рисуем детали
@@ -112,14 +112,14 @@ void Drawer::Draw(int width, int height, const t_parsed_parts& parts, const t_pa
     	RECT Rect;
         Rect.left = LONG(i->pos[0] * scale);
         Rect.top = LONG(i->pos[1] * scale);
-        Rect.right = LONG((i->pos[0] + i->rect.Size[0]) * scale);
-        Rect.bottom = LONG((i->pos[1] + i->rect.Size[1]) * scale);
+        Rect.right = LONG((i->pos[0] + i->rect.Length) * scale);
+        Rect.bottom = LONG((i->pos[1] + i->rect.Width) * scale);
 		bres = Rectangle(m_hdc, Rect.left, Rect.top, Rect.right, Rect.bottom);
     	assert(bres != FALSE);
 		int par2 = 0, par3 = 0;
-		std::string str(fcvt(i->rect.Size[0], 0, &par2, &par3));
+		std::string str(fcvt(i->rect.Length, 0, &par2, &par3));
 		str += "x";
-		str += fcvt(i->rect.Size[1], 0, &par2, &par3);
+		str += fcvt(i->rect.Width, 0, &par2, &par3);
 		int ires = DrawText(m_hdc, str.c_str(), int(str.length()), &Rect, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
 		assert(ires != 0);
     }}

@@ -62,19 +62,19 @@ t_parsed_parts convert(IParsedParts &Parts)
 	return parts;
 }
 
-t_part convert(ISheet &Sheet)
+Part convert(ISheet &Sheet)
 {
-	t_part part;
-	Sheet.get_Length(&part.rect.Length);
-	Sheet.get_Width(&part.rect.Width);
+	Part part;
+	Sheet.get_Length(&part.Rect.Length);
+	Sheet.get_Width(&part.Rect.Width);
 
 	BOOL rotate;
 	Sheet.get_Rotate(&rotate);
-	part.rotate = rotate == -1 ? true : false;
+	part.Rotate = rotate == -1 ? true : false;
 
 	long amount;
 	Sheet.get_Amount(&amount);
-	part.amount = amount;
+	part.Amount = amount;
 
 	return part;
 }
@@ -196,21 +196,17 @@ IParsedParts* convert(const t_parsed_parts &parts)
 	return res;
 }
 
-ISheet* convert(const t_part &part)
+ISheet* convert(const Part &part)
 {
 	ISheet *Sheet;
 	HRESULT hres;
 	if (FAILED(hres = CSheet::CreateInstance<ISheet>(NULL, &Sheet)))
 		throw error_COM("Cannot create Sheet", hres);
 
-	double length = part.rect.Length;
-	Sheet->put_Length(length);
-	double width = part.rect.Width;
-	Sheet->put_Width(width);
-	BOOL rotate = part.rotate;
-	Sheet->put_Rotate(rotate);
-	long amount = part.amount;
-	Sheet->put_Amount(amount);
+	Sheet->put_Length(part.Rect.Length);
+	Sheet->put_Width(part.Rect.Width);
+	Sheet->put_Rotate(part.Rotate);
+	Sheet->put_Amount(part.Amount);
 
 	return Sheet;
 }
@@ -271,8 +267,8 @@ IResult* convert(const t_parsed_result &res)
 		Result->put_Amount(amount);
 
 		//ss.exceptions(std::ios::eofbit | std::ios::badbit);
-		writefn(ss, res.sheet.rect.Length);	// Длина
-		writefn(ss, res.sheet.rect.Width);	// Ширина
+		writefn(ss, res.sheet.Rect.Length);	// Длина
+		writefn(ss, res.sheet.Rect.Width);	// Ширина
 		writefn(ss, res.amount);	// Количество листов
 		short x = res.parts.size();
 		writefn(ss, x);	// Количество деталей
@@ -321,8 +317,8 @@ IResult* convert(const t_parsed_result &res)
 t_parsed_result convert(BSTR str)
 {
 	t_parsed_result res;
-	readfn(str, res.sheet.rect.Length);
-	readfn(str, res.sheet.rect.Width);
+	readfn(str, res.sheet.Rect.Length);
+	readfn(str, res.sheet.Rect.Width);
 	readfn(str, res.amount);	// Количество листов
 	short x;
 	readfn(str, x);	// Количество деталей

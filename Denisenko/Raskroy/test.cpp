@@ -103,30 +103,30 @@ void test_gilotine()
 	Raskroy g;
 	t_parts p;
 
-	p.push_back(t_part(900, 605, true, 2));
-	p.push_back(t_part(630, 600, true, 2));
+	p.push_back(Part(900, 605, true, 2));
+	p.push_back(Part(630, 600, true, 2));
 
-	//p.push_back(t_part(480, 625, true, 5));
-	//p.push_back(t_part(150, 395, true, 1));
+	//p.push_back(Part(480, 625, true, 5));
+	//p.push_back(Part(150, 395, true, 1));
 
-	//p.push_back(t_part(480, 625, true, 6));
-	//p.push_back(t_part(867, 70, true, 2));
+	//p.push_back(Part(480, 625, true, 6));
+	//p.push_back(Part(867, 70, true, 2));
 
-	//p.push_back(t_part(480, 625, true, 5));
-	//p.push_back(t_part(400, 565, true, 1));
+	//p.push_back(Part(480, 625, true, 5));
+	//p.push_back(Part(400, 565, true, 1));
 
-	//p.push_back(t_part(590, 515, true, 1));
-	//p.push_back(t_part(625, 515, true, 2));
-	//p.push_back(t_part(640, 515, true, 2));
-	//p.push_back(t_part(790, 290, true, 4));
-	//p.push_back(t_part(480, 290, true, 2));
-	//p.push_back(t_part(605, 290, true, 4));
-	//p.push_back(t_part(790, 333, true, 1));
-	//p.push_back(t_part(331, 274, true, 4));
+	//p.push_back(Part(590, 515, true, 1));
+	//p.push_back(Part(625, 515, true, 2));
+	//p.push_back(Part(640, 515, true, 2));
+	//p.push_back(Part(790, 290, true, 4));
+	//p.push_back(Part(480, 290, true, 2));
+	//p.push_back(Part(605, 290, true, 4));
+	//p.push_back(Part(790, 333, true, 1));
+	//p.push_back(Part(331, 274, true, 4));
 
-	//p.push_back(t_part(625, 600, false, 1));
-	//p.push_back(t_part(625, 769, false, 1));
-	//p.push_back(t_part(625, 752, false, 1));
+	//p.push_back(Part(625, 600, false, 1));
+	//p.push_back(Part(625, 769, false, 1));
+	//p.push_back(Part(625, 752, false, 1));
 	t_parts s;
 
 	t_sizes sizes[2];
@@ -139,8 +139,8 @@ void test_gilotine()
 	cout << "displayng sorted sizes\n";
 	display_sizes(sizes);
 
-	s.push_back(t_part(1810, 1210));
-	//s.push_back(t_part(1000, 1000));
+	s.push_back(Part(1810, 1210));
+	//s.push_back(Part(1000, 1000));
 	t_result res;
 	g.Begin(p, s);
 	//int index = 1;
@@ -151,7 +151,7 @@ void test_gilotine()
 		Parser pr;
 		t_parsed_result pres;
 		pr.Parse(res, pres, g.get_SawThickness());
-		assert(pr.get_DetailsSummarySquare() == s.begin()->rect.Square() - res.stat.opilki - res.stat.unuseful_remain - res.stat.useful_remain);
+		assert(pr.get_DetailsSummarySquare() == s.begin()->Rect.Square() - res.stat.opilki - res.stat.unuseful_remain - res.stat.useful_remain);
 		//stringstream fname;
 		//fname << "raskroy" << index++ << ".emf";
 		HDC hdcemf;

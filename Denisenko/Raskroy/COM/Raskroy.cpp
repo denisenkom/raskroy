@@ -42,7 +42,7 @@ STDMETHODIMP CRaskroy::NextResult(IResult **pResult, BOOL *bRes)
 		ss << L"На листах:\n";
 		for (t_parts::const_iterator i = ex.sheets.begin(); i != ex.sheets.end(); i++)
 		{
-			ss << i->rect.Size[0] << L'x' << i->rect.Size[1] << L' ';
+			ss << i->Rect.Size[0] << L'x' << i->Rect.Size[1] << L' ';
 		}
 		ss << L"\nнельзя расположить детали с длиной:\n";
 		for (t_sizes::const_iterator i = ex.sizes[0].begin(); i != ex.sizes[0].end(); i++)

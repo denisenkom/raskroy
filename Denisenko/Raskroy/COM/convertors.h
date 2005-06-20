@@ -16,7 +16,7 @@ Denisenko::Raskroy::t_parsed_parts
 Denisenko::Raskroy::t_stat
 	convert(struct IStatistic &Statistic);
 
-Denisenko::Raskroy::t_part
+Denisenko::Raskroy::Part
 	convert(struct ISheet &Sheet);
 
 Denisenko::Raskroy::t_parts

@@ -124,12 +124,12 @@ void t_sizes::make_list(t_sizes sizes[], const t_parts &parts, t_amounts &amount
 	unsigned offset;
 	for (t_parts::const_iterator i = parts.begin(); i != parts.end(); i++)
 	{
-		const t_part &part = *i;
+		const Part &part = *i;
 		for (int s = 0; s != 2; s++)
 		{
-			sizes[s].add_size(part.rect.Size[s], part.rect.Size[!s], part.amount, amounts, s == 1, offset);
-			if (part.rotate && part.rect.Size[s] != part.rect.Size[!s])
-				sizes[s].add_size(part.rect.Size[!s], part.rect.Size[s], part.amount, amounts, true, offset);
+			sizes[s].add_size(part.Rect.Size[s], part.Rect.Size[!s], part.Amount, amounts, s == 1, offset);
+			if (part.Rotate && part.Rect.Size[s] != part.Rect.Size[!s])
+				sizes[s].add_size(part.Rect.Size[!s], part.Rect.Size[s], part.Amount, amounts, true, offset);
 		}
 	}
 	// Сортировка размеров

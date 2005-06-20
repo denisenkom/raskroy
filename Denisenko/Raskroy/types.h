@@ -22,19 +22,19 @@ struct Rect {
 	scalar Square() const {return Length * Width;}
 };
 
-struct t_part {
-	Rect rect;
-	bool rotate;
-	unsigned amount;
+struct Part {
+	Rect Rect;
+	bool Rotate;
+	unsigned Amount;
 
-	t_part() {}
-	t_part(scalar len, scalar wid, bool rotate=false, unsigned amount=0)
-		: rect(len, wid), rotate(rotate), amount(amount) {}
+	Part() {}
+	Part(scalar length, scalar width, bool rotate = false, unsigned amount = 0)
+		: Rect(length, width), Rotate(rotate), Amount(amount) {}
 
-	bool operator==(const t_part& b) const
+	bool operator == (const Part& b) const
 	{
-		return rect.Length == b.rect.Length && rect.Width == b.rect.Width &&
-			rotate == b.rotate;
+		return Rect.Length == b.Rect.Length && Rect.Width == b.Rect.Width &&
+			Rotate == b.Rotate;
 	}
 };	// 16+4+4+4+4=32B
 
@@ -87,8 +87,8 @@ struct t_parsed_cut {
 	unsigned s;	// пил по 0=длине или 1=ширине
 };
 
-typedef std::vector<t_part> t_parts_vector;
-typedef std::list<t_part> t_parts_list;
+typedef std::vector<Part> t_parts_vector;
+typedef std::list<Part> t_parts_list;
 typedef t_parts_list t_parts;
 
 struct t_raskroy {

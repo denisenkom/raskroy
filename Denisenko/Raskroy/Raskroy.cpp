@@ -50,14 +50,14 @@ bool Raskroy::NextResult(t_result& out)
 		t_stat stat(0);
 		t_raskroy raskroy;
 		t_amounts rashod;
-		if (!m_perebor2d.Optimize(si->rect, stat, 0, raskroy, rashod)
+		if (!m_perebor2d.Optimize(si->Rect, stat, 0, raskroy, rashod)
 			&& !first
 			&& !(/*pcriteria->quality(*/bestResult.stat/*)*/ < /*pcriteria->quality(*/stat/*)*/))
 			continue;
 
 		bestResult.amount = m_remains / rashod;
 		if (ControlRemains)
-			if (bestResult.amount > si->amount) // недостаточно листов
+			if (bestResult.amount > si->Amount) // недостаточно листов
 				continue;
 
 		bestResult.stat = stat;
@@ -72,7 +72,7 @@ bool Raskroy::NextResult(t_result& out)
 	m_remains -= bestRashod * bestResult.amount;
 	RemoveExostedSizes();
 	if (ControlRemains)
-		bestResult.sheet->amount -= bestResult.amount;
+		bestResult.sheet->Amount -= bestResult.amount;
 	out = bestResult;
 	return true;
 }
