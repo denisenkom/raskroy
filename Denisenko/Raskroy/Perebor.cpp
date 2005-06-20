@@ -75,7 +75,7 @@ scalar Perebor::Recursion(scalar i_size, Amounts &o_rashods)
 //		[o] details - расположение деталей, на вход подается пустой контейнер
 //		[o] rashod - расход деталей
 // Возвращает true если хотя бы одна деталь установлена
-bool Perebor::Make(const Size &size, scalar otherSize, t_raskroy::t_details &details, Amounts &rashods, scalar &o_remain, scalar &o_opilki)
+bool Perebor::Make(const Size &size, scalar otherSize, t_raskroy::t_details &o_details, Amounts &o_rashods, scalar &o_remain, scalar &o_opilki)
 {
 	if (otherSize < size.OtherSizes.Min->Value)
 		return false;
@@ -85,20 +85,20 @@ bool Perebor::Make(const Size &size, scalar otherSize, t_raskroy::t_details &det
 	m_pEndOtherSize = size.OtherSizes.end();
 	m_pEndOtherSize--;
 	// рекурсивный подбор для размеров [i..end]
-	scalar remain = Recursion(otherSize, rashods);
+	scalar remain = Recursion(otherSize, o_rashods);
 	if (remain == otherSize)	// если ничего небыло расположено
 		return false;
 
 	unsigned cuts = 0;// количество пилов
 	for (OtherSizes::const_iterator pOtherSize = size.OtherSizes.begin(); pOtherSize != size.OtherSizes.end(); pOtherSize++)
 	{
-		unsigned rashod = rashods[pOtherSize->Offset];
+		unsigned rashod = o_rashods[pOtherSize->Offset];
 		if (rashod > 0)
 		{
 			t_raskroy::t_detail detail;
 			detail.size = pOtherSize->Value;
 			detail.num = rashod;
-			details.push_back(detail);
+			o_details.push_back(detail);
 			cuts += rashod;	// количество пилов
 		}
 	}
