@@ -9,26 +9,27 @@ void Raskroy::RemoveExostedSizes(void)
 {
 	for (unsigned s = 0; s <= 1; s++)
 	{
-		for (Sizes::iterator size = m_sizes[s].begin(); size != m_sizes[s].end(); )
+		Sizes::iterator pSize = m_sizes[s].begin();
+		while (pSize != m_sizes[s].end())
 		{
-			OtherSizes::iterator otherSize = size->OtherSizes.begin();
-			while (otherSize != size->OtherSizes.end())
+			OtherSizes::iterator pOtherSize = pSize->OtherSizes.begin();
+			while (pOtherSize != pSize->OtherSizes.end())
 			{
-				if (m_remains[otherSize->Offset] == 0)
+				if (m_remains[pOtherSize->Offset] == 0)
 				{
-					size->OtherSizes.erase(otherSize);
-					otherSize = size->OtherSizes.begin();
+					pSize->OtherSizes.erase(pOtherSize);
+					pOtherSize = pSize->OtherSizes.begin();
 				}
 				else
-					otherSize++;
+					pOtherSize++;
 			}
-			if (size->OtherSizes.empty())
+			if (pSize->OtherSizes.empty())
 			{
-				m_sizes[s].erase(size);
-				size = m_sizes[s].begin();
+				m_sizes[s].erase(pSize);
+				pSize = m_sizes[s].begin();
 			}
 			else
-				size++;
+				pSize++;
 		}
 	}
 }
@@ -36,35 +37,34 @@ void Raskroy::RemoveExostedSizes(void)
 bool Raskroy::NextResult(t_result& out)
 {
 	// проверить остались ли детали
-	for (Amounts::const_iterator i = m_remains.begin(); i != m_remains.end(); i++)
-		if (*i > 0)
+	Amounts::const_iterator pRemain = m_remains.begin();
+	for (; pRemain != m_remains.end(); pRemain++)
+		if (*pRemain > 0)
 			break;
-	if (i == m_remains.end())
+	if (pRemain == m_remains.end())
 		return false; // детали кончились
 
 	t_result bestResult;
 	Amounts bestRashod;
 	bool first = true;
-	for (Parts::iterator si = m_sheets.begin(); si != m_sheets.end(); si++)
+	for (Parts::iterator pSheet = m_sheets.begin(); pSheet != m_sheets.end(); pSheet++)
 	{
 		Stat stat(0);
 		t_raskroy raskroy;
 		Amounts rashod;
-		if (!m_perebor2d.Optimize(si->Rect, stat, 0, raskroy, rashod)
-			&& !first
-			&& !(/*pcriteria->quality(*/bestResult.stat/*)*/ < /*pcriteria->quality(*/stat/*)*/))
+		if (!m_perebor2d.Optimize(pSheet->Rect, stat, 0, raskroy, rashod))
 			continue;
+		if (bestResult.stat < stat || first) {
+			bestResult.amount = m_remains / rashod;
+			if (ControlRemains && bestResult.amount > pSheet->Amount)
+				continue; // недостаточно листов
 
-		bestResult.amount = m_remains / rashod;
-		if (ControlRemains)
-			if (bestResult.amount > si->Amount) // недостаточно листов
-				continue;
-
-		bestResult.stat = stat;
-		bestResult.raskroy = raskroy;
-		bestResult.sheet = si;
-		bestRashod = rashod;
-		first = false;
+			bestResult.stat = stat;
+			bestResult.raskroy = raskroy;
+			bestResult.sheet = pSheet;
+			bestRashod = rashod;
+			first = false;
+		}
 	}
 	if (first)
 		throw err_cannot_set_parts(m_sheets, m_sizes, m_remains);
