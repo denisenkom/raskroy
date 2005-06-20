@@ -126,15 +126,15 @@ struct t_result {
 	t_result(void) : amount(0) {}
 };
 
-class t_amounts : public std::vector<unsigned> {
+class Amounts : public std::vector<unsigned> {
 public:
-	t_amounts& operator += (const t_amounts &amounts);
-	t_amounts& operator -= (const t_amounts &amounts);
-	t_amounts& operator *= (unsigned n);
-	unsigned operator / (const t_amounts&) const;
-	t_amounts operator * (unsigned n) const;
-	t_amounts operator - (const t_amounts &amounts) const;
-	t_amounts operator + (const t_amounts &b) const {t_amounts res(*this); return (res += b);};
+	Amounts& operator += (const Amounts &amounts);
+	Amounts& operator -= (const Amounts &amounts);
+	Amounts& operator *= (unsigned n);
+	unsigned operator / (const Amounts&) const;
+	Amounts operator * (unsigned n) const;
+	Amounts operator - (const Amounts &amounts) const;
+	Amounts operator + (const Amounts &b) const {Amounts res(*this); return (res += b);};
 };
 
 class OtherSize
@@ -144,6 +144,7 @@ public:
 	unsigned Offset;
 
 	OtherSize(void) {};
+	OtherSize(scalar value, unsigned amount, Amounts &amounts, bool haveOffset, unsigned &offset);
 	bool operator < (const OtherSize& b) const {return Value < b.Value;}
 };
 
@@ -164,10 +165,9 @@ struct Size {
 
 class Sizes : public std::vector<Size> {
 	iterator Find(scalar size);
-	OtherSize MakeOtherSize(scalar os, unsigned amount, t_amounts &amounts, bool have_offset, unsigned &offset);
-	void AddSize(scalar s, scalar os, unsigned amount, t_amounts &amounts, bool have_offset, unsigned &offset);
+	void AddSize(scalar s, scalar otherSize, unsigned amount, Amounts &amounts, bool haveOffset, unsigned &offset);
 public:
-	static void MakeList(Sizes sizes[], const Parts &parts, t_amounts &amounts);
+	static void MakeList(Sizes sizes[], const Parts &parts, Amounts &amounts);
 };
 
 } // namespace Denisenko

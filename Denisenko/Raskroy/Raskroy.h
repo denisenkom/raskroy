@@ -13,7 +13,7 @@ class Raskroy {
 	//criteria default_criteria;
 	//const criteria* pcriteria;
 
-	t_amounts m_remains;
+	Amounts m_remains;
 
 	Sizes m_sizes[2];
 	scalar m_minSize[2];

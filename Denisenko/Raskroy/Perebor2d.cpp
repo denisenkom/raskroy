@@ -14,14 +14,14 @@ const scalar MIN_USEFUL_SIZE2 = 200-34;
 //		[o] raskroy - раскрой листа
 //		[o] rashod - расход деталей
 //
-inline bool Perebor2d::Optimize(const Rect &rect, Stat &stat, int s, t_raskroy &raskroy, t_amounts &rashod)
+inline bool Perebor2d::Optimize(const Rect &rect, Stat &stat, int s, t_raskroy &raskroy, Amounts &rashod)
 {
 	// Пробуем расположить по размеру s
 	Stat stat2(stat);
 	if (Recursion(m_sizes[s].begin(), rect, stat, s, raskroy, rashod))
 	{
 		// Если удачно, то пробуем расположить по размеру !s
-		t_amounts rashod2;
+		Amounts rashod2;
 		t_raskroy raskroy2;
 		if (Recursion(m_sizes[!s].begin(), rect, stat2, !s, raskroy2, rashod2)
 			&& /*pcriteria->quality(*/stat/*)*/ < /*pcriteria->quality(*/stat2/*)*/)
@@ -46,7 +46,7 @@ inline bool Perebor2d::Optimize(const Rect &rect, Stat &stat, int s, t_raskroy &
 //		[o] raskroy - раскрой листа
 //		[o] rashod - расход деталей
 //
-bool Perebor2d::Recursion(Sizes::iterator begin, const Rect &rect, Stat &stat, int s, t_raskroy &raskroy, t_amounts &rashod)
+bool Perebor2d::Recursion(Sizes::iterator begin, const Rect &rect, Stat &stat, int s, t_raskroy &raskroy, Amounts &rashod)
 {
 	if (begin == m_sizes[s].end())
 		// здесь может произойти зацикливание
@@ -56,7 +56,7 @@ bool Perebor2d::Recursion(Sizes::iterator begin, const Rect &rect, Stat &stat, i
 	Stat bestStat;	// лучшая статистика внутри цикла, при выходе прибавляется к входной статистике
 
 	// переменные располагаем здесь чтобы избежать лишней инициализации
-	t_amounts rashodPerebor, vrashod, rashod1;
+	Amounts rashodPerebor, vrashod, rashod1;
 	t_raskroy remainRaskroy;	
 	t_raskroy recurseRaskroy;
 	for (Sizes::iterator i = begin; i != m_sizes[s].end(); i++)

@@ -9,12 +9,12 @@ namespace Raskroy {
 class Perebor {
 	OtherSizes::const_iterator m_i;
 	OtherSizes::const_iterator m_end;
-	t_amounts &m_remains;
+	Amounts &m_remains;
 	scalar m_remain;
 	scalar m_sawThickness;
 	scalar m_opilki;
 
-	scalar Recursion(scalar size, t_amounts &rashod);
+	scalar Recursion(scalar size, Amounts &rashod);
 
 public:
 
@@ -23,8 +23,8 @@ public:
 	scalar get_Remain() {return m_remain;}
 	scalar get_Opilki() {return m_opilki;}
 
-	Perebor(t_amounts &remains, scalar sawThickness) : m_remains(remains), m_sawThickness(sawThickness) {}
-	bool make(const Size &size, scalar otherSize, t_raskroy::t_details&, t_amounts &rashod);
+	Perebor(Amounts &remains, scalar sawThickness) : m_remains(remains), m_sawThickness(sawThickness) {}
+	bool make(const Size &size, scalar otherSize, t_raskroy::t_details&, Amounts &rashod);
 };
 
 } // namespace Denisenko

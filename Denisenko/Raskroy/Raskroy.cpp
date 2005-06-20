@@ -36,20 +36,20 @@ void Raskroy::RemoveExostedSizes(void)
 bool Raskroy::NextResult(t_result& out)
 {
 	// проверить остались ли детали
-	for (t_amounts::const_iterator i = m_remains.begin(); i != m_remains.end(); i++)
+	for (Amounts::const_iterator i = m_remains.begin(); i != m_remains.end(); i++)
 		if (*i > 0)
 			break;
 	if (i == m_remains.end())
 		return false; // детали кончились
 
 	t_result bestResult;
-	t_amounts bestRashod;
+	Amounts bestRashod;
 	bool first = true;
 	for (Parts::iterator si = m_sheets.begin(); si != m_sheets.end(); si++)
 	{
 		Stat stat(0);
 		t_raskroy raskroy;
-		t_amounts rashod;
+		Amounts rashod;
 		if (!m_perebor2d.Optimize(si->Rect, stat, 0, raskroy, rashod)
 			&& !first
 			&& !(/*pcriteria->quality(*/bestResult.stat/*)*/ < /*pcriteria->quality(*/stat/*)*/))

@@ -30,7 +30,7 @@ void test_perebor()
 	sz.OtherSizes.push_back(os);
 	sz.OtherSizes.Prepare();
 
-	t_amounts rem;
+	Amounts rem;
 	rem.push_back(1);
 	rem.push_back(2);
 	rem.push_back(3);
@@ -38,7 +38,7 @@ void test_perebor()
 	Perebor p(rem, 4);
 	Stat stat;
 	t_raskroy::t_details det;
-	t_amounts rash;
+	Amounts rash;
 	scalar size = 260+4*4;
 	bool res = p.make(sz, size, det, rash);
 	if (res == true)
@@ -131,7 +131,7 @@ void test_gilotine()
 	Parts s;
 
 	Sizes sizes[2];
-	t_amounts am;
+	Amounts am;
 	Sizes::MakeList(sizes, p, am);
 	/*cout << "displayng not sorted sizes\n";
 	display_sizes(sizes);

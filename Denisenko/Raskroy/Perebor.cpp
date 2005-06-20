@@ -11,7 +11,7 @@ namespace Raskroy {
 //	[io] i
 //	[i] end
 //	[i] remains
-scalar Perebor::Recursion(scalar size, t_amounts &rashod)
+scalar Perebor::Recursion(scalar size, Amounts &rashod)
 {
 	scalar register size1;
 	unsigned n;
@@ -21,7 +21,7 @@ scalar Perebor::Recursion(scalar size, t_amounts &rashod)
 		scalar best = size;
 		bool first = true;
 		size1 = size;
-		t_amounts rashod1;
+		Amounts rashod1;
 		unsigned remain = m_remains[m_i->Offset];
 		while (n <= remain && size1 > m_sawThickness)
 		{
@@ -75,7 +75,7 @@ scalar Perebor::Recursion(scalar size, t_amounts &rashod)
 //		[o] details - расположение деталей, на вход подается пустой контейнер
 //		[o] rashod - расход деталей
 // Возвращает true если хотя бы одна деталь установлена
-bool Perebor::make(const Size &size, scalar otherSize, t_raskroy::t_details &details, t_amounts &rashod)
+bool Perebor::make(const Size &size, scalar otherSize, t_raskroy::t_details &details, Amounts &rashod)
 {
 	if (otherSize < size.OtherSizes.Min->Value)
 		return false;

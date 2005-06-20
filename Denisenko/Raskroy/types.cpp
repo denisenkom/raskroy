@@ -53,6 +53,18 @@ void t_raskroy::attachRecurse(t_raskroy &recurse) {
 		precurse = new t_raskroy(recurse);
 }
 
+OtherSize::OtherSize(scalar value, unsigned amount, Amounts &amounts, bool haveOffset, unsigned &offset)
+: Value(value)
+{
+	if (haveOffset)
+		Offset = offset;
+	else
+	{
+		Offset = offset = unsigned(amounts.size());
+		amounts.push_back(amount);
+	}
+}
+
 OtherSizes::iterator OtherSizes::Find(scalar size)
 {
 	for (iterator otherSize = begin(); otherSize != end(); otherSize++)
@@ -78,35 +90,21 @@ Sizes::iterator Sizes::Find(scalar size)
 	return end();
 }
 
-OtherSize Sizes::MakeOtherSize(scalar os, unsigned amount, t_amounts &amounts, bool haveOffset, unsigned &offset)
+void Sizes::AddSize(scalar size, scalar otherSize, unsigned amount, Amounts &amounts, bool haveOffset, unsigned &offset)
 {
-	OtherSize otherSize;
-	otherSize.Value = os;
-	if (!haveOffset)
-	{
-		otherSize.Offset = offset = unsigned(amounts.size());
-		amounts.push_back(amount);
-	}
-	else
-		otherSize.Offset = offset;
-	return otherSize;
-}
-
-void Sizes::AddSize(scalar s, scalar os, unsigned amount, t_amounts &amounts, bool have_offset, unsigned &offset)
-{
-	iterator pSize = Find(s);
+	iterator pSize = Find(size);
 	if (pSize == end())
 	{
-		Size size;
-		size.Value = s;
-		size.OtherSizes.push_back(MakeOtherSize(os, amount, amounts, have_offset, offset));
-		push_back(size);
+		Size newSize;
+		newSize.Value = size;
+		newSize.OtherSizes.push_back(OtherSize(otherSize, amount, amounts, haveOffset, offset));
+		push_back(newSize);
 	}
 	else
 	{
-		OtherSizes::iterator pOtherSize = pSize->OtherSizes.Find(os);
+		OtherSizes::iterator pOtherSize = pSize->OtherSizes.Find(otherSize);
 		if (pOtherSize == pSize->OtherSizes.end())
-			pSize->OtherSizes.push_back(MakeOtherSize(os, amount, amounts, have_offset, offset));
+			pSize->OtherSizes.push_back(OtherSize(otherSize, amount, amounts, haveOffset, offset));
 		else
 			amounts[pOtherSize->Offset] += amount;
 	}
@@ -115,7 +113,7 @@ void Sizes::AddSize(scalar s, scalar os, unsigned amount, t_amounts &amounts, bo
 // [io] sizes - входит массив из 2х не инициализированных списков размеров, выходят заполненные списки
 // [i] parts
 // [o] ammounts - выходит массив количеств деталей
-void Sizes::MakeList(Sizes sizes[], const Parts &parts, t_amounts &amounts)
+void Sizes::MakeList(Sizes sizes[], const Parts &parts, Amounts &amounts)
 {
 	amounts.clear();
 	sizes[0].clear();
@@ -144,7 +142,7 @@ void Sizes::MakeList(Sizes sizes[], const Parts &parts, t_amounts &amounts)
 	}
 }
 
-t_amounts& t_amounts::operator += (const t_amounts &amounts)
+Amounts& Amounts::operator += (const Amounts &amounts)
 {
 	assert(size() == amounts.size());
 	iterator i1 = begin();
@@ -154,7 +152,7 @@ t_amounts& t_amounts::operator += (const t_amounts &amounts)
 	return *this;
 }
 
-t_amounts& t_amounts::operator -= (const t_amounts &amounts)
+Amounts& Amounts::operator -= (const Amounts &amounts)
 {
 	assert(size() == amounts.size());
 	iterator i1 = begin();
@@ -164,7 +162,7 @@ t_amounts& t_amounts::operator -= (const t_amounts &amounts)
 	return *this;
 }
 
-t_amounts& t_amounts::operator *= (unsigned n)
+Amounts& Amounts::operator *= (unsigned n)
 {
 	if (n == 1)
 		return *this;
@@ -178,10 +176,10 @@ t_amounts& t_amounts::operator *= (unsigned n)
 	return *this;
 }
 
-t_amounts t_amounts::operator - (const t_amounts &a2) const
+Amounts Amounts::operator - (const Amounts &a2) const
 {
 	assert(size() == a2.size());
-	t_amounts res;
+	Amounts res;
 	res.resize(size());
 	const_iterator i1 = begin();
 	const_iterator i2 = a2.begin();
@@ -193,11 +191,11 @@ t_amounts t_amounts::operator - (const t_amounts &a2) const
 	return res;
 }
 
-t_amounts t_amounts::operator * (unsigned n) const
+Amounts Amounts::operator * (unsigned n) const
 {
 	if (n == 1)
 		return *this;
-	t_amounts res;
+	Amounts res;
 	res.resize(size());
 	if (n == 0)
 	{
@@ -213,7 +211,7 @@ t_amounts t_amounts::operator * (unsigned n) const
 	return res;
 }
 
-unsigned t_amounts::operator / (const t_amounts &a2) const
+unsigned Amounts::operator / (const Amounts &a2) const
 {
 	assert(size() == a2.size());
 	unsigned mind;

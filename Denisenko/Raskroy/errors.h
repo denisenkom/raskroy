@@ -10,11 +10,11 @@ class err_cannot_set_parts {
 public:
 	Parts &sheets;
 	Sizes *sizes;
-	t_amounts &remains;
+	Amounts &remains;
 
 	err_cannot_set_parts(Parts &sheets,
 		Sizes sizes[],
-		t_amounts &remains)
+		Amounts &remains)
 		: sheets(sheets),
 			sizes(sizes),
 			remains(remains)
