@@ -76,17 +76,6 @@ struct t_stat {
 	}
 };
 
-struct t_parsed_part {
-	scalar pos[2];	// положение относительно нижнего-левого угла
-	Rect rect;
-};
-
-struct t_parsed_cut {
-	scalar pos[2];
-	scalar length;
-	unsigned s;	// пил по 0=длине или 1=ширине
-};
-
 typedef std::vector<Part> t_parts_vector;
 typedef std::list<Part> t_parts_list;
 typedef t_parts_list t_parts;

@@ -7,6 +7,18 @@
 namespace Denisenko {
 namespace Raskroy {
 
+
+struct t_parsed_part {
+	scalar pos[2];	// положение относительно нижнего-левого угла
+	Rect rect;
+};
+
+struct t_parsed_cut {
+	scalar pos[2];
+	scalar length;
+	unsigned s;	// пил по 0=длине или 1=ширине
+};
+
 typedef std::vector<t_parsed_part> t_parsed_parts;
 typedef std::vector<t_parsed_cut> t_parsed_cuts;
 
