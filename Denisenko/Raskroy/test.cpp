@@ -40,7 +40,9 @@ void test_perebor()
 	t_raskroy::t_details det;
 	Amounts rash;
 	scalar size = 260+4*4;
-	bool res = p.make(sz, size, det, rash);
+	scalar opilki;
+	scalar remain;
+	bool res = p.Make(sz, size, det, rash, remain, opilki);
 	if (res == true)
 	{
 		cout << "On size " << size << " was allocated:" << endl;
@@ -48,7 +50,7 @@ void test_perebor()
 		{
 			cout << i->size << ":" << i->num << endl;
 		}
-		cout << "The remain is:" << p.get_Remain() << endl;
+		cout << "The remain is:" << remain << endl;
 	}
 }
 

@@ -7,24 +7,19 @@ namespace Denisenko {
 namespace Raskroy {
 
 class Perebor {
-	OtherSizes::const_iterator m_i;
-	OtherSizes::const_iterator m_end;
+	OtherSizes::const_iterator m_pOtherSize;
+	OtherSizes::const_iterator m_pEndOtherSize;
 	Amounts &m_remains;
-	scalar m_remain;
 	scalar m_sawThickness;
-	scalar m_opilki;
 
-	scalar Recursion(scalar size, Amounts &rashod);
+	scalar Recursion(scalar size, Amounts &rashods);
 
 public:
-
-	scalar get_SawThickness() {return m_sawThickness;};
-	void put_SawThickness(scalar newVal) {m_sawThickness = newVal;}
-	scalar get_Remain() {return m_remain;}
-	scalar get_Opilki() {return m_opilki;}
+	scalar get_SawThickness() throw() {return m_sawThickness;};
+	void   put_SawThickness(scalar newVal) throw() {m_sawThickness = newVal;}
 
 	Perebor(Amounts &remains, scalar sawThickness) : m_remains(remains), m_sawThickness(sawThickness) {}
-	bool make(const Size &size, scalar otherSize, t_raskroy::t_details&, Amounts &rashod);
+	bool Make(const Size &size, scalar otherSize, t_raskroy::t_details&, Amounts &rashods, scalar &o_remain, scalar &o_opilki);
 };
 
 } // namespace Denisenko

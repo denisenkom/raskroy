@@ -8,39 +8,39 @@ namespace Raskroy {
 // Параметры:
 //	[i] size - размер на котором нужно расположить детали
 //	[o] rashod - количество расположенных деталей
-//	[io] i
-//	[i] end
-//	[i] remains
-scalar Perebor::Recursion(scalar size, Amounts &rashod)
+// this:
+//	[io] m_pOtherSize
+//	[i]  m_pEndOtherSize
+//	[i]  m_remains
+scalar Perebor::Recursion(scalar i_size, Amounts &o_rashods)
 {
-	scalar register size1;
-	unsigned n;
-	if (m_i != m_end)
+	if (m_pOtherSize != m_pEndOtherSize)
 	{
-		n = 0;
-		scalar best = size;
+		scalar bestRemain = i_size;
 		bool first = true;
-		size1 = size;
-		Amounts rashod1;
-		unsigned remain = m_remains[m_i->Offset];
-		while (n <= remain && size1 > m_sawThickness)
+		scalar size = i_size;
+		unsigned n = 0;
+		unsigned amount = m_remains[m_pOtherSize->Offset];
+
+		while (n <= amount && size > m_sawThickness)
 		{
 			scalar remain;
-			m_i++;
-			remain = Recursion(size1, rashod1);
-			m_i--;
-			if (remain < best || first)
+			Amounts rashods;
+			m_pOtherSize++;
+			remain = Recursion(size, rashods);
+			m_pOtherSize--;
+			if (remain < bestRemain || first)
 			{
-				best = remain;
-				rashod = rashod1;
-				rashod[m_i->Offset] = n;
-				if (best <= 0)
-					return best;
+				bestRemain = remain;
+				o_rashods = rashods;
+				rashods[m_pOtherSize->Offset] = n;
+				if (bestRemain <= 0) // лучше быть не может
+					return bestRemain;
 				first = false;
 			}
+			size -= m_pOtherSize->Value + m_sawThickness;
 			n++;
-			size1 = size - (m_i->Value + m_sawThickness)*n;
-			// size1 здесь может быть < 0 что нормально если последний пил больше чем
+			// size здесь может быть < 0 что нормально если последний пил больше чем
 			// кромка
 		}
 		// если ничего небыло расположено то возвращаем нули
@@ -49,21 +49,21 @@ scalar Perebor::Recursion(scalar size, Amounts &rashod)
 		//	rashod.resize(remains.size());
 		//	std::fill(rashod.begin(), rashod.end(), 0);
 		//}
-		return best;
+		return bestRemain;
 	}
 	else
 	{
-		n = unsigned((size + m_sawThickness) / (m_i->Value + m_sawThickness));
-		unsigned remain = m_remains[m_i->Offset];
-		if (n > remain)
-			n = remain;
-		rashod.resize(m_remains.size());
-		std::fill(rashod.begin(), rashod.end(), 0);
-		rashod[m_i->Offset] = n;
-		size1 = size - n*(m_i->Value + m_sawThickness);
-		// size1 здесь может быть < 0 что нормально если последний пил больше чем
+		scalar fullSize = m_pOtherSize->Value + m_sawThickness;
+		unsigned n = unsigned((i_size + m_sawThickness) / fullSize);
+		unsigned amount = m_remains[m_pOtherSize->Offset];
+		if (n > amount)
+			n = amount;
+		o_rashods.resize(m_remains.size());
+		std::fill(o_rashods.begin(), o_rashods.end(), 0);
+		o_rashods[m_pOtherSize->Offset] = n;
+		// результат здесь может быть < 0 что нормально если последний пил больше чем
 		// кромка
-		return size1;
+		return i_size - n * fullSize;
 	}
 }
 
@@ -75,41 +75,43 @@ scalar Perebor::Recursion(scalar size, Amounts &rashod)
 //		[o] details - расположение деталей, на вход подается пустой контейнер
 //		[o] rashod - расход деталей
 // Возвращает true если хотя бы одна деталь установлена
-bool Perebor::make(const Size &size, scalar otherSize, t_raskroy::t_details &details, Amounts &rashod)
+bool Perebor::Make(const Size &size, scalar otherSize, t_raskroy::t_details &details, Amounts &rashods, scalar &o_remain, scalar &o_opilki)
 {
 	if (otherSize < size.OtherSizes.Min->Value)
 		return false;
 
 	// настройка переменных для рекурсии
-	m_i = size.OtherSizes.begin();
-	m_end = size.OtherSizes.end();
-	m_end--;
+	m_pOtherSize = size.OtherSizes.begin();
+	m_pEndOtherSize = size.OtherSizes.end();
+	m_pEndOtherSize--;
 	// рекурсивный подбор для размеров [i..end]
-	m_remain = Recursion(otherSize, rashod);
-	if (m_remain == otherSize)	// если ничего небыло расположено
+	scalar remain = Recursion(otherSize, rashods);
+	if (remain == otherSize)	// если ничего небыло расположено
 		return false;
 
-	unsigned nums = 0;
-	for (m_i = size.OtherSizes.begin(); m_i != size.OtherSizes.end(); m_i++)
+	unsigned cuts = 0;// количество пилов
+	for (OtherSizes::const_iterator pOtherSize = size.OtherSizes.begin(); pOtherSize != size.OtherSizes.end(); pOtherSize++)
 	{
-		unsigned rashodi = rashod[m_i->Offset];
-		if (rashodi > 0)
+		unsigned rashod = rashods[pOtherSize->Offset];
+		if (rashod > 0)
 		{
 			t_raskroy::t_detail detail;
-			detail.size = m_i->Value;
-			detail.num = rashodi;
+			detail.size = pOtherSize->Value;
+			detail.num = rashod;
 			details.push_back(detail);
-			nums += rashodi;	// количество пилов
+			cuts += rashod;	// количество пилов
 		}
 	}
 	// Вычисляем количество опилок
-	m_opilki = size.Value * m_sawThickness * nums;
+	scalar opilki = size.Value * m_sawThickness * cuts;
 	// Если последний пил проходит по кромке то уменьшить количество опилок
-	if (m_remain < 0)
+	if (remain < 0)
 	{
-		m_opilki += size.Value * m_remain;
-		m_remain = 0;
+		opilki += size.Value * remain;
+		remain = 0;
 	}
+	o_opilki = opilki;
+	o_remain = remain;
 	return true;
 }
 

@@ -67,17 +67,19 @@ bool Perebor2d::Recursion(Sizes::iterator begin, const Rect &rect, Stat &stat, i
 			break;
 
 		t_raskroy::t_details details;
-		if (!m_perebor.make(*i, rect.Size[!s], details, rashodPerebor))
+		scalar opilki;
+		scalar remain;
+		if (!m_perebor.Make(*i, rect.Size[!s], details, rashodPerebor, opilki, remain))
 			continue;
 
 		//stat1.sum_cut_length += rect.size[!s];
 		// Добавляем опилки
-		scalar opilki1 = m_perebor.get_Opilki() + (rect.Size[!s] - m_perebor.get_Remain()) * m_perebor.get_SawThickness();
-		scalar opilki2 = m_perebor.get_Remain() * m_perebor.get_SawThickness();
+		scalar opilki1 = opilki + (rect.Size[!s] - remain) * m_perebor.get_SawThickness();
+		scalar opilki2 = remain * m_perebor.get_SawThickness();
 		// Вычисляем остаточный квадрат
 		Rect remainRect;
 		remainRect.Size[s] = i->Value;
-		remainRect.Size[!s] = m_perebor.get_Remain();
+		remainRect.Size[!s] = remain;
 		// Вычисляем квадрат для рекурсии
 		Rect recurseRect(rect);
 		// Величина, на которую будет уменьшен квадрат рекурсии
