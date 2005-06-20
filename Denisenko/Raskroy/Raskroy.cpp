@@ -45,7 +45,7 @@ bool Raskroy::NextResult(t_result& out)
 	t_result bestResult;
 	t_amounts bestRashod;
 	bool first = true;
-	for (t_parts::iterator si = m_sheets.begin(); si != m_sheets.end(); si++)
+	for (Parts::iterator si = m_sheets.begin(); si != m_sheets.end(); si++)
 	{
 		Stat stat(0);
 		t_raskroy raskroy;

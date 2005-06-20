@@ -8,11 +8,11 @@ namespace Raskroy {
 
 class err_cannot_set_parts {
 public:
-	t_parts &sheets;
+	Parts &sheets;
 	t_sizes *sizes;
 	t_amounts &remains;
 
-	err_cannot_set_parts(t_parts &sheets,
+	err_cannot_set_parts(Parts &sheets,
 		t_sizes sizes[],
 		t_amounts &remains)
 		: sheets(sheets),

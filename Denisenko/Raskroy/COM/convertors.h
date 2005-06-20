@@ -19,7 +19,7 @@ Denisenko::Raskroy::Stat
 Denisenko::Raskroy::Part
 	convert(struct ISheet &Sheet);
 
-Denisenko::Raskroy::t_parts
+Denisenko::Raskroy::Parts
 	convert(struct ISheets &Sheets);
 
 Denisenko::Raskroy::t_parsed_result

@@ -40,7 +40,7 @@ STDMETHODIMP CRaskroy::NextResult(IResult **pResult, BOOL *bRes)
 	{
 		wstringstream ss;
 		ss << L"На листах:\n";
-		for (t_parts::const_iterator i = ex.sheets.begin(); i != ex.sheets.end(); i++)
+		for (Parts::const_iterator i = ex.sheets.begin(); i != ex.sheets.end(); i++)
 		{
 			ss << i->Rect.Size[0] << L'x' << i->Rect.Size[1] << L' ';
 		}

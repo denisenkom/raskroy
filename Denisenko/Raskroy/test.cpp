@@ -101,7 +101,7 @@ void print_raskroy(int level, const t_raskroy &ras)
 void test_gilotine()
 {
 	Raskroy g;
-	t_parts p;
+	Parts p;
 
 	p.push_back(Part(900, 605, true, 2));
 	p.push_back(Part(630, 600, true, 2));
@@ -127,7 +127,7 @@ void test_gilotine()
 	//p.push_back(Part(625, 600, false, 1));
 	//p.push_back(Part(625, 769, false, 1));
 	//p.push_back(Part(625, 752, false, 1));
-	t_parts s;
+	Parts s;
 
 	t_sizes sizes[2];
 	t_amounts am;

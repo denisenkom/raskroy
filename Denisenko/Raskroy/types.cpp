@@ -116,13 +116,13 @@ void t_sizes::add_size(scalar s, scalar os, unsigned amount, t_amounts &amounts,
 // [io] sizes - входит массив из 2х не инициализированных списков размеров, выходят заполненные списки
 // [i] parts
 // [o] ammounts - выходит массив количеств деталей
-void t_sizes::make_list(t_sizes sizes[], const t_parts &parts, t_amounts &amounts)
+void t_sizes::make_list(t_sizes sizes[], const Parts &parts, t_amounts &amounts)
 {
 	amounts.clear();
 	sizes[0].clear();
 	sizes[1].clear();
 	unsigned offset;
-	for (t_parts::const_iterator i = parts.begin(); i != parts.end(); i++)
+	for (Parts::const_iterator i = parts.begin(); i != parts.end(); i++)
 	{
 		const Part &part = *i;
 		for (int s = 0; s != 2; s++)

@@ -38,7 +38,7 @@ struct Part {
 	}
 };	// 16+4+4+4+4=32B
 
-typedef std::list<Part> t_parts;
+typedef std::list<Part> Parts;
 
 struct Stat {
 	scalar Opilki;
@@ -119,7 +119,7 @@ private:
 
 struct t_result {
 	t_raskroy raskroy;
-	t_parts::iterator sheet;
+	Parts::iterator sheet;
 	Stat stat;
 	unsigned amount;
 
@@ -167,7 +167,7 @@ class t_sizes : public std::vector<t_size> {
 	t_other_size make_other_size(scalar os, unsigned amount, t_amounts &amounts, bool have_offset, unsigned &offset);
 	void add_size(scalar s, scalar os, unsigned amount, t_amounts &amounts, bool have_offset, unsigned &offset);
 public:
-	static void make_list(t_sizes sizes[], const t_parts &parts, t_amounts &amounts);
+	static void make_list(t_sizes sizes[], const Parts &parts, t_amounts &amounts);
 };
 
 } // namespace Denisenko

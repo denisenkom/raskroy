@@ -18,7 +18,7 @@ class Raskroy {
 	t_sizes m_sizes[2];
 	scalar m_minSize[2];
 
-	t_parts m_sheets;
+	Parts m_sheets;
 
 
 	void RemoveExostedSizes(void);
@@ -40,7 +40,7 @@ public:
 	//	Perebor2d.SetCriteria(c);
 	//}
 
-	void Begin(const t_parts &parts, const t_parts &sheets) {
+	void Begin(const Parts &parts, const Parts &sheets) {
 		//assert(pcriteria);
 		m_sheets = sheets;
 		t_sizes::make_list(m_sizes, parts, m_remains);

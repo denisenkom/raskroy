@@ -79,11 +79,11 @@ Part convert(ISheet &Sheet)
 	return part;
 }
 
-t_parts convert(ISheets &Sheets)
+Parts convert(ISheets &Sheets)
 {
 	long count;
 	Sheets.get_Count(&count);
-	t_parts parts;
+	Parts parts;
 	for (long i = 0; i < count; i++)
 	{
 		CComVariant varSheet;
