@@ -46,7 +46,7 @@ inline bool Perebor2d::Optimize(const Rect &rect, Stat &stat, int s, t_raskroy &
 //		[o] raskroy - раскрой листа
 //		[o] rashod - расход деталей
 //
-bool Perebor2d::Recursion(t_sizes::iterator begin, const Rect &rect, Stat &stat, int s, t_raskroy &raskroy, t_amounts &rashod)
+bool Perebor2d::Recursion(Sizes::iterator begin, const Rect &rect, Stat &stat, int s, t_raskroy &raskroy, t_amounts &rashod)
 {
 	if (begin == m_sizes[s].end())
 		// здесь может произойти зацикливание
@@ -59,7 +59,7 @@ bool Perebor2d::Recursion(t_sizes::iterator begin, const Rect &rect, Stat &stat,
 	t_amounts rashodPerebor, vrashod, rashod1;
 	t_raskroy remainRaskroy;	
 	t_raskroy recurseRaskroy;
-	for (t_sizes::iterator i = begin; i != m_sizes[s].end(); i++)
+	for (Sizes::iterator i = begin; i != m_sizes[s].end(); i++)
 	{
 		// если размер слишком большой, то закончить цикл,
 		// т.к. следующие размеры будут еще больше

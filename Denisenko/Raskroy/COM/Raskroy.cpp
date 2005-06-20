@@ -40,19 +40,19 @@ STDMETHODIMP CRaskroy::NextResult(IResult **pResult, BOOL *bRes)
 	{
 		wstringstream ss;
 		ss << L"На листах:\n";
-		for (Parts::const_iterator i = ex.sheets.begin(); i != ex.sheets.end(); i++)
+		for (Parts::const_iterator pPart = ex.sheets.begin(); pPart != ex.sheets.end(); pPart++)
 		{
-			ss << i->Rect.Size[0] << L'x' << i->Rect.Size[1] << L' ';
+			ss << pPart->Rect.Length << L'x' << pPart->Rect.Width << L' ';
 		}
 		ss << L"\nнельзя расположить детали с длиной:\n";
-		for (t_sizes::const_iterator i = ex.sizes[0].begin(); i != ex.sizes[0].end(); i++)
+		for (Sizes::const_iterator pSize = ex.sizes[0].begin(); pSize != ex.sizes[0].end(); pSize++)
 		{
-			ss << i->Value << L' ';
+			ss << pSize->Value << L' ';
 		}
 		ss << L"\nи шириной:\n";
-		for (t_sizes::const_iterator i = ex.sizes[1].begin(); i != ex.sizes[1].end(); i++)
+		for (Sizes::const_iterator pSize = ex.sizes[1].begin(); pSize != ex.sizes[1].end(); pSize++)
 		{
-			ss << i->Value << L' ';
+			ss << pSize->Value << L' ';
 		}
 		return AtlReportError(GetObjectCLSID(), ss.str().c_str());
 	}

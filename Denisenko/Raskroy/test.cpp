@@ -52,12 +52,12 @@ void test_perebor()
 	}
 }
 
-void display_sizes(t_sizes sizes[])
+void display_sizes(Sizes sizes[])
 {
 	for (int s = 0; s != 2; s++)
 	{
 		cout << "s=" << s << endl;
-		for (t_sizes::const_iterator i = sizes[s].begin(); i != sizes[s].end(); i++)
+		for (Sizes::const_iterator i = sizes[s].begin(); i != sizes[s].end(); i++)
 		{
 			const Size &size = *i;
 			cout << size.Value << ": ";
@@ -130,9 +130,9 @@ void test_gilotine()
 	//p.push_back(Part(625, 752, false, 1));
 	Parts s;
 
-	t_sizes sizes[2];
+	Sizes sizes[2];
 	t_amounts am;
-	t_sizes::make_list(sizes, p, am);
+	Sizes::MakeList(sizes, p, am);
 	/*cout << "displayng not sorted sizes\n";
 	display_sizes(sizes);
 	std::sort(sizes[0].begin(), sizes[0].end());

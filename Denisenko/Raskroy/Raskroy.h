@@ -15,7 +15,7 @@ class Raskroy {
 
 	t_amounts m_remains;
 
-	t_sizes m_sizes[2];
+	Sizes m_sizes[2];
 	scalar m_minSize[2];
 
 	Parts m_sheets;
@@ -43,7 +43,7 @@ public:
 	void Begin(const Parts &parts, const Parts &sheets) {
 		//assert(pcriteria);
 		m_sheets = sheets;
-		t_sizes::make_list(m_sizes, parts, m_remains);
+		Sizes::MakeList(m_sizes, parts, m_remains);
 	}
 
 	bool NextResult(t_result &res);

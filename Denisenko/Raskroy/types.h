@@ -162,12 +162,12 @@ struct Size {
 	bool operator < (const Size& b) const {return Value < b.Value;}
 };
 
-class t_sizes : public std::vector<Size> {
-	iterator find(scalar size);
-	OtherSize make_other_size(scalar os, unsigned amount, t_amounts &amounts, bool have_offset, unsigned &offset);
-	void add_size(scalar s, scalar os, unsigned amount, t_amounts &amounts, bool have_offset, unsigned &offset);
+class Sizes : public std::vector<Size> {
+	iterator Find(scalar size);
+	OtherSize MakeOtherSize(scalar os, unsigned amount, t_amounts &amounts, bool have_offset, unsigned &offset);
+	void AddSize(scalar s, scalar os, unsigned amount, t_amounts &amounts, bool have_offset, unsigned &offset);
 public:
-	static void make_list(t_sizes sizes[], const Parts &parts, t_amounts &amounts);
+	static void MakeList(Sizes sizes[], const Parts &parts, t_amounts &amounts);
 };
 
 } // namespace Denisenko
