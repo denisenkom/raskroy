@@ -27,8 +27,8 @@ t_parsed_part convert(IParsedPart &Part)
 	t_parsed_part part;
 	Part.get_X(&part.pos[0]);
 	Part.get_Y(&part.pos[1]);
-	Part.get_Length(&part.rect.size[0]);
-	Part.get_Width(&part.rect.size[1]);
+	Part.get_Length(&part.rect.Length);
+	Part.get_Width(&part.rect.Width);
 	return part;
 }
 
@@ -65,8 +65,8 @@ t_parsed_parts convert(IParsedParts &Parts)
 t_part convert(ISheet &Sheet)
 {
 	t_part part;
-	Sheet.get_Length(&part.rect.size[0]);
-	Sheet.get_Width(&part.rect.size[1]);
+	Sheet.get_Length(&part.rect.Length);
+	Sheet.get_Width(&part.rect.Width);
 
 	BOOL rotate;
 	Sheet.get_Rotate(&rotate);
@@ -151,8 +151,8 @@ IParsedPart* convert(const t_parsed_part &in)
 		throw error_COM("Cannot create ParsedPart", hres);
 	out->put_X(in.pos[0]);
 	out->put_Y(in.pos[1]);
-	out->put_Width(in.rect.size[0]);
-	out->put_Length(in.rect.size[1]);
+	out->put_Width(in.rect.Length);
+	out->put_Length(in.rect.Width);
 	return out;
 }
 
@@ -203,9 +203,9 @@ ISheet* convert(const t_part &part)
 	if (FAILED(hres = CSheet::CreateInstance<ISheet>(NULL, &Sheet)))
 		throw error_COM("Cannot create Sheet", hres);
 
-	double length = part.rect.size[0];
+	double length = part.rect.Length;
 	Sheet->put_Length(length);
-	double width = part.rect.size[1];
+	double width = part.rect.Width;
 	Sheet->put_Width(width);
 	BOOL rotate = part.rotate;
 	Sheet->put_Rotate(rotate);
@@ -271,8 +271,8 @@ IResult* convert(const t_parsed_result &res)
 		Result->put_Amount(amount);
 
 		//ss.exceptions(std::ios::eofbit | std::ios::badbit);
-		writefn(ss, res.sheet.rect.size[0]);	// Длина
-		writefn(ss, res.sheet.rect.size[1]);	// Ширина
+		writefn(ss, res.sheet.rect.Length);	// Длина
+		writefn(ss, res.sheet.rect.Width);	// Ширина
 		writefn(ss, res.amount);	// Количество листов
 		short x = res.parts.size();
 		writefn(ss, x);	// Количество деталей
@@ -280,8 +280,8 @@ IResult* convert(const t_parsed_result &res)
 		{
 			writefn(ss, i->pos[0]);	// X
 			writefn(ss, i->pos[1]);	// Y
-			writefn(ss, i->rect.size[0]);	// Длина
-			writefn(ss, i->rect.size[1]);	// Ширина
+			writefn(ss, i->rect.Length);	// Длина
+			writefn(ss, i->rect.Width);	// Ширина
 		}
 		x = res.cuts.size();
 		writefn(ss, x);	// Количество резов
@@ -321,8 +321,8 @@ IResult* convert(const t_parsed_result &res)
 t_parsed_result convert(BSTR str)
 {
 	t_parsed_result res;
-	readfn(str, res.sheet.rect.size[0]);
-	readfn(str, res.sheet.rect.size[1]);
+	readfn(str, res.sheet.rect.Length);
+	readfn(str, res.sheet.rect.Width);
 	readfn(str, res.amount);	// Количество листов
 	short x;
 	readfn(str, x);	// Количество деталей
@@ -331,8 +331,8 @@ t_parsed_result convert(BSTR str)
 	{
 		readfn(str, i->pos[0]);	// X
 		readfn(str, i->pos[1]);	// Y
-		readfn(str, i->rect.size[0]);	// Длина
-		readfn(str, i->rect.size[1]);	// Ширина
+		readfn(str, i->rect.Length);
+		readfn(str, i->rect.Width);
 	}
 	readfn(str, x);	// Количество резов
 	res.cuts.resize(x);

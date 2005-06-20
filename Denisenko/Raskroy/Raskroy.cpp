@@ -1,5 +1,6 @@
 #include "stdafx.h"
-#include "raskroy.h"
+#include "errors.h"
+#include "Raskroy.h"
 
 namespace Denisenko {
 namespace Raskroy {
@@ -51,7 +52,7 @@ bool Raskroy::NextResult(t_result& out)
 		t_amounts rashod;
 		if (!m_perebor2d.Optimize(si->rect, stat, 0, raskroy, rashod)
 			&& !first
-			&& !(/*pcriteria->quality(*/stat/*)*/ > /*pcriteria->quality(*/bestResult.stat/*)*/))
+			&& !(/*pcriteria->quality(*/bestResult.stat/*)*/ < /*pcriteria->quality(*/stat/*)*/))
 			continue;
 
 		bestResult.amount = m_remains / rashod;

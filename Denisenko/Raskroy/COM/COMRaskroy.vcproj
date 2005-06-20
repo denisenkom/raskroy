@@ -702,6 +702,9 @@ echo Warning : Cannot register Unicode DLL on Windows 95
 				RelativePath="..\drawer.h">
 			</File>
 			<File
+				RelativePath="..\errors.h">
+			</File>
+			<File
 				RelativePath="..\parser.cpp">
 			</File>
 			<File
@@ -742,6 +745,9 @@ echo Warning : Cannot register Unicode DLL on Windows 95
 			</File>
 			<File
 				RelativePath="..\stdafx.h">
+			</File>
+			<File
+				RelativePath="..\types.cpp">
 			</File>
 			<File
 				RelativePath="..\types.h">

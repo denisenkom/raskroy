@@ -2,6 +2,7 @@
 #include "COMRaskroy.h"
 #include "Raskroy.h"
 #include "convertors.h"
+#include "..\errors.h"
 
 using namespace std;
 using namespace ATL;
@@ -35,19 +36,13 @@ STDMETHODIMP CRaskroy::NextResult(IResult **pResult, BOOL *bRes)
 			*pResult = 0;
 		return S_OK;
 	}
-	catch (err_part_invalid& ex)
-	{
-		CComBSTR str = (CComBSTR(L"Неправильная деталь: ") += CComBSTR(ex.member)
-			+= CComBSTR(L"=") += CComBSTR(ex.value));
-		return AtlReportError(GetObjectCLSID(), str);
-	}
 	catch (err_cannot_set_parts &ex)
 	{
 		wstringstream ss;
 		ss << L"На листах:\n";
 		for (t_parts::const_iterator i = ex.sheets.begin(); i != ex.sheets.end(); i++)
 		{
-			ss << i->rect.size[0] << L'x' << i->rect.size[1] << L' ';
+			ss << i->rect.Size[0] << L'x' << i->rect.Size[1] << L' ';
 		}
 		ss << L"\nнельзя расположить детали с длиной:\n";
 		for (t_sizes::const_iterator i = ex.sizes[0].begin(); i != ex.sizes[0].end(); i++)

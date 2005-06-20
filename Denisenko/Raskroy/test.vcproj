@@ -137,6 +137,9 @@
 			<File
 				RelativePath=".\test.cpp">
 			</File>
+			<File
+				RelativePath=".\types.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -147,6 +150,9 @@
 			</File>
 			<File
 				RelativePath=".\drawer.h">
+			</File>
+			<File
+				RelativePath=".\errors.h">
 			</File>
 			<File
 				RelativePath=".\parser.h">

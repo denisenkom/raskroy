@@ -15,7 +15,7 @@
 #endif
 #define _ATL_APARTMENT_THREADED
 
-//#include <deque>
+#include <cassert>
 #include <string>
 #include <sstream>
 #include <algorithm>

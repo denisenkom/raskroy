@@ -5,7 +5,7 @@
 namespace Denisenko {
 namespace Raskroy {
 
-scalar Parser::Details(unsigned s, scalar pos[2], const t_rect &rect, const t_raskroy::t_details &details)
+scalar Parser::Details(unsigned s, scalar pos[2], const Rect &rect, const t_raskroy::t_details &details)
 {
 	scalar acc = 0;
 	for (t_raskroy::t_details::const_iterator i = details.begin(); i != details.end(); i++)
@@ -14,10 +14,10 @@ scalar Parser::Details(unsigned s, scalar pos[2], const t_rect &rect, const t_ra
 			t_parsed_part part;
 			part.pos[s] = pos[s];
 			part.pos[!s] = pos[!s] + acc;
-			part.rect.size[s] = rect.size[s];
-			part.rect.size[!s] = i->size;
+			part.rect.Size[s] = rect.Size[s];
+			part.rect.Size[!s] = i->size;
 
-			m_detailsSummarySquare += rect.size[s] * i->size;
+			m_detailsSummarySquare += rect.Size[s] * i->size;
 
 			//part.part = 
 			assert(m_pOutResult);
@@ -30,7 +30,7 @@ scalar Parser::Details(unsigned s, scalar pos[2], const t_rect &rect, const t_ra
 				cut.pos[s] = pos[s];
 				cut.pos[!s] = pos[!s] + acc + m_halfSawThickness;
 				cut.s = s;
-				cut.length = rect.size[s];
+				cut.length = rect.Size[s];
 				assert(m_pOutResult);
 				m_pOutResult->cuts.push_back(cut);
 				acc += m_sawThickness;
@@ -40,11 +40,11 @@ scalar Parser::Details(unsigned s, scalar pos[2], const t_rect &rect, const t_ra
 	return acc;
 }
 
-void Parser::Recursion(scalar pos[2], const t_rect &rect, const t_raskroy &raskroy)
+void Parser::Recursion(scalar pos[2], const Rect &rect, const t_raskroy &raskroy)
 {
 	t_parsed_cut cut;
 	cut.s = !raskroy.s;
-	cut.length = rect.size[!raskroy.s];
+	cut.length = rect.Size[!raskroy.s];
 	cut.pos[!raskroy.s] = pos[!raskroy.s];
 	cut.pos[raskroy.s] = pos[raskroy.s] + raskroy.cut * raskroy.kratnostj + m_halfSawThickness;
 	assert(m_pOutResult);
@@ -56,8 +56,8 @@ void Parser::Recursion(scalar pos[2], const t_rect &rect, const t_raskroy &raskr
 	pos1[1] = pos[1];
 	for (unsigned k = 0; k < raskroy.kratnostj; k++)
 	{
-		t_rect rect1(rect);
-		rect1.size[raskroy.s] = raskroy.cut;
+		Rect rect1(rect);
+		rect1.Size[raskroy.s] = raskroy.cut;
 		remain = Details(raskroy.s, pos1, rect1, raskroy.details);
 		pos1[raskroy.s] += raskroy.cut + m_sawThickness;
 		if (k < raskroy.kratnostj-1)
@@ -80,9 +80,9 @@ void Parser::Recursion(scalar pos[2], const t_rect &rect, const t_raskroy &raskr
 
 	if (raskroy.watchRemain())
 	{
-		t_rect rect1;
-		rect1.size[raskroy.s] = raskroy.cut * raskroy.kratnostj;
-		rect1.size[!raskroy.s] = rect.size[!raskroy.s] - remain;
+		Rect rect1;
+		rect1.Size[raskroy.s] = raskroy.cut * raskroy.kratnostj;
+		rect1.Size[!raskroy.s] = rect.Size[!raskroy.s] - remain;
 		pos1[raskroy.s] = pos[raskroy.s];
 		pos1[!raskroy.s] = pos[!raskroy.s] + remain;
 		Recursion(pos1, rect1, *raskroy.watchRemain());
@@ -90,8 +90,8 @@ void Parser::Recursion(scalar pos[2], const t_rect &rect, const t_raskroy &raskr
 
 	if (raskroy.watchRecurse())
 	{
-		t_rect rect1(rect);
-		rect1.size[raskroy.s] = rect.size[raskroy.s] - (raskroy.cut + m_sawThickness) * raskroy.kratnostj;
+		Rect rect1(rect);
+		rect1.Size[raskroy.s] = rect.Size[raskroy.s] - (raskroy.cut + m_sawThickness) * raskroy.kratnostj;
 		pos1[raskroy.s] = pos[raskroy.s] + (raskroy.cut + m_sawThickness) * raskroy.kratnostj;
 		pos1[!raskroy.s] = pos[!raskroy.s];
 		Recursion(pos1, rect1, *raskroy.watchRecurse());

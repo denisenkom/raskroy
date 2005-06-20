@@ -14,7 +14,7 @@ const scalar MIN_USEFUL_SIZE2 = 200-34;
 //		[o] raskroy - раскрой листа
 //		[o] rashod - расход деталей
 //
-inline bool Perebor2d::Optimize(const t_rect &rect, t_stat &stat, int s, t_raskroy &raskroy, t_amounts &rashod)
+inline bool Perebor2d::Optimize(const Rect &rect, t_stat &stat, int s, t_raskroy &raskroy, t_amounts &rashod)
 {
 	// ѕробуем расположить по размеру s
 	t_stat stat2(stat);
@@ -24,7 +24,7 @@ inline bool Perebor2d::Optimize(const t_rect &rect, t_stat &stat, int s, t_raskr
 		t_amounts rashod2;
 		t_raskroy raskroy2;
 		if (Recursion(m_sizes[!s].begin(), rect, stat2, !s, raskroy2, rashod2)
-			&& /*pcriteria->quality(*/stat2/*)*/ > /*pcriteria->quality(*/stat/*)*/)
+			&& /*pcriteria->quality(*/stat/*)*/ < /*pcriteria->quality(*/stat2/*)*/)
 		{
 			// ≈сли удачно и личше чем по s, то результат будет как по !s
 			stat = stat2;
@@ -46,7 +46,7 @@ inline bool Perebor2d::Optimize(const t_rect &rect, t_stat &stat, int s, t_raskr
 //		[o] raskroy - раскрой листа
 //		[o] rashod - расход деталей
 //
-bool Perebor2d::Recursion(t_sizes::iterator begin, const t_rect &rect, t_stat &stat, int s, t_raskroy &raskroy, t_amounts &rashod)
+bool Perebor2d::Recursion(t_sizes::iterator begin, const Rect &rect, t_stat &stat, int s, t_raskroy &raskroy, t_amounts &rashod)
 {
 	if (begin == m_sizes[s].end())
 		// здесь может произойти зацикливание
@@ -63,28 +63,28 @@ bool Perebor2d::Recursion(t_sizes::iterator begin, const t_rect &rect, t_stat &s
 	{
 		// если размер слишком большой, то закончить цикл,
 		// т.к. следующие размеры будут еще больше
-		if (i->size > rect.size[s])
+		if (i->size > rect.Size[s])
 			break;
 
 		t_raskroy::t_details details;
-		if (!m_perebor.make(*i, rect.size[!s], details, rashodPerebor))
+		if (!m_perebor.make(*i, rect.Size[!s], details, rashodPerebor))
 			continue;
 
 		//stat1.sum_cut_length += rect.size[!s];
 		// ƒобавл€ем опилки
-		scalar opilki1 = m_perebor.get_Opilki() + (rect.size[!s] - m_perebor.get_Remain()) * m_perebor.get_SawThickness();
+		scalar opilki1 = m_perebor.get_Opilki() + (rect.Size[!s] - m_perebor.get_Remain()) * m_perebor.get_SawThickness();
 		scalar opilki2 = m_perebor.get_Remain() * m_perebor.get_SawThickness();
 		// ¬ычисл€ем остаточный квадрат
-		t_rect remainRect;
-		remainRect.size[s] = i->size;
-		remainRect.size[!s] = m_perebor.get_Remain();
+		Rect remainRect;
+		remainRect.Size[s] = i->size;
+		remainRect.Size[!s] = m_perebor.get_Remain();
 		// ¬ычисл€ем квадрат дл€ рекурсии
-		t_rect recurseRect(rect);
+		Rect recurseRect(rect);
 		// ¬еличина, на которую будет уменьшен квадрат рекурсии
 		scalar reduce = i->size + m_perebor.get_SawThickness();
 
 		// –ассчет кратности
-		int maxKratnostj = int((rect.size[s] + m_perebor.get_SawThickness())/(i->size + m_perebor.get_SawThickness()));
+		int maxKratnostj = int((rect.Size[s] + m_perebor.get_SawThickness()) / (i->size + m_perebor.get_SawThickness()));
 		if (maxKratnostj > 1)
 		{
 			int kolKrat = m_remains / rashodPerebor;
@@ -103,14 +103,14 @@ bool Perebor2d::Recursion(t_sizes::iterator begin, const t_rect &rect, t_stat &s
 			if (kratnostj > 1)
 			{
 				rashod1 = rashodPerebor * kratnostj;
-				remainRect.size[s] += i->size;
+				remainRect.Size[s] += i->size;
 			}
-			recurseRect.size[s] -= reduce;
+			recurseRect.Size[s] -= reduce;
 			stat1.opilki = opilki1 * kratnostj + opilki2;
-			if (recurseRect.size[s] < 0)
+			if (recurseRect.Size[s] < 0)
 			{
-				stat1.opilki += rect.size[!s] * recurseRect.size[s];
-				recurseRect.size[s] = 0;
+				stat1.opilki += rect.Size[!s] * recurseRect.Size[s];
+				recurseRect.Size[s] = 0;
 			}
 
 			//  роим остаточный квадрат
@@ -133,7 +133,7 @@ bool Perebor2d::Recursion(t_sizes::iterator begin, const t_rect &rect, t_stat &s
 			m_remains += rashod1;	// восстанавливаем остатки
 
 			// если результат лучше лучшего или первый то
-			if (stat1 > bestStat || first)
+			if (bestStat < stat1 || first)
 			{
 				bestStat = stat1;
 				raskroy.set(s,
@@ -161,11 +161,11 @@ bool Perebor2d::Recursion(t_sizes::iterator begin, const t_rect &rect, t_stat &s
 	}
 
 	// ≈сли не было результата, то к статистике прибавл€ютс€ отходы
-	scalar rem = rect.square();
+	scalar rem = rect.Square();
 	if (rem == 0)
 		return false;
-	bool useful = (rect.size[0] >= MIN_USEFUL_SIZE1 && rect.size[1] >= MIN_USEFUL_SIZE2)
-		|| (rect.size[1] >= MIN_USEFUL_SIZE1 && rect.size[0] >= MIN_USEFUL_SIZE2);
+	bool useful = (rect.Size[0] >= MIN_USEFUL_SIZE1 && rect.Size[1] >= MIN_USEFUL_SIZE2)
+		|| (rect.Size[1] >= MIN_USEFUL_SIZE1 && rect.Size[0] >= MIN_USEFUL_SIZE2);
 	assert(rem > 0);
 	useful ? stat.useful_remain += rem, stat.useful_num++ : stat.unuseful_remain += rem, stat.useful_num++;
 	return false;
