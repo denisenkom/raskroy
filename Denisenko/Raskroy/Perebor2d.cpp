@@ -63,7 +63,7 @@ bool Perebor2d::Recursion(t_sizes::iterator begin, const Rect &rect, Stat &stat,
 	{
 		// если размер слишком большой, то закончить цикл,
 		// т.к. следующие размеры будут еще больше
-		if (i->size > rect.Size[s])
+		if (i->Value > rect.Size[s])
 			break;
 
 		t_raskroy::t_details details;
@@ -76,15 +76,15 @@ bool Perebor2d::Recursion(t_sizes::iterator begin, const Rect &rect, Stat &stat,
 		scalar opilki2 = m_perebor.get_Remain() * m_perebor.get_SawThickness();
 		// Вычисляем остаточный квадрат
 		Rect remainRect;
-		remainRect.Size[s] = i->size;
+		remainRect.Size[s] = i->Value;
 		remainRect.Size[!s] = m_perebor.get_Remain();
 		// Вычисляем квадрат для рекурсии
 		Rect recurseRect(rect);
 		// Величина, на которую будет уменьшен квадрат рекурсии
-		scalar reduce = i->size + m_perebor.get_SawThickness();
+		scalar reduce = i->Value + m_perebor.get_SawThickness();
 
 		// Рассчет кратности
-		int maxKratnostj = int((rect.Size[s] + m_perebor.get_SawThickness()) / (i->size + m_perebor.get_SawThickness()));
+		int maxKratnostj = int((rect.Size[s] + m_perebor.get_SawThickness()) / (i->Value + m_perebor.get_SawThickness()));
 		if (maxKratnostj > 1)
 		{
 			int kolKrat = m_remains / rashodPerebor;
@@ -103,7 +103,7 @@ bool Perebor2d::Recursion(t_sizes::iterator begin, const Rect &rect, Stat &stat,
 			if (kratnostj > 1)
 			{
 				rashod1 = rashodPerebor * kratnostj;
-				remainRect.Size[s] += i->size;
+				remainRect.Size[s] += i->Value;
 			}
 			recurseRect.Size[s] -= reduce;
 			stat1.Opilki = opilki1 * kratnostj + opilki2;
@@ -138,7 +138,7 @@ bool Perebor2d::Recursion(t_sizes::iterator begin, const Rect &rect, Stat &stat,
 				bestStat = stat1;
 				raskroy.set(s,
 					kratnostj,
-					i->size, details,
+					i->Value, details,
 					haveRemain ? &remainRaskroy : 0,
 					haveRecurse ? &recurseRaskroy : 0);
 

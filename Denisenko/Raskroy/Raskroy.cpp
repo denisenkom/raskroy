@@ -9,26 +9,26 @@ void Raskroy::RemoveExostedSizes(void)
 {
 	for (unsigned s = 0; s <= 1; s++)
 	{
-		for (t_sizes::iterator si = m_sizes[s].begin(); si != m_sizes[s].end(); )
+		for (t_sizes::iterator size = m_sizes[s].begin(); size != m_sizes[s].end(); )
 		{
-			t_other_sizes::iterator osi = si->other_sizes.begin();
-			while (osi != si->other_sizes.end())
+			t_other_sizes::iterator otherSize = size->OtherSizes.begin();
+			while (otherSize != size->OtherSizes.end())
 			{
-				if (m_remains[osi->offset] == 0)
+				if (m_remains[otherSize->Offset] == 0)
 				{
-					si->other_sizes.erase(osi);
-					osi = si->other_sizes.begin();
+					size->OtherSizes.erase(otherSize);
+					otherSize = size->OtherSizes.begin();
 				}
 				else
-					osi++;
+					otherSize++;
 			}
-			if (si->other_sizes.empty())
+			if (size->OtherSizes.empty())
 			{
-				m_sizes[s].erase(si);
-				si = m_sizes[s].begin();
+				m_sizes[s].erase(size);
+				size = m_sizes[s].begin();
 			}
 			else
-				si++;
+				size++;
 		}
 	}
 }

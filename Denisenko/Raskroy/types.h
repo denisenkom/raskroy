@@ -137,17 +137,17 @@ public:
 	t_amounts operator + (const t_amounts &b) const {t_amounts res(*this); return (res += b);};
 };
 
-class t_other_size
+class OtherSize
 {
 public:
-	scalar size;
-	unsigned offset;
+	scalar Value;
+	unsigned Offset;
 
-	t_other_size(void) {};
-	bool operator < (const t_other_size& b) const {return size < b.size;}
+	OtherSize(void) {};
+	bool operator < (const OtherSize& b) const {return Value < b.Value;}
 };
 
-class t_other_sizes : public std::vector<t_other_size>
+class t_other_sizes : public std::vector<OtherSize>
 {
 public:
 	iterator min;
@@ -156,15 +156,15 @@ public:
 	void prepare(void);
 };
 
-struct t_size {
-	scalar size;
-	t_other_sizes other_sizes;
-	bool operator < (const t_size& b) const {return size < b.size;}
+struct Size {
+	scalar Value;
+	t_other_sizes OtherSizes;
+	bool operator < (const Size& b) const {return Value < b.Value;}
 };
 
-class t_sizes : public std::vector<t_size> {
+class t_sizes : public std::vector<Size> {
 	iterator find(scalar size);
-	t_other_size make_other_size(scalar os, unsigned amount, t_amounts &amounts, bool have_offset, unsigned &offset);
+	OtherSize make_other_size(scalar os, unsigned amount, t_amounts &amounts, bool have_offset, unsigned &offset);
 	void add_size(scalar s, scalar os, unsigned amount, t_amounts &amounts, bool have_offset, unsigned &offset);
 public:
 	static void make_list(t_sizes sizes[], const Parts &parts, t_amounts &amounts);

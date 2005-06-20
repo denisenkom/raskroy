@@ -24,7 +24,7 @@ public:
 	scalar get_Opilki() {return m_opilki;}
 
 	Perebor(t_amounts &remains, scalar sawThickness) : m_remains(remains), m_sawThickness(sawThickness) {}
-	bool make(const t_size &size, scalar otherSize, t_raskroy::t_details&, t_amounts &rashod);
+	bool make(const Size &size, scalar otherSize, t_raskroy::t_details&, t_amounts &rashod);
 };
 
 } // namespace Denisenko

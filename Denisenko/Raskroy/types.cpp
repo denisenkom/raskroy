@@ -56,7 +56,7 @@ void t_raskroy::attachRecurse(t_raskroy &recurse) {
 t_other_sizes::iterator t_other_sizes::find(scalar size)
 {
 	for (iterator i = begin(); i != end(); i++)
-		if (i->size == size)
+		if (i->Value == size)
 			return i;
 	return end();
 }
@@ -67,30 +67,30 @@ void t_other_sizes::prepare(void)
 	iterator i = begin();
 	i++;
 	for (; i != end(); i++)
-		if (i->size < min->size)
+		if (i->Value < min->Value)
 			min = i;
 }
 
 t_sizes::iterator t_sizes::find(scalar size)
 {
 	for (iterator i = begin(); i != end(); i++)
-		if (i->size == size)
+		if (i->Value == size)
 			return i;
 	return end();
 }
 
-t_other_size t_sizes::make_other_size(scalar os, unsigned amount, t_amounts &amounts, bool have_offset, unsigned &offset)
+OtherSize t_sizes::make_other_size(scalar os, unsigned amount, t_amounts &amounts, bool haveOffset, unsigned &offset)
 {
-	t_other_size other_size;
-	other_size.size = os;
-	if (!have_offset)
+	OtherSize otherSize;
+	otherSize.Value = os;
+	if (!haveOffset)
 	{
-		other_size.offset = offset = unsigned(amounts.size());
+		otherSize.Offset = offset = unsigned(amounts.size());
 		amounts.push_back(amount);
 	}
 	else
-		other_size.offset = offset;
-	return other_size;
+		otherSize.Offset = offset;
+	return otherSize;
 }
 
 void t_sizes::add_size(scalar s, scalar os, unsigned amount, t_amounts &amounts, bool have_offset, unsigned &offset)
@@ -98,18 +98,18 @@ void t_sizes::add_size(scalar s, scalar os, unsigned amount, t_amounts &amounts,
 	iterator i = find(s);
 	if (i == end())
 	{
-		t_size size;
-		size.size = s;
-		size.other_sizes.push_back(make_other_size(os, amount, amounts, have_offset, offset));
+		Size size;
+		size.Value = s;
+		size.OtherSizes.push_back(make_other_size(os, amount, amounts, have_offset, offset));
 		push_back(size);
 	}
 	else
 	{
-		t_other_sizes::iterator j = i->other_sizes.find(os);
-		if (j == i->other_sizes.end())
-			i->other_sizes.push_back(make_other_size(os, amount, amounts, have_offset, offset));
+		t_other_sizes::iterator j = i->OtherSizes.find(os);
+		if (j == i->OtherSizes.end())
+			i->OtherSizes.push_back(make_other_size(os, amount, amounts, have_offset, offset));
 		else
-			amounts[j->offset] += amount;
+			amounts[j->Offset] += amount;
 	}
 }
 
@@ -138,9 +138,9 @@ void t_sizes::make_list(t_sizes sizes[], const Parts &parts, t_amounts &amounts)
 		std::sort(sizes[s].begin(), sizes[s].end());
 		for (t_sizes::iterator i = sizes[s].begin(); i != sizes[s].end(); i++)
 		{
-			std::sort(i->other_sizes.begin(), i->other_sizes.end());
+			std::sort(i->OtherSizes.begin(), i->OtherSizes.end());
 			// установка указателя на минимальный размер
-			i->other_sizes.prepare();
+			i->OtherSizes.prepare();
 		}
 	}
 }

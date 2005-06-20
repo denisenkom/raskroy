@@ -22,7 +22,7 @@ scalar Perebor::Recursion(scalar size, t_amounts &rashod)
 		bool first = true;
 		size1 = size;
 		t_amounts rashod1;
-		unsigned remain = m_remains[m_i->offset];
+		unsigned remain = m_remains[m_i->Offset];
 		while (n <= remain && size1 > m_sawThickness)
 		{
 			scalar remain;
@@ -33,13 +33,13 @@ scalar Perebor::Recursion(scalar size, t_amounts &rashod)
 			{
 				best = remain;
 				rashod = rashod1;
-				rashod[m_i->offset] = n;
+				rashod[m_i->Offset] = n;
 				if (best <= 0)
 					return best;
 				first = false;
 			}
 			n++;
-			size1 = size - (m_i->size + m_sawThickness)*n;
+			size1 = size - (m_i->Value + m_sawThickness)*n;
 			// size1 здесь может быть < 0 что нормально если последний пил больше чем
 			// кромка
 		}
@@ -53,14 +53,14 @@ scalar Perebor::Recursion(scalar size, t_amounts &rashod)
 	}
 	else
 	{
-		n = unsigned((size + m_sawThickness) / (m_i->size + m_sawThickness));
-		unsigned remain = m_remains[m_i->offset];
+		n = unsigned((size + m_sawThickness) / (m_i->Value + m_sawThickness));
+		unsigned remain = m_remains[m_i->Offset];
 		if (n > remain)
 			n = remain;
 		rashod.resize(m_remains.size());
 		std::fill(rashod.begin(), rashod.end(), 0);
-		rashod[m_i->offset] = n;
-		size1 = size - n*(m_i->size + m_sawThickness);
+		rashod[m_i->Offset] = n;
+		size1 = size - n*(m_i->Value + m_sawThickness);
 		// size1 здесь может быть < 0 что нормально если последний пил больше чем
 		// кромка
 		return size1;
@@ -75,14 +75,14 @@ scalar Perebor::Recursion(scalar size, t_amounts &rashod)
 //		[o] details - расположение деталей, на вход подается пустой контейнер
 //		[o] rashod - расход деталей
 // Возвращает true если хотя бы одна деталь установлена
-bool Perebor::make(const t_size &size, scalar otherSize, t_raskroy::t_details &details, t_amounts &rashod)
+bool Perebor::make(const Size &size, scalar otherSize, t_raskroy::t_details &details, t_amounts &rashod)
 {
-	if (otherSize < size.other_sizes.min->size)
+	if (otherSize < size.OtherSizes.min->Value)
 		return false;
 
 	// настройка переменных для рекурсии
-	m_i = size.other_sizes.begin();
-	m_end = size.other_sizes.end();
+	m_i = size.OtherSizes.begin();
+	m_end = size.OtherSizes.end();
 	m_end--;
 	// рекурсивный подбор для размеров [i..end]
 	m_remain = Recursion(otherSize, rashod);
@@ -90,24 +90,24 @@ bool Perebor::make(const t_size &size, scalar otherSize, t_raskroy::t_details &d
 		return false;
 
 	unsigned nums = 0;
-	for (m_i = size.other_sizes.begin(); m_i != size.other_sizes.end(); m_i++)
+	for (m_i = size.OtherSizes.begin(); m_i != size.OtherSizes.end(); m_i++)
 	{
-		unsigned rashodi = rashod[m_i->offset];
+		unsigned rashodi = rashod[m_i->Offset];
 		if (rashodi > 0)
 		{
 			t_raskroy::t_detail detail;
-			detail.size = m_i->size;
+			detail.size = m_i->Value;
 			detail.num = rashodi;
 			details.push_back(detail);
 			nums += rashodi;	// количество пилов
 		}
 	}
 	// Вычисляем количество опилок
-	m_opilki = size.size * m_sawThickness * nums;
+	m_opilki = size.Value * m_sawThickness * nums;
 	// Если последний пил проходит по кромке то уменьшить количество опилок
 	if (m_remain < 0)
 	{
-		m_opilki += size.size * m_remain;
+		m_opilki += size.Value * m_remain;
 		m_remain = 0;
 	}
 	return true;

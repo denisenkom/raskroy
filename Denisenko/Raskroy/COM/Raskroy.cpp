@@ -47,12 +47,12 @@ STDMETHODIMP CRaskroy::NextResult(IResult **pResult, BOOL *bRes)
 		ss << L"\nнельзя расположить детали с длиной:\n";
 		for (t_sizes::const_iterator i = ex.sizes[0].begin(); i != ex.sizes[0].end(); i++)
 		{
-			ss << i->size << L' ';
+			ss << i->Value << L' ';
 		}
 		ss << L"\nи шириной:\n";
 		for (t_sizes::const_iterator i = ex.sizes[1].begin(); i != ex.sizes[1].end(); i++)
 		{
-			ss << i->size << L' ';
+			ss << i->Value << L' ';
 		}
 		return AtlReportError(GetObjectCLSID(), ss.str().c_str());
 	}

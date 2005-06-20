@@ -13,22 +13,22 @@ using namespace std;
 void test_perebor()
 {
 	// testing perebor
-	t_size sz;
-	sz.size = 100;
+	Size sz;
+	sz.Value = 100;
 
-	t_other_size os;
-	os.offset = 0;
-	os.size = 100;
-	sz.other_sizes.push_back(os);
+	OtherSize os;
+	os.Offset = 0;
+	os.Value = 100;
+	sz.OtherSizes.push_back(os);
 
-	os.offset = 2;
-	os.size = 200;
-	sz.other_sizes.push_back(os);
+	os.Offset = 2;
+	os.Value = 200;
+	sz.OtherSizes.push_back(os);
 
-	os.offset = 1;
-	os.size = 30;
-	sz.other_sizes.push_back(os);
-	sz.other_sizes.prepare();
+	os.Offset = 1;
+	os.Value = 30;
+	sz.OtherSizes.push_back(os);
+	sz.OtherSizes.prepare();
 
 	t_amounts rem;
 	rem.push_back(1);
@@ -59,9 +59,10 @@ void display_sizes(t_sizes sizes[])
 		cout << "s=" << s << endl;
 		for (t_sizes::const_iterator i = sizes[s].begin(); i != sizes[s].end(); i++)
 		{
-			cout << i->size << ": ";
-			for (t_other_sizes::const_iterator j = i->other_sizes.begin(); j != i->other_sizes.end(); j++)
-				cout << j->size << " ";
+			const Size &size = *i;
+			cout << size.Value << ": ";
+			for (t_other_sizes::const_iterator j = size.OtherSizes.begin(); j != size.OtherSizes.end(); j++)
+				cout << j->Value << " ";
 			cout << endl;
 		}
 	}
