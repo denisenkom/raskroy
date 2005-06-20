@@ -38,7 +38,6 @@ struct Part {
 	}
 };	// 16+4+4+4+4=32B
 
-typedef std::vector<Part> t_parts_vector;
 typedef std::list<Part> t_parts;
 
 struct Stat {
