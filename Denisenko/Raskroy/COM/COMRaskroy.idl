@@ -1,166 +1,161 @@
-// COMRaskroy.idl : IDL source for COMRaskroy.dll
-//
-
-// This file will be processed by the MIDL tool to
-// produce the type library (COMRaskroy.tlb) and marshalling code.
-
 import "oaidl.idl";
 import "ocidl.idl";
 //#include "olectl.h"
-	[
-		object,
-		uuid(58EBA5A6-FC50-49F9-9D01-D9CDF15C677E),
-		dual,
-		helpstring("ISheet Interface"),
-		pointer_default(unique)
-	]
-	interface ISheet : IDispatch
-	{
-		[propget, id(1), helpstring("property Length")] HRESULT Length([out, retval] double *pVal);
-		[propput, id(1), helpstring("property Length")] HRESULT Length([in] double newVal);
-		[propget, id(2), helpstring("property Width")] HRESULT Width([out, retval] double *pVal);
-		[propput, id(2), helpstring("property Width")] HRESULT Width([in] double newVal);
-		[propget, id(3), helpstring("property Amount")] HRESULT Amount([out, retval] long *pVal);
-		[propput, id(3), helpstring("property Amount")] HRESULT Amount([in] long newVal);
-		[propget, id(4), helpstring("property Rotate")] HRESULT Rotate([out, retval] BOOL *pVal);
-		[propput, id(4), helpstring("property Rotate")] HRESULT Rotate([in] BOOL newVal);
-	};
-	[
-		object,
-		uuid(00CF5F84-9E33-4798-AD68-24017A4E3F2F),
-		dual,
-		helpstring("ISheets Interface"),
-		pointer_default(unique)
-	]
-	interface ISheets : IDispatch
-	{
-        [id(DISPID_NEWENUM), propget] HRESULT _NewEnum([out, retval] IUnknown** ppUnk);
-        [id(DISPID_VALUE), propget] HRESULT Item([in] long Index, [out, retval] VARIANT* pVal);
-		[id(DISPID_VALUE), propput] HRESULT Item([in] long Index, [in] VARIANT pnewVal);
-        [id(1), propget] HRESULT Count([out, retval] long* pVal);
-		[id(2)] HRESULT Add([in] VARIANT Sheet);
-		[id(3)] HRESULT Add2([in] DOUBLE Length, [in] DOUBLE Width, [in] long Amount, [in] BOOL Rotate);
-	};
-	[
-		object,
-		uuid(A6806208-1C74-4C4E-AE00-A0AB298A2DFE),
-		dual,
-		helpstring("IParsedPart Interface"),
-		pointer_default(unique)
-	]
-	interface IParsedPart : IDispatch
-	{
-		[propget, id(1), helpstring("property X")] HRESULT X([out, retval] double *pVal);
-		[propput, id(1), helpstring("property X")] HRESULT X([in] double newVal);
-		[propget, id(2), helpstring("property Y")] HRESULT Y([out, retval] double *pVal);
-		[propput, id(2), helpstring("property Y")] HRESULT Y([in] double newVal);
-		[propget, id(3), helpstring("property Length")] HRESULT Length([out, retval] double *pVal);
-		[propput, id(3), helpstring("property Length")] HRESULT Length([in] double newVal);
-		[propget, id(4), helpstring("property Width")] HRESULT Width([out, retval] double *pVal);
-		[propput, id(4), helpstring("property Width")] HRESULT Width([in] double newVal);
-	};
-	[
-		object,
-		uuid(33D428BC-D123-4DBB-AE87-A21A2DA7EDF3),
-		dual,
-		helpstring("IParsedCut Interface"),
-		pointer_default(unique)
-	]
-	interface IParsedCut : IDispatch
-	{
-		[propget, id(1), helpstring("property X")] HRESULT X([out, retval] double *pVal);
-		[propput, id(1), helpstring("property X")] HRESULT X([in] double newVal);
-		[propget, id(2), helpstring("property Y")] HRESULT Y([out, retval] double *pVal);
-		[propput, id(2), helpstring("property Y")] HRESULT Y([in] double newVal);
-		[propget, id(3), helpstring("property S")] HRESULT S([out, retval] long *pVal);
-		[propput, id(3), helpstring("property S")] HRESULT S([in] long newVal);
-		[propget, id(4), helpstring("property Length")] HRESULT Length([out, retval] double *pVal);
-		[propput, id(4), helpstring("property Length")] HRESULT Length([in] double newVal);
-	};
-	[
-		object,
-		uuid(3ABDE08B-93E3-480E-96D3-0ACA19DA7AED),
-		dual,
-		helpstring("IParsedParts Interface"),
-		pointer_default(unique)
-	]
-	interface IParsedParts : IDispatch
-	{
-		[propget, id(1), helpstring("property Count")] HRESULT Count([out, retval] long *pVal);
-		[propget, id(2), helpstring("property Item")] HRESULT Item(long Index, [out, retval] IParsedPart* *pVal);
-		[propput, id(2), helpstring("property Item")] HRESULT Item(long Index, [in] IParsedPart* newVal);
-		[id(3), helpstring("method Add")] HRESULT Add(IParsedPart *Part);
-	};
-	[
-		object,
-		uuid(FCE1C030-1780-49B2-9371-CBE6B625D6F4),
-		dual,
-		helpstring("IParsedCuts Interface"),
-		pointer_default(unique)
-	]
-	interface IParsedCuts : IDispatch
-	{
-		[propget, id(1), helpstring("property Item")] HRESULT Item(long Index, [out, retval] IParsedCut* *pVal);
-		[propput, id(1), helpstring("property Item")] HRESULT Item(long Index, [in] IParsedCut* newVal);
-		[propget, id(2), helpstring("property Count")] HRESULT Count([out, retval] long *pVal);
-		[id(3), helpstring("method Add")] HRESULT Add(IParsedCut *Cut);
-	};
-	[
-		object,
-		uuid(BB7C7109-1239-4938-B571-8DCBC6AEF1C7),
-		dual,
-		helpstring("IResult Interface"),
-		pointer_default(unique)
-	]
-	interface IResult : IDispatch
-	{
-		[propget, id(1), helpstring("property Sheet")] HRESULT Sheet([out, retval] ISheet **pVal);
-		[propput, id(1), helpstring("property Sheet")] HRESULT Sheet([in] ISheet *newVal);
-		[propget, id(2), helpstring("property Amount")] HRESULT Amount([out, retval] long *pVal);
-		[propput, id(2), helpstring("property Amount")] HRESULT Amount([in] long newVal);
-		[propget, id(3), helpstring("property ParsedParts")] HRESULT ParsedParts([out, retval] IParsedParts * *pVal);
-		[propput, id(3), helpstring("property ParsedParts")] HRESULT ParsedParts([in] IParsedParts *newVal);
-		[propget, id(4), helpstring("property ParsedCuts")] HRESULT ParsedCuts([out, retval] IParsedCuts * *pVal);
-		[propput, id(4), helpstring("property ParsedCuts")] HRESULT ParsedCuts([in] IParsedCuts *newVal);
-		[propget, id(6), helpstring("property String")] HRESULT String([out, retval] BSTR* pVal);
-		[propput, id(6), helpstring("property String")] HRESULT String([in] BSTR newVal);
-		[propget, id(7), helpstring("property Scrap")] HRESULT UsefulScrap([out, retval] DOUBLE* pVal);
-		[propput, id(7), helpstring("property Scrap")] HRESULT UsefulScrap([in] DOUBLE newVal);
-		[propget, id(8), helpstring("property UnUsefulScrap")] HRESULT UnUsefulScrap([out, retval] DOUBLE* pVal);
-		[propput, id(8), helpstring("property UnUsefulScrap")] HRESULT UnUsefulScrap([in] DOUBLE newVal);
-		[propget, id(9), helpstring("property UsefulNum")] HRESULT UsefulNum([out, retval] long* pVal);
-		[propput, id(9), helpstring("property UsefulNum")] HRESULT UsefulNum([in] long newVal);
-		[propget, id(10), helpstring("property Opilki")] HRESULT Opilki([out, retval] DOUBLE* pVal);
-		[propput, id(10), helpstring("property Opilki")] HRESULT Opilki([in] DOUBLE newVal);
-	};
-	[
-		object,
-		uuid(254327C9-7706-47D3-9770-117DDF4B0597),
-		dual,
-		helpstring("IResultView Interface"),
-		pointer_default(unique)
-	]
-	interface IResultView : IDispatch
-	{
-		[propget, id(1), helpstring("property Value")] HRESULT Value([out, retval] BSTR* pVal);
-		[propput, id(1), helpstring("property Value")] HRESULT Value([in] BSTR newVal);
-	};
-	[
-		object,
-		uuid(8DFC4AFF-69C1-4D5F-A0EB-832650D32326),
-		dual,
-		helpstring("IRaskroy Interface"),
-		pointer_default(unique)
-	]
-	interface IRaskroy : IDispatch
-	{
-		[id(2), helpstring("method Run")] HRESULT Begin(
-			[in] ISheets *Parts,
-			[in] ISheets *Sheets);
-		[id(3), helpstring("method Run")] HRESULT NextResult([out, ref] IResult **Result, [out, retval] BOOL *Res);
-		[propget, id(4), helpstring("property CutWidth")] HRESULT CutWidth([out, retval] DOUBLE* pVal);
-		[propput, id(4), helpstring("property CutWidth")] HRESULT CutWidth([in] DOUBLE newVal);
-	};
+[
+	object,
+	uuid(58EBA5A6-FC50-49F9-9D01-D9CDF15C677E),
+	dual,
+	helpstring("ISheet Interface"),
+	pointer_default(unique)
+]
+interface ISheet : IDispatch
+{
+	[propget, id(1), helpstring("property Length")] HRESULT Length([out, retval] double *pVal);
+	[propput, id(1), helpstring("property Length")] HRESULT Length([in] double newVal);
+	[propget, id(2), helpstring("property Width")] HRESULT Width([out, retval] double *pVal);
+	[propput, id(2), helpstring("property Width")] HRESULT Width([in] double newVal);
+	[propget, id(3), helpstring("property Amount")] HRESULT Amount([out, retval] long *pVal);
+	[propput, id(3), helpstring("property Amount")] HRESULT Amount([in] long newVal);
+	[propget, id(4), helpstring("property Rotate")] HRESULT Rotate([out, retval] BOOL *pVal);
+	[propput, id(4), helpstring("property Rotate")] HRESULT Rotate([in] BOOL newVal);
+};
+[
+	object,
+	uuid(00CF5F84-9E33-4798-AD68-24017A4E3F2F),
+	dual,
+	helpstring("ISheets Interface"),
+	pointer_default(unique)
+]
+interface ISheets : IDispatch
+{
+    [id(DISPID_NEWENUM), propget] HRESULT _NewEnum([out, retval] IUnknown** ppUnk);
+    [id(DISPID_VALUE), propget] HRESULT Item([in] long Index, [out, retval] VARIANT* pVal);
+	[id(DISPID_VALUE), propput] HRESULT Item([in] long Index, [in] VARIANT pnewVal);
+    [id(1), propget] HRESULT Count([out, retval] long* pVal);
+	[id(2)] HRESULT Add([in] VARIANT Sheet);
+	[id(3)] HRESULT Add2([in] DOUBLE Length, [in] DOUBLE Width, [in] long Amount, [in] BOOL Rotate);
+};
+[
+	object,
+	uuid(A6806208-1C74-4C4E-AE00-A0AB298A2DFE),
+	dual,
+	helpstring("IParsedPart Interface"),
+	pointer_default(unique)
+]
+interface IParsedPart : IDispatch
+{
+	[propget, id(1), helpstring("property X")] HRESULT X([out, retval] double *pVal);
+	[propput, id(1), helpstring("property X")] HRESULT X([in] double newVal);
+	[propget, id(2), helpstring("property Y")] HRESULT Y([out, retval] double *pVal);
+	[propput, id(2), helpstring("property Y")] HRESULT Y([in] double newVal);
+	[propget, id(3), helpstring("property Length")] HRESULT Length([out, retval] double *pVal);
+	[propput, id(3), helpstring("property Length")] HRESULT Length([in] double newVal);
+	[propget, id(4), helpstring("property Width")] HRESULT Width([out, retval] double *pVal);
+	[propput, id(4), helpstring("property Width")] HRESULT Width([in] double newVal);
+};
+[
+	object,
+	uuid(33D428BC-D123-4DBB-AE87-A21A2DA7EDF3),
+	dual,
+	helpstring("IParsedCut Interface"),
+	pointer_default(unique)
+]
+interface IParsedCut : IDispatch
+{
+	[propget, id(1), helpstring("property X")] HRESULT X([out, retval] double *pVal);
+	[propput, id(1), helpstring("property X")] HRESULT X([in] double newVal);
+	[propget, id(2), helpstring("property Y")] HRESULT Y([out, retval] double *pVal);
+	[propput, id(2), helpstring("property Y")] HRESULT Y([in] double newVal);
+	[propget, id(3), helpstring("property S")] HRESULT S([out, retval] long *pVal);
+	[propput, id(3), helpstring("property S")] HRESULT S([in] long newVal);
+	[propget, id(4), helpstring("property Length")] HRESULT Length([out, retval] double *pVal);
+	[propput, id(4), helpstring("property Length")] HRESULT Length([in] double newVal);
+};
+[
+	object,
+	uuid(3ABDE08B-93E3-480E-96D3-0ACA19DA7AED),
+	dual,
+	helpstring("IParsedParts Interface"),
+	pointer_default(unique)
+]
+interface IParsedParts : IDispatch
+{
+	[propget, id(1), helpstring("property Count")] HRESULT Count([out, retval] long *pVal);
+	[propget, id(2), helpstring("property Item")] HRESULT Item(long Index, [out, retval] IParsedPart* *pVal);
+	[propput, id(2), helpstring("property Item")] HRESULT Item(long Index, [in] IParsedPart* newVal);
+	[id(3), helpstring("method Add")] HRESULT Add(IParsedPart *Part);
+};
+[
+	object,
+	uuid(FCE1C030-1780-49B2-9371-CBE6B625D6F4),
+	dual,
+	helpstring("IParsedCuts Interface"),
+	pointer_default(unique)
+]
+interface IParsedCuts : IDispatch
+{
+	[propget, id(1), helpstring("property Item")] HRESULT Item(long Index, [out, retval] IParsedCut* *pVal);
+	[propput, id(1), helpstring("property Item")] HRESULT Item(long Index, [in] IParsedCut* newVal);
+	[propget, id(2), helpstring("property Count")] HRESULT Count([out, retval] long *pVal);
+	[id(3), helpstring("method Add")] HRESULT Add(IParsedCut *Cut);
+};
+[
+	object,
+	uuid(BB7C7109-1239-4938-B571-8DCBC6AEF1C7),
+	dual,
+	helpstring("IResult Interface"),
+	pointer_default(unique)
+]
+interface IResult : IDispatch
+{
+	[propget, id(1), helpstring("property Sheet")] HRESULT Sheet([out, retval] ISheet **pVal);
+	[propput, id(1), helpstring("property Sheet")] HRESULT Sheet([in] ISheet *newVal);
+	[propget, id(2), helpstring("property Amount")] HRESULT Amount([out, retval] long *pVal);
+	[propput, id(2), helpstring("property Amount")] HRESULT Amount([in] long newVal);
+	[propget, id(3), helpstring("property ParsedParts")] HRESULT ParsedParts([out, retval] IParsedParts * *pVal);
+	[propput, id(3), helpstring("property ParsedParts")] HRESULT ParsedParts([in] IParsedParts *newVal);
+	[propget, id(4), helpstring("property ParsedCuts")] HRESULT ParsedCuts([out, retval] IParsedCuts * *pVal);
+	[propput, id(4), helpstring("property ParsedCuts")] HRESULT ParsedCuts([in] IParsedCuts *newVal);
+	[propget, id(6), helpstring("property String")] HRESULT String([out, retval] BSTR* pVal);
+	[propput, id(6), helpstring("property String")] HRESULT String([in] BSTR newVal);
+	[propget, id(7), helpstring("property Scrap")] HRESULT UsefulScrap([out, retval] DOUBLE* pVal);
+	[propput, id(7), helpstring("property Scrap")] HRESULT UsefulScrap([in] DOUBLE newVal);
+	[propget, id(8), helpstring("property UnUsefulScrap")] HRESULT UnUsefulScrap([out, retval] DOUBLE* pVal);
+	[propput, id(8), helpstring("property UnUsefulScrap")] HRESULT UnUsefulScrap([in] DOUBLE newVal);
+	[propget, id(9), helpstring("property UsefulNum")] HRESULT UsefulNum([out, retval] long* pVal);
+	[propput, id(9), helpstring("property UsefulNum")] HRESULT UsefulNum([in] long newVal);
+	[propget, id(10), helpstring("property Opilki")] HRESULT Opilki([out, retval] DOUBLE* pVal);
+	[propput, id(10), helpstring("property Opilki")] HRESULT Opilki([in] DOUBLE newVal);
+};
+[
+	object,
+	uuid(254327C9-7706-47D3-9770-117DDF4B0597),
+	dual,
+	helpstring("IResultView Interface"),
+	pointer_default(unique)
+]
+interface IResultView : IDispatch
+{
+	[propget, id(1), helpstring("property Value")] HRESULT Value([out, retval] BSTR* pVal);
+	[propput, id(1), helpstring("property Value")] HRESULT Value([in] BSTR newVal);
+};
+[
+	object,
+	uuid(8DFC4AFF-69C1-4D5F-A0EB-832650D32326),
+	oleautomation,
+	dual,
+	helpstring("IRaskroy Interface"),
+	pointer_default(unique)
+]
+interface IRaskroy : IDispatch
+{
+	[id(2), helpstring("method Run")] HRESULT Begin(
+		[in] ISheets *Parts,
+		[in] ISheets *Sheets);
+	[id(3), helpstring("method Run")] HRESULT NextResult([out, ref] IResult **Result, [out, retval] BOOL *Res);
+	[propget, id(4), helpstring("property CutWidth")] HRESULT CutWidth([out, retval] DOUBLE* pVal);
+	[propput, id(4), helpstring("property CutWidth")] HRESULT CutWidth([in] DOUBLE newVal);
+};
 [
 	uuid(40443BA8-6056-4700-8665-6C9A43730A98),
 	version(1.0),
