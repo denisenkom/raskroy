@@ -1,12 +1,8 @@
-// ParsedCuts.h : Declaration of the CParsedCuts
-
 #ifndef __PARSEDCUTS_H_
 #define __PARSEDCUTS_H_
 
-#include "resource.h"       // main symbols
+#include "resource.h"
 
-/////////////////////////////////////////////////////////////////////////////
-// CParsedCuts
 class ATL_NO_VTABLE CParsedCuts : 
 	public CComObjectRootEx<CComSingleThreadModel>,
 	public CComCoClass<CParsedCuts, &CLSID_ParsedCuts>,
