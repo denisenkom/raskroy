@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Text;
 using Denisenko.Cutting;
@@ -21,8 +22,8 @@ namespace Denisenko.Cutting.Converting
 		{
 			LC4Cutting lc4Cutting = m_result.CreateCutting();
 			lc4Cutting.Name = cuttingName;
-			lc4Cutting.Size1 = new LC4Numeric(cuttingResult.Size1);
-			lc4Cutting.Size2 = new LC4Numeric(cuttingResult.Size2);
+			lc4Cutting.Size1 = NumericFromSize(cuttingResult.Size1);
+			lc4Cutting.Size2 = NumericFromSize(cuttingResult.Size2);
 			AddSections(lc4Cutting, cuttingResult);
 			m_result.Cuttings.Add(lc4Cutting);
 		}
@@ -58,8 +59,15 @@ namespace Denisenko.Cutting.Converting
 					result.SectionType = LC4SectionType.Scrap;
 					break;
 			}
-			result.Size = new LC4Numeric(input.Size);
+			result.Size = NumericFromSize(input.Size);
 			return result;
+		}
+
+		static LC4Numeric NumericFromSize(Size size)
+		{
+			Debug.Assert(Size.Factor == 1000);
+			Debug.Assert(LC4Numeric.Scale == 100000);
+			return LC4Numeric.FromScaled(size.Scaled * 100);
 		}
 	}
 
