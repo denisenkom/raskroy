@@ -12,27 +12,29 @@ public:
 	{
 	}
 
-	CuttingResult^ Convert(const Denisenko::Raskroy::t_result& input, Int32 sawThickness, Int32 size1, Int32 size2)
+	CuttingResult^ Convert(const Denisenko::Raskroy::t_result& input, Size sawThickness, Size size1, Size size2)
 	{
 		m_result = gcnew CuttingResult();
 		m_sawThickness = sawThickness;
 		m_result->Size1 = size1;
 		m_result->Size2 = size2;
-		Int32 rect[2] = {size1, size2};
+		array<Size>^ rect = gcnew array<Size>(2);
+		rect[0] = size1;
+		rect[1] = size2;
 		Recursive(input.raskroy, rect, m_result);
 		return m_result;
 	}
 
 private:
 	CuttingResult^ m_result;
-	Int32 m_sawThickness;
+	Size m_sawThickness;
 
-	void Recursive(const Denisenko::Raskroy::t_raskroy& input, Int32 sizes[], CuttingSectionsCollection^ output)
+	void Recursive(const Denisenko::Raskroy::t_raskroy& input, array<Size>^ sizes, CuttingSectionsCollection^ output)
 	{
 		CuttingSectionsCollection^ outputLine;
-		if(input.cut < sizes[input.s]) // нужно начать новую полосу
+		if(input.cut < sizes[input.s].Scaled) // нужно начать новую полосу
 		{
-			CuttingSection^ newLine = gcnew CuttingSection(CuttingSectionType::NewLine, input.cut);
+			CuttingSection^ newLine = gcnew CuttingSection(CuttingSectionType::NewLine, Size::FromScaled(input.cut));
 			outputLine = newLine;
 			output->Add(newLine);
 		}
@@ -41,31 +43,31 @@ private:
 			outputLine = output;
 		}
 
-		Int32 remain = sizes[!input.s];
+		Size remain = sizes[!input.s];
 
 		for(UInt32 i = 0; i < input.details.size(); i++)
 		{
 			for(Int32 j = input.details[i].num; j > 0; j--)
 			{
-				outputLine->Add(gcnew CuttingSection(CuttingSectionType::Element, input.details[i].size));
-				remain -= input.details[i].size;
+				outputLine->Add(gcnew CuttingSection(CuttingSectionType::Element, Size::FromScaled(input.details[i].size)));
+				remain.Scaled -= input.details[i].size;
 				if(remain >= m_sawThickness)
 				{
 					outputLine->Add(gcnew CuttingSection(CuttingSectionType::Cut, m_sawThickness));
 					remain -=  m_sawThickness;
 				}
-				else if(remain > 0)
+				else if(remain > Size(0))
 				{
 					outputLine->Add(gcnew CuttingSection(CuttingSectionType::Cut, remain));
-					remain = 0;
+					remain = Size::Zero;
 				}
 			}
 		}
 
 		if(input.watchRemain() != NULL)
 		{
-			Int32 newRect[2];
-			newRect[input.s] = input.cut;
+			array<Size>^ newRect = gcnew array<Size>(2);
+			newRect[input.s] = Size::FromScaled(input.cut);
 			newRect[!input.s] = remain;
 			Recursive(*input.watchRemain(), newRect, outputLine);
 		}
@@ -74,8 +76,8 @@ private:
 			outputLine->Add(gcnew CuttingSection(CuttingSectionType::Scrap, remain));
 		}
 
-		remain = sizes[input.s] - input.cut;
-		if(remain > 0) // была сделана новая полоса
+		remain = sizes[input.s] - Size::FromScaled(input.cut);
+		if(remain > Size::Zero) // была сделана новая полоса
 		{
 			if(remain >= m_sawThickness)
 			{
@@ -85,15 +87,15 @@ private:
 			else
 			{
 				output->Add(gcnew CuttingSection(CuttingSectionType::Cut, remain));
-				remain = 0;
+				remain = Size::Zero;
 			}
 		}
 		
-		if(remain > 0) 
+		if(remain > Size::Zero) 
 		{
 			if(input.watchRecurse() != NULL)
 			{
-				Int32 newRect[2];
+				array<Size>^ newRect = gcnew array<Size>(2);
 				newRect[input.s] = remain;
 				newRect[!input.s] = sizes[!input.s];
 				Recursive(*input.watchRecurse(), newRect, output);
