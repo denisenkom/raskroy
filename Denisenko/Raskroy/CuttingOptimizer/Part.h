@@ -3,24 +3,26 @@
 using namespace System;
 
 namespace Denisenko {
-namespace CuttingOptimizer {
+namespace Cutting {
 
-public ref struct Part
+public value class Part
 {
 public:
-	Part(Double length, Double width, Int32 quantity) :
-		m_length(length), m_width(width), m_quantity(quantity)
+	Part(Int32 length, Int32 width, Int32 quantity, Boolean canRotate) :
+		m_length(length), m_width(width), m_quantity(quantity), m_canRotate(canRotate)
 	{
 	}
 
-	property Double Length { Double get() { return m_length; } }
-	property Double Width { Double get() { return m_width; } }
-	property Double Quantity { Double get() { return m_quantity; } }
+	property Int32 Length { Int32 get() { return m_length; } }
+	property Int32 Width { Int32 get() { return m_width; } }
+	property Int32 Quantity { Int32 get() { return m_quantity; } }
+	property Boolean CanRotate { Boolean get() { return m_canRotate; } }
 
 private:
-	Double m_length;
-	Double m_width;
+	Int32 m_length;
+	Int32 m_width;
 	Int32 m_quantity;
+	Boolean m_canRotate;
 };
 
 }
