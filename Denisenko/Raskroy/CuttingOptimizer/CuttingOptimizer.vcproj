@@ -230,6 +230,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\CuttingResultBuilder.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Part.h"
 				>
 			</File>
@@ -265,6 +269,50 @@
 			</File>
 			<File
 				RelativePath=".\app.rc"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="CppRaskroy"
+			>
+			<File
+				RelativePath=".\common.h"
+				>
+			</File>
+			<File
+				RelativePath=".\errors.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Perebor.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Perebor.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Perebor2d.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Perebor2d.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Raskroy.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Raskroy.h"
+				>
+			</File>
+			<File
+				RelativePath=".\types.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\types.h"
 				>
 			</File>
 		</Filter>

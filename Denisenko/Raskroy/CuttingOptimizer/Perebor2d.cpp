@@ -4,7 +4,7 @@
 namespace Denisenko {
 namespace Raskroy {
 
-const scalar MIN_USEFUL_SIZE1 = 70.0;
+const scalar MIN_USEFUL_SIZE1 = 70;
 const scalar MIN_USEFUL_SIZE2 = 200-34;
 
 // Раскрой листа по длине и по ширине, возвращает лучший выриант

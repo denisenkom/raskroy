@@ -7,5 +7,6 @@
 #include "Sheet.h"
 #include "SheetsCollection.h"
 #include "CuttingResult.h"
+#include "CuttingResultBuilder.h"
 #include "CuttingOptimizer.h"
 

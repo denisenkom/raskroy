@@ -1,17 +1,17 @@
 #pragma once
 
 namespace Denisenko {
-namespace CuttingOptimizer {
+namespace Cutting {
 
-public ref class SheetsCollection : IEnumerable<Sheet^>
+public ref class SheetsCollection : IEnumerable<Sheet>
 {
 public:
-	void Add(Sheet^ sheet)
+	void Add(Sheet sheet)
 	{
 		m_list->Add(sheet);
 	}
 
-	virtual IEnumerator<Sheet^>^ GetEnumerator()
+	virtual IEnumerator<Sheet>^ GetEnumerator()
 	{
 		return m_list->GetEnumerator();
 	}
@@ -19,11 +19,11 @@ public:
 internal:
 	SheetsCollection(void)
 	{
-		m_list = gcnew List<Sheet^>();
+		m_list = gcnew List<Sheet>();
 	}
 
 private:
-	List<Sheet^>^ m_list;
+	List<Sheet>^ m_list;
 
 	virtual System::Collections::IEnumerator^ GetEnumerator2() sealed = System::Collections::IEnumerable::GetEnumerator
 	{

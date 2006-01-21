@@ -6,17 +6,17 @@ using namespace System;
 using namespace System::Collections::Generic;
 
 namespace Denisenko {
-namespace CuttingOptimizer {
+namespace Cutting {
 
-	public ref class PartsCollection : IEnumerable<Part^>
+	public ref class PartsCollection : IEnumerable<Part>
 {
 public:
-	void Add(Part^ part)
+	void Add(Part part)
 	{
 		m_list->Add(part);
 	}
 
-	virtual IEnumerator<Part^>^ GetEnumerator()
+	virtual IEnumerator<Part>^ GetEnumerator()
 	{
 		return m_list->GetEnumerator();
 	}
@@ -24,11 +24,11 @@ public:
 internal:
 	PartsCollection(void)
 	{
-		m_list = gcnew List<Part^>();
+		m_list = gcnew List<Part>();
 	}
 
 private:
-	List<Part^>^ m_list;
+	List<Part>^ m_list;
 
 	virtual System::Collections::IEnumerator^ GetEnumerator2() sealed = System::Collections::IEnumerable::GetEnumerator
 	{

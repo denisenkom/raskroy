@@ -1,22 +1,22 @@
 #pragma once
 
 namespace Denisenko {
-namespace CuttingOptimizer {
+namespace Cutting {
 
-public ref struct Sheet
+public value class Sheet
 {
 public:
-	Sheet(Double length, Double width) :
+	Sheet(Int32 length, Int32 width) :
 	  m_length(length), m_width(width)
 	{
 	}
 
-	property Double Length { Double get() { return m_length; } }
-	property Double Width { Double get() { return m_width; } }
+	property Int32 Length { Int32 get() { return m_length; } }
+	property Int32 Width { Int32 get() { return m_width; } }
 
 private:
-	Double m_length;
-	Double m_width;
+	Int32 m_length;
+	Int32 m_width;
 };
 
 }

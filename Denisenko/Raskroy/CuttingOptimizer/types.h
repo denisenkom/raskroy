@@ -6,7 +6,7 @@
 namespace Denisenko {
 namespace Raskroy {
 
-typedef double scalar;
+typedef int scalar;
 
 struct Rect {
 	union
@@ -83,7 +83,7 @@ struct t_raskroy {
 	struct t_detail {scalar size; unsigned num;};
 	typedef std::vector<t_detail> t_details;
 
-	unsigned s;
+	unsigned s; // разрез проходит перпендикул€рно этой стороне
 	unsigned kratnostj;
 	scalar cut;
 	t_details details;
