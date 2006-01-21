@@ -6,7 +6,7 @@
 namespace Denisenko {
 namespace Raskroy {
 
-typedef int scalar;
+typedef __int64 scalar;
 
 struct Rect {
 	union

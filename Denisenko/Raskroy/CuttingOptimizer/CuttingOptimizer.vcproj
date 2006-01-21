@@ -254,6 +254,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Size.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Stdafx.h"
 				>
 			</File>
