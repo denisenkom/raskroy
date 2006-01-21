@@ -47,16 +47,16 @@ public enum class CuttingSectionType
 public ref class CuttingSection : CuttingSectionsCollection
 {
 public:
-	CuttingSection(CuttingSectionType sectionType, Int32 size) :
+	CuttingSection(CuttingSectionType sectionType, Size size) :
 	  m_sectionType(sectionType), m_size(size)
 	{
 	}
 
-	property Int32 Size { Int32 get() { return m_size; } }
+	property Denisenko::Size Size { Denisenko::Size get() { return m_size; } }
 	property CuttingSectionType SectionType { CuttingSectionType get() { return m_sectionType; } }
 
 internal:
-	Int32 m_size;
+	Denisenko::Size m_size;
 	CuttingSectionType m_sectionType;
 };
 
@@ -64,15 +64,15 @@ internal:
 public ref class CuttingResult : CuttingSectionsCollection
 {
 public:
-	property Int32 Size1
+	property Size Size1
 	{ 
-		Int32 get() { return m_size1; } 
-		void set(Int32 value) { m_size1 = value; }
+		Size get() { return m_size1; } 
+		void set(Size value) { m_size1 = value; }
 	}
-	property Int32 Size2 
+	property Size Size2 
 	{ 
-		Int32 get() { return m_size2; } 
-		void set(Int32 value) { m_size2 = value; }
+		Size get() { return m_size2; } 
+		void set(Size value) { m_size2 = value; }
 	}
 
 internal:
@@ -80,8 +80,8 @@ internal:
 	{
 	}
 
-	Int32 m_size1;
-	Int32 m_size2;
+	Size m_size1;
+	Size m_size2;
 };
 
 
