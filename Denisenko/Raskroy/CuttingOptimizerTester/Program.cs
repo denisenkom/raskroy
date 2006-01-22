@@ -6,7 +6,7 @@ using Denisenko;
 using Denisenko.Cutting;
 using Denisenko.Cutting.Optimizing;
 using Denisenko.Cutting.Converting;
-using Denisenko.LC4Parser;
+using Denisenko.Cutting.LC4;
 
 namespace CuttingOptimizerTester
 {

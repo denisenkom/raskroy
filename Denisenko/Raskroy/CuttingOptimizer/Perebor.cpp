@@ -32,8 +32,8 @@ scalar Perebor::Recursion(scalar i_size, Amounts &o_rashods)
 			if (remain < bestRemain || first)
 			{
 				bestRemain = remain;
-				o_rashods = rashods;
 				rashods[m_pOtherSize->Offset] = n;
+				o_rashods = rashods;
 				if (bestRemain <= 0) // лучше быть не может
 					return bestRemain;
 				first = false;
@@ -88,6 +88,8 @@ bool Perebor::Make(const Size &size, scalar otherSize, t_raskroy::t_details &o_d
 	scalar remain = Recursion(otherSize, o_rashods);
 	if (remain == otherSize)	// если ничего небыло расположено
 		return false;
+
+	assert(!o_rashods.IsAllZeros());
 
 	unsigned cuts = 0;// количество пилов
 	for (OtherSizes::const_iterator pOtherSize = size.OtherSizes.begin(); pOtherSize != size.OtherSizes.end(); pOtherSize++)

@@ -69,7 +69,7 @@ bool Perebor2d::Recursion(Sizes::iterator begin, const Rect &rect, Stat &stat, i
 		t_raskroy::t_details details;
 		scalar opilki;
 		scalar remain;
-		if (!m_perebor.Make(*i, rect.Size[!s], details, rashodPerebor, opilki, remain))
+		if (!m_perebor.Make(*i, rect.Size[!s], details, rashodPerebor, remain, opilki))
 			continue;
 
 		//stat1.sum_cut_length += rect.size[!s];

@@ -136,6 +136,8 @@ public:
 	Amounts operator * (unsigned n) const;
 	Amounts operator - (const Amounts &amounts) const;
 	Amounts operator + (const Amounts &b) const {Amounts res(*this); return (res += b);};
+
+	bool IsAllZeros() { for(const_iterator i = begin(); i != end(); i++) if(*i > 0) return false; return true; }
 };
 
 class OtherSize

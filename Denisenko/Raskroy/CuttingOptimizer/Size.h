@@ -24,6 +24,11 @@ public:
 		return (Double)m_scaled / (Double)Factor;
 	}
 
+	Single ToSingle()
+	{
+		return (Single)m_scaled / (Single)Factor;
+	}
+
 	static Size Parse(String^ string)
 	{
 		return Size(Double::Parse(string));
