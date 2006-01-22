@@ -46,6 +46,9 @@
     <Compile Include="CuttingControl.Designer.cs">
       <DependentUpon>CuttingControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="DataSet.cs">
+      <DependentUpon>DataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="DataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
