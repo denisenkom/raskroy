@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 
-namespace Denisenko.LC4Parser
+namespace Denisenko.Cutting.LC4
 {
 	public enum LC4SectionType {
 		Scrap,

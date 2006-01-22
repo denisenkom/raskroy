@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 
-namespace Denisenko.LC4Parser
+namespace Denisenko.Cutting.LC4
 {
 	public class LC4CuttingsCollection : IEnumerable<LC4Cutting>
 	{

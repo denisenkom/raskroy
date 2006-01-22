@@ -1,6 +1,6 @@
 using System;
 
-namespace Denisenko.LC4Parser
+namespace Denisenko.Cutting.LC4
 {
 	public struct LC4Numeric
 	{

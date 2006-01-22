@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 
-namespace Denisenko.LC4Parser
+namespace Denisenko.Cutting.LC4
 {
 	public class StreamParser
 	{

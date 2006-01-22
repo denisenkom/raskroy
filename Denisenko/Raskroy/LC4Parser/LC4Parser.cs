@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Denisenko.LC4Parser
+namespace Denisenko.Cutting.LC4
 {
 	public class LC4Parser
 	{

@@ -7,7 +7,7 @@
     <ProjectGuid>{83C5C11C-F1CA-4792-A4FF-810DCA49F20E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Denisenko.LC4Parser</RootNamespace>
+    <RootNamespace>Denisenko.Cutting.LC4</RootNamespace>
     <AssemblyName>LC4Parser</AssemblyName>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
