@@ -5,7 +5,7 @@ namespace Cutting {
 
 ref class CuttingSection;
 
-public ref class CuttingSectionsCollection : IEnumerable<CuttingSection^>
+public ref class CuttingSectionsCollection abstract : IEnumerable<CuttingSection^>, ICloneable
 {
 public:
 	virtual IEnumerator<CuttingSection^>^ GetEnumerator()
@@ -18,10 +18,17 @@ public:
 		m_list->Add(section);
 	}
 
+	virtual Object^ Clone() = 0;
+
 internal:
-	CuttingSectionsCollection()
+	CuttingSectionsCollection() :
+		m_list(gcnew List<CuttingSection^>())
 	{
-		m_list = gcnew List<CuttingSection^>();
+	}
+
+	CuttingSectionsCollection(CuttingSectionsCollection^ ref) :
+		m_list(ref->m_list)
+	{
 	}
 
 private:
@@ -47,12 +54,36 @@ public enum class CuttingSectionType
 public ref class CuttingSection : CuttingSectionsCollection
 {
 public:
-	CuttingSection(CuttingSectionType sectionType, Size size) :
-	  m_sectionType(sectionType), m_size(size)
+	virtual Object^ Clone2() = CuttingSectionsCollection::Clone
+	{
+		return Clone();
+	}
+
+	CuttingSection(CuttingSectionType sectionType) :
+		m_sectionType(sectionType)
 	{
 	}
 
-	property Denisenko::Size Size { Denisenko::Size get() { return m_size; } }
+	CuttingSection(CuttingSectionType sectionType, Size size) :
+		m_sectionType(sectionType), m_size(size)
+	{
+	}
+
+	CuttingSection(CuttingSection^ ref) : 
+		CuttingSectionsCollection(ref),
+		m_sectionType(ref->m_sectionType), m_size(ref->m_size)
+	{
+	}
+
+	CuttingSection^ Clone() new
+	{
+		return gcnew CuttingSection(this);
+	}
+
+	property Denisenko::Size Size {
+		Denisenko::Size get() { return m_size; }
+		void set(Denisenko::Size value) { m_size = value; }
+	}
 	property CuttingSectionType SectionType { CuttingSectionType get() { return m_sectionType; } }
 
 internal:
@@ -75,13 +106,30 @@ public:
 		void set(Size value) { m_size2 = value; }
 	}
 
+	CuttingResult^ Clone() new
+	{
+		return gcnew CuttingResult(this);
+	}
+
+	virtual Object^ Clone2() = CuttingSectionsCollection::Clone
+	{
+		return Clone();
+	}
+
 internal:
+	Size m_size1;
+	Size m_size2;
+
+
 	CuttingResult()
 	{
 	}
 
-	Size m_size1;
-	Size m_size2;
+	CuttingResult(CuttingResult^ ref) :
+		CuttingSectionsCollection(ref),
+		m_size1(ref->m_size1), m_size2(ref->m_size2)
+	{
+	}
 };
 
 

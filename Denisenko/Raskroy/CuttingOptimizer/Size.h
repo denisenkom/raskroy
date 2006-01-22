@@ -65,6 +65,17 @@ public:
 	inline Size operator += (Size rightOperand) { m_scaled += rightOperand.m_scaled; return *this; }
 	inline Size operator - (Size rightOperand) { return Size(m_scaled - rightOperand.m_scaled); }
 	inline Size operator + (Size rightOperand) { return Size(m_scaled + rightOperand.m_scaled); }
+	inline Size operator * (Int32 rightOperand) { return Size(m_scaled * rightOperand); }
+
+	static Size Min(Size size1, Size size2)
+	{
+		return Size(Math::Min(size1.m_scaled, size2.m_scaled));
+	}
+
+	static Size Max(Size size1, Size size2)
+	{
+		return Size(Math::Max(size1.m_scaled, size2.m_scaled));
+	}
 
 	const static Size Zero;
 
