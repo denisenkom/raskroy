@@ -92,23 +92,23 @@ internal:
 };
 
 
-public ref class CuttingResult : CuttingSectionsCollection
+public ref class CuttingScheme : CuttingSectionsCollection
 {
 public:
-	property Size Size1
+	property Size Width
 	{ 
-		Size get() { return m_size1; } 
-		void set(Size value) { m_size1 = value; }
+		Size get() { return m_width; } 
+		void set(Size value) { m_width = value; }
 	}
-	property Size Size2 
+	property Size Height 
 	{ 
-		Size get() { return m_size2; } 
-		void set(Size value) { m_size2 = value; }
+		Size get() { return m_height; } 
+		void set(Size value) { m_height = value; }
 	}
 
-	CuttingResult^ Clone() new
+	CuttingScheme^ Clone() new
 	{
-		return gcnew CuttingResult(this);
+		return gcnew CuttingScheme(this);
 	}
 
 	virtual Object^ Clone2() = CuttingSectionsCollection::Clone
@@ -117,17 +117,17 @@ public:
 	}
 
 internal:
-	Size m_size1;
-	Size m_size2;
+	Size m_width;
+	Size m_height;
 
 
-	CuttingResult()
+	CuttingScheme()
 	{
 	}
 
-	CuttingResult(CuttingResult^ ref) :
+	CuttingScheme(CuttingScheme^ ref) :
 		CuttingSectionsCollection(ref),
-		m_size1(ref->m_size1), m_size2(ref->m_size2)
+		m_width(ref->m_width), m_height(ref->m_height)
 	{
 	}
 };
