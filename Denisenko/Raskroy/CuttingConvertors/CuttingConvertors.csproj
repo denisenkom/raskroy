@@ -32,10 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LC4Parser, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Reigenering lc4\LC4Parser\bin\Debug\LC4Parser.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -48,6 +44,10 @@
     <ProjectReference Include="..\CuttingOptimizer\CuttingOptimizer.vcproj">
       <Project>{E3D1B48A-C56C-4C17-A001-DB8C9AB9221C}</Project>
       <Name>CuttingOptimizer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LC4Parser\LC4Parser.csproj">
+      <Project>{83C5C11C-F1CA-4792-A4FF-810DCA49F20E}</Project>
+      <Name>LC4Parser</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

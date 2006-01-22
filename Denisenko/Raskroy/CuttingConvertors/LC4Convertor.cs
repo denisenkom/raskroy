@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using System.Text;
 using Denisenko.Cutting;
-using Denisenko.LC4Parser;
+using Denisenko.Cutting.LC4;
 
 namespace Denisenko.Cutting.Converting
 {
@@ -18,12 +18,13 @@ namespace Denisenko.Cutting.Converting
 			m_result = new LC4Document();
 		}
 
-		public void AddCuttingResult(CuttingResult cuttingResult, String cuttingName)
+		public void AddCuttingResult(CuttingScheme cuttingResult, String cuttingName)
 		{
 			LC4Cutting lc4Cutting = m_result.CreateCutting();
 			lc4Cutting.Name = cuttingName;
-			lc4Cutting.Size1 = NumericFromSize(cuttingResult.Size1);
-			lc4Cutting.Size2 = NumericFromSize(cuttingResult.Size2);
+			// TODO: Здесь может быть ошибка
+			lc4Cutting.Size1 = NumericFromSize(cuttingResult.Width);
+			lc4Cutting.Size2 = NumericFromSize(cuttingResult.Height);
 			AddSections(lc4Cutting, cuttingResult);
 			m_result.Cuttings.Add(lc4Cutting);
 		}
