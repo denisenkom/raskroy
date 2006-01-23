@@ -14,15 +14,14 @@ public:
 
 	CuttingScheme^ Convert(const Denisenko::Raskroy::t_result& input, ParametersCollection^ parameters, Size size1, Size size2)
 	{
-		m_result = gcnew CuttingScheme();
 		m_parameters = parameters;
-		array<Size>^ rect = gcnew array<Size>(2);
-		rect[0] = size1;
-		rect[1] = size2;
-		m_result->Width = rect[input.raskroy.s] + parameters->CutOffLeft + parameters->CutOffRight;
-		m_result->Height = rect[!input.raskroy.s] + parameters->CutOffBottom + parameters->CutOffTop;
+		m_result = gcnew CuttingScheme(
+			Size::FromScaled(input.sheet->Rect.Length) + parameters->CutOffLeft + parameters->CutOffRight,
+			Size::FromScaled(input.sheet->Rect.Width) + parameters->CutOffBottom + parameters->CutOffTop,
+			parameters);
+		CutType cutType = input.raskroy.s == 0 ? CutType::Vertical : CutType::Horizontal;
 
-		Recursive(input.raskroy, rect, m_result);
+		Recursive(input.raskroy, cutType, m_result->RootSection);
 		return m_result;
 	}
 
@@ -30,109 +29,63 @@ private:
 	CuttingScheme^ m_result;
 	ParametersCollection^ m_parameters;
 
-	void Recursive(const Denisenko::Raskroy::t_raskroy& input, array<Size>^ sizes, CuttingSectionsCollection^ output)
+	void Recursive(const Denisenko::Raskroy::t_raskroy& input, CutType cutType, Section^ output)
 	{
-		Size width = sizes[input.s];
-		Size height = sizes[!input.s];
+		m_result->MakeSureEdgeEven(output, cutType);
 
-		CuttingSectionsCollection^ leftLine;
 		Size lineWidth = (Size::FromScaled(input.cut) + m_parameters->CutterThickness) * input.kratnostj - m_parameters->CutterThickness;
-		if(lineWidth < width) // нужно начать новую полосу
-		{
-			CuttingSection^ newLine = gcnew CuttingSection(CuttingSectionType::NewLine, lineWidth);
-			leftLine = newLine;
-			output->Add(newLine);
-		}
-		else
-		{
-			leftLine = output;
-		}
-
-		Size detailsSize;
+		Section^ rightLine;
+		Section^ leftLine = m_result->Cut(output, lineWidth, cutType, rightLine);
+		Section^ bottomLine;
+		m_result->MakeSureEdgeEven(leftLine, CuttingScheme::Rotate(cutType));
 		if(input.kratnostj > 1)
 		{
-			CuttingSection^ horizontalLine = gcnew CuttingSection(CuttingSectionType::NewLine);
-			CuttingSection^ detailsRefLine = gcnew CuttingSection(CuttingSectionType::NewLine, Size::FromScaled(input.cut));
-			detailsSize = AddDetails(input.details, detailsRefLine);
-			horizontalLine->Size = detailsSize;
+			Section^ detailsLine = m_result->Cut(leftLine, GetDetailsLength(input.details), CuttingScheme::Rotate(cutType), bottomLine);
 			for(Int32 i = input.kratnostj; i > 0; i--) {
-				horizontalLine->Add(detailsRefLine->Clone());
-				if(i > 1)
-					horizontalLine->Add(gcnew CuttingSection(CuttingSectionType::Cut, m_parameters->CutterThickness));
+				m_result->Cut(detailsLine, Size::FromScaled(input.cut), cutType, detailsLine);
+				AddDetails(input.details, detailsLine, CuttingScheme::Rotate(cutType));
 			}
-			leftLine->Add(horizontalLine);
 		}
 		else
 		{
-			detailsSize = AddDetails(input.details, leftLine);
+			bottomLine = AddDetails(input.details, leftLine, CuttingScheme::Rotate(cutType));
 		}
 
 		// ѕрицепл€ем нижнюю часть, если есть
-		if(height - detailsSize > Size::Zero)
+		if(input.watchRemain() != NULL)
 		{
-			leftLine->Add(gcnew CuttingSection(CuttingSectionType::Cut, Size::Min(m_parameters->CutterThickness, height - detailsSize)));
-
-			if(height - detailsSize - m_parameters->CutterThickness > Size::Zero)
-			{
-				if(input.watchRemain() != NULL)
-				{
-					array<Size>^ newRect = gcnew array<Size>(2);
-					newRect[input.s] = lineWidth;
-					newRect[!input.s] = height - detailsSize - m_parameters->CutterThickness;
-					if(input.watchRemain()->s == input.s)
-					{
-						CuttingSection^ bottomLine = gcnew CuttingSection(CuttingSectionType::NewLine, height - detailsSize - m_parameters->CutterThickness);
-						Recursive(*input.watchRemain(), newRect, bottomLine);
-						leftLine->Add(bottomLine);
-					}
-					else
-					{
-						Recursive(*input.watchRemain(), newRect, leftLine);
-					}
-				}
-				else
-				{
-					leftLine->Add(gcnew CuttingSection(CuttingSectionType::Scrap, height - detailsSize - m_parameters->CutterThickness));
-				}
-			}
+			CutType newCutType = input.watchRemain()->s != input.s ? CuttingScheme::Rotate(cutType) : cutType;
+			Recursive(*input.watchRemain(), newCutType, bottomLine);
 		}
 
 		// ѕрицепл€ем правую часть, если есть
-		if(width - lineWidth > Size::Zero) // была сделана нова€ полоса
+		if(input.watchRecurse() != NULL)
 		{
-			output->Add(gcnew CuttingSection(CuttingSectionType::Cut, Size::Min(m_parameters->CutterThickness, width - lineWidth)));
-		
-			if(width - lineWidth - m_parameters->CutterThickness > Size::Zero)
-			{
-				if(input.watchRecurse() != NULL)
-				{
-					array<Size>^ newRect = gcnew array<Size>(2);
-					newRect[input.s] = width - lineWidth - m_parameters->CutterThickness;
-					newRect[!input.s] = height;
-					Recursive(*input.watchRecurse(), newRect, output);
-				}
-				else
-				{
-					output->Add(gcnew CuttingSection(CuttingSectionType::Scrap, width - lineWidth - m_parameters->CutterThickness));
-				}
-			}
+			CutType newCutType = input.watchRecurse()->s != input.s ? CuttingScheme::Rotate(cutType) : cutType;
+			Recursive(*input.watchRecurse(), newCutType, rightLine);
 		}
 	}
 
-	Size AddDetails(const Raskroy::t_raskroy::t_details& details, CuttingSectionsCollection^ output)
+	Size GetDetailsLength(const Raskroy::t_raskroy::t_details& details)
 	{
 		Size result;
 		for(UInt32 i = 0; i < details.size(); i++)
 		{
+			result.Scaled += (details[i].size + m_parameters->CutterThickness.Scaled) * details[i].num;
+		}
+		result -= m_parameters->CutterThickness;
+		return result;
+	}
+
+	Section^ AddDetails(const Raskroy::t_raskroy::t_details& details, Section^ output, CutType cutType)
+	{
+		Section^ result = output;
+		for(UInt32 i = 0; i < details.size(); i++)
+		{
 			for(Int32 j = details[i].num; j > 0; j--)
 			{
-				output->Add(gcnew CuttingSection(CuttingSectionType::Element, Size::FromScaled(details[i].size)));
-				result.Scaled += details[i].size;
-				if(j > 1 || i < details.size() - 1)
-				{
-					output->Add(gcnew CuttingSection(CuttingSectionType::Cut, m_parameters->CutterThickness));
-					result += m_parameters->CutterThickness;
-				}
+				Section^ partSection = m_result->Cut(result, Size::FromScaled(details[i].size), cutType, result);
+				m_result->MarkAsPart(partSection);
 			}
 		}
 		return result;

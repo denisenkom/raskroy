@@ -7,8 +7,8 @@
 #include "PartsCollection.h"
 #include "Sheet.h"
 #include "SheetsCollection.h"
-#include "CuttingScheme.h"
 #include "ParametersCollection.h"
+#include "CuttingScheme.h"
 #include "CuttingResultBuilder.h"
 #include "CuttingOptimizer.h"
 

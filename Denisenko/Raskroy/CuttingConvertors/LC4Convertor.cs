@@ -25,13 +25,13 @@ namespace Denisenko.Cutting.Converting
 			// TODO: Здесь может быть ошибка
 			lc4Cutting.Size1 = NumericFromSize(cuttingResult.Width);
 			lc4Cutting.Size2 = NumericFromSize(cuttingResult.Height);
-			AddSections(lc4Cutting, cuttingResult);
+			AddSections(lc4Cutting, cuttingResult.RootSection);
 			m_result.Cuttings.Add(lc4Cutting);
 		}
 
-		private void AddSections(LC4SectionsCollection into, CuttingSectionsCollection sections)
+		private void AddSections(LC4SectionsCollection into, SectionsCollection sections)
 		{
-			foreach (CuttingSection section in sections)
+			foreach (Section section in sections)
 			{
 				LC4Section lc4Section = ConvertSection(section);
 				into.Add(lc4Section);
@@ -39,24 +39,27 @@ namespace Denisenko.Cutting.Converting
 			}
 		}
 
-		private LC4Section ConvertSection(CuttingSection input)
+		private LC4Section ConvertSection(Section input)
 		{
 			LC4Section result = m_result.CreateSection();
 			switch (input.SectionType)
 			{
-				case CuttingSectionType.Cut:
+				case SectionType.Cut:
 					result.SectionType = LC4SectionType.Cut;
 					break;
-				case CuttingSectionType.Element:
+				case SectionType.Element:
 					result.SectionType = LC4SectionType.Detail;
 					break;
-				case CuttingSectionType.NewLine:
+				case SectionType.NewLine:
 					result.SectionType = LC4SectionType.NewLine;
 					break;
-				case CuttingSectionType.Remain:
+				case SectionType.Remain:
 					result.SectionType = LC4SectionType.Remain;
 					break;
-				case CuttingSectionType.Scrap:
+				case SectionType.Scrap:
+					result.SectionType = LC4SectionType.Scrap;
+					break;
+				case SectionType.Undefined:
 					result.SectionType = LC4SectionType.Scrap;
 					break;
 			}

@@ -17,6 +17,11 @@ public:
 	Size CutOffLeft;
 	Size CutOffRight;
 
+	ParametersCollection^ Clone()
+	{
+		return (ParametersCollection^)MemberwiseClone();
+	}
+
 internal:
 	ParametersCollection()
 	{
