@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using Denisenko;
 using Denisenko.Cutting;
 
 namespace Raskroy
@@ -17,7 +18,7 @@ namespace Raskroy
 			public Single Y;
 			public Single Width;
 			public Single Height;
-			public CuttingSection CuttingSection;
+			public Denisenko.Cutting.Section SourceSection;
 		}
 
 		private List<Section> m_sections;
@@ -52,17 +53,23 @@ namespace Raskroy
 					m_sheetRect.Width, m_sheetRect.Height);
 				foreach (Section section in m_sections)
 				{
-					switch(section.CuttingSection.SectionType)
+					switch(section.SourceSection.SectionType)
 					{
-						case CuttingSectionType.Element:
+						case SectionType.Element:
+							pe.Graphics.FillRectangle(Brushes.Salmon,
+								section.X, section.Y, section.Width, section.Height);
 							pe.Graphics.DrawRectangle(new Pen(Color.Black, 0.1f),
 								section.X, section.Y, section.Width, section.Height);
 							break;
-						case CuttingSectionType.Remain:
+						case SectionType.Remain:
 							pe.Graphics.DrawRectangle(new Pen(Color.Black, 0.1f),
 								section.X, section.Y, section.Width, section.Height);
 							break;
-						case CuttingSectionType.Scrap:
+						case SectionType.Scrap:
+							pe.Graphics.DrawRectangle(new Pen(Color.Black, 0.1f),
+								section.X, section.Y, section.Width, section.Height);
+							break;
+						case SectionType.Undefined:
 							pe.Graphics.DrawRectangle(new Pen(Color.Black, 0.1f),
 								section.X, section.Y, section.Width, section.Height);
 							break;
@@ -74,11 +81,11 @@ namespace Raskroy
 			base.OnPaint(pe);
 		}
 
-		private void LoadSections(CuttingSectionsCollection sections, Single x, Single y, Single width, Single height, Boolean transpose)
+		private void LoadSections(SectionsCollection sections, Single x, Single y, Single width, Single height, Boolean transpose)
 		{
 			Single pinx = x;
 			Single piny = y;
-			foreach (CuttingSection section in sections)
+			foreach (Denisenko.Cutting.Section section in sections)
 			{
 				Section sec = new Section();
 				sec.X = pinx;
@@ -93,7 +100,7 @@ namespace Raskroy
 					sec.Width = section.Size.ToSingle();
 					sec.Height = height;
 				}
-				sec.CuttingSection = section;
+				sec.SourceSection = section;
 				m_sections.Add(sec);
 
 				LoadSections(section, sec.X, sec.Y, sec.Width, sec.Height, !transpose);
@@ -130,7 +137,7 @@ namespace Raskroy
 							m_sheetRect.Y = m_margin;
 							m_sheetRect.Width = m_cutting.Height.ToSingle();
 							m_sheetRect.Height = m_cutting.Width.ToSingle();
-							LoadSections(m_cutting, m_sheetRect.X, m_sheetRect.Y,
+							LoadSections(m_cutting.RootSection, m_sheetRect.X, m_sheetRect.Y,
 								m_sheetRect.Width, m_sheetRect.Height, true);
 						}
 						else
@@ -139,7 +146,7 @@ namespace Raskroy
 							m_sheetRect.Y = m_margin;
 							m_sheetRect.Width = m_cutting.Width.ToSingle();
 							m_sheetRect.Height = m_cutting.Height.ToSingle();
-							LoadSections(m_cutting, m_sheetRect.X, m_sheetRect.Y,
+							LoadSections(m_cutting.RootSection, m_sheetRect.X, m_sheetRect.Y,
 								m_sheetRect.Width, m_sheetRect.Height, false);
 						}
 					}
