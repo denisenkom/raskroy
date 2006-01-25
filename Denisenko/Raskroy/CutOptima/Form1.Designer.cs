@@ -1,4 +1,4 @@
-﻿namespace Raskroy
+﻿namespace Denisenko.Cutting.CutOptima
 {
 	partial class Form1
 	{
@@ -35,9 +35,9 @@
 			this.widthDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.quantityDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.detailsBindingSource = new System.Windows.Forms.BindingSource(this.components);
-			this.dataSet = new Raskroy.DataSet();
+			this.dataSet = new Denisenko.Cutting.CutOptima.DataSet();
 			this.optimizeButton = new System.Windows.Forms.Button();
-			this.cuttingControl = new Raskroy.CuttingControl();
+			this.cuttingControl = new Denisenko.Cutting.CutOptima.CuttingControl();
 			((System.ComponentModel.ISupportInitialize)(this.detailsDataGridView)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.detailsBindingSource)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dataSet)).BeginInit();

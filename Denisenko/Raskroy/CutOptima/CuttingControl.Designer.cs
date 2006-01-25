@@ -1,4 +1,4 @@
-﻿namespace Raskroy
+﻿namespace Denisenko.Cutting.CutOptima
 {
 	partial class CuttingControl
 	{

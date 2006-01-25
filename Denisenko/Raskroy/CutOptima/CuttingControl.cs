@@ -8,7 +8,7 @@ using System.Windows.Forms;
 using Denisenko;
 using Denisenko.Cutting;
 
-namespace Raskroy
+namespace Denisenko.Cutting.CutOptima
 {
 	public partial class CuttingControl : Control
 	{

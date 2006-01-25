@@ -11,7 +11,7 @@ using Denisenko.Cutting.Optimizing;
 using Denisenko.Cutting.Converting;
 using Denisenko.Cutting.LC4;
 
-namespace Raskroy
+namespace Denisenko.Cutting.CutOptima
 {
 	public partial class Form1 : Form
 	{
