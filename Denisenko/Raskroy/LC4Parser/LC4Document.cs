@@ -88,7 +88,9 @@ namespace Denisenko.Cutting.LC4
 			element.Attributes.Append(CreateAttribute("name"));
 			element.Attributes.Append(CreateAttribute("size1"));
 			element.Attributes.Append(CreateAttribute("size2"));
-			return new LC4Cutting(element);
+			LC4Cutting cutting = new LC4Cutting(element);
+			cutting.Variables = CreateVariablesCollection();
+			return cutting;
 		}
 
 		public LC4Section CreateSection()

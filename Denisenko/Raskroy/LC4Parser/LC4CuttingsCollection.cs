@@ -21,6 +21,11 @@ namespace Denisenko.Cutting.LC4
 			m_list.Add(item);
 		}
 
+		public LC4Cutting this[Int32 index]
+		{
+			get { return m_list[index]; }
+		}
+
 		public IEnumerator<LC4Cutting> GetEnumerator()
 		{
 			return m_list.GetEnumerator();
