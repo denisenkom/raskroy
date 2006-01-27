@@ -5,52 +5,6 @@ using System.Xml;
 
 namespace Denisenko.Cutting.LC4
 {
-	public class SomeEnum : IEnumerator<Int16>
-	{
-		public Int16 Current
-		{
-			get
-			{
-				return 7;
-			}
-		}
-
-		Object System.Collections.IEnumerator.Current { get { return null; } }
-
-		public void Dispose() {	}
-		public bool MoveNext() { return false; }
-		public void Reset() { }
-
-
-	}
-
-	public class LC4SheetsEnumerator : IEnumerator<LC4Sheet>
-	{
-		private List<LC4Sheet>.Enumerator m_enumerator;
-
-		public void Reset()
-		{
-			((System.Collections.IEnumerator)m_enumerator).Reset();
-		}
-
-		public LC4Sheet Current
-		{
-			get { return (LC4Sheet)m_enumerator.Current; }
-		}
-
-		Object System.Collections.IEnumerator.Current { get { return Current; } }
-
-		public bool MoveNext()
-		{
-			return m_enumerator.MoveNext();
-		}
-
-		public void Dispose()
-		{
-			m_enumerator.Dispose();
-		}
-	}
-
 	public class LC4SheetsCollection : IEnumerable<LC4Sheet>
 	{
 		private XmlElement m_element;
@@ -70,6 +24,11 @@ namespace Denisenko.Cutting.LC4
 		public IEnumerator<LC4Sheet> GetEnumerator()
 		{
 			return m_sheetsList.GetEnumerator();
+		}
+
+		public Int32 Count
+		{
+			get { return m_sheetsList.Count; }
 		}
 
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
