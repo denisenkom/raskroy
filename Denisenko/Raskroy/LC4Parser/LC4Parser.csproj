@@ -48,7 +48,6 @@
     <Compile Include="LC4SheetsCollection.cs" />
     <Compile Include="LC4Variable.cs" />
     <Compile Include="LC4VariablesCollection.cs" />
-    <Compile Include="StreamParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
