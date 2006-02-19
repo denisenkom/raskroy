@@ -1,6 +1,10 @@
 ﻿namespace Denisenko.Cutting.CutOptima {
-    
-    
-    public partial class DataSet {
-    }
+
+
+	partial class DataSet
+	{
+		partial class ReferencePartsDataTable
+		{
+		}
+	}
 }

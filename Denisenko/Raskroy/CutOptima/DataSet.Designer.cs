@@ -23,13 +23,27 @@ namespace Denisenko.Cutting.CutOptima {
     [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.DataSet")]
     public partial class DataSet : System.Data.DataSet {
         
+        private PartPropertiesDataTable tablePartProperties;
+        
+        private ReferencePartsDataTable tableReferenceParts;
+        
+        private DetailsListsDetailsDataTable tableDetailsListsDetails;
+        
         private DetailsListsDataTable tableDetailsLists;
         
-        private DetailsListsContentsDataTable tableDetailsListsContents;
+        private MaterialsDataTable tableMaterials;
         
-        private ReferenceDetailsDataTable tableReferenceDetails;
+        private SheetsDataTable tableSheets;
         
-        private DetailsDataTable tableDetails;
+        private CuttingResultsDataTable tableCuttingResults;
+        
+        private CuttingParametersDataTable tableCuttingParameters;
+        
+        private System.Data.DataRelation relationFK_DetailsListsDetails_DetailsLists;
+        
+        private System.Data.DataRelation relationFK_Materials_DetailsListsDetails;
+        
+        private System.Data.DataRelation relationFK_Sheets_Materials;
         
         private System.Data.SchemaSerializationMode _schemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
         
@@ -57,17 +71,29 @@ namespace Denisenko.Cutting.CutOptima {
             if ((this.DetermineSchemaSerializationMode(info, context) == System.Data.SchemaSerializationMode.IncludeSchema)) {
                 System.Data.DataSet ds = new System.Data.DataSet();
                 ds.ReadXmlSchema(new System.Xml.XmlTextReader(new System.IO.StringReader(strSchema)));
+                if ((ds.Tables["PartProperties"] != null)) {
+                    base.Tables.Add(new PartPropertiesDataTable(ds.Tables["PartProperties"]));
+                }
+                if ((ds.Tables["ReferenceParts"] != null)) {
+                    base.Tables.Add(new ReferencePartsDataTable(ds.Tables["ReferenceParts"]));
+                }
+                if ((ds.Tables["DetailsListsDetails"] != null)) {
+                    base.Tables.Add(new DetailsListsDetailsDataTable(ds.Tables["DetailsListsDetails"]));
+                }
                 if ((ds.Tables["DetailsLists"] != null)) {
                     base.Tables.Add(new DetailsListsDataTable(ds.Tables["DetailsLists"]));
                 }
-                if ((ds.Tables["DetailsListsContents"] != null)) {
-                    base.Tables.Add(new DetailsListsContentsDataTable(ds.Tables["DetailsListsContents"]));
+                if ((ds.Tables["Materials"] != null)) {
+                    base.Tables.Add(new MaterialsDataTable(ds.Tables["Materials"]));
                 }
-                if ((ds.Tables["ReferenceDetails"] != null)) {
-                    base.Tables.Add(new ReferenceDetailsDataTable(ds.Tables["ReferenceDetails"]));
+                if ((ds.Tables["Sheets"] != null)) {
+                    base.Tables.Add(new SheetsDataTable(ds.Tables["Sheets"]));
                 }
-                if ((ds.Tables["Details"] != null)) {
-                    base.Tables.Add(new DetailsDataTable(ds.Tables["Details"]));
+                if ((ds.Tables["CuttingResults"] != null)) {
+                    base.Tables.Add(new CuttingResultsDataTable(ds.Tables["CuttingResults"]));
+                }
+                if ((ds.Tables["CuttingParameters"] != null)) {
+                    base.Tables.Add(new CuttingParametersDataTable(ds.Tables["CuttingParameters"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -90,6 +116,33 @@ namespace Denisenko.Cutting.CutOptima {
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [System.ComponentModel.Browsable(false)]
         [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public PartPropertiesDataTable PartProperties {
+            get {
+                return this.tablePartProperties;
+            }
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Browsable(false)]
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public ReferencePartsDataTable ReferenceParts {
+            get {
+                return this.tableReferenceParts;
+            }
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Browsable(false)]
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public DetailsListsDetailsDataTable DetailsListsDetails {
+            get {
+                return this.tableDetailsListsDetails;
+            }
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Browsable(false)]
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Content)]
         public DetailsListsDataTable DetailsLists {
             get {
                 return this.tableDetailsLists;
@@ -99,27 +152,36 @@ namespace Denisenko.Cutting.CutOptima {
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [System.ComponentModel.Browsable(false)]
         [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public DetailsListsContentsDataTable DetailsListsContents {
+        public MaterialsDataTable Materials {
             get {
-                return this.tableDetailsListsContents;
+                return this.tableMaterials;
             }
         }
         
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [System.ComponentModel.Browsable(false)]
         [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public ReferenceDetailsDataTable ReferenceDetails {
+        public SheetsDataTable Sheets {
             get {
-                return this.tableReferenceDetails;
+                return this.tableSheets;
             }
         }
         
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [System.ComponentModel.Browsable(false)]
         [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public DetailsDataTable Details {
+        public CuttingResultsDataTable CuttingResults {
             get {
-                return this.tableDetails;
+                return this.tableCuttingResults;
+            }
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Browsable(false)]
+        [System.ComponentModel.DesignerSerializationVisibility(System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public CuttingParametersDataTable CuttingParameters {
+            get {
+                return this.tableCuttingParameters;
             }
         }
         
@@ -182,17 +244,29 @@ namespace Denisenko.Cutting.CutOptima {
                 this.Reset();
                 System.Data.DataSet ds = new System.Data.DataSet();
                 ds.ReadXml(reader);
+                if ((ds.Tables["PartProperties"] != null)) {
+                    base.Tables.Add(new PartPropertiesDataTable(ds.Tables["PartProperties"]));
+                }
+                if ((ds.Tables["ReferenceParts"] != null)) {
+                    base.Tables.Add(new ReferencePartsDataTable(ds.Tables["ReferenceParts"]));
+                }
+                if ((ds.Tables["DetailsListsDetails"] != null)) {
+                    base.Tables.Add(new DetailsListsDetailsDataTable(ds.Tables["DetailsListsDetails"]));
+                }
                 if ((ds.Tables["DetailsLists"] != null)) {
                     base.Tables.Add(new DetailsListsDataTable(ds.Tables["DetailsLists"]));
                 }
-                if ((ds.Tables["DetailsListsContents"] != null)) {
-                    base.Tables.Add(new DetailsListsContentsDataTable(ds.Tables["DetailsListsContents"]));
+                if ((ds.Tables["Materials"] != null)) {
+                    base.Tables.Add(new MaterialsDataTable(ds.Tables["Materials"]));
                 }
-                if ((ds.Tables["ReferenceDetails"] != null)) {
-                    base.Tables.Add(new ReferenceDetailsDataTable(ds.Tables["ReferenceDetails"]));
+                if ((ds.Tables["Sheets"] != null)) {
+                    base.Tables.Add(new SheetsDataTable(ds.Tables["Sheets"]));
                 }
-                if ((ds.Tables["Details"] != null)) {
-                    base.Tables.Add(new DetailsDataTable(ds.Tables["Details"]));
+                if ((ds.Tables["CuttingResults"] != null)) {
+                    base.Tables.Add(new CuttingResultsDataTable(ds.Tables["CuttingResults"]));
+                }
+                if ((ds.Tables["CuttingParameters"] != null)) {
+                    base.Tables.Add(new CuttingParametersDataTable(ds.Tables["CuttingParameters"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -224,30 +298,57 @@ namespace Denisenko.Cutting.CutOptima {
         
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
         internal void InitVars(bool initTable) {
+            this.tablePartProperties = ((PartPropertiesDataTable)(base.Tables["PartProperties"]));
+            if ((initTable == true)) {
+                if ((this.tablePartProperties != null)) {
+                    this.tablePartProperties.InitVars();
+                }
+            }
+            this.tableReferenceParts = ((ReferencePartsDataTable)(base.Tables["ReferenceParts"]));
+            if ((initTable == true)) {
+                if ((this.tableReferenceParts != null)) {
+                    this.tableReferenceParts.InitVars();
+                }
+            }
+            this.tableDetailsListsDetails = ((DetailsListsDetailsDataTable)(base.Tables["DetailsListsDetails"]));
+            if ((initTable == true)) {
+                if ((this.tableDetailsListsDetails != null)) {
+                    this.tableDetailsListsDetails.InitVars();
+                }
+            }
             this.tableDetailsLists = ((DetailsListsDataTable)(base.Tables["DetailsLists"]));
             if ((initTable == true)) {
                 if ((this.tableDetailsLists != null)) {
                     this.tableDetailsLists.InitVars();
                 }
             }
-            this.tableDetailsListsContents = ((DetailsListsContentsDataTable)(base.Tables["DetailsListsContents"]));
+            this.tableMaterials = ((MaterialsDataTable)(base.Tables["Materials"]));
             if ((initTable == true)) {
-                if ((this.tableDetailsListsContents != null)) {
-                    this.tableDetailsListsContents.InitVars();
+                if ((this.tableMaterials != null)) {
+                    this.tableMaterials.InitVars();
                 }
             }
-            this.tableReferenceDetails = ((ReferenceDetailsDataTable)(base.Tables["ReferenceDetails"]));
+            this.tableSheets = ((SheetsDataTable)(base.Tables["Sheets"]));
             if ((initTable == true)) {
-                if ((this.tableReferenceDetails != null)) {
-                    this.tableReferenceDetails.InitVars();
+                if ((this.tableSheets != null)) {
+                    this.tableSheets.InitVars();
                 }
             }
-            this.tableDetails = ((DetailsDataTable)(base.Tables["Details"]));
+            this.tableCuttingResults = ((CuttingResultsDataTable)(base.Tables["CuttingResults"]));
             if ((initTable == true)) {
-                if ((this.tableDetails != null)) {
-                    this.tableDetails.InitVars();
+                if ((this.tableCuttingResults != null)) {
+                    this.tableCuttingResults.InitVars();
                 }
             }
+            this.tableCuttingParameters = ((CuttingParametersDataTable)(base.Tables["CuttingParameters"]));
+            if ((initTable == true)) {
+                if ((this.tableCuttingParameters != null)) {
+                    this.tableCuttingParameters.InitVars();
+                }
+            }
+            this.relationFK_DetailsListsDetails_DetailsLists = this.Relations["FK_DetailsListsDetails_DetailsLists"];
+            this.relationFK_Materials_DetailsListsDetails = this.Relations["FK_Materials_DetailsListsDetails"];
+            this.relationFK_Sheets_Materials = this.Relations["FK_Sheets_Materials"];
         }
         
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -257,14 +358,49 @@ namespace Denisenko.Cutting.CutOptima {
             this.Namespace = "http://tempuri.org/DataSet.xsd";
             this.EnforceConstraints = true;
             this.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            this.tablePartProperties = new PartPropertiesDataTable();
+            base.Tables.Add(this.tablePartProperties);
+            this.tableReferenceParts = new ReferencePartsDataTable();
+            base.Tables.Add(this.tableReferenceParts);
+            this.tableDetailsListsDetails = new DetailsListsDetailsDataTable();
+            base.Tables.Add(this.tableDetailsListsDetails);
             this.tableDetailsLists = new DetailsListsDataTable();
             base.Tables.Add(this.tableDetailsLists);
-            this.tableDetailsListsContents = new DetailsListsContentsDataTable();
-            base.Tables.Add(this.tableDetailsListsContents);
-            this.tableReferenceDetails = new ReferenceDetailsDataTable();
-            base.Tables.Add(this.tableReferenceDetails);
-            this.tableDetails = new DetailsDataTable();
-            base.Tables.Add(this.tableDetails);
+            this.tableMaterials = new MaterialsDataTable();
+            base.Tables.Add(this.tableMaterials);
+            this.tableSheets = new SheetsDataTable();
+            base.Tables.Add(this.tableSheets);
+            this.tableCuttingResults = new CuttingResultsDataTable();
+            base.Tables.Add(this.tableCuttingResults);
+            this.tableCuttingParameters = new CuttingParametersDataTable();
+            base.Tables.Add(this.tableCuttingParameters);
+            this.relationFK_DetailsListsDetails_DetailsLists = new System.Data.DataRelation("FK_DetailsListsDetails_DetailsLists", new System.Data.DataColumn[] {
+                        this.tableDetailsLists.DetailsListIDColumn}, new System.Data.DataColumn[] {
+                        this.tableDetailsListsDetails.DetailsListIDColumn}, false);
+            this.Relations.Add(this.relationFK_DetailsListsDetails_DetailsLists);
+            this.relationFK_Materials_DetailsListsDetails = new System.Data.DataRelation("FK_Materials_DetailsListsDetails", new System.Data.DataColumn[] {
+                        this.tableMaterials.MaterialIDColumn}, new System.Data.DataColumn[] {
+                        this.tableDetailsListsDetails.MaterialIDColumn}, false);
+            this.Relations.Add(this.relationFK_Materials_DetailsListsDetails);
+            this.relationFK_Sheets_Materials = new System.Data.DataRelation("FK_Sheets_Materials", new System.Data.DataColumn[] {
+                        this.tableMaterials.MaterialIDColumn}, new System.Data.DataColumn[] {
+                        this.tableSheets.MaterialIDColumn}, false);
+            this.Relations.Add(this.relationFK_Sheets_Materials);
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private bool ShouldSerializePartProperties() {
+            return false;
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private bool ShouldSerializeReferenceParts() {
+            return false;
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private bool ShouldSerializeDetailsListsDetails() {
+            return false;
         }
         
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -273,17 +409,22 @@ namespace Denisenko.Cutting.CutOptima {
         }
         
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        private bool ShouldSerializeDetailsListsContents() {
+        private bool ShouldSerializeMaterials() {
             return false;
         }
         
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        private bool ShouldSerializeReferenceDetails() {
+        private bool ShouldSerializeSheets() {
             return false;
         }
         
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        private bool ShouldSerializeDetails() {
+        private bool ShouldSerializeCuttingResults() {
+            return false;
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private bool ShouldSerializeCuttingParameters() {
             return false;
         }
         
@@ -307,13 +448,838 @@ namespace Denisenko.Cutting.CutOptima {
             return type;
         }
         
+        public delegate void PartPropertiesRowChangeEventHandler(object sender, PartPropertiesRowChangeEvent e);
+        
+        public delegate void ReferencePartsRowChangeEventHandler(object sender, ReferencePartsRowChangeEvent e);
+        
+        public delegate void DetailsListsDetailsRowChangeEventHandler(object sender, DetailsListsDetailsRowChangeEvent e);
+        
         public delegate void DetailsListsRowChangeEventHandler(object sender, DetailsListsRowChangeEvent e);
         
-        public delegate void DetailsListsContentsRowChangeEventHandler(object sender, DetailsListsContentsRowChangeEvent e);
+        public delegate void MaterialsRowChangeEventHandler(object sender, MaterialsRowChangeEvent e);
         
-        public delegate void ReferenceDetailsRowChangeEventHandler(object sender, ReferenceDetailsRowChangeEvent e);
+        public delegate void SheetsRowChangeEventHandler(object sender, SheetsRowChangeEvent e);
         
-        public delegate void DetailsRowChangeEventHandler(object sender, DetailsRowChangeEvent e);
+        public delegate void CuttingResultsRowChangeEventHandler(object sender, CuttingResultsRowChangeEvent e);
+        
+        public delegate void CuttingParametersRowChangeEventHandler(object sender, CuttingParametersRowChangeEvent e);
+        
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        [System.Serializable()]
+        [System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class PartPropertiesDataTable : System.Data.DataTable, System.Collections.IEnumerable {
+            
+            private System.Data.DataColumn columnPropertyID;
+            
+            private System.Data.DataColumn columnDescription;
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public PartPropertiesDataTable() {
+                this.TableName = "PartProperties";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal PartPropertiesDataTable(System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected PartPropertiesDataTable(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.Data.DataColumn PropertyIDColumn {
+                get {
+                    return this.columnPropertyID;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.Data.DataColumn DescriptionColumn {
+                get {
+                    return this.columnDescription;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public PartPropertiesRow this[int index] {
+                get {
+                    return ((PartPropertiesRow)(this.Rows[index]));
+                }
+            }
+            
+            public event PartPropertiesRowChangeEventHandler PartPropertiesRowChanging;
+            
+            public event PartPropertiesRowChangeEventHandler PartPropertiesRowChanged;
+            
+            public event PartPropertiesRowChangeEventHandler PartPropertiesRowDeleting;
+            
+            public event PartPropertiesRowChangeEventHandler PartPropertiesRowDeleted;
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void AddPartPropertiesRow(PartPropertiesRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public PartPropertiesRow AddPartPropertiesRow(string PropertyID, string Description) {
+                PartPropertiesRow rowPartPropertiesRow = ((PartPropertiesRow)(this.NewRow()));
+                rowPartPropertiesRow.ItemArray = new object[] {
+                        PropertyID,
+                        Description};
+                this.Rows.Add(rowPartPropertiesRow);
+                return rowPartPropertiesRow;
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public PartPropertiesRow FindByPropertyID(string PropertyID) {
+                return ((PartPropertiesRow)(this.Rows.Find(new object[] {
+                            PropertyID})));
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual System.Collections.IEnumerator GetEnumerator() {
+                return this.Rows.GetEnumerator();
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public override System.Data.DataTable Clone() {
+                PartPropertiesDataTable cln = ((PartPropertiesDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override System.Data.DataTable CreateInstance() {
+                return new PartPropertiesDataTable();
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal void InitVars() {
+                this.columnPropertyID = base.Columns["PropertyID"];
+                this.columnDescription = base.Columns["Description"];
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            private void InitClass() {
+                this.columnPropertyID = new System.Data.DataColumn("PropertyID", typeof(string), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPropertyID);
+                this.columnDescription = new System.Data.DataColumn("Description", typeof(string), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDescription);
+                this.Constraints.Add(new System.Data.UniqueConstraint("Constraint1", new System.Data.DataColumn[] {
+                                this.columnPropertyID}, true));
+                this.columnPropertyID.AllowDBNull = false;
+                this.columnPropertyID.Unique = true;
+                this.columnPropertyID.MaxLength = 30;
+                this.columnDescription.MaxLength = 1073741823;
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public PartPropertiesRow NewPartPropertiesRow() {
+                return ((PartPropertiesRow)(this.NewRow()));
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override System.Data.DataRow NewRowFromBuilder(System.Data.DataRowBuilder builder) {
+                return new PartPropertiesRow(builder);
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override System.Type GetRowType() {
+                return typeof(PartPropertiesRow);
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanged(System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.PartPropertiesRowChanged != null)) {
+                    this.PartPropertiesRowChanged(this, new PartPropertiesRowChangeEvent(((PartPropertiesRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanging(System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.PartPropertiesRowChanging != null)) {
+                    this.PartPropertiesRowChanging(this, new PartPropertiesRowChangeEvent(((PartPropertiesRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleted(System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.PartPropertiesRowDeleted != null)) {
+                    this.PartPropertiesRowDeleted(this, new PartPropertiesRowChangeEvent(((PartPropertiesRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleting(System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.PartPropertiesRowDeleting != null)) {
+                    this.PartPropertiesRowDeleting(this, new PartPropertiesRowChangeEvent(((PartPropertiesRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void RemovePartPropertiesRow(PartPropertiesRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public static System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(System.Xml.Schema.XmlSchemaSet xs) {
+                System.Xml.Schema.XmlSchemaComplexType type = new System.Xml.Schema.XmlSchemaComplexType();
+                System.Xml.Schema.XmlSchemaSequence sequence = new System.Xml.Schema.XmlSchemaSequence();
+                DataSet ds = new DataSet();
+                xs.Add(ds.GetSchemaSerializable());
+                System.Xml.Schema.XmlSchemaAny any1 = new System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                System.Xml.Schema.XmlSchemaAny any2 = new System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                System.Xml.Schema.XmlSchemaAttribute attribute1 = new System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                System.Xml.Schema.XmlSchemaAttribute attribute2 = new System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "PartPropertiesDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                return type;
+            }
+        }
+        
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        [System.Serializable()]
+        [System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class ReferencePartsDataTable : System.Data.DataTable, System.Collections.IEnumerable {
+            
+            private System.Data.DataColumn columnReferencePartID;
+            
+            private System.Data.DataColumn columnName;
+            
+            private System.Data.DataColumn columnLength;
+            
+            private System.Data.DataColumn columnWidth;
+            
+            private System.Data.DataColumn columnMaterial;
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public ReferencePartsDataTable() {
+                this.TableName = "ReferenceParts";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal ReferencePartsDataTable(System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected ReferencePartsDataTable(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.Data.DataColumn ReferencePartIDColumn {
+                get {
+                    return this.columnReferencePartID;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.Data.DataColumn NameColumn {
+                get {
+                    return this.columnName;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.Data.DataColumn LengthColumn {
+                get {
+                    return this.columnLength;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.Data.DataColumn WidthColumn {
+                get {
+                    return this.columnWidth;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.Data.DataColumn MaterialColumn {
+                get {
+                    return this.columnMaterial;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public ReferencePartsRow this[int index] {
+                get {
+                    return ((ReferencePartsRow)(this.Rows[index]));
+                }
+            }
+            
+            public event ReferencePartsRowChangeEventHandler ReferencePartsRowChanging;
+            
+            public event ReferencePartsRowChangeEventHandler ReferencePartsRowChanged;
+            
+            public event ReferencePartsRowChangeEventHandler ReferencePartsRowDeleting;
+            
+            public event ReferencePartsRowChangeEventHandler ReferencePartsRowDeleted;
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void AddReferencePartsRow(ReferencePartsRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public ReferencePartsRow AddReferencePartsRow(int ReferencePartID, string Name, decimal Length, decimal Width, string Material) {
+                ReferencePartsRow rowReferencePartsRow = ((ReferencePartsRow)(this.NewRow()));
+                rowReferencePartsRow.ItemArray = new object[] {
+                        ReferencePartID,
+                        Name,
+                        Length,
+                        Width,
+                        Material};
+                this.Rows.Add(rowReferencePartsRow);
+                return rowReferencePartsRow;
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public ReferencePartsRow FindByReferencePartID(int ReferencePartID) {
+                return ((ReferencePartsRow)(this.Rows.Find(new object[] {
+                            ReferencePartID})));
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual System.Collections.IEnumerator GetEnumerator() {
+                return this.Rows.GetEnumerator();
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public override System.Data.DataTable Clone() {
+                ReferencePartsDataTable cln = ((ReferencePartsDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override System.Data.DataTable CreateInstance() {
+                return new ReferencePartsDataTable();
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal void InitVars() {
+                this.columnReferencePartID = base.Columns["ReferencePartID"];
+                this.columnName = base.Columns["Name"];
+                this.columnLength = base.Columns["Length"];
+                this.columnWidth = base.Columns["Width"];
+                this.columnMaterial = base.Columns["Material"];
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            private void InitClass() {
+                this.columnReferencePartID = new System.Data.DataColumn("ReferencePartID", typeof(int), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columnReferencePartID);
+                this.columnName = new System.Data.DataColumn("Name", typeof(string), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columnName);
+                this.columnLength = new System.Data.DataColumn("Length", typeof(decimal), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columnLength);
+                this.columnWidth = new System.Data.DataColumn("Width", typeof(decimal), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columnWidth);
+                this.columnMaterial = new System.Data.DataColumn("Material", typeof(string), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columnMaterial);
+                this.Constraints.Add(new System.Data.UniqueConstraint("Constraint1", new System.Data.DataColumn[] {
+                                this.columnReferencePartID}, true));
+                this.columnReferencePartID.AllowDBNull = false;
+                this.columnReferencePartID.Unique = true;
+                this.columnName.AllowDBNull = false;
+                this.columnName.MaxLength = 50;
+                this.columnLength.AllowDBNull = false;
+                this.columnWidth.AllowDBNull = false;
+                this.columnMaterial.MaxLength = 50;
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public ReferencePartsRow NewReferencePartsRow() {
+                return ((ReferencePartsRow)(this.NewRow()));
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override System.Data.DataRow NewRowFromBuilder(System.Data.DataRowBuilder builder) {
+                return new ReferencePartsRow(builder);
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override System.Type GetRowType() {
+                return typeof(ReferencePartsRow);
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanged(System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.ReferencePartsRowChanged != null)) {
+                    this.ReferencePartsRowChanged(this, new ReferencePartsRowChangeEvent(((ReferencePartsRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanging(System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.ReferencePartsRowChanging != null)) {
+                    this.ReferencePartsRowChanging(this, new ReferencePartsRowChangeEvent(((ReferencePartsRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleted(System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.ReferencePartsRowDeleted != null)) {
+                    this.ReferencePartsRowDeleted(this, new ReferencePartsRowChangeEvent(((ReferencePartsRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleting(System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.ReferencePartsRowDeleting != null)) {
+                    this.ReferencePartsRowDeleting(this, new ReferencePartsRowChangeEvent(((ReferencePartsRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void RemoveReferencePartsRow(ReferencePartsRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public static System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(System.Xml.Schema.XmlSchemaSet xs) {
+                System.Xml.Schema.XmlSchemaComplexType type = new System.Xml.Schema.XmlSchemaComplexType();
+                System.Xml.Schema.XmlSchemaSequence sequence = new System.Xml.Schema.XmlSchemaSequence();
+                DataSet ds = new DataSet();
+                xs.Add(ds.GetSchemaSerializable());
+                System.Xml.Schema.XmlSchemaAny any1 = new System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                System.Xml.Schema.XmlSchemaAny any2 = new System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                System.Xml.Schema.XmlSchemaAttribute attribute1 = new System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                System.Xml.Schema.XmlSchemaAttribute attribute2 = new System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "ReferencePartsDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                return type;
+            }
+        }
+        
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        [System.Serializable()]
+        [System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class DetailsListsDetailsDataTable : System.Data.DataTable, System.Collections.IEnumerable {
+            
+            private System.Data.DataColumn columnDetailsListsDetailID;
+            
+            private System.Data.DataColumn columnDetailsListID;
+            
+            private System.Data.DataColumn columnName;
+            
+            private System.Data.DataColumn columnLength;
+            
+            private System.Data.DataColumn columnWidth;
+            
+            private System.Data.DataColumn columnAmount;
+            
+            private System.Data.DataColumn columnMaterialID;
+            
+            private System.Data.DataColumn columnLeftEdge;
+            
+            private System.Data.DataColumn columnTopEdge;
+            
+            private System.Data.DataColumn columnRightEdge;
+            
+            private System.Data.DataColumn columnBottomEdge;
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public DetailsListsDetailsDataTable() {
+                this.TableName = "DetailsListsDetails";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal DetailsListsDetailsDataTable(System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected DetailsListsDetailsDataTable(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.Data.DataColumn DetailsListsDetailIDColumn {
+                get {
+                    return this.columnDetailsListsDetailID;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.Data.DataColumn DetailsListIDColumn {
+                get {
+                    return this.columnDetailsListID;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.Data.DataColumn NameColumn {
+                get {
+                    return this.columnName;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.Data.DataColumn LengthColumn {
+                get {
+                    return this.columnLength;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.Data.DataColumn WidthColumn {
+                get {
+                    return this.columnWidth;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.Data.DataColumn AmountColumn {
+                get {
+                    return this.columnAmount;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.Data.DataColumn MaterialIDColumn {
+                get {
+                    return this.columnMaterialID;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.Data.DataColumn LeftEdgeColumn {
+                get {
+                    return this.columnLeftEdge;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.Data.DataColumn TopEdgeColumn {
+                get {
+                    return this.columnTopEdge;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.Data.DataColumn RightEdgeColumn {
+                get {
+                    return this.columnRightEdge;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.Data.DataColumn BottomEdgeColumn {
+                get {
+                    return this.columnBottomEdge;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public DetailsListsDetailsRow this[int index] {
+                get {
+                    return ((DetailsListsDetailsRow)(this.Rows[index]));
+                }
+            }
+            
+            public event DetailsListsDetailsRowChangeEventHandler DetailsListsDetailsRowChanging;
+            
+            public event DetailsListsDetailsRowChangeEventHandler DetailsListsDetailsRowChanged;
+            
+            public event DetailsListsDetailsRowChangeEventHandler DetailsListsDetailsRowDeleting;
+            
+            public event DetailsListsDetailsRowChangeEventHandler DetailsListsDetailsRowDeleted;
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void AddDetailsListsDetailsRow(DetailsListsDetailsRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public DetailsListsDetailsRow AddDetailsListsDetailsRow(DetailsListsRow parentDetailsListsRowByFK_DetailsListsDetails_DetailsLists, string Name, decimal Length, decimal Width, int Amount, MaterialsRow parentMaterialsRowByFK_Materials_DetailsListsDetails, string LeftEdge, string TopEdge, string RightEdge, string BottomEdge) {
+                DetailsListsDetailsRow rowDetailsListsDetailsRow = ((DetailsListsDetailsRow)(this.NewRow()));
+                rowDetailsListsDetailsRow.ItemArray = new object[] {
+                        null,
+                        parentDetailsListsRowByFK_DetailsListsDetails_DetailsLists[0],
+                        Name,
+                        Length,
+                        Width,
+                        Amount,
+                        parentMaterialsRowByFK_Materials_DetailsListsDetails[0],
+                        LeftEdge,
+                        TopEdge,
+                        RightEdge,
+                        BottomEdge};
+                this.Rows.Add(rowDetailsListsDetailsRow);
+                return rowDetailsListsDetailsRow;
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public DetailsListsDetailsRow FindByDetailsListsDetailID(int DetailsListsDetailID) {
+                return ((DetailsListsDetailsRow)(this.Rows.Find(new object[] {
+                            DetailsListsDetailID})));
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual System.Collections.IEnumerator GetEnumerator() {
+                return this.Rows.GetEnumerator();
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public override System.Data.DataTable Clone() {
+                DetailsListsDetailsDataTable cln = ((DetailsListsDetailsDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override System.Data.DataTable CreateInstance() {
+                return new DetailsListsDetailsDataTable();
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal void InitVars() {
+                this.columnDetailsListsDetailID = base.Columns["DetailsListsDetailID"];
+                this.columnDetailsListID = base.Columns["DetailsListID"];
+                this.columnName = base.Columns["Name"];
+                this.columnLength = base.Columns["Length"];
+                this.columnWidth = base.Columns["Width"];
+                this.columnAmount = base.Columns["Amount"];
+                this.columnMaterialID = base.Columns["MaterialID"];
+                this.columnLeftEdge = base.Columns["LeftEdge"];
+                this.columnTopEdge = base.Columns["TopEdge"];
+                this.columnRightEdge = base.Columns["RightEdge"];
+                this.columnBottomEdge = base.Columns["BottomEdge"];
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            private void InitClass() {
+                this.columnDetailsListsDetailID = new System.Data.DataColumn("DetailsListsDetailID", typeof(int), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDetailsListsDetailID);
+                this.columnDetailsListID = new System.Data.DataColumn("DetailsListID", typeof(int), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDetailsListID);
+                this.columnName = new System.Data.DataColumn("Name", typeof(string), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columnName);
+                this.columnLength = new System.Data.DataColumn("Length", typeof(decimal), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columnLength);
+                this.columnWidth = new System.Data.DataColumn("Width", typeof(decimal), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columnWidth);
+                this.columnAmount = new System.Data.DataColumn("Amount", typeof(int), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAmount);
+                this.columnMaterialID = new System.Data.DataColumn("MaterialID", typeof(int), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columnMaterialID);
+                this.columnLeftEdge = new System.Data.DataColumn("LeftEdge", typeof(string), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columnLeftEdge);
+                this.columnTopEdge = new System.Data.DataColumn("TopEdge", typeof(string), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTopEdge);
+                this.columnRightEdge = new System.Data.DataColumn("RightEdge", typeof(string), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRightEdge);
+                this.columnBottomEdge = new System.Data.DataColumn("BottomEdge", typeof(string), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columnBottomEdge);
+                this.Constraints.Add(new System.Data.UniqueConstraint("Constraint1", new System.Data.DataColumn[] {
+                                this.columnDetailsListsDetailID}, true));
+                this.columnDetailsListsDetailID.AutoIncrement = true;
+                this.columnDetailsListsDetailID.AllowDBNull = false;
+                this.columnDetailsListsDetailID.Unique = true;
+                this.columnDetailsListID.AllowDBNull = false;
+                this.columnName.AllowDBNull = false;
+                this.columnName.MaxLength = 50;
+                this.columnLength.AllowDBNull = false;
+                this.columnWidth.AllowDBNull = false;
+                this.columnAmount.AllowDBNull = false;
+                this.columnMaterialID.AllowDBNull = false;
+                this.columnLeftEdge.MaxLength = 10;
+                this.columnTopEdge.MaxLength = 10;
+                this.columnRightEdge.MaxLength = 10;
+                this.columnBottomEdge.MaxLength = 10;
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public DetailsListsDetailsRow NewDetailsListsDetailsRow() {
+                return ((DetailsListsDetailsRow)(this.NewRow()));
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override System.Data.DataRow NewRowFromBuilder(System.Data.DataRowBuilder builder) {
+                return new DetailsListsDetailsRow(builder);
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override System.Type GetRowType() {
+                return typeof(DetailsListsDetailsRow);
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanged(System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.DetailsListsDetailsRowChanged != null)) {
+                    this.DetailsListsDetailsRowChanged(this, new DetailsListsDetailsRowChangeEvent(((DetailsListsDetailsRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanging(System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.DetailsListsDetailsRowChanging != null)) {
+                    this.DetailsListsDetailsRowChanging(this, new DetailsListsDetailsRowChangeEvent(((DetailsListsDetailsRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleted(System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.DetailsListsDetailsRowDeleted != null)) {
+                    this.DetailsListsDetailsRowDeleted(this, new DetailsListsDetailsRowChangeEvent(((DetailsListsDetailsRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleting(System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.DetailsListsDetailsRowDeleting != null)) {
+                    this.DetailsListsDetailsRowDeleting(this, new DetailsListsDetailsRowChangeEvent(((DetailsListsDetailsRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void RemoveDetailsListsDetailsRow(DetailsListsDetailsRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public static System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(System.Xml.Schema.XmlSchemaSet xs) {
+                System.Xml.Schema.XmlSchemaComplexType type = new System.Xml.Schema.XmlSchemaComplexType();
+                System.Xml.Schema.XmlSchemaSequence sequence = new System.Xml.Schema.XmlSchemaSequence();
+                DataSet ds = new DataSet();
+                xs.Add(ds.GetSchemaSerializable());
+                System.Xml.Schema.XmlSchemaAny any1 = new System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                System.Xml.Schema.XmlSchemaAny any2 = new System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                System.Xml.Schema.XmlSchemaAttribute attribute1 = new System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                System.Xml.Schema.XmlSchemaAttribute attribute2 = new System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "DetailsListsDetailsDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                return type;
+            }
+        }
         
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [System.Serializable()]
@@ -322,9 +1288,9 @@ namespace Denisenko.Cutting.CutOptima {
             
             private System.Data.DataColumn columnDetailsListID;
             
-            private System.Data.DataColumn columnRemarks;
-            
             private System.Data.DataColumn columnOrderID;
+            
+            private System.Data.DataColumn columnRemarks;
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public DetailsListsDataTable() {
@@ -364,16 +1330,16 @@ namespace Denisenko.Cutting.CutOptima {
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public System.Data.DataColumn RemarksColumn {
+            public System.Data.DataColumn OrderIDColumn {
                 get {
-                    return this.columnRemarks;
+                    return this.columnOrderID;
                 }
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public System.Data.DataColumn OrderIDColumn {
+            public System.Data.DataColumn RemarksColumn {
                 get {
-                    return this.columnOrderID;
+                    return this.columnRemarks;
                 }
             }
             
@@ -406,12 +1372,12 @@ namespace Denisenko.Cutting.CutOptima {
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public DetailsListsRow AddDetailsListsRow(int DetailsListID, string Remarks, int OrderID) {
+            public DetailsListsRow AddDetailsListsRow(string OrderID, string Remarks) {
                 DetailsListsRow rowDetailsListsRow = ((DetailsListsRow)(this.NewRow()));
                 rowDetailsListsRow.ItemArray = new object[] {
-                        DetailsListID,
-                        Remarks,
-                        OrderID};
+                        null,
+                        OrderID,
+                        Remarks};
                 this.Rows.Add(rowDetailsListsRow);
                 return rowDetailsListsRow;
             }
@@ -442,23 +1408,26 @@ namespace Denisenko.Cutting.CutOptima {
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             internal void InitVars() {
                 this.columnDetailsListID = base.Columns["DetailsListID"];
-                this.columnRemarks = base.Columns["Remarks"];
                 this.columnOrderID = base.Columns["OrderID"];
+                this.columnRemarks = base.Columns["Remarks"];
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             private void InitClass() {
                 this.columnDetailsListID = new System.Data.DataColumn("DetailsListID", typeof(int), null, System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDetailsListID);
+                this.columnOrderID = new System.Data.DataColumn("OrderID", typeof(string), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columnOrderID);
                 this.columnRemarks = new System.Data.DataColumn("Remarks", typeof(string), null, System.Data.MappingType.Element);
                 base.Columns.Add(this.columnRemarks);
-                this.columnOrderID = new System.Data.DataColumn("OrderID", typeof(int), null, System.Data.MappingType.Element);
-                base.Columns.Add(this.columnOrderID);
                 this.Constraints.Add(new System.Data.UniqueConstraint("Constraint1", new System.Data.DataColumn[] {
                                 this.columnDetailsListID}, true));
+                this.columnDetailsListID.AutoIncrement = true;
                 this.columnDetailsListID.AllowDBNull = false;
+                this.columnDetailsListID.ReadOnly = true;
                 this.columnDetailsListID.Unique = true;
-                this.columnRemarks.MaxLength = 1073741823;
+                this.columnOrderID.MaxLength = 50;
+                this.columnRemarks.MaxLength = 100;
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -546,40 +1515,26 @@ namespace Denisenko.Cutting.CutOptima {
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [System.Serializable()]
         [System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class DetailsListsContentsDataTable : System.Data.DataTable, System.Collections.IEnumerable {
-            
-            private System.Data.DataColumn columnItemID;
-            
-            private System.Data.DataColumn columnDetailsListID;
-            
-            private System.Data.DataColumn columnName;
-            
-            private System.Data.DataColumn columnHeight;
-            
-            private System.Data.DataColumn columnWidth;
-            
-            private System.Data.DataColumn columnQuantity;
+        public partial class MaterialsDataTable : System.Data.DataTable, System.Collections.IEnumerable {
             
             private System.Data.DataColumn columnMaterialID;
             
-            private System.Data.DataColumn columnLeftEdgeID;
+            private System.Data.DataColumn columnName;
             
-            private System.Data.DataColumn columnRightEdgeID;
+            private System.Data.DataColumn columnHaveDirection;
             
-            private System.Data.DataColumn columnTopEdgeID;
-            
-            private System.Data.DataColumn columnBottomEdgeID;
+            private System.Data.DataColumn columnRemarks;
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public DetailsListsContentsDataTable() {
-                this.TableName = "DetailsListsContents";
+            public MaterialsDataTable() {
+                this.TableName = "Materials";
                 this.BeginInit();
                 this.InitClass();
                 this.EndInit();
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal DetailsListsContentsDataTable(System.Data.DataTable table) {
+            internal MaterialsDataTable(System.Data.DataTable table) {
                 this.TableName = table.TableName;
                 if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
                     this.CaseSensitive = table.CaseSensitive;
@@ -595,22 +1550,15 @@ namespace Denisenko.Cutting.CutOptima {
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected DetailsListsContentsDataTable(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : 
+            protected MaterialsDataTable(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public System.Data.DataColumn ItemIDColumn {
+            public System.Data.DataColumn MaterialIDColumn {
                 get {
-                    return this.columnItemID;
-                }
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public System.Data.DataColumn DetailsListIDColumn {
-                get {
-                    return this.columnDetailsListID;
+                    return this.columnMaterialID;
                 }
             }
             
@@ -622,58 +1570,16 @@ namespace Denisenko.Cutting.CutOptima {
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public System.Data.DataColumn HeightColumn {
+            public System.Data.DataColumn HaveDirectionColumn {
                 get {
-                    return this.columnHeight;
+                    return this.columnHaveDirection;
                 }
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public System.Data.DataColumn WidthColumn {
+            public System.Data.DataColumn RemarksColumn {
                 get {
-                    return this.columnWidth;
-                }
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public System.Data.DataColumn QuantityColumn {
-                get {
-                    return this.columnQuantity;
-                }
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public System.Data.DataColumn MaterialIDColumn {
-                get {
-                    return this.columnMaterialID;
-                }
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public System.Data.DataColumn LeftEdgeIDColumn {
-                get {
-                    return this.columnLeftEdgeID;
-                }
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public System.Data.DataColumn RightEdgeIDColumn {
-                get {
-                    return this.columnRightEdgeID;
-                }
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public System.Data.DataColumn TopEdgeIDColumn {
-                get {
-                    return this.columnTopEdgeID;
-                }
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public System.Data.DataColumn BottomEdgeIDColumn {
-                get {
-                    return this.columnBottomEdgeID;
+                    return this.columnRemarks;
                 }
             }
             
@@ -686,364 +1592,41 @@ namespace Denisenko.Cutting.CutOptima {
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public DetailsListsContentsRow this[int index] {
+            public MaterialsRow this[int index] {
                 get {
-                    return ((DetailsListsContentsRow)(this.Rows[index]));
+                    return ((MaterialsRow)(this.Rows[index]));
                 }
             }
             
-            public event DetailsListsContentsRowChangeEventHandler DetailsListsContentsRowChanging;
+            public event MaterialsRowChangeEventHandler MaterialsRowChanging;
             
-            public event DetailsListsContentsRowChangeEventHandler DetailsListsContentsRowChanged;
+            public event MaterialsRowChangeEventHandler MaterialsRowChanged;
             
-            public event DetailsListsContentsRowChangeEventHandler DetailsListsContentsRowDeleting;
+            public event MaterialsRowChangeEventHandler MaterialsRowDeleting;
             
-            public event DetailsListsContentsRowChangeEventHandler DetailsListsContentsRowDeleted;
+            public event MaterialsRowChangeEventHandler MaterialsRowDeleted;
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void AddDetailsListsContentsRow(DetailsListsContentsRow row) {
+            public void AddMaterialsRow(MaterialsRow row) {
                 this.Rows.Add(row);
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public DetailsListsContentsRow AddDetailsListsContentsRow(int ItemID, int DetailsListID, string Name, decimal Height, decimal Width, int Quantity, int MaterialID, int LeftEdgeID, int RightEdgeID, int TopEdgeID, int BottomEdgeID) {
-                DetailsListsContentsRow rowDetailsListsContentsRow = ((DetailsListsContentsRow)(this.NewRow()));
-                rowDetailsListsContentsRow.ItemArray = new object[] {
-                        ItemID,
-                        DetailsListID,
-                        Name,
-                        Height,
-                        Width,
-                        Quantity,
-                        MaterialID,
-                        LeftEdgeID,
-                        RightEdgeID,
-                        TopEdgeID,
-                        BottomEdgeID};
-                this.Rows.Add(rowDetailsListsContentsRow);
-                return rowDetailsListsContentsRow;
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public DetailsListsContentsRow FindByItemID(int ItemID) {
-                return ((DetailsListsContentsRow)(this.Rows.Find(new object[] {
-                            ItemID})));
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public virtual System.Collections.IEnumerator GetEnumerator() {
-                return this.Rows.GetEnumerator();
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public override System.Data.DataTable Clone() {
-                DetailsListsContentsDataTable cln = ((DetailsListsContentsDataTable)(base.Clone()));
-                cln.InitVars();
-                return cln;
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override System.Data.DataTable CreateInstance() {
-                return new DetailsListsContentsDataTable();
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal void InitVars() {
-                this.columnItemID = base.Columns["ItemID"];
-                this.columnDetailsListID = base.Columns["DetailsListID"];
-                this.columnName = base.Columns["Name"];
-                this.columnHeight = base.Columns["Height"];
-                this.columnWidth = base.Columns["Width"];
-                this.columnQuantity = base.Columns["Quantity"];
-                this.columnMaterialID = base.Columns["MaterialID"];
-                this.columnLeftEdgeID = base.Columns["LeftEdgeID"];
-                this.columnRightEdgeID = base.Columns["RightEdgeID"];
-                this.columnTopEdgeID = base.Columns["TopEdgeID"];
-                this.columnBottomEdgeID = base.Columns["BottomEdgeID"];
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            private void InitClass() {
-                this.columnItemID = new System.Data.DataColumn("ItemID", typeof(int), null, System.Data.MappingType.Element);
-                base.Columns.Add(this.columnItemID);
-                this.columnDetailsListID = new System.Data.DataColumn("DetailsListID", typeof(int), null, System.Data.MappingType.Element);
-                base.Columns.Add(this.columnDetailsListID);
-                this.columnName = new System.Data.DataColumn("Name", typeof(string), null, System.Data.MappingType.Element);
-                base.Columns.Add(this.columnName);
-                this.columnHeight = new System.Data.DataColumn("Height", typeof(decimal), null, System.Data.MappingType.Element);
-                base.Columns.Add(this.columnHeight);
-                this.columnWidth = new System.Data.DataColumn("Width", typeof(decimal), null, System.Data.MappingType.Element);
-                base.Columns.Add(this.columnWidth);
-                this.columnQuantity = new System.Data.DataColumn("Quantity", typeof(int), null, System.Data.MappingType.Element);
-                base.Columns.Add(this.columnQuantity);
-                this.columnMaterialID = new System.Data.DataColumn("MaterialID", typeof(int), null, System.Data.MappingType.Element);
-                base.Columns.Add(this.columnMaterialID);
-                this.columnLeftEdgeID = new System.Data.DataColumn("LeftEdgeID", typeof(int), null, System.Data.MappingType.Element);
-                base.Columns.Add(this.columnLeftEdgeID);
-                this.columnRightEdgeID = new System.Data.DataColumn("RightEdgeID", typeof(int), null, System.Data.MappingType.Element);
-                base.Columns.Add(this.columnRightEdgeID);
-                this.columnTopEdgeID = new System.Data.DataColumn("TopEdgeID", typeof(int), null, System.Data.MappingType.Element);
-                base.Columns.Add(this.columnTopEdgeID);
-                this.columnBottomEdgeID = new System.Data.DataColumn("BottomEdgeID", typeof(int), null, System.Data.MappingType.Element);
-                base.Columns.Add(this.columnBottomEdgeID);
-                this.Constraints.Add(new System.Data.UniqueConstraint("Constraint1", new System.Data.DataColumn[] {
-                                this.columnItemID}, true));
-                this.columnItemID.AllowDBNull = false;
-                this.columnItemID.Unique = true;
-                this.columnDetailsListID.AllowDBNull = false;
-                this.columnName.MaxLength = 10;
-                this.columnHeight.AllowDBNull = false;
-                this.columnWidth.AllowDBNull = false;
-                this.columnQuantity.AllowDBNull = false;
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public DetailsListsContentsRow NewDetailsListsContentsRow() {
-                return ((DetailsListsContentsRow)(this.NewRow()));
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override System.Data.DataRow NewRowFromBuilder(System.Data.DataRowBuilder builder) {
-                return new DetailsListsContentsRow(builder);
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override System.Type GetRowType() {
-                return typeof(DetailsListsContentsRow);
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override void OnRowChanged(System.Data.DataRowChangeEventArgs e) {
-                base.OnRowChanged(e);
-                if ((this.DetailsListsContentsRowChanged != null)) {
-                    this.DetailsListsContentsRowChanged(this, new DetailsListsContentsRowChangeEvent(((DetailsListsContentsRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override void OnRowChanging(System.Data.DataRowChangeEventArgs e) {
-                base.OnRowChanging(e);
-                if ((this.DetailsListsContentsRowChanging != null)) {
-                    this.DetailsListsContentsRowChanging(this, new DetailsListsContentsRowChangeEvent(((DetailsListsContentsRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override void OnRowDeleted(System.Data.DataRowChangeEventArgs e) {
-                base.OnRowDeleted(e);
-                if ((this.DetailsListsContentsRowDeleted != null)) {
-                    this.DetailsListsContentsRowDeleted(this, new DetailsListsContentsRowChangeEvent(((DetailsListsContentsRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected override void OnRowDeleting(System.Data.DataRowChangeEventArgs e) {
-                base.OnRowDeleting(e);
-                if ((this.DetailsListsContentsRowDeleting != null)) {
-                    this.DetailsListsContentsRowDeleting(this, new DetailsListsContentsRowChangeEvent(((DetailsListsContentsRow)(e.Row)), e.Action));
-                }
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void RemoveDetailsListsContentsRow(DetailsListsContentsRow row) {
-                this.Rows.Remove(row);
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public static System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(System.Xml.Schema.XmlSchemaSet xs) {
-                System.Xml.Schema.XmlSchemaComplexType type = new System.Xml.Schema.XmlSchemaComplexType();
-                System.Xml.Schema.XmlSchemaSequence sequence = new System.Xml.Schema.XmlSchemaSequence();
-                DataSet ds = new DataSet();
-                xs.Add(ds.GetSchemaSerializable());
-                System.Xml.Schema.XmlSchemaAny any1 = new System.Xml.Schema.XmlSchemaAny();
-                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
-                any1.MinOccurs = new decimal(0);
-                any1.MaxOccurs = decimal.MaxValue;
-                any1.ProcessContents = System.Xml.Schema.XmlSchemaContentProcessing.Lax;
-                sequence.Items.Add(any1);
-                System.Xml.Schema.XmlSchemaAny any2 = new System.Xml.Schema.XmlSchemaAny();
-                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
-                any2.MinOccurs = new decimal(1);
-                any2.ProcessContents = System.Xml.Schema.XmlSchemaContentProcessing.Lax;
-                sequence.Items.Add(any2);
-                System.Xml.Schema.XmlSchemaAttribute attribute1 = new System.Xml.Schema.XmlSchemaAttribute();
-                attribute1.Name = "namespace";
-                attribute1.FixedValue = ds.Namespace;
-                type.Attributes.Add(attribute1);
-                System.Xml.Schema.XmlSchemaAttribute attribute2 = new System.Xml.Schema.XmlSchemaAttribute();
-                attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "DetailsListsContentsDataTable";
-                type.Attributes.Add(attribute2);
-                type.Particle = sequence;
-                return type;
-            }
-        }
-        
-        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        [System.Serializable()]
-        [System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class ReferenceDetailsDataTable : System.Data.DataTable, System.Collections.IEnumerable {
-            
-            private System.Data.DataColumn columnDetailID;
-            
-            private System.Data.DataColumn columnName;
-            
-            private System.Data.DataColumn columnWidth;
-            
-            private System.Data.DataColumn columnHeight;
-            
-            private System.Data.DataColumn columnMaterialID;
-            
-            private System.Data.DataColumn columnLeftEdgeID;
-            
-            private System.Data.DataColumn columnRightEdgeID;
-            
-            private System.Data.DataColumn columnTopEdgeID;
-            
-            private System.Data.DataColumn columnBottomEdgeID;
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public ReferenceDetailsDataTable() {
-                this.TableName = "ReferenceDetails";
-                this.BeginInit();
-                this.InitClass();
-                this.EndInit();
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal ReferenceDetailsDataTable(System.Data.DataTable table) {
-                this.TableName = table.TableName;
-                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
-                    this.CaseSensitive = table.CaseSensitive;
-                }
-                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
-                    this.Locale = table.Locale;
-                }
-                if ((table.Namespace != table.DataSet.Namespace)) {
-                    this.Namespace = table.Namespace;
-                }
-                this.Prefix = table.Prefix;
-                this.MinimumCapacity = table.MinimumCapacity;
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected ReferenceDetailsDataTable(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : 
-                    base(info, context) {
-                this.InitVars();
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public System.Data.DataColumn DetailIDColumn {
-                get {
-                    return this.columnDetailID;
-                }
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public System.Data.DataColumn NameColumn {
-                get {
-                    return this.columnName;
-                }
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public System.Data.DataColumn WidthColumn {
-                get {
-                    return this.columnWidth;
-                }
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public System.Data.DataColumn HeightColumn {
-                get {
-                    return this.columnHeight;
-                }
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public System.Data.DataColumn MaterialIDColumn {
-                get {
-                    return this.columnMaterialID;
-                }
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public System.Data.DataColumn LeftEdgeIDColumn {
-                get {
-                    return this.columnLeftEdgeID;
-                }
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public System.Data.DataColumn RightEdgeIDColumn {
-                get {
-                    return this.columnRightEdgeID;
-                }
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public System.Data.DataColumn TopEdgeIDColumn {
-                get {
-                    return this.columnTopEdgeID;
-                }
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public System.Data.DataColumn BottomEdgeIDColumn {
-                get {
-                    return this.columnBottomEdgeID;
-                }
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [System.ComponentModel.Browsable(false)]
-            public int Count {
-                get {
-                    return this.Rows.Count;
-                }
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public ReferenceDetailsRow this[int index] {
-                get {
-                    return ((ReferenceDetailsRow)(this.Rows[index]));
-                }
-            }
-            
-            public event ReferenceDetailsRowChangeEventHandler ReferenceDetailsRowChanging;
-            
-            public event ReferenceDetailsRowChangeEventHandler ReferenceDetailsRowChanged;
-            
-            public event ReferenceDetailsRowChangeEventHandler ReferenceDetailsRowDeleting;
-            
-            public event ReferenceDetailsRowChangeEventHandler ReferenceDetailsRowDeleted;
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void AddReferenceDetailsRow(ReferenceDetailsRow row) {
-                this.Rows.Add(row);
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public ReferenceDetailsRow AddReferenceDetailsRow(string Name, decimal Width, decimal Height, int MaterialID, int LeftEdgeID, int RightEdgeID, int TopEdgeID, int BottomEdgeID) {
-                ReferenceDetailsRow rowReferenceDetailsRow = ((ReferenceDetailsRow)(this.NewRow()));
-                rowReferenceDetailsRow.ItemArray = new object[] {
+            public MaterialsRow AddMaterialsRow(string Name, bool HaveDirection, string Remarks) {
+                MaterialsRow rowMaterialsRow = ((MaterialsRow)(this.NewRow()));
+                rowMaterialsRow.ItemArray = new object[] {
                         null,
                         Name,
-                        Width,
-                        Height,
-                        MaterialID,
-                        LeftEdgeID,
-                        RightEdgeID,
-                        TopEdgeID,
-                        BottomEdgeID};
-                this.Rows.Add(rowReferenceDetailsRow);
-                return rowReferenceDetailsRow;
+                        HaveDirection,
+                        Remarks};
+                this.Rows.Add(rowMaterialsRow);
+                return rowMaterialsRow;
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public ReferenceDetailsRow FindByDetailID(int DetailID) {
-                return ((ReferenceDetailsRow)(this.Rows.Find(new object[] {
-                            DetailID})));
+            public MaterialsRow FindByMaterialID(int MaterialID) {
+                return ((MaterialsRow)(this.Rows.Find(new object[] {
+                            MaterialID})));
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1053,107 +1636,96 @@ namespace Denisenko.Cutting.CutOptima {
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public override System.Data.DataTable Clone() {
-                ReferenceDetailsDataTable cln = ((ReferenceDetailsDataTable)(base.Clone()));
+                MaterialsDataTable cln = ((MaterialsDataTable)(base.Clone()));
                 cln.InitVars();
                 return cln;
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override System.Data.DataTable CreateInstance() {
-                return new ReferenceDetailsDataTable();
+                return new MaterialsDataTable();
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             internal void InitVars() {
-                this.columnDetailID = base.Columns["DetailID"];
-                this.columnName = base.Columns["Name"];
-                this.columnWidth = base.Columns["Width"];
-                this.columnHeight = base.Columns["Height"];
                 this.columnMaterialID = base.Columns["MaterialID"];
-                this.columnLeftEdgeID = base.Columns["LeftEdgeID"];
-                this.columnRightEdgeID = base.Columns["RightEdgeID"];
-                this.columnTopEdgeID = base.Columns["TopEdgeID"];
-                this.columnBottomEdgeID = base.Columns["BottomEdgeID"];
+                this.columnName = base.Columns["Name"];
+                this.columnHaveDirection = base.Columns["HaveDirection"];
+                this.columnRemarks = base.Columns["Remarks"];
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             private void InitClass() {
-                this.columnDetailID = new System.Data.DataColumn("DetailID", typeof(int), null, System.Data.MappingType.Element);
-                base.Columns.Add(this.columnDetailID);
-                this.columnName = new System.Data.DataColumn("Name", typeof(string), null, System.Data.MappingType.Element);
-                base.Columns.Add(this.columnName);
-                this.columnWidth = new System.Data.DataColumn("Width", typeof(decimal), null, System.Data.MappingType.Element);
-                base.Columns.Add(this.columnWidth);
-                this.columnHeight = new System.Data.DataColumn("Height", typeof(decimal), null, System.Data.MappingType.Element);
-                base.Columns.Add(this.columnHeight);
                 this.columnMaterialID = new System.Data.DataColumn("MaterialID", typeof(int), null, System.Data.MappingType.Element);
                 base.Columns.Add(this.columnMaterialID);
-                this.columnLeftEdgeID = new System.Data.DataColumn("LeftEdgeID", typeof(int), null, System.Data.MappingType.Element);
-                base.Columns.Add(this.columnLeftEdgeID);
-                this.columnRightEdgeID = new System.Data.DataColumn("RightEdgeID", typeof(int), null, System.Data.MappingType.Element);
-                base.Columns.Add(this.columnRightEdgeID);
-                this.columnTopEdgeID = new System.Data.DataColumn("TopEdgeID", typeof(int), null, System.Data.MappingType.Element);
-                base.Columns.Add(this.columnTopEdgeID);
-                this.columnBottomEdgeID = new System.Data.DataColumn("BottomEdgeID", typeof(int), null, System.Data.MappingType.Element);
-                base.Columns.Add(this.columnBottomEdgeID);
+                this.columnName = new System.Data.DataColumn("Name", typeof(string), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columnName);
+                this.columnHaveDirection = new System.Data.DataColumn("HaveDirection", typeof(bool), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columnHaveDirection);
+                this.columnRemarks = new System.Data.DataColumn("Remarks", typeof(string), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRemarks);
                 this.Constraints.Add(new System.Data.UniqueConstraint("Constraint1", new System.Data.DataColumn[] {
-                                this.columnDetailID}, true));
-                this.columnDetailID.AutoIncrement = true;
-                this.columnDetailID.AllowDBNull = false;
-                this.columnDetailID.Unique = true;
+                                this.columnMaterialID}, true));
+                this.columnMaterialID.AutoIncrement = true;
+                this.columnMaterialID.AutoIncrementSeed = 1;
+                this.columnMaterialID.AllowDBNull = false;
+                this.columnMaterialID.Unique = true;
                 this.columnName.AllowDBNull = false;
-                this.columnName.MaxLength = 10;
+                this.columnName.MaxLength = 50;
+                this.columnHaveDirection.AllowDBNull = false;
+                this.columnHaveDirection.DefaultValue = ((bool)(false));
+                this.columnRemarks.MaxLength = 2147483647;
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public ReferenceDetailsRow NewReferenceDetailsRow() {
-                return ((ReferenceDetailsRow)(this.NewRow()));
+            public MaterialsRow NewMaterialsRow() {
+                return ((MaterialsRow)(this.NewRow()));
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override System.Data.DataRow NewRowFromBuilder(System.Data.DataRowBuilder builder) {
-                return new ReferenceDetailsRow(builder);
+                return new MaterialsRow(builder);
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override System.Type GetRowType() {
-                return typeof(ReferenceDetailsRow);
+                return typeof(MaterialsRow);
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowChanged(System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanged(e);
-                if ((this.ReferenceDetailsRowChanged != null)) {
-                    this.ReferenceDetailsRowChanged(this, new ReferenceDetailsRowChangeEvent(((ReferenceDetailsRow)(e.Row)), e.Action));
+                if ((this.MaterialsRowChanged != null)) {
+                    this.MaterialsRowChanged(this, new MaterialsRowChangeEvent(((MaterialsRow)(e.Row)), e.Action));
                 }
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowChanging(System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanging(e);
-                if ((this.ReferenceDetailsRowChanging != null)) {
-                    this.ReferenceDetailsRowChanging(this, new ReferenceDetailsRowChangeEvent(((ReferenceDetailsRow)(e.Row)), e.Action));
+                if ((this.MaterialsRowChanging != null)) {
+                    this.MaterialsRowChanging(this, new MaterialsRowChangeEvent(((MaterialsRow)(e.Row)), e.Action));
                 }
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowDeleted(System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleted(e);
-                if ((this.ReferenceDetailsRowDeleted != null)) {
-                    this.ReferenceDetailsRowDeleted(this, new ReferenceDetailsRowChangeEvent(((ReferenceDetailsRow)(e.Row)), e.Action));
+                if ((this.MaterialsRowDeleted != null)) {
+                    this.MaterialsRowDeleted(this, new MaterialsRowChangeEvent(((MaterialsRow)(e.Row)), e.Action));
                 }
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowDeleting(System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleting(e);
-                if ((this.ReferenceDetailsRowDeleting != null)) {
-                    this.ReferenceDetailsRowDeleting(this, new ReferenceDetailsRowChangeEvent(((ReferenceDetailsRow)(e.Row)), e.Action));
+                if ((this.MaterialsRowDeleting != null)) {
+                    this.MaterialsRowDeleting(this, new MaterialsRowChangeEvent(((MaterialsRow)(e.Row)), e.Action));
                 }
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void RemoveReferenceDetailsRow(ReferenceDetailsRow row) {
+            public void RemoveMaterialsRow(MaterialsRow row) {
                 this.Rows.Remove(row);
             }
             
@@ -1180,7 +1752,7 @@ namespace Denisenko.Cutting.CutOptima {
                 type.Attributes.Add(attribute1);
                 System.Xml.Schema.XmlSchemaAttribute attribute2 = new System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "ReferenceDetailsDataTable";
+                attribute2.FixedValue = "MaterialsDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 return type;
@@ -1190,7 +1762,9 @@ namespace Denisenko.Cutting.CutOptima {
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
         [System.Serializable()]
         [System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class DetailsDataTable : System.Data.DataTable, System.Collections.IEnumerable {
+        public partial class SheetsDataTable : System.Data.DataTable, System.Collections.IEnumerable {
+            
+            private System.Data.DataColumn columnSheetID;
             
             private System.Data.DataColumn columnName;
             
@@ -1198,18 +1772,18 @@ namespace Denisenko.Cutting.CutOptima {
             
             private System.Data.DataColumn columnWidth;
             
-            private System.Data.DataColumn columnQuantity;
+            private System.Data.DataColumn columnMaterialID;
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public DetailsDataTable() {
-                this.TableName = "Details";
+            public SheetsDataTable() {
+                this.TableName = "Sheets";
                 this.BeginInit();
                 this.InitClass();
                 this.EndInit();
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal DetailsDataTable(System.Data.DataTable table) {
+            internal SheetsDataTable(System.Data.DataTable table) {
                 this.TableName = table.TableName;
                 if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
                     this.CaseSensitive = table.CaseSensitive;
@@ -1225,9 +1799,16 @@ namespace Denisenko.Cutting.CutOptima {
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            protected DetailsDataTable(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : 
+            protected SheetsDataTable(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.Data.DataColumn SheetIDColumn {
+                get {
+                    return this.columnSheetID;
+                }
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1252,9 +1833,9 @@ namespace Denisenko.Cutting.CutOptima {
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public System.Data.DataColumn QuantityColumn {
+            public System.Data.DataColumn MaterialIDColumn {
                 get {
-                    return this.columnQuantity;
+                    return this.columnMaterialID;
                 }
             }
             
@@ -1267,35 +1848,42 @@ namespace Denisenko.Cutting.CutOptima {
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public DetailsRow this[int index] {
+            public SheetsRow this[int index] {
                 get {
-                    return ((DetailsRow)(this.Rows[index]));
+                    return ((SheetsRow)(this.Rows[index]));
                 }
             }
             
-            public event DetailsRowChangeEventHandler DetailsRowChanging;
+            public event SheetsRowChangeEventHandler SheetsRowChanging;
             
-            public event DetailsRowChangeEventHandler DetailsRowChanged;
+            public event SheetsRowChangeEventHandler SheetsRowChanged;
             
-            public event DetailsRowChangeEventHandler DetailsRowDeleting;
+            public event SheetsRowChangeEventHandler SheetsRowDeleting;
             
-            public event DetailsRowChangeEventHandler DetailsRowDeleted;
+            public event SheetsRowChangeEventHandler SheetsRowDeleted;
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void AddDetailsRow(DetailsRow row) {
+            public void AddSheetsRow(SheetsRow row) {
                 this.Rows.Add(row);
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public DetailsRow AddDetailsRow(string Name, string Length, string Width, int Quantity) {
-                DetailsRow rowDetailsRow = ((DetailsRow)(this.NewRow()));
-                rowDetailsRow.ItemArray = new object[] {
+            public SheetsRow AddSheetsRow(string Name, decimal Length, decimal Width, MaterialsRow parentMaterialsRowByFK_Sheets_Materials) {
+                SheetsRow rowSheetsRow = ((SheetsRow)(this.NewRow()));
+                rowSheetsRow.ItemArray = new object[] {
+                        null,
                         Name,
                         Length,
                         Width,
-                        Quantity};
-                this.Rows.Add(rowDetailsRow);
-                return rowDetailsRow;
+                        parentMaterialsRowByFK_Sheets_Materials[0]};
+                this.Rows.Add(rowSheetsRow);
+                return rowSheetsRow;
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public SheetsRow FindBySheetID(int SheetID) {
+                return ((SheetsRow)(this.Rows.Find(new object[] {
+                            SheetID})));
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1305,85 +1893,98 @@ namespace Denisenko.Cutting.CutOptima {
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public override System.Data.DataTable Clone() {
-                DetailsDataTable cln = ((DetailsDataTable)(base.Clone()));
+                SheetsDataTable cln = ((SheetsDataTable)(base.Clone()));
                 cln.InitVars();
                 return cln;
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override System.Data.DataTable CreateInstance() {
-                return new DetailsDataTable();
+                return new SheetsDataTable();
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             internal void InitVars() {
+                this.columnSheetID = base.Columns["SheetID"];
                 this.columnName = base.Columns["Name"];
                 this.columnLength = base.Columns["Length"];
                 this.columnWidth = base.Columns["Width"];
-                this.columnQuantity = base.Columns["Quantity"];
+                this.columnMaterialID = base.Columns["MaterialID"];
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             private void InitClass() {
+                this.columnSheetID = new System.Data.DataColumn("SheetID", typeof(int), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columnSheetID);
                 this.columnName = new System.Data.DataColumn("Name", typeof(string), null, System.Data.MappingType.Element);
                 base.Columns.Add(this.columnName);
-                this.columnLength = new System.Data.DataColumn("Length", typeof(string), null, System.Data.MappingType.Element);
+                this.columnLength = new System.Data.DataColumn("Length", typeof(decimal), null, System.Data.MappingType.Element);
                 base.Columns.Add(this.columnLength);
-                this.columnWidth = new System.Data.DataColumn("Width", typeof(string), null, System.Data.MappingType.Element);
+                this.columnWidth = new System.Data.DataColumn("Width", typeof(decimal), null, System.Data.MappingType.Element);
                 base.Columns.Add(this.columnWidth);
-                this.columnQuantity = new System.Data.DataColumn("Quantity", typeof(int), null, System.Data.MappingType.Element);
-                base.Columns.Add(this.columnQuantity);
+                this.columnMaterialID = new System.Data.DataColumn("MaterialID", typeof(int), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columnMaterialID);
+                this.Constraints.Add(new System.Data.UniqueConstraint("Constraint1", new System.Data.DataColumn[] {
+                                this.columnSheetID}, true));
+                this.columnSheetID.AutoIncrement = true;
+                this.columnSheetID.AllowDBNull = false;
+                this.columnSheetID.ReadOnly = true;
+                this.columnSheetID.Unique = true;
+                this.columnName.MaxLength = 50;
+                this.columnLength.AllowDBNull = false;
+                this.columnWidth.AllowDBNull = false;
+                this.columnMaterialID.AllowDBNull = false;
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public DetailsRow NewDetailsRow() {
-                return ((DetailsRow)(this.NewRow()));
+            public SheetsRow NewSheetsRow() {
+                return ((SheetsRow)(this.NewRow()));
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override System.Data.DataRow NewRowFromBuilder(System.Data.DataRowBuilder builder) {
-                return new DetailsRow(builder);
+                return new SheetsRow(builder);
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override System.Type GetRowType() {
-                return typeof(DetailsRow);
+                return typeof(SheetsRow);
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowChanged(System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanged(e);
-                if ((this.DetailsRowChanged != null)) {
-                    this.DetailsRowChanged(this, new DetailsRowChangeEvent(((DetailsRow)(e.Row)), e.Action));
+                if ((this.SheetsRowChanged != null)) {
+                    this.SheetsRowChanged(this, new SheetsRowChangeEvent(((SheetsRow)(e.Row)), e.Action));
                 }
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowChanging(System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanging(e);
-                if ((this.DetailsRowChanging != null)) {
-                    this.DetailsRowChanging(this, new DetailsRowChangeEvent(((DetailsRow)(e.Row)), e.Action));
+                if ((this.SheetsRowChanging != null)) {
+                    this.SheetsRowChanging(this, new SheetsRowChangeEvent(((SheetsRow)(e.Row)), e.Action));
                 }
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowDeleted(System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleted(e);
-                if ((this.DetailsRowDeleted != null)) {
-                    this.DetailsRowDeleted(this, new DetailsRowChangeEvent(((DetailsRow)(e.Row)), e.Action));
+                if ((this.SheetsRowDeleted != null)) {
+                    this.SheetsRowDeleted(this, new SheetsRowChangeEvent(((SheetsRow)(e.Row)), e.Action));
                 }
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             protected override void OnRowDeleting(System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleting(e);
-                if ((this.DetailsRowDeleting != null)) {
-                    this.DetailsRowDeleting(this, new DetailsRowChangeEvent(((DetailsRow)(e.Row)), e.Action));
+                if ((this.SheetsRowDeleting != null)) {
+                    this.SheetsRowDeleting(this, new SheetsRowChangeEvent(((SheetsRow)(e.Row)), e.Action));
                 }
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void RemoveDetailsRow(DetailsRow row) {
+            public void RemoveSheetsRow(SheetsRow row) {
                 this.Rows.Remove(row);
             }
             
@@ -1410,10 +2011,840 @@ namespace Denisenko.Cutting.CutOptima {
                 type.Attributes.Add(attribute1);
                 System.Xml.Schema.XmlSchemaAttribute attribute2 = new System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "DetailsDataTable";
+                attribute2.FixedValue = "SheetsDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 return type;
+            }
+        }
+        
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        [System.Serializable()]
+        [System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class CuttingResultsDataTable : System.Data.DataTable, System.Collections.IEnumerable {
+            
+            private System.Data.DataColumn columnCuttingResultID;
+            
+            private System.Data.DataColumn columnData;
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public CuttingResultsDataTable() {
+                this.TableName = "CuttingResults";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal CuttingResultsDataTable(System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected CuttingResultsDataTable(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.Data.DataColumn CuttingResultIDColumn {
+                get {
+                    return this.columnCuttingResultID;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.Data.DataColumn DataColumn {
+                get {
+                    return this.columnData;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public CuttingResultsRow this[int index] {
+                get {
+                    return ((CuttingResultsRow)(this.Rows[index]));
+                }
+            }
+            
+            public event CuttingResultsRowChangeEventHandler CuttingResultsRowChanging;
+            
+            public event CuttingResultsRowChangeEventHandler CuttingResultsRowChanged;
+            
+            public event CuttingResultsRowChangeEventHandler CuttingResultsRowDeleting;
+            
+            public event CuttingResultsRowChangeEventHandler CuttingResultsRowDeleted;
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void AddCuttingResultsRow(CuttingResultsRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public CuttingResultsRow AddCuttingResultsRow(byte[] Data) {
+                CuttingResultsRow rowCuttingResultsRow = ((CuttingResultsRow)(this.NewRow()));
+                rowCuttingResultsRow.ItemArray = new object[] {
+                        null,
+                        Data};
+                this.Rows.Add(rowCuttingResultsRow);
+                return rowCuttingResultsRow;
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public CuttingResultsRow FindByCuttingResultID(int CuttingResultID) {
+                return ((CuttingResultsRow)(this.Rows.Find(new object[] {
+                            CuttingResultID})));
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual System.Collections.IEnumerator GetEnumerator() {
+                return this.Rows.GetEnumerator();
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public override System.Data.DataTable Clone() {
+                CuttingResultsDataTable cln = ((CuttingResultsDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override System.Data.DataTable CreateInstance() {
+                return new CuttingResultsDataTable();
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal void InitVars() {
+                this.columnCuttingResultID = base.Columns["CuttingResultID"];
+                this.columnData = base.Columns["Data"];
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            private void InitClass() {
+                this.columnCuttingResultID = new System.Data.DataColumn("CuttingResultID", typeof(int), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCuttingResultID);
+                this.columnData = new System.Data.DataColumn("Data", typeof(byte[]), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columnData);
+                this.Constraints.Add(new System.Data.UniqueConstraint("Constraint1", new System.Data.DataColumn[] {
+                                this.columnCuttingResultID}, true));
+                this.columnCuttingResultID.AutoIncrement = true;
+                this.columnCuttingResultID.AllowDBNull = false;
+                this.columnCuttingResultID.ReadOnly = true;
+                this.columnCuttingResultID.Unique = true;
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public CuttingResultsRow NewCuttingResultsRow() {
+                return ((CuttingResultsRow)(this.NewRow()));
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override System.Data.DataRow NewRowFromBuilder(System.Data.DataRowBuilder builder) {
+                return new CuttingResultsRow(builder);
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override System.Type GetRowType() {
+                return typeof(CuttingResultsRow);
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanged(System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.CuttingResultsRowChanged != null)) {
+                    this.CuttingResultsRowChanged(this, new CuttingResultsRowChangeEvent(((CuttingResultsRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanging(System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.CuttingResultsRowChanging != null)) {
+                    this.CuttingResultsRowChanging(this, new CuttingResultsRowChangeEvent(((CuttingResultsRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleted(System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.CuttingResultsRowDeleted != null)) {
+                    this.CuttingResultsRowDeleted(this, new CuttingResultsRowChangeEvent(((CuttingResultsRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleting(System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.CuttingResultsRowDeleting != null)) {
+                    this.CuttingResultsRowDeleting(this, new CuttingResultsRowChangeEvent(((CuttingResultsRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void RemoveCuttingResultsRow(CuttingResultsRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public static System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(System.Xml.Schema.XmlSchemaSet xs) {
+                System.Xml.Schema.XmlSchemaComplexType type = new System.Xml.Schema.XmlSchemaComplexType();
+                System.Xml.Schema.XmlSchemaSequence sequence = new System.Xml.Schema.XmlSchemaSequence();
+                DataSet ds = new DataSet();
+                xs.Add(ds.GetSchemaSerializable());
+                System.Xml.Schema.XmlSchemaAny any1 = new System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                System.Xml.Schema.XmlSchemaAny any2 = new System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                System.Xml.Schema.XmlSchemaAttribute attribute1 = new System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                System.Xml.Schema.XmlSchemaAttribute attribute2 = new System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "CuttingResultsDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                return type;
+            }
+        }
+        
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        [System.Serializable()]
+        [System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class CuttingParametersDataTable : System.Data.DataTable, System.Collections.IEnumerable {
+            
+            private System.Data.DataColumn columnCuttingParametersID;
+            
+            private System.Data.DataColumn columnName;
+            
+            private System.Data.DataColumn columnCutterThickness;
+            
+            private System.Data.DataColumn columnTopCutOff;
+            
+            private System.Data.DataColumn columnLeftCutOff;
+            
+            private System.Data.DataColumn columnRightCutOff;
+            
+            private System.Data.DataColumn columnBottomCutOff;
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public CuttingParametersDataTable() {
+                this.TableName = "CuttingParameters";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal CuttingParametersDataTable(System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected CuttingParametersDataTable(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.Data.DataColumn CuttingParametersIDColumn {
+                get {
+                    return this.columnCuttingParametersID;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.Data.DataColumn NameColumn {
+                get {
+                    return this.columnName;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.Data.DataColumn CutterThicknessColumn {
+                get {
+                    return this.columnCutterThickness;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.Data.DataColumn TopCutOffColumn {
+                get {
+                    return this.columnTopCutOff;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.Data.DataColumn LeftCutOffColumn {
+                get {
+                    return this.columnLeftCutOff;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.Data.DataColumn RightCutOffColumn {
+                get {
+                    return this.columnRightCutOff;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.Data.DataColumn BottomCutOffColumn {
+                get {
+                    return this.columnBottomCutOff;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public CuttingParametersRow this[int index] {
+                get {
+                    return ((CuttingParametersRow)(this.Rows[index]));
+                }
+            }
+            
+            public event CuttingParametersRowChangeEventHandler CuttingParametersRowChanging;
+            
+            public event CuttingParametersRowChangeEventHandler CuttingParametersRowChanged;
+            
+            public event CuttingParametersRowChangeEventHandler CuttingParametersRowDeleting;
+            
+            public event CuttingParametersRowChangeEventHandler CuttingParametersRowDeleted;
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void AddCuttingParametersRow(CuttingParametersRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public CuttingParametersRow AddCuttingParametersRow(string Name, decimal CutterThickness, decimal TopCutOff, decimal LeftCutOff, decimal RightCutOff, decimal BottomCutOff) {
+                CuttingParametersRow rowCuttingParametersRow = ((CuttingParametersRow)(this.NewRow()));
+                rowCuttingParametersRow.ItemArray = new object[] {
+                        null,
+                        Name,
+                        CutterThickness,
+                        TopCutOff,
+                        LeftCutOff,
+                        RightCutOff,
+                        BottomCutOff};
+                this.Rows.Add(rowCuttingParametersRow);
+                return rowCuttingParametersRow;
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public CuttingParametersRow FindByCuttingParametersID(int CuttingParametersID) {
+                return ((CuttingParametersRow)(this.Rows.Find(new object[] {
+                            CuttingParametersID})));
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public virtual System.Collections.IEnumerator GetEnumerator() {
+                return this.Rows.GetEnumerator();
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public override System.Data.DataTable Clone() {
+                CuttingParametersDataTable cln = ((CuttingParametersDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override System.Data.DataTable CreateInstance() {
+                return new CuttingParametersDataTable();
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal void InitVars() {
+                this.columnCuttingParametersID = base.Columns["CuttingParametersID"];
+                this.columnName = base.Columns["Name"];
+                this.columnCutterThickness = base.Columns["CutterThickness"];
+                this.columnTopCutOff = base.Columns["TopCutOff"];
+                this.columnLeftCutOff = base.Columns["LeftCutOff"];
+                this.columnRightCutOff = base.Columns["RightCutOff"];
+                this.columnBottomCutOff = base.Columns["BottomCutOff"];
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            private void InitClass() {
+                this.columnCuttingParametersID = new System.Data.DataColumn("CuttingParametersID", typeof(int), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCuttingParametersID);
+                this.columnName = new System.Data.DataColumn("Name", typeof(string), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columnName);
+                this.columnCutterThickness = new System.Data.DataColumn("CutterThickness", typeof(decimal), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCutterThickness);
+                this.columnTopCutOff = new System.Data.DataColumn("TopCutOff", typeof(decimal), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTopCutOff);
+                this.columnLeftCutOff = new System.Data.DataColumn("LeftCutOff", typeof(decimal), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columnLeftCutOff);
+                this.columnRightCutOff = new System.Data.DataColumn("RightCutOff", typeof(decimal), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columnRightCutOff);
+                this.columnBottomCutOff = new System.Data.DataColumn("BottomCutOff", typeof(decimal), null, System.Data.MappingType.Element);
+                base.Columns.Add(this.columnBottomCutOff);
+                this.Constraints.Add(new System.Data.UniqueConstraint("Constraint1", new System.Data.DataColumn[] {
+                                this.columnCuttingParametersID}, true));
+                this.columnCuttingParametersID.AutoIncrement = true;
+                this.columnCuttingParametersID.AllowDBNull = false;
+                this.columnCuttingParametersID.ReadOnly = true;
+                this.columnCuttingParametersID.Unique = true;
+                this.columnName.AllowDBNull = false;
+                this.columnName.MaxLength = 50;
+                this.columnCutterThickness.AllowDBNull = false;
+                this.columnTopCutOff.AllowDBNull = false;
+                this.columnLeftCutOff.AllowDBNull = false;
+                this.columnRightCutOff.AllowDBNull = false;
+                this.columnBottomCutOff.AllowDBNull = false;
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public CuttingParametersRow NewCuttingParametersRow() {
+                return ((CuttingParametersRow)(this.NewRow()));
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override System.Data.DataRow NewRowFromBuilder(System.Data.DataRowBuilder builder) {
+                return new CuttingParametersRow(builder);
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override System.Type GetRowType() {
+                return typeof(CuttingParametersRow);
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanged(System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.CuttingParametersRowChanged != null)) {
+                    this.CuttingParametersRowChanged(this, new CuttingParametersRowChangeEvent(((CuttingParametersRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowChanging(System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.CuttingParametersRowChanging != null)) {
+                    this.CuttingParametersRowChanging(this, new CuttingParametersRowChangeEvent(((CuttingParametersRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleted(System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.CuttingParametersRowDeleted != null)) {
+                    this.CuttingParametersRowDeleted(this, new CuttingParametersRowChangeEvent(((CuttingParametersRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            protected override void OnRowDeleting(System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.CuttingParametersRowDeleting != null)) {
+                    this.CuttingParametersRowDeleting(this, new CuttingParametersRowChangeEvent(((CuttingParametersRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void RemoveCuttingParametersRow(CuttingParametersRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public static System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(System.Xml.Schema.XmlSchemaSet xs) {
+                System.Xml.Schema.XmlSchemaComplexType type = new System.Xml.Schema.XmlSchemaComplexType();
+                System.Xml.Schema.XmlSchemaSequence sequence = new System.Xml.Schema.XmlSchemaSequence();
+                DataSet ds = new DataSet();
+                xs.Add(ds.GetSchemaSerializable());
+                System.Xml.Schema.XmlSchemaAny any1 = new System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                System.Xml.Schema.XmlSchemaAny any2 = new System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                System.Xml.Schema.XmlSchemaAttribute attribute1 = new System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                System.Xml.Schema.XmlSchemaAttribute attribute2 = new System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "CuttingParametersDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                return type;
+            }
+        }
+        
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public partial class PartPropertiesRow : System.Data.DataRow {
+            
+            private PartPropertiesDataTable tablePartProperties;
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal PartPropertiesRow(System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tablePartProperties = ((PartPropertiesDataTable)(this.Table));
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string PropertyID {
+                get {
+                    return ((string)(this[this.tablePartProperties.PropertyIDColumn]));
+                }
+                set {
+                    this[this.tablePartProperties.PropertyIDColumn] = value;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string Description {
+                get {
+                    try {
+                        return ((string)(this[this.tablePartProperties.DescriptionColumn]));
+                    }
+                    catch (System.InvalidCastException e) {
+                        throw new System.Data.StrongTypingException("The value for column \'Description\' in table \'PartProperties\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablePartProperties.DescriptionColumn] = value;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsDescriptionNull() {
+                return this.IsNull(this.tablePartProperties.DescriptionColumn);
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetDescriptionNull() {
+                this[this.tablePartProperties.DescriptionColumn] = System.Convert.DBNull;
+            }
+        }
+        
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public partial class ReferencePartsRow : System.Data.DataRow {
+            
+            private ReferencePartsDataTable tableReferenceParts;
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal ReferencePartsRow(System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableReferenceParts = ((ReferencePartsDataTable)(this.Table));
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int ReferencePartID {
+                get {
+                    return ((int)(this[this.tableReferenceParts.ReferencePartIDColumn]));
+                }
+                set {
+                    this[this.tableReferenceParts.ReferencePartIDColumn] = value;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string Name {
+                get {
+                    return ((string)(this[this.tableReferenceParts.NameColumn]));
+                }
+                set {
+                    this[this.tableReferenceParts.NameColumn] = value;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public decimal Length {
+                get {
+                    return ((decimal)(this[this.tableReferenceParts.LengthColumn]));
+                }
+                set {
+                    this[this.tableReferenceParts.LengthColumn] = value;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public decimal Width {
+                get {
+                    return ((decimal)(this[this.tableReferenceParts.WidthColumn]));
+                }
+                set {
+                    this[this.tableReferenceParts.WidthColumn] = value;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string Material {
+                get {
+                    try {
+                        return ((string)(this[this.tableReferenceParts.MaterialColumn]));
+                    }
+                    catch (System.InvalidCastException e) {
+                        throw new System.Data.StrongTypingException("The value for column \'Material\' in table \'ReferenceParts\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableReferenceParts.MaterialColumn] = value;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsMaterialNull() {
+                return this.IsNull(this.tableReferenceParts.MaterialColumn);
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetMaterialNull() {
+                this[this.tableReferenceParts.MaterialColumn] = System.Convert.DBNull;
+            }
+        }
+        
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public partial class DetailsListsDetailsRow : System.Data.DataRow {
+            
+            private DetailsListsDetailsDataTable tableDetailsListsDetails;
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal DetailsListsDetailsRow(System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableDetailsListsDetails = ((DetailsListsDetailsDataTable)(this.Table));
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int DetailsListsDetailID {
+                get {
+                    return ((int)(this[this.tableDetailsListsDetails.DetailsListsDetailIDColumn]));
+                }
+                set {
+                    this[this.tableDetailsListsDetails.DetailsListsDetailIDColumn] = value;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int DetailsListID {
+                get {
+                    return ((int)(this[this.tableDetailsListsDetails.DetailsListIDColumn]));
+                }
+                set {
+                    this[this.tableDetailsListsDetails.DetailsListIDColumn] = value;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string Name {
+                get {
+                    return ((string)(this[this.tableDetailsListsDetails.NameColumn]));
+                }
+                set {
+                    this[this.tableDetailsListsDetails.NameColumn] = value;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public decimal Length {
+                get {
+                    return ((decimal)(this[this.tableDetailsListsDetails.LengthColumn]));
+                }
+                set {
+                    this[this.tableDetailsListsDetails.LengthColumn] = value;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public decimal Width {
+                get {
+                    return ((decimal)(this[this.tableDetailsListsDetails.WidthColumn]));
+                }
+                set {
+                    this[this.tableDetailsListsDetails.WidthColumn] = value;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int Amount {
+                get {
+                    return ((int)(this[this.tableDetailsListsDetails.AmountColumn]));
+                }
+                set {
+                    this[this.tableDetailsListsDetails.AmountColumn] = value;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int MaterialID {
+                get {
+                    return ((int)(this[this.tableDetailsListsDetails.MaterialIDColumn]));
+                }
+                set {
+                    this[this.tableDetailsListsDetails.MaterialIDColumn] = value;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string LeftEdge {
+                get {
+                    try {
+                        return ((string)(this[this.tableDetailsListsDetails.LeftEdgeColumn]));
+                    }
+                    catch (System.InvalidCastException e) {
+                        throw new System.Data.StrongTypingException("The value for column \'LeftEdge\' in table \'DetailsListsDetails\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDetailsListsDetails.LeftEdgeColumn] = value;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string TopEdge {
+                get {
+                    try {
+                        return ((string)(this[this.tableDetailsListsDetails.TopEdgeColumn]));
+                    }
+                    catch (System.InvalidCastException e) {
+                        throw new System.Data.StrongTypingException("The value for column \'TopEdge\' in table \'DetailsListsDetails\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDetailsListsDetails.TopEdgeColumn] = value;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string RightEdge {
+                get {
+                    try {
+                        return ((string)(this[this.tableDetailsListsDetails.RightEdgeColumn]));
+                    }
+                    catch (System.InvalidCastException e) {
+                        throw new System.Data.StrongTypingException("The value for column \'RightEdge\' in table \'DetailsListsDetails\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDetailsListsDetails.RightEdgeColumn] = value;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string BottomEdge {
+                get {
+                    try {
+                        return ((string)(this[this.tableDetailsListsDetails.BottomEdgeColumn]));
+                    }
+                    catch (System.InvalidCastException e) {
+                        throw new System.Data.StrongTypingException("The value for column \'BottomEdge\' in table \'DetailsListsDetails\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDetailsListsDetails.BottomEdgeColumn] = value;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public DetailsListsRow DetailsListsRow {
+                get {
+                    return ((DetailsListsRow)(this.GetParentRow(this.Table.ParentRelations["FK_DetailsListsDetails_DetailsLists"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["FK_DetailsListsDetails_DetailsLists"]);
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public MaterialsRow MaterialsRow {
+                get {
+                    return ((MaterialsRow)(this.GetParentRow(this.Table.ParentRelations["FK_Materials_DetailsListsDetails"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["FK_Materials_DetailsListsDetails"]);
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsLeftEdgeNull() {
+                return this.IsNull(this.tableDetailsListsDetails.LeftEdgeColumn);
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetLeftEdgeNull() {
+                this[this.tableDetailsListsDetails.LeftEdgeColumn] = System.Convert.DBNull;
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsTopEdgeNull() {
+                return this.IsNull(this.tableDetailsListsDetails.TopEdgeColumn);
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetTopEdgeNull() {
+                this[this.tableDetailsListsDetails.TopEdgeColumn] = System.Convert.DBNull;
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsRightEdgeNull() {
+                return this.IsNull(this.tableDetailsListsDetails.RightEdgeColumn);
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetRightEdgeNull() {
+                this[this.tableDetailsListsDetails.RightEdgeColumn] = System.Convert.DBNull;
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsBottomEdgeNull() {
+                return this.IsNull(this.tableDetailsListsDetails.BottomEdgeColumn);
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetBottomEdgeNull() {
+                this[this.tableDetailsListsDetails.BottomEdgeColumn] = System.Convert.DBNull;
             }
         }
         
@@ -1439,6 +2870,21 @@ namespace Denisenko.Cutting.CutOptima {
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string OrderID {
+                get {
+                    try {
+                        return ((string)(this[this.tableDetailsLists.OrderIDColumn]));
+                    }
+                    catch (System.InvalidCastException e) {
+                        throw new System.Data.StrongTypingException("The value for column \'OrderID\' in table \'DetailsLists\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableDetailsLists.OrderIDColumn] = value;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public string Remarks {
                 get {
                     try {
@@ -1454,18 +2900,13 @@ namespace Denisenko.Cutting.CutOptima {
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int OrderID {
-                get {
-                    try {
-                        return ((int)(this[this.tableDetailsLists.OrderIDColumn]));
-                    }
-                    catch (System.InvalidCastException e) {
-                        throw new System.Data.StrongTypingException("The value for column \'OrderID\' in table \'DetailsLists\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableDetailsLists.OrderIDColumn] = value;
-                }
+            public bool IsOrderIDNull() {
+                return this.IsNull(this.tableDetailsLists.OrderIDColumn);
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetOrderIDNull() {
+                this[this.tableDetailsLists.OrderIDColumn] = System.Convert.DBNull;
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1479,44 +2920,106 @@ namespace Denisenko.Cutting.CutOptima {
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsOrderIDNull() {
-                return this.IsNull(this.tableDetailsLists.OrderIDColumn);
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetOrderIDNull() {
-                this[this.tableDetailsLists.OrderIDColumn] = System.Convert.DBNull;
+            public DetailsListsDetailsRow[] GetDetailsListsDetailsRows() {
+                return ((DetailsListsDetailsRow[])(base.GetChildRows(this.Table.ChildRelations["FK_DetailsListsDetails_DetailsLists"])));
             }
         }
         
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        public partial class DetailsListsContentsRow : System.Data.DataRow {
+        public partial class MaterialsRow : System.Data.DataRow {
             
-            private DetailsListsContentsDataTable tableDetailsListsContents;
+            private MaterialsDataTable tableMaterials;
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal DetailsListsContentsRow(System.Data.DataRowBuilder rb) : 
+            internal MaterialsRow(System.Data.DataRowBuilder rb) : 
                     base(rb) {
-                this.tableDetailsListsContents = ((DetailsListsContentsDataTable)(this.Table));
+                this.tableMaterials = ((MaterialsDataTable)(this.Table));
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int ItemID {
+            public int MaterialID {
                 get {
-                    return ((int)(this[this.tableDetailsListsContents.ItemIDColumn]));
+                    return ((int)(this[this.tableMaterials.MaterialIDColumn]));
                 }
                 set {
-                    this[this.tableDetailsListsContents.ItemIDColumn] = value;
+                    this[this.tableMaterials.MaterialIDColumn] = value;
                 }
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int DetailsListID {
+            public string Name {
                 get {
-                    return ((int)(this[this.tableDetailsListsContents.DetailsListIDColumn]));
+                    return ((string)(this[this.tableMaterials.NameColumn]));
                 }
                 set {
-                    this[this.tableDetailsListsContents.DetailsListIDColumn] = value;
+                    this[this.tableMaterials.NameColumn] = value;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool HaveDirection {
+                get {
+                    return ((bool)(this[this.tableMaterials.HaveDirectionColumn]));
+                }
+                set {
+                    this[this.tableMaterials.HaveDirectionColumn] = value;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public string Remarks {
+                get {
+                    try {
+                        return ((string)(this[this.tableMaterials.RemarksColumn]));
+                    }
+                    catch (System.InvalidCastException e) {
+                        throw new System.Data.StrongTypingException("The value for column \'Remarks\' in table \'Materials\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableMaterials.RemarksColumn] = value;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsRemarksNull() {
+                return this.IsNull(this.tableMaterials.RemarksColumn);
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetRemarksNull() {
+                this[this.tableMaterials.RemarksColumn] = System.Convert.DBNull;
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public DetailsListsDetailsRow[] GetDetailsListsDetailsRows() {
+                return ((DetailsListsDetailsRow[])(base.GetChildRows(this.Table.ChildRelations["FK_Materials_DetailsListsDetails"])));
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public SheetsRow[] GetSheetsRows() {
+                return ((SheetsRow[])(base.GetChildRows(this.Table.ChildRelations["FK_Sheets_Materials"])));
+            }
+        }
+        
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public partial class SheetsRow : System.Data.DataRow {
+            
+            private SheetsDataTable tableSheets;
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal SheetsRow(System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableSheets = ((SheetsDataTable)(this.Table));
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int SheetID {
+                get {
+                    return ((int)(this[this.tableSheets.SheetIDColumn]));
+                }
+                set {
+                    this[this.tableSheets.SheetIDColumn] = value;
                 }
             }
             
@@ -1524,499 +3027,278 @@ namespace Denisenko.Cutting.CutOptima {
             public string Name {
                 get {
                     try {
-                        return ((string)(this[this.tableDetailsListsContents.NameColumn]));
+                        return ((string)(this[this.tableSheets.NameColumn]));
                     }
                     catch (System.InvalidCastException e) {
-                        throw new System.Data.StrongTypingException("The value for column \'Name\' in table \'DetailsListsContents\' is DBNull.", e);
+                        throw new System.Data.StrongTypingException("The value for column \'Name\' in table \'Sheets\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableDetailsListsContents.NameColumn] = value;
+                    this[this.tableSheets.NameColumn] = value;
                 }
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public decimal Height {
+            public decimal Length {
                 get {
-                    return ((decimal)(this[this.tableDetailsListsContents.HeightColumn]));
+                    return ((decimal)(this[this.tableSheets.LengthColumn]));
                 }
                 set {
-                    this[this.tableDetailsListsContents.HeightColumn] = value;
+                    this[this.tableSheets.LengthColumn] = value;
                 }
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public decimal Width {
                 get {
-                    return ((decimal)(this[this.tableDetailsListsContents.WidthColumn]));
+                    return ((decimal)(this[this.tableSheets.WidthColumn]));
                 }
                 set {
-                    this[this.tableDetailsListsContents.WidthColumn] = value;
-                }
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int Quantity {
-                get {
-                    return ((int)(this[this.tableDetailsListsContents.QuantityColumn]));
-                }
-                set {
-                    this[this.tableDetailsListsContents.QuantityColumn] = value;
+                    this[this.tableSheets.WidthColumn] = value;
                 }
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public int MaterialID {
                 get {
-                    try {
-                        return ((int)(this[this.tableDetailsListsContents.MaterialIDColumn]));
-                    }
-                    catch (System.InvalidCastException e) {
-                        throw new System.Data.StrongTypingException("The value for column \'MaterialID\' in table \'DetailsListsContents\' is DBNull.", e);
-                    }
+                    return ((int)(this[this.tableSheets.MaterialIDColumn]));
                 }
                 set {
-                    this[this.tableDetailsListsContents.MaterialIDColumn] = value;
+                    this[this.tableSheets.MaterialIDColumn] = value;
                 }
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int LeftEdgeID {
+            public MaterialsRow MaterialsRow {
                 get {
-                    try {
-                        return ((int)(this[this.tableDetailsListsContents.LeftEdgeIDColumn]));
-                    }
-                    catch (System.InvalidCastException e) {
-                        throw new System.Data.StrongTypingException("The value for column \'LeftEdgeID\' in table \'DetailsListsContents\' is DBNull.", e);
-                    }
+                    return ((MaterialsRow)(this.GetParentRow(this.Table.ParentRelations["FK_Sheets_Materials"])));
                 }
                 set {
-                    this[this.tableDetailsListsContents.LeftEdgeIDColumn] = value;
-                }
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int RightEdgeID {
-                get {
-                    try {
-                        return ((int)(this[this.tableDetailsListsContents.RightEdgeIDColumn]));
-                    }
-                    catch (System.InvalidCastException e) {
-                        throw new System.Data.StrongTypingException("The value for column \'RightEdgeID\' in table \'DetailsListsContents\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableDetailsListsContents.RightEdgeIDColumn] = value;
-                }
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int TopEdgeID {
-                get {
-                    try {
-                        return ((int)(this[this.tableDetailsListsContents.TopEdgeIDColumn]));
-                    }
-                    catch (System.InvalidCastException e) {
-                        throw new System.Data.StrongTypingException("The value for column \'TopEdgeID\' in table \'DetailsListsContents\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableDetailsListsContents.TopEdgeIDColumn] = value;
-                }
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int BottomEdgeID {
-                get {
-                    try {
-                        return ((int)(this[this.tableDetailsListsContents.BottomEdgeIDColumn]));
-                    }
-                    catch (System.InvalidCastException e) {
-                        throw new System.Data.StrongTypingException("The value for column \'BottomEdgeID\' in table \'DetailsListsContents\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableDetailsListsContents.BottomEdgeIDColumn] = value;
+                    this.SetParentRow(value, this.Table.ParentRelations["FK_Sheets_Materials"]);
                 }
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public bool IsNameNull() {
-                return this.IsNull(this.tableDetailsListsContents.NameColumn);
+                return this.IsNull(this.tableSheets.NameColumn);
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public void SetNameNull() {
-                this[this.tableDetailsListsContents.NameColumn] = System.Convert.DBNull;
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsMaterialIDNull() {
-                return this.IsNull(this.tableDetailsListsContents.MaterialIDColumn);
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetMaterialIDNull() {
-                this[this.tableDetailsListsContents.MaterialIDColumn] = System.Convert.DBNull;
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsLeftEdgeIDNull() {
-                return this.IsNull(this.tableDetailsListsContents.LeftEdgeIDColumn);
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetLeftEdgeIDNull() {
-                this[this.tableDetailsListsContents.LeftEdgeIDColumn] = System.Convert.DBNull;
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsRightEdgeIDNull() {
-                return this.IsNull(this.tableDetailsListsContents.RightEdgeIDColumn);
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetRightEdgeIDNull() {
-                this[this.tableDetailsListsContents.RightEdgeIDColumn] = System.Convert.DBNull;
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsTopEdgeIDNull() {
-                return this.IsNull(this.tableDetailsListsContents.TopEdgeIDColumn);
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetTopEdgeIDNull() {
-                this[this.tableDetailsListsContents.TopEdgeIDColumn] = System.Convert.DBNull;
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsBottomEdgeIDNull() {
-                return this.IsNull(this.tableDetailsListsContents.BottomEdgeIDColumn);
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetBottomEdgeIDNull() {
-                this[this.tableDetailsListsContents.BottomEdgeIDColumn] = System.Convert.DBNull;
+                this[this.tableSheets.NameColumn] = System.Convert.DBNull;
             }
         }
         
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        public partial class ReferenceDetailsRow : System.Data.DataRow {
+        public partial class CuttingResultsRow : System.Data.DataRow {
             
-            private ReferenceDetailsDataTable tableReferenceDetails;
+            private CuttingResultsDataTable tableCuttingResults;
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal ReferenceDetailsRow(System.Data.DataRowBuilder rb) : 
+            internal CuttingResultsRow(System.Data.DataRowBuilder rb) : 
                     base(rb) {
-                this.tableReferenceDetails = ((ReferenceDetailsDataTable)(this.Table));
+                this.tableCuttingResults = ((CuttingResultsDataTable)(this.Table));
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int DetailID {
+            public int CuttingResultID {
                 get {
-                    return ((int)(this[this.tableReferenceDetails.DetailIDColumn]));
+                    return ((int)(this[this.tableCuttingResults.CuttingResultIDColumn]));
                 }
                 set {
-                    this[this.tableReferenceDetails.DetailIDColumn] = value;
+                    this[this.tableCuttingResults.CuttingResultIDColumn] = value;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public byte[] Data {
+                get {
+                    try {
+                        return ((byte[])(this[this.tableCuttingResults.DataColumn]));
+                    }
+                    catch (System.InvalidCastException e) {
+                        throw new System.Data.StrongTypingException("The value for column \'Data\' in table \'CuttingResults\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableCuttingResults.DataColumn] = value;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public bool IsDataNull() {
+                return this.IsNull(this.tableCuttingResults.DataColumn);
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public void SetDataNull() {
+                this[this.tableCuttingResults.DataColumn] = System.Convert.DBNull;
+            }
+        }
+        
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public partial class CuttingParametersRow : System.Data.DataRow {
+            
+            private CuttingParametersDataTable tableCuttingParameters;
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            internal CuttingParametersRow(System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableCuttingParameters = ((CuttingParametersDataTable)(this.Table));
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public int CuttingParametersID {
+                get {
+                    return ((int)(this[this.tableCuttingParameters.CuttingParametersIDColumn]));
+                }
+                set {
+                    this[this.tableCuttingParameters.CuttingParametersIDColumn] = value;
                 }
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
             public string Name {
                 get {
-                    return ((string)(this[this.tableReferenceDetails.NameColumn]));
+                    return ((string)(this[this.tableCuttingParameters.NameColumn]));
                 }
                 set {
-                    this[this.tableReferenceDetails.NameColumn] = value;
+                    this[this.tableCuttingParameters.NameColumn] = value;
                 }
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public decimal Width {
+            public decimal CutterThickness {
                 get {
-                    try {
-                        return ((decimal)(this[this.tableReferenceDetails.WidthColumn]));
-                    }
-                    catch (System.InvalidCastException e) {
-                        throw new System.Data.StrongTypingException("The value for column \'Width\' in table \'ReferenceDetails\' is DBNull.", e);
-                    }
+                    return ((decimal)(this[this.tableCuttingParameters.CutterThicknessColumn]));
                 }
                 set {
-                    this[this.tableReferenceDetails.WidthColumn] = value;
+                    this[this.tableCuttingParameters.CutterThicknessColumn] = value;
                 }
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public decimal Height {
+            public decimal TopCutOff {
                 get {
-                    try {
-                        return ((decimal)(this[this.tableReferenceDetails.HeightColumn]));
-                    }
-                    catch (System.InvalidCastException e) {
-                        throw new System.Data.StrongTypingException("The value for column \'Height\' in table \'ReferenceDetails\' is DBNull.", e);
-                    }
+                    return ((decimal)(this[this.tableCuttingParameters.TopCutOffColumn]));
                 }
                 set {
-                    this[this.tableReferenceDetails.HeightColumn] = value;
+                    this[this.tableCuttingParameters.TopCutOffColumn] = value;
                 }
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int MaterialID {
+            public decimal LeftCutOff {
                 get {
-                    try {
-                        return ((int)(this[this.tableReferenceDetails.MaterialIDColumn]));
-                    }
-                    catch (System.InvalidCastException e) {
-                        throw new System.Data.StrongTypingException("The value for column \'MaterialID\' in table \'ReferenceDetails\' is DBNull.", e);
-                    }
+                    return ((decimal)(this[this.tableCuttingParameters.LeftCutOffColumn]));
                 }
                 set {
-                    this[this.tableReferenceDetails.MaterialIDColumn] = value;
+                    this[this.tableCuttingParameters.LeftCutOffColumn] = value;
                 }
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int LeftEdgeID {
+            public decimal RightCutOff {
                 get {
-                    try {
-                        return ((int)(this[this.tableReferenceDetails.LeftEdgeIDColumn]));
-                    }
-                    catch (System.InvalidCastException e) {
-                        throw new System.Data.StrongTypingException("The value for column \'LeftEdgeID\' in table \'ReferenceDetails\' is DBNull.", e);
-                    }
+                    return ((decimal)(this[this.tableCuttingParameters.RightCutOffColumn]));
                 }
                 set {
-                    this[this.tableReferenceDetails.LeftEdgeIDColumn] = value;
+                    this[this.tableCuttingParameters.RightCutOffColumn] = value;
                 }
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int RightEdgeID {
+            public decimal BottomCutOff {
                 get {
-                    try {
-                        return ((int)(this[this.tableReferenceDetails.RightEdgeIDColumn]));
-                    }
-                    catch (System.InvalidCastException e) {
-                        throw new System.Data.StrongTypingException("The value for column \'RightEdgeID\' in table \'ReferenceDetails\' is DBNull.", e);
-                    }
+                    return ((decimal)(this[this.tableCuttingParameters.BottomCutOffColumn]));
                 }
                 set {
-                    this[this.tableReferenceDetails.RightEdgeIDColumn] = value;
+                    this[this.tableCuttingParameters.BottomCutOffColumn] = value;
                 }
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int TopEdgeID {
-                get {
-                    try {
-                        return ((int)(this[this.tableReferenceDetails.TopEdgeIDColumn]));
-                    }
-                    catch (System.InvalidCastException e) {
-                        throw new System.Data.StrongTypingException("The value for column \'TopEdgeID\' in table \'ReferenceDetails\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableReferenceDetails.TopEdgeIDColumn] = value;
-                }
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int BottomEdgeID {
-                get {
-                    try {
-                        return ((int)(this[this.tableReferenceDetails.BottomEdgeIDColumn]));
-                    }
-                    catch (System.InvalidCastException e) {
-                        throw new System.Data.StrongTypingException("The value for column \'BottomEdgeID\' in table \'ReferenceDetails\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableReferenceDetails.BottomEdgeIDColumn] = value;
-                }
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsWidthNull() {
-                return this.IsNull(this.tableReferenceDetails.WidthColumn);
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetWidthNull() {
-                this[this.tableReferenceDetails.WidthColumn] = System.Convert.DBNull;
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsHeightNull() {
-                return this.IsNull(this.tableReferenceDetails.HeightColumn);
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetHeightNull() {
-                this[this.tableReferenceDetails.HeightColumn] = System.Convert.DBNull;
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsMaterialIDNull() {
-                return this.IsNull(this.tableReferenceDetails.MaterialIDColumn);
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetMaterialIDNull() {
-                this[this.tableReferenceDetails.MaterialIDColumn] = System.Convert.DBNull;
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsLeftEdgeIDNull() {
-                return this.IsNull(this.tableReferenceDetails.LeftEdgeIDColumn);
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetLeftEdgeIDNull() {
-                this[this.tableReferenceDetails.LeftEdgeIDColumn] = System.Convert.DBNull;
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsRightEdgeIDNull() {
-                return this.IsNull(this.tableReferenceDetails.RightEdgeIDColumn);
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetRightEdgeIDNull() {
-                this[this.tableReferenceDetails.RightEdgeIDColumn] = System.Convert.DBNull;
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsTopEdgeIDNull() {
-                return this.IsNull(this.tableReferenceDetails.TopEdgeIDColumn);
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetTopEdgeIDNull() {
-                this[this.tableReferenceDetails.TopEdgeIDColumn] = System.Convert.DBNull;
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsBottomEdgeIDNull() {
-                return this.IsNull(this.tableReferenceDetails.BottomEdgeIDColumn);
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetBottomEdgeIDNull() {
-                this[this.tableReferenceDetails.BottomEdgeIDColumn] = System.Convert.DBNull;
             }
         }
         
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        public partial class DetailsRow : System.Data.DataRow {
+        public class PartPropertiesRowChangeEvent : System.EventArgs {
             
-            private DetailsDataTable tableDetails;
+            private PartPropertiesRow eventRow;
+            
+            private System.Data.DataRowAction eventAction;
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal DetailsRow(System.Data.DataRowBuilder rb) : 
-                    base(rb) {
-                this.tableDetails = ((DetailsDataTable)(this.Table));
+            public PartPropertiesRowChangeEvent(PartPropertiesRow row, System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string Name {
+            public PartPropertiesRow Row {
                 get {
-                    try {
-                        return ((string)(this[this.tableDetails.NameColumn]));
-                    }
-                    catch (System.InvalidCastException e) {
-                        throw new System.Data.StrongTypingException("The value for column \'Name\' in table \'Details\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableDetails.NameColumn] = value;
+                    return this.eventRow;
                 }
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string Length {
+            public System.Data.DataRowAction Action {
                 get {
-                    try {
-                        return ((string)(this[this.tableDetails.LengthColumn]));
-                    }
-                    catch (System.InvalidCastException e) {
-                        throw new System.Data.StrongTypingException("The value for column \'Length\' in table \'Details\' is DBNull.", e);
-                    }
+                    return this.eventAction;
                 }
-                set {
-                    this[this.tableDetails.LengthColumn] = value;
-                }
+            }
+        }
+        
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public class ReferencePartsRowChangeEvent : System.EventArgs {
+            
+            private ReferencePartsRow eventRow;
+            
+            private System.Data.DataRowAction eventAction;
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public ReferencePartsRowChangeEvent(ReferencePartsRow row, System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public string Width {
+            public ReferencePartsRow Row {
                 get {
-                    try {
-                        return ((string)(this[this.tableDetails.WidthColumn]));
-                    }
-                    catch (System.InvalidCastException e) {
-                        throw new System.Data.StrongTypingException("The value for column \'Width\' in table \'Details\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableDetails.WidthColumn] = value;
+                    return this.eventRow;
                 }
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public int Quantity {
+            public System.Data.DataRowAction Action {
                 get {
-                    try {
-                        return ((int)(this[this.tableDetails.QuantityColumn]));
-                    }
-                    catch (System.InvalidCastException e) {
-                        throw new System.Data.StrongTypingException("The value for column \'Quantity\' in table \'Details\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableDetails.QuantityColumn] = value;
+                    return this.eventAction;
                 }
             }
+        }
+        
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public class DetailsListsDetailsRowChangeEvent : System.EventArgs {
+            
+            private DetailsListsDetailsRow eventRow;
+            
+            private System.Data.DataRowAction eventAction;
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsNameNull() {
-                return this.IsNull(this.tableDetails.NameColumn);
+            public DetailsListsDetailsRowChangeEvent(DetailsListsDetailsRow row, System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetNameNull() {
-                this[this.tableDetails.NameColumn] = System.Convert.DBNull;
+            public DetailsListsDetailsRow Row {
+                get {
+                    return this.eventRow;
+                }
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsLengthNull() {
-                return this.IsNull(this.tableDetails.LengthColumn);
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetLengthNull() {
-                this[this.tableDetails.LengthColumn] = System.Convert.DBNull;
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsWidthNull() {
-                return this.IsNull(this.tableDetails.WidthColumn);
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetWidthNull() {
-                this[this.tableDetails.WidthColumn] = System.Convert.DBNull;
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public bool IsQuantityNull() {
-                return this.IsNull(this.tableDetails.QuantityColumn);
-            }
-            
-            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public void SetQuantityNull() {
-                this[this.tableDetails.QuantityColumn] = System.Convert.DBNull;
+            public System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
             }
         }
         
@@ -2049,20 +3331,20 @@ namespace Denisenko.Cutting.CutOptima {
         }
         
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        public class DetailsListsContentsRowChangeEvent : System.EventArgs {
+        public class MaterialsRowChangeEvent : System.EventArgs {
             
-            private DetailsListsContentsRow eventRow;
+            private MaterialsRow eventRow;
             
             private System.Data.DataRowAction eventAction;
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public DetailsListsContentsRowChangeEvent(DetailsListsContentsRow row, System.Data.DataRowAction action) {
+            public MaterialsRowChangeEvent(MaterialsRow row, System.Data.DataRowAction action) {
                 this.eventRow = row;
                 this.eventAction = action;
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public DetailsListsContentsRow Row {
+            public MaterialsRow Row {
                 get {
                     return this.eventRow;
                 }
@@ -2077,20 +3359,20 @@ namespace Denisenko.Cutting.CutOptima {
         }
         
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        public class ReferenceDetailsRowChangeEvent : System.EventArgs {
+        public class SheetsRowChangeEvent : System.EventArgs {
             
-            private ReferenceDetailsRow eventRow;
+            private SheetsRow eventRow;
             
             private System.Data.DataRowAction eventAction;
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public ReferenceDetailsRowChangeEvent(ReferenceDetailsRow row, System.Data.DataRowAction action) {
+            public SheetsRowChangeEvent(SheetsRow row, System.Data.DataRowAction action) {
                 this.eventRow = row;
                 this.eventAction = action;
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public ReferenceDetailsRow Row {
+            public SheetsRow Row {
                 get {
                     return this.eventRow;
                 }
@@ -2105,20 +3387,48 @@ namespace Denisenko.Cutting.CutOptima {
         }
         
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-        public class DetailsRowChangeEvent : System.EventArgs {
+        public class CuttingResultsRowChangeEvent : System.EventArgs {
             
-            private DetailsRow eventRow;
+            private CuttingResultsRow eventRow;
             
             private System.Data.DataRowAction eventAction;
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public DetailsRowChangeEvent(DetailsRow row, System.Data.DataRowAction action) {
+            public CuttingResultsRowChangeEvent(CuttingResultsRow row, System.Data.DataRowAction action) {
                 this.eventRow = row;
                 this.eventAction = action;
             }
             
             [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            public DetailsRow Row {
+            public CuttingResultsRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+        public class CuttingParametersRowChangeEvent : System.EventArgs {
+            
+            private CuttingParametersRow eventRow;
+            
+            private System.Data.DataRowAction eventAction;
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public CuttingParametersRowChangeEvent(CuttingParametersRow row, System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            public CuttingParametersRow Row {
                 get {
                     return this.eventRow;
                 }
@@ -2135,6 +3445,1021 @@ namespace Denisenko.Cutting.CutOptima {
 }
 namespace Denisenko.Cutting.CutOptima.DataSetTableAdapters {
     
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.ComponentModel.ToolboxItem(true)]
+    [System.ComponentModel.DataObjectAttribute(true)]
+    [System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
+        ", Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
+    [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+    public partial class PartPropertiesTableAdapter : System.ComponentModel.Component {
+        
+        private System.Data.SqlClient.SqlDataAdapter _adapter;
+        
+        private System.Data.SqlClient.SqlConnection _connection;
+        
+        private System.Data.SqlClient.SqlCommand[] _commandCollection;
+        
+        private bool _clearBeforeFill;
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public PartPropertiesTableAdapter() {
+            this.ClearBeforeFill = true;
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private System.Data.SqlClient.SqlDataAdapter Adapter {
+            get {
+                if ((this._adapter == null)) {
+                    this.InitAdapter();
+                }
+                return this._adapter;
+            }
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        internal System.Data.SqlClient.SqlConnection Connection {
+            get {
+                if ((this._connection == null)) {
+                    this.InitConnection();
+                }
+                return this._connection;
+            }
+            set {
+                this._connection = value;
+                if ((this.Adapter.InsertCommand != null)) {
+                    this.Adapter.InsertCommand.Connection = value;
+                }
+                if ((this.Adapter.DeleteCommand != null)) {
+                    this.Adapter.DeleteCommand.Connection = value;
+                }
+                if ((this.Adapter.UpdateCommand != null)) {
+                    this.Adapter.UpdateCommand.Connection = value;
+                }
+                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
+                    if ((this.CommandCollection[i] != null)) {
+                        ((System.Data.SqlClient.SqlCommand)(this.CommandCollection[i])).Connection = value;
+                    }
+                }
+            }
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        protected System.Data.SqlClient.SqlCommand[] CommandCollection {
+            get {
+                if ((this._commandCollection == null)) {
+                    this.InitCommandCollection();
+                }
+                return this._commandCollection;
+            }
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public bool ClearBeforeFill {
+            get {
+                return this._clearBeforeFill;
+            }
+            set {
+                this._clearBeforeFill = value;
+            }
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private void InitAdapter() {
+            this._adapter = new System.Data.SqlClient.SqlDataAdapter();
+            System.Data.Common.DataTableMapping tableMapping = new System.Data.Common.DataTableMapping();
+            tableMapping.SourceTable = "Table";
+            tableMapping.DataSetTable = "PartProperties";
+            tableMapping.ColumnMappings.Add("PropertyID", "PropertyID");
+            tableMapping.ColumnMappings.Add("Description", "Description");
+            this._adapter.TableMappings.Add(tableMapping);
+            this._adapter.DeleteCommand = new System.Data.SqlClient.SqlCommand();
+            this._adapter.DeleteCommand.Connection = this.Connection;
+            this._adapter.DeleteCommand.CommandText = "DELETE FROM [dbo].[PartProperties] WHERE (([PropertyID] = @Original_PropertyID))";
+            this._adapter.DeleteCommand.CommandType = System.Data.CommandType.Text;
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_PropertyID", System.Data.SqlDbType.NChar, 0, System.Data.ParameterDirection.Input, 0, 0, "PropertyID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.InsertCommand = new System.Data.SqlClient.SqlCommand();
+            this._adapter.InsertCommand.Connection = this.Connection;
+            this._adapter.InsertCommand.CommandText = "INSERT INTO [dbo].[PartProperties] ([PropertyID], [Description]) VALUES (@Propert" +
+                "yID, @Description);\r\nSELECT PropertyID, Description FROM PartProperties WHERE (P" +
+                "ropertyID = @PropertyID)";
+            this._adapter.InsertCommand.CommandType = System.Data.CommandType.Text;
+            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@PropertyID", System.Data.SqlDbType.NChar, 0, System.Data.ParameterDirection.Input, 0, 0, "PropertyID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Description", System.Data.SqlDbType.NText, 0, System.Data.ParameterDirection.Input, 0, 0, "Description", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand = new System.Data.SqlClient.SqlCommand();
+            this._adapter.UpdateCommand.Connection = this.Connection;
+            this._adapter.UpdateCommand.CommandText = "UPDATE [dbo].[PartProperties] SET [PropertyID] = @PropertyID, [Description] = @De" +
+                "scription WHERE (([PropertyID] = @Original_PropertyID));\r\nSELECT PropertyID, Des" +
+                "cription FROM PartProperties WHERE (PropertyID = @PropertyID)";
+            this._adapter.UpdateCommand.CommandType = System.Data.CommandType.Text;
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@PropertyID", System.Data.SqlDbType.NChar, 0, System.Data.ParameterDirection.Input, 0, 0, "PropertyID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Description", System.Data.SqlDbType.NText, 0, System.Data.ParameterDirection.Input, 0, 0, "Description", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_PropertyID", System.Data.SqlDbType.NChar, 0, System.Data.ParameterDirection.Input, 0, 0, "PropertyID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private void InitConnection() {
+            this._connection = new System.Data.SqlClient.SqlConnection();
+            this._connection.ConnectionString = global::Denisenko.Cutting.CutOptima.Properties.Settings.Default.CutOptimaConnectionString;
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private void InitCommandCollection() {
+            this._commandCollection = new System.Data.SqlClient.SqlCommand[1];
+            this._commandCollection[0] = new System.Data.SqlClient.SqlCommand();
+            this._commandCollection[0].Connection = this.Connection;
+            this._commandCollection[0].CommandText = "SELECT PropertyID, Description FROM dbo.PartProperties";
+            this._commandCollection[0].CommandType = System.Data.CommandType.Text;
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Fill, true)]
+        public virtual int Fill(DataSet.PartPropertiesDataTable dataTable) {
+            this.Adapter.SelectCommand = this.CommandCollection[0];
+            if ((this.ClearBeforeFill == true)) {
+                dataTable.Clear();
+            }
+            int returnValue = this.Adapter.Fill(dataTable);
+            return returnValue;
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Select, true)]
+        public virtual DataSet.PartPropertiesDataTable GetData() {
+            this.Adapter.SelectCommand = this.CommandCollection[0];
+            DataSet.PartPropertiesDataTable dataTable = new DataSet.PartPropertiesDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(DataSet.PartPropertiesDataTable dataTable) {
+            return this.Adapter.Update(dataTable);
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(DataSet dataSet) {
+            return this.Adapter.Update(dataSet, "PartProperties");
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(System.Data.DataRow dataRow) {
+            return this.Adapter.Update(new System.Data.DataRow[] {
+                        dataRow});
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(System.Data.DataRow[] dataRows) {
+            return this.Adapter.Update(dataRows);
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Delete, true)]
+        public virtual int Delete(string Original_PropertyID) {
+            if ((Original_PropertyID == null)) {
+                throw new System.ArgumentNullException("Original_PropertyID");
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[0].Value = ((string)(Original_PropertyID));
+            }
+            System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
+            if (((this.Adapter.DeleteCommand.Connection.State & System.Data.ConnectionState.Open) 
+                        != System.Data.ConnectionState.Open)) {
+                this.Adapter.DeleteCommand.Connection.Open();
+            }
+            try {
+                int returnValue = this.Adapter.DeleteCommand.ExecuteNonQuery();
+                return returnValue;
+            }
+            finally {
+                if ((previousConnectionState == System.Data.ConnectionState.Closed)) {
+                    this.Adapter.DeleteCommand.Connection.Close();
+                }
+            }
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Insert, true)]
+        public virtual int Insert(string PropertyID, string Description) {
+            if ((PropertyID == null)) {
+                throw new System.ArgumentNullException("PropertyID");
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[0].Value = ((string)(PropertyID));
+            }
+            if ((Description == null)) {
+                this.Adapter.InsertCommand.Parameters[1].Value = System.DBNull.Value;
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[1].Value = ((string)(Description));
+            }
+            System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
+            if (((this.Adapter.InsertCommand.Connection.State & System.Data.ConnectionState.Open) 
+                        != System.Data.ConnectionState.Open)) {
+                this.Adapter.InsertCommand.Connection.Open();
+            }
+            try {
+                int returnValue = this.Adapter.InsertCommand.ExecuteNonQuery();
+                return returnValue;
+            }
+            finally {
+                if ((previousConnectionState == System.Data.ConnectionState.Closed)) {
+                    this.Adapter.InsertCommand.Connection.Close();
+                }
+            }
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Update, true)]
+        public virtual int Update(string PropertyID, string Description, string Original_PropertyID) {
+            if ((PropertyID == null)) {
+                throw new System.ArgumentNullException("PropertyID");
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[0].Value = ((string)(PropertyID));
+            }
+            if ((Description == null)) {
+                this.Adapter.UpdateCommand.Parameters[1].Value = System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[1].Value = ((string)(Description));
+            }
+            if ((Original_PropertyID == null)) {
+                throw new System.ArgumentNullException("Original_PropertyID");
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[2].Value = ((string)(Original_PropertyID));
+            }
+            System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
+            if (((this.Adapter.UpdateCommand.Connection.State & System.Data.ConnectionState.Open) 
+                        != System.Data.ConnectionState.Open)) {
+                this.Adapter.UpdateCommand.Connection.Open();
+            }
+            try {
+                int returnValue = this.Adapter.UpdateCommand.ExecuteNonQuery();
+                return returnValue;
+            }
+            finally {
+                if ((previousConnectionState == System.Data.ConnectionState.Closed)) {
+                    this.Adapter.UpdateCommand.Connection.Close();
+                }
+            }
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.ComponentModel.ToolboxItem(true)]
+    [System.ComponentModel.DataObjectAttribute(true)]
+    [System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
+        ", Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
+    [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+    public partial class ReferencePartsTableAdapter : System.ComponentModel.Component {
+        
+        private System.Data.SqlClient.SqlDataAdapter _adapter;
+        
+        private System.Data.SqlClient.SqlConnection _connection;
+        
+        private System.Data.SqlClient.SqlCommand[] _commandCollection;
+        
+        private bool _clearBeforeFill;
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public ReferencePartsTableAdapter() {
+            this.ClearBeforeFill = true;
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private System.Data.SqlClient.SqlDataAdapter Adapter {
+            get {
+                if ((this._adapter == null)) {
+                    this.InitAdapter();
+                }
+                return this._adapter;
+            }
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        internal System.Data.SqlClient.SqlConnection Connection {
+            get {
+                if ((this._connection == null)) {
+                    this.InitConnection();
+                }
+                return this._connection;
+            }
+            set {
+                this._connection = value;
+                if ((this.Adapter.InsertCommand != null)) {
+                    this.Adapter.InsertCommand.Connection = value;
+                }
+                if ((this.Adapter.DeleteCommand != null)) {
+                    this.Adapter.DeleteCommand.Connection = value;
+                }
+                if ((this.Adapter.UpdateCommand != null)) {
+                    this.Adapter.UpdateCommand.Connection = value;
+                }
+                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
+                    if ((this.CommandCollection[i] != null)) {
+                        ((System.Data.SqlClient.SqlCommand)(this.CommandCollection[i])).Connection = value;
+                    }
+                }
+            }
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        protected System.Data.SqlClient.SqlCommand[] CommandCollection {
+            get {
+                if ((this._commandCollection == null)) {
+                    this.InitCommandCollection();
+                }
+                return this._commandCollection;
+            }
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public bool ClearBeforeFill {
+            get {
+                return this._clearBeforeFill;
+            }
+            set {
+                this._clearBeforeFill = value;
+            }
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private void InitAdapter() {
+            this._adapter = new System.Data.SqlClient.SqlDataAdapter();
+            System.Data.Common.DataTableMapping tableMapping = new System.Data.Common.DataTableMapping();
+            tableMapping.SourceTable = "Table";
+            tableMapping.DataSetTable = "ReferenceParts";
+            tableMapping.ColumnMappings.Add("ReferencePartID", "ReferencePartID");
+            tableMapping.ColumnMappings.Add("Name", "Name");
+            tableMapping.ColumnMappings.Add("Length", "Length");
+            tableMapping.ColumnMappings.Add("Width", "Width");
+            tableMapping.ColumnMappings.Add("Material", "Material");
+            this._adapter.TableMappings.Add(tableMapping);
+            this._adapter.DeleteCommand = new System.Data.SqlClient.SqlCommand();
+            this._adapter.DeleteCommand.Connection = this.Connection;
+            this._adapter.DeleteCommand.CommandText = @"DELETE FROM [ReferenceParts] WHERE (([ReferencePartID] = @Original_ReferencePartID) AND ([Name] = @Original_Name) AND ([Length] = @Original_Length) AND ([Width] = @Original_Width) AND ((@IsNull_Material = 1 AND [Material] IS NULL) OR ([Material] = @Original_Material)))";
+            this._adapter.DeleteCommand.CommandType = System.Data.CommandType.Text;
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_ReferencePartID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "ReferencePartID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_Name", System.Data.SqlDbType.NVarChar, 0, System.Data.ParameterDirection.Input, 0, 0, "Name", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_Length", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 3, "Length", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_Width", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 3, "Width", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@IsNull_Material", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "Material", System.Data.DataRowVersion.Original, true, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_Material", System.Data.SqlDbType.NVarChar, 0, System.Data.ParameterDirection.Input, 0, 0, "Material", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.InsertCommand = new System.Data.SqlClient.SqlCommand();
+            this._adapter.InsertCommand.Connection = this.Connection;
+            this._adapter.InsertCommand.CommandText = @"INSERT INTO [ReferenceParts] ([ReferencePartID], [Name], [Length], [Width], [Material]) VALUES (@ReferencePartID, @Name, @Length, @Width, @Material);
+SELECT ReferencePartID, Name, Length, Width, Material FROM ReferenceParts WHERE (ReferencePartID = @ReferencePartID)";
+            this._adapter.InsertCommand.CommandType = System.Data.CommandType.Text;
+            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@ReferencePartID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "ReferencePartID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Name", System.Data.SqlDbType.NVarChar, 0, System.Data.ParameterDirection.Input, 0, 0, "Name", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Length", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 3, "Length", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Width", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 3, "Width", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Material", System.Data.SqlDbType.NVarChar, 0, System.Data.ParameterDirection.Input, 0, 0, "Material", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand = new System.Data.SqlClient.SqlCommand();
+            this._adapter.UpdateCommand.Connection = this.Connection;
+            this._adapter.UpdateCommand.CommandText = @"UPDATE [ReferenceParts] SET [ReferencePartID] = @ReferencePartID, [Name] = @Name, [Length] = @Length, [Width] = @Width, [Material] = @Material WHERE (([ReferencePartID] = @Original_ReferencePartID) AND ([Name] = @Original_Name) AND ([Length] = @Original_Length) AND ([Width] = @Original_Width) AND ((@IsNull_Material = 1 AND [Material] IS NULL) OR ([Material] = @Original_Material)));
+SELECT ReferencePartID, Name, Length, Width, Material FROM ReferenceParts WHERE (ReferencePartID = @ReferencePartID)";
+            this._adapter.UpdateCommand.CommandType = System.Data.CommandType.Text;
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@ReferencePartID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "ReferencePartID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Name", System.Data.SqlDbType.NVarChar, 0, System.Data.ParameterDirection.Input, 0, 0, "Name", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Length", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 3, "Length", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Width", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 3, "Width", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Material", System.Data.SqlDbType.NVarChar, 0, System.Data.ParameterDirection.Input, 0, 0, "Material", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_ReferencePartID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "ReferencePartID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_Name", System.Data.SqlDbType.NVarChar, 0, System.Data.ParameterDirection.Input, 0, 0, "Name", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_Length", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 3, "Length", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_Width", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 3, "Width", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@IsNull_Material", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "Material", System.Data.DataRowVersion.Original, true, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_Material", System.Data.SqlDbType.NVarChar, 0, System.Data.ParameterDirection.Input, 0, 0, "Material", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private void InitConnection() {
+            this._connection = new System.Data.SqlClient.SqlConnection();
+            this._connection.ConnectionString = global::Denisenko.Cutting.CutOptima.Properties.Settings.Default.CutOptimaConnectionString;
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private void InitCommandCollection() {
+            this._commandCollection = new System.Data.SqlClient.SqlCommand[1];
+            this._commandCollection[0] = new System.Data.SqlClient.SqlCommand();
+            this._commandCollection[0].Connection = this.Connection;
+            this._commandCollection[0].CommandText = "SELECT  ReferencePartID, Name, Length, Width, Material\r\nFROM     ReferenceParts";
+            this._commandCollection[0].CommandType = System.Data.CommandType.Text;
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Fill, true)]
+        public virtual int Fill(DataSet.ReferencePartsDataTable dataTable) {
+            this.Adapter.SelectCommand = this.CommandCollection[0];
+            if ((this.ClearBeforeFill == true)) {
+                dataTable.Clear();
+            }
+            int returnValue = this.Adapter.Fill(dataTable);
+            return returnValue;
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Select, true)]
+        public virtual DataSet.ReferencePartsDataTable GetData() {
+            this.Adapter.SelectCommand = this.CommandCollection[0];
+            DataSet.ReferencePartsDataTable dataTable = new DataSet.ReferencePartsDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(DataSet.ReferencePartsDataTable dataTable) {
+            return this.Adapter.Update(dataTable);
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(DataSet dataSet) {
+            return this.Adapter.Update(dataSet, "ReferenceParts");
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(System.Data.DataRow dataRow) {
+            return this.Adapter.Update(new System.Data.DataRow[] {
+                        dataRow});
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(System.Data.DataRow[] dataRows) {
+            return this.Adapter.Update(dataRows);
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Delete, true)]
+        public virtual int Delete(int Original_ReferencePartID, string Original_Name, decimal Original_Length, decimal Original_Width, string Original_Material) {
+            this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_ReferencePartID));
+            if ((Original_Name == null)) {
+                throw new System.ArgumentNullException("Original_Name");
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[1].Value = ((string)(Original_Name));
+            }
+            this.Adapter.DeleteCommand.Parameters[2].Value = ((decimal)(Original_Length));
+            this.Adapter.DeleteCommand.Parameters[3].Value = ((decimal)(Original_Width));
+            if ((Original_Material == null)) {
+                this.Adapter.DeleteCommand.Parameters[4].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[5].Value = System.DBNull.Value;
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[4].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[5].Value = ((string)(Original_Material));
+            }
+            System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
+            if (((this.Adapter.DeleteCommand.Connection.State & System.Data.ConnectionState.Open) 
+                        != System.Data.ConnectionState.Open)) {
+                this.Adapter.DeleteCommand.Connection.Open();
+            }
+            try {
+                int returnValue = this.Adapter.DeleteCommand.ExecuteNonQuery();
+                return returnValue;
+            }
+            finally {
+                if ((previousConnectionState == System.Data.ConnectionState.Closed)) {
+                    this.Adapter.DeleteCommand.Connection.Close();
+                }
+            }
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Insert, true)]
+        public virtual int Insert(int ReferencePartID, string Name, decimal Length, decimal Width, string Material) {
+            this.Adapter.InsertCommand.Parameters[0].Value = ((int)(ReferencePartID));
+            if ((Name == null)) {
+                throw new System.ArgumentNullException("Name");
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[1].Value = ((string)(Name));
+            }
+            this.Adapter.InsertCommand.Parameters[2].Value = ((decimal)(Length));
+            this.Adapter.InsertCommand.Parameters[3].Value = ((decimal)(Width));
+            if ((Material == null)) {
+                this.Adapter.InsertCommand.Parameters[4].Value = System.DBNull.Value;
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[4].Value = ((string)(Material));
+            }
+            System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
+            if (((this.Adapter.InsertCommand.Connection.State & System.Data.ConnectionState.Open) 
+                        != System.Data.ConnectionState.Open)) {
+                this.Adapter.InsertCommand.Connection.Open();
+            }
+            try {
+                int returnValue = this.Adapter.InsertCommand.ExecuteNonQuery();
+                return returnValue;
+            }
+            finally {
+                if ((previousConnectionState == System.Data.ConnectionState.Closed)) {
+                    this.Adapter.InsertCommand.Connection.Close();
+                }
+            }
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Update, true)]
+        public virtual int Update(int ReferencePartID, string Name, decimal Length, decimal Width, string Material, int Original_ReferencePartID, string Original_Name, decimal Original_Length, decimal Original_Width, string Original_Material) {
+            this.Adapter.UpdateCommand.Parameters[0].Value = ((int)(ReferencePartID));
+            if ((Name == null)) {
+                throw new System.ArgumentNullException("Name");
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[1].Value = ((string)(Name));
+            }
+            this.Adapter.UpdateCommand.Parameters[2].Value = ((decimal)(Length));
+            this.Adapter.UpdateCommand.Parameters[3].Value = ((decimal)(Width));
+            if ((Material == null)) {
+                this.Adapter.UpdateCommand.Parameters[4].Value = System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[4].Value = ((string)(Material));
+            }
+            this.Adapter.UpdateCommand.Parameters[5].Value = ((int)(Original_ReferencePartID));
+            if ((Original_Name == null)) {
+                throw new System.ArgumentNullException("Original_Name");
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[6].Value = ((string)(Original_Name));
+            }
+            this.Adapter.UpdateCommand.Parameters[7].Value = ((decimal)(Original_Length));
+            this.Adapter.UpdateCommand.Parameters[8].Value = ((decimal)(Original_Width));
+            if ((Original_Material == null)) {
+                this.Adapter.UpdateCommand.Parameters[9].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[10].Value = System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[9].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[10].Value = ((string)(Original_Material));
+            }
+            System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
+            if (((this.Adapter.UpdateCommand.Connection.State & System.Data.ConnectionState.Open) 
+                        != System.Data.ConnectionState.Open)) {
+                this.Adapter.UpdateCommand.Connection.Open();
+            }
+            try {
+                int returnValue = this.Adapter.UpdateCommand.ExecuteNonQuery();
+                return returnValue;
+            }
+            finally {
+                if ((previousConnectionState == System.Data.ConnectionState.Closed)) {
+                    this.Adapter.UpdateCommand.Connection.Close();
+                }
+            }
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.ComponentModel.ToolboxItem(true)]
+    [System.ComponentModel.DataObjectAttribute(true)]
+    [System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
+        ", Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
+    [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+    public partial class DetailsListsDetailsTableAdapter : System.ComponentModel.Component {
+        
+        private System.Data.SqlClient.SqlDataAdapter _adapter;
+        
+        private System.Data.SqlClient.SqlConnection _connection;
+        
+        private System.Data.SqlClient.SqlCommand[] _commandCollection;
+        
+        private bool _clearBeforeFill;
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public DetailsListsDetailsTableAdapter() {
+            this.ClearBeforeFill = true;
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private System.Data.SqlClient.SqlDataAdapter Adapter {
+            get {
+                if ((this._adapter == null)) {
+                    this.InitAdapter();
+                }
+                return this._adapter;
+            }
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        internal System.Data.SqlClient.SqlConnection Connection {
+            get {
+                if ((this._connection == null)) {
+                    this.InitConnection();
+                }
+                return this._connection;
+            }
+            set {
+                this._connection = value;
+                if ((this.Adapter.InsertCommand != null)) {
+                    this.Adapter.InsertCommand.Connection = value;
+                }
+                if ((this.Adapter.DeleteCommand != null)) {
+                    this.Adapter.DeleteCommand.Connection = value;
+                }
+                if ((this.Adapter.UpdateCommand != null)) {
+                    this.Adapter.UpdateCommand.Connection = value;
+                }
+                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
+                    if ((this.CommandCollection[i] != null)) {
+                        ((System.Data.SqlClient.SqlCommand)(this.CommandCollection[i])).Connection = value;
+                    }
+                }
+            }
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        protected System.Data.SqlClient.SqlCommand[] CommandCollection {
+            get {
+                if ((this._commandCollection == null)) {
+                    this.InitCommandCollection();
+                }
+                return this._commandCollection;
+            }
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public bool ClearBeforeFill {
+            get {
+                return this._clearBeforeFill;
+            }
+            set {
+                this._clearBeforeFill = value;
+            }
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private void InitAdapter() {
+            this._adapter = new System.Data.SqlClient.SqlDataAdapter();
+            System.Data.Common.DataTableMapping tableMapping = new System.Data.Common.DataTableMapping();
+            tableMapping.SourceTable = "Table";
+            tableMapping.DataSetTable = "DetailsListsDetails";
+            tableMapping.ColumnMappings.Add("DetailsListsDetailID", "DetailsListsDetailID");
+            tableMapping.ColumnMappings.Add("DetailsListID", "DetailsListID");
+            tableMapping.ColumnMappings.Add("Name", "Name");
+            tableMapping.ColumnMappings.Add("Length", "Length");
+            tableMapping.ColumnMappings.Add("Width", "Width");
+            tableMapping.ColumnMappings.Add("Amount", "Amount");
+            tableMapping.ColumnMappings.Add("MaterialID", "MaterialID");
+            tableMapping.ColumnMappings.Add("LeftEdge", "LeftEdge");
+            tableMapping.ColumnMappings.Add("TopEdge", "TopEdge");
+            tableMapping.ColumnMappings.Add("RightEdge", "RightEdge");
+            tableMapping.ColumnMappings.Add("BottomEdge", "BottomEdge");
+            this._adapter.TableMappings.Add(tableMapping);
+            this._adapter.DeleteCommand = new System.Data.SqlClient.SqlCommand();
+            this._adapter.DeleteCommand.Connection = this.Connection;
+            this._adapter.DeleteCommand.CommandText = @"DELETE FROM [dbo].[DetailsListsDetails] WHERE (([DetailsListsDetailID] = @Original_DetailsListsDetailID) AND ([DetailsListID] = @Original_DetailsListID) AND ([Name] = @Original_Name) AND ([Length] = @Original_Length) AND ([Width] = @Original_Width) AND ([Amount] = @Original_Amount) AND ([MaterialID] = @Original_MaterialID) AND ((@IsNull_LeftEdge = 1 AND [LeftEdge] IS NULL) OR ([LeftEdge] = @Original_LeftEdge)) AND ((@IsNull_TopEdge = 1 AND [TopEdge] IS NULL) OR ([TopEdge] = @Original_TopEdge)) AND ((@IsNull_RightEdge = 1 AND [RightEdge] IS NULL) OR ([RightEdge] = @Original_RightEdge)) AND ((@IsNull_BottomEdge = 1 AND [BottomEdge] IS NULL) OR ([BottomEdge] = @Original_BottomEdge)))";
+            this._adapter.DeleteCommand.CommandType = System.Data.CommandType.Text;
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_DetailsListsDetailID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "DetailsListsDetailID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_DetailsListID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "DetailsListID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_Name", System.Data.SqlDbType.NVarChar, 0, System.Data.ParameterDirection.Input, 0, 0, "Name", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_Length", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 3, "Length", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_Width", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 3, "Width", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_Amount", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "Amount", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_MaterialID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "MaterialID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@IsNull_LeftEdge", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "LeftEdge", System.Data.DataRowVersion.Original, true, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_LeftEdge", System.Data.SqlDbType.NChar, 0, System.Data.ParameterDirection.Input, 0, 0, "LeftEdge", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@IsNull_TopEdge", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "TopEdge", System.Data.DataRowVersion.Original, true, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_TopEdge", System.Data.SqlDbType.NChar, 0, System.Data.ParameterDirection.Input, 0, 0, "TopEdge", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@IsNull_RightEdge", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "RightEdge", System.Data.DataRowVersion.Original, true, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_RightEdge", System.Data.SqlDbType.NChar, 0, System.Data.ParameterDirection.Input, 0, 0, "RightEdge", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@IsNull_BottomEdge", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "BottomEdge", System.Data.DataRowVersion.Original, true, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_BottomEdge", System.Data.SqlDbType.NChar, 0, System.Data.ParameterDirection.Input, 0, 0, "BottomEdge", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.InsertCommand = new System.Data.SqlClient.SqlCommand();
+            this._adapter.InsertCommand.Connection = this.Connection;
+            this._adapter.InsertCommand.CommandText = @"INSERT INTO DetailsListsDetails
+               (DetailsListID, Name, Length, Width, Amount, MaterialID, LeftEdge, TopEdge, RightEdge, BottomEdge)
+VALUES  (@DetailsListID,@Name,@Length,@Width,@Amount,@MaterialID,@LeftEdge,@TopEdge,@RightEdge,@BottomEdge); 
+SELECT DetailsListsDetailID, DetailsListID, Name, Length, Width, Amount, MaterialID, LeftEdge, TopEdge, RightEdge, BottomEdge FROM DetailsListsDetails WHERE (DetailsListsDetailID = @DetailsListsDetailID)";
+            this._adapter.InsertCommand.CommandType = System.Data.CommandType.Text;
+            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@DetailsListID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "DetailsListID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Name", System.Data.SqlDbType.NVarChar, 50, System.Data.ParameterDirection.Input, 0, 0, "Name", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Length", System.Data.SqlDbType.Decimal, 9, System.Data.ParameterDirection.Input, 18, 3, "Length", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Width", System.Data.SqlDbType.Decimal, 9, System.Data.ParameterDirection.Input, 18, 3, "Width", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Amount", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "Amount", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@MaterialID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "MaterialID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@LeftEdge", System.Data.SqlDbType.NChar, 10, System.Data.ParameterDirection.Input, 0, 0, "LeftEdge", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@TopEdge", System.Data.SqlDbType.NChar, 10, System.Data.ParameterDirection.Input, 0, 0, "TopEdge", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@RightEdge", System.Data.SqlDbType.NChar, 10, System.Data.ParameterDirection.Input, 0, 0, "RightEdge", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@BottomEdge", System.Data.SqlDbType.NChar, 10, System.Data.ParameterDirection.Input, 0, 0, "BottomEdge", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@DetailsListsDetailID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "DetailsListsDetailID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand = new System.Data.SqlClient.SqlCommand();
+            this._adapter.UpdateCommand.Connection = this.Connection;
+            this._adapter.UpdateCommand.CommandText = @"UPDATE DetailsListsDetails
+SET        DetailsListID = @DetailsListID, Name = @Name, Length = @Length, Width = @Width, Amount = @Amount, MaterialID = @MaterialID, LeftEdge = @LeftEdge, 
+               TopEdge = @TopEdge, RightEdge = @RightEdge, BottomEdge = @BottomEdge
+WHERE  (DetailsListsDetailID = @Original_DetailsListsDetailID); 
+SELECT DetailsListsDetailID, DetailsListID, Name, Length, Width, Amount, MaterialID, LeftEdge, TopEdge, RightEdge, BottomEdge FROM DetailsListsDetails WHERE (DetailsListsDetailID = @DetailsListsDetailID)";
+            this._adapter.UpdateCommand.CommandType = System.Data.CommandType.Text;
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@DetailsListID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "DetailsListID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Name", System.Data.SqlDbType.NVarChar, 50, System.Data.ParameterDirection.Input, 0, 0, "Name", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Length", System.Data.SqlDbType.Decimal, 9, System.Data.ParameterDirection.Input, 18, 3, "Length", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Width", System.Data.SqlDbType.Decimal, 9, System.Data.ParameterDirection.Input, 18, 3, "Width", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Amount", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "Amount", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@MaterialID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "MaterialID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@LeftEdge", System.Data.SqlDbType.NChar, 10, System.Data.ParameterDirection.Input, 0, 0, "LeftEdge", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@TopEdge", System.Data.SqlDbType.NChar, 10, System.Data.ParameterDirection.Input, 0, 0, "TopEdge", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@RightEdge", System.Data.SqlDbType.NChar, 10, System.Data.ParameterDirection.Input, 0, 0, "RightEdge", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@BottomEdge", System.Data.SqlDbType.NChar, 10, System.Data.ParameterDirection.Input, 0, 0, "BottomEdge", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_DetailsListsDetailID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "DetailsListsDetailID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@DetailsListsDetailID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "DetailsListsDetailID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private void InitConnection() {
+            this._connection = new System.Data.SqlClient.SqlConnection();
+            this._connection.ConnectionString = global::Denisenko.Cutting.CutOptima.Properties.Settings.Default.CutOptimaConnectionString;
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private void InitCommandCollection() {
+            this._commandCollection = new System.Data.SqlClient.SqlCommand[2];
+            this._commandCollection[0] = new System.Data.SqlClient.SqlCommand();
+            this._commandCollection[0].Connection = this.Connection;
+            this._commandCollection[0].CommandText = "SELECT DetailsListsDetailID, DetailsListID, Name, Length, Width, Amount, Material" +
+                "ID, LeftEdge, TopEdge, RightEdge, BottomEdge FROM dbo.DetailsListsDetails";
+            this._commandCollection[0].CommandType = System.Data.CommandType.Text;
+            this._commandCollection[1] = new System.Data.SqlClient.SqlCommand();
+            this._commandCollection[1].Connection = this.Connection;
+            this._commandCollection[1].CommandText = "SELECT DetailsListsDetailID, DetailsListID, Name, Length, Width, Amount, Material" +
+                "ID, LeftEdge, TopEdge, RightEdge, BottomEdge FROM dbo.DetailsListsDetails\r\nWHERE" +
+                " DetailsListID = @DetailsListID";
+            this._commandCollection[1].CommandType = System.Data.CommandType.Text;
+            this._commandCollection[1].Parameters.Add(new System.Data.SqlClient.SqlParameter("@DetailsListID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "DetailsListID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Fill, true)]
+        public virtual int Fill(DataSet.DetailsListsDetailsDataTable dataTable) {
+            this.Adapter.SelectCommand = this.CommandCollection[0];
+            if ((this.ClearBeforeFill == true)) {
+                dataTable.Clear();
+            }
+            int returnValue = this.Adapter.Fill(dataTable);
+            return returnValue;
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Select, true)]
+        public virtual DataSet.DetailsListsDetailsDataTable GetData() {
+            this.Adapter.SelectCommand = this.CommandCollection[0];
+            DataSet.DetailsListsDetailsDataTable dataTable = new DataSet.DetailsListsDetailsDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Fill, false)]
+        public virtual int FillBy(DataSet.DetailsListsDetailsDataTable dataTable, int DetailsListID) {
+            this.Adapter.SelectCommand = this.CommandCollection[1];
+            this.Adapter.SelectCommand.Parameters[0].Value = ((int)(DetailsListID));
+            if ((this.ClearBeforeFill == true)) {
+                dataTable.Clear();
+            }
+            int returnValue = this.Adapter.Fill(dataTable);
+            return returnValue;
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Select, false)]
+        public virtual DataSet.DetailsListsDetailsDataTable GetDataBy(int DetailsListID) {
+            this.Adapter.SelectCommand = this.CommandCollection[1];
+            this.Adapter.SelectCommand.Parameters[0].Value = ((int)(DetailsListID));
+            DataSet.DetailsListsDetailsDataTable dataTable = new DataSet.DetailsListsDetailsDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(DataSet.DetailsListsDetailsDataTable dataTable) {
+            return this.Adapter.Update(dataTable);
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(DataSet dataSet) {
+            return this.Adapter.Update(dataSet, "DetailsListsDetails");
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(System.Data.DataRow dataRow) {
+            return this.Adapter.Update(new System.Data.DataRow[] {
+                        dataRow});
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(System.Data.DataRow[] dataRows) {
+            return this.Adapter.Update(dataRows);
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Delete, true)]
+        public virtual int Delete(int Original_DetailsListsDetailID, int Original_DetailsListID, string Original_Name, decimal Original_Length, decimal Original_Width, int Original_Amount, int Original_MaterialID, string Original_LeftEdge, string Original_TopEdge, string Original_RightEdge, string Original_BottomEdge) {
+            this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_DetailsListsDetailID));
+            this.Adapter.DeleteCommand.Parameters[1].Value = ((int)(Original_DetailsListID));
+            if ((Original_Name == null)) {
+                throw new System.ArgumentNullException("Original_Name");
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[2].Value = ((string)(Original_Name));
+            }
+            this.Adapter.DeleteCommand.Parameters[3].Value = ((decimal)(Original_Length));
+            this.Adapter.DeleteCommand.Parameters[4].Value = ((decimal)(Original_Width));
+            this.Adapter.DeleteCommand.Parameters[5].Value = ((int)(Original_Amount));
+            this.Adapter.DeleteCommand.Parameters[6].Value = ((int)(Original_MaterialID));
+            if ((Original_LeftEdge == null)) {
+                this.Adapter.DeleteCommand.Parameters[7].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[8].Value = System.DBNull.Value;
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[7].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[8].Value = ((string)(Original_LeftEdge));
+            }
+            if ((Original_TopEdge == null)) {
+                this.Adapter.DeleteCommand.Parameters[9].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[10].Value = System.DBNull.Value;
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[9].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[10].Value = ((string)(Original_TopEdge));
+            }
+            if ((Original_RightEdge == null)) {
+                this.Adapter.DeleteCommand.Parameters[11].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[12].Value = System.DBNull.Value;
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[11].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[12].Value = ((string)(Original_RightEdge));
+            }
+            if ((Original_BottomEdge == null)) {
+                this.Adapter.DeleteCommand.Parameters[13].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[14].Value = System.DBNull.Value;
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[13].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[14].Value = ((string)(Original_BottomEdge));
+            }
+            System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
+            if (((this.Adapter.DeleteCommand.Connection.State & System.Data.ConnectionState.Open) 
+                        != System.Data.ConnectionState.Open)) {
+                this.Adapter.DeleteCommand.Connection.Open();
+            }
+            try {
+                int returnValue = this.Adapter.DeleteCommand.ExecuteNonQuery();
+                return returnValue;
+            }
+            finally {
+                if ((previousConnectionState == System.Data.ConnectionState.Closed)) {
+                    this.Adapter.DeleteCommand.Connection.Close();
+                }
+            }
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Insert, true)]
+        public virtual int Insert(int DetailsListID, string Name, decimal Length, decimal Width, int Amount, int MaterialID, string LeftEdge, string TopEdge, string RightEdge, string BottomEdge, int DetailsListsDetailID) {
+            this.Adapter.InsertCommand.Parameters[0].Value = ((int)(DetailsListID));
+            if ((Name == null)) {
+                throw new System.ArgumentNullException("Name");
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[1].Value = ((string)(Name));
+            }
+            this.Adapter.InsertCommand.Parameters[2].Value = ((decimal)(Length));
+            this.Adapter.InsertCommand.Parameters[3].Value = ((decimal)(Width));
+            this.Adapter.InsertCommand.Parameters[4].Value = ((int)(Amount));
+            this.Adapter.InsertCommand.Parameters[5].Value = ((int)(MaterialID));
+            if ((LeftEdge == null)) {
+                this.Adapter.InsertCommand.Parameters[6].Value = System.DBNull.Value;
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[6].Value = ((string)(LeftEdge));
+            }
+            if ((TopEdge == null)) {
+                this.Adapter.InsertCommand.Parameters[7].Value = System.DBNull.Value;
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[7].Value = ((string)(TopEdge));
+            }
+            if ((RightEdge == null)) {
+                this.Adapter.InsertCommand.Parameters[8].Value = System.DBNull.Value;
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[8].Value = ((string)(RightEdge));
+            }
+            if ((BottomEdge == null)) {
+                this.Adapter.InsertCommand.Parameters[9].Value = System.DBNull.Value;
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[9].Value = ((string)(BottomEdge));
+            }
+            this.Adapter.InsertCommand.Parameters[10].Value = ((int)(DetailsListsDetailID));
+            System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
+            if (((this.Adapter.InsertCommand.Connection.State & System.Data.ConnectionState.Open) 
+                        != System.Data.ConnectionState.Open)) {
+                this.Adapter.InsertCommand.Connection.Open();
+            }
+            try {
+                int returnValue = this.Adapter.InsertCommand.ExecuteNonQuery();
+                return returnValue;
+            }
+            finally {
+                if ((previousConnectionState == System.Data.ConnectionState.Closed)) {
+                    this.Adapter.InsertCommand.Connection.Close();
+                }
+            }
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Update, true)]
+        public virtual int Update(int DetailsListID, string Name, decimal Length, decimal Width, int Amount, int MaterialID, string LeftEdge, string TopEdge, string RightEdge, string BottomEdge, int Original_DetailsListsDetailID, int DetailsListsDetailID) {
+            this.Adapter.UpdateCommand.Parameters[0].Value = ((int)(DetailsListID));
+            if ((Name == null)) {
+                throw new System.ArgumentNullException("Name");
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[1].Value = ((string)(Name));
+            }
+            this.Adapter.UpdateCommand.Parameters[2].Value = ((decimal)(Length));
+            this.Adapter.UpdateCommand.Parameters[3].Value = ((decimal)(Width));
+            this.Adapter.UpdateCommand.Parameters[4].Value = ((int)(Amount));
+            this.Adapter.UpdateCommand.Parameters[5].Value = ((int)(MaterialID));
+            if ((LeftEdge == null)) {
+                this.Adapter.UpdateCommand.Parameters[6].Value = System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[6].Value = ((string)(LeftEdge));
+            }
+            if ((TopEdge == null)) {
+                this.Adapter.UpdateCommand.Parameters[7].Value = System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[7].Value = ((string)(TopEdge));
+            }
+            if ((RightEdge == null)) {
+                this.Adapter.UpdateCommand.Parameters[8].Value = System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[8].Value = ((string)(RightEdge));
+            }
+            if ((BottomEdge == null)) {
+                this.Adapter.UpdateCommand.Parameters[9].Value = System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[9].Value = ((string)(BottomEdge));
+            }
+            this.Adapter.UpdateCommand.Parameters[10].Value = ((int)(Original_DetailsListsDetailID));
+            this.Adapter.UpdateCommand.Parameters[11].Value = ((int)(DetailsListsDetailID));
+            System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
+            if (((this.Adapter.UpdateCommand.Connection.State & System.Data.ConnectionState.Open) 
+                        != System.Data.ConnectionState.Open)) {
+                this.Adapter.UpdateCommand.Connection.Open();
+            }
+            try {
+                int returnValue = this.Adapter.UpdateCommand.ExecuteNonQuery();
+                return returnValue;
+            }
+            finally {
+                if ((previousConnectionState == System.Data.ConnectionState.Closed)) {
+                    this.Adapter.UpdateCommand.Connection.Close();
+                }
+            }
+        }
+    }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -2222,53 +4547,61 @@ namespace Denisenko.Cutting.CutOptima.DataSetTableAdapters {
             tableMapping.SourceTable = "Table";
             tableMapping.DataSetTable = "DetailsLists";
             tableMapping.ColumnMappings.Add("DetailsListID", "DetailsListID");
-            tableMapping.ColumnMappings.Add("Remarks", "Remarks");
             tableMapping.ColumnMappings.Add("OrderID", "OrderID");
+            tableMapping.ColumnMappings.Add("Remarks", "Remarks");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new System.Data.SqlClient.SqlCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
             this._adapter.DeleteCommand.CommandText = "DELETE FROM [dbo].[DetailsLists] WHERE (([DetailsListID] = @Original_DetailsListI" +
                 "D) AND ((@IsNull_OrderID = 1 AND [OrderID] IS NULL) OR ([OrderID] = @Original_Or" +
-                "derID)))";
+                "derID)) AND ((@IsNull_Remarks = 1 AND [Remarks] IS NULL) OR ([Remarks] = @Origin" +
+                "al_Remarks)))";
             this._adapter.DeleteCommand.CommandType = System.Data.CommandType.Text;
             this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_DetailsListID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "DetailsListID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@IsNull_OrderID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "OrderID", System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_OrderID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "OrderID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_OrderID", System.Data.SqlDbType.NVarChar, 0, System.Data.ParameterDirection.Input, 0, 0, "OrderID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@IsNull_Remarks", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "Remarks", System.Data.DataRowVersion.Original, true, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_Remarks", System.Data.SqlDbType.NVarChar, 0, System.Data.ParameterDirection.Input, 0, 0, "Remarks", System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.InsertCommand = new System.Data.SqlClient.SqlCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = "INSERT INTO [dbo].[DetailsLists] ([DetailsListID], [Remarks], [OrderID]) VALUES (" +
-                "@DetailsListID, @Remarks, @OrderID);\r\nSELECT DetailsListID, Remarks, OrderID FRO" +
-                "M DetailsLists WHERE (DetailsListID = @DetailsListID)";
+            this._adapter.InsertCommand.CommandText = "INSERT INTO DetailsLists\r\n               (OrderID, Remarks)\r\nVALUES  (@OrderID,@R" +
+                "emarks); \r\nSELECT DetailsListID, OrderID, Remarks FROM DetailsLists WHERE (Detai" +
+                "lsListID = @DetailsListID)";
             this._adapter.InsertCommand.CommandType = System.Data.CommandType.Text;
-            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@DetailsListID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "DetailsListID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Remarks", System.Data.SqlDbType.NText, 0, System.Data.ParameterDirection.Input, 0, 0, "Remarks", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@OrderID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "OrderID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@OrderID", System.Data.SqlDbType.NVarChar, 50, System.Data.ParameterDirection.Input, 0, 0, "OrderID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Remarks", System.Data.SqlDbType.NVarChar, 100, System.Data.ParameterDirection.Input, 0, 0, "Remarks", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@DetailsListID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "DetailsListID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand = new System.Data.SqlClient.SqlCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = @"UPDATE [dbo].[DetailsLists] SET [DetailsListID] = @DetailsListID, [Remarks] = @Remarks, [OrderID] = @OrderID WHERE (([DetailsListID] = @Original_DetailsListID) AND ((@IsNull_OrderID = 1 AND [OrderID] IS NULL) OR ([OrderID] = @Original_OrderID)));
-SELECT DetailsListID, Remarks, OrderID FROM DetailsLists WHERE (DetailsListID = @DetailsListID)";
+            this._adapter.UpdateCommand.CommandText = "UPDATE DetailsLists\r\nSET        OrderID = @OrderID, Remarks = @Remarks\r\nWHERE  (D" +
+                "etailsListID = @Original_DetailsListID);  \r\nSELECT DetailsListID, OrderID, Remar" +
+                "ks FROM DetailsLists WHERE (DetailsListID = @DetailsListID)";
             this._adapter.UpdateCommand.CommandType = System.Data.CommandType.Text;
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@DetailsListID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "DetailsListID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Remarks", System.Data.SqlDbType.NText, 0, System.Data.ParameterDirection.Input, 0, 0, "Remarks", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@OrderID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "OrderID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_DetailsListID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "DetailsListID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@IsNull_OrderID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "OrderID", System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_OrderID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "OrderID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@OrderID", System.Data.SqlDbType.NVarChar, 50, System.Data.ParameterDirection.Input, 0, 0, "OrderID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Remarks", System.Data.SqlDbType.NVarChar, 100, System.Data.ParameterDirection.Input, 0, 0, "Remarks", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_DetailsListID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "DetailsListID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@DetailsListID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "DetailsListID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
         }
         
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
         private void InitConnection() {
             this._connection = new System.Data.SqlClient.SqlConnection();
-            this._connection.ConnectionString = global::Denisenko.Cutting.CutOptima.Properties.Settings.Default.OrdersConnectionString;
+            this._connection.ConnectionString = global::Denisenko.Cutting.CutOptima.Properties.Settings.Default.CutOptimaConnectionString;
         }
         
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
         private void InitCommandCollection() {
-            this._commandCollection = new System.Data.SqlClient.SqlCommand[1];
+            this._commandCollection = new System.Data.SqlClient.SqlCommand[2];
             this._commandCollection[0] = new System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT DetailsListID, Remarks, OrderID FROM dbo.DetailsLists";
+            this._commandCollection[0].CommandText = "SELECT DetailsListID, OrderID, Remarks FROM dbo.DetailsLists";
             this._commandCollection[0].CommandType = System.Data.CommandType.Text;
+            this._commandCollection[1] = new System.Data.SqlClient.SqlCommand();
+            this._commandCollection[1].Connection = this.Connection;
+            this._commandCollection[1].CommandText = "SELECT DetailsListID, OrderID, Remarks FROM dbo.DetailsLists\r\nWHERE DetailsListID" +
+                " = @DetailsListID";
+            this._commandCollection[1].CommandType = System.Data.CommandType.Text;
+            this._commandCollection[1].Parameters.Add(new System.Data.SqlClient.SqlParameter("@DetailsListID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "DetailsListID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2288,6 +4621,30 @@ SELECT DetailsListID, Remarks, OrderID FROM DetailsLists WHERE (DetailsListID = 
         [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Select, true)]
         public virtual DataSet.DetailsListsDataTable GetData() {
             this.Adapter.SelectCommand = this.CommandCollection[0];
+            DataSet.DetailsListsDataTable dataTable = new DataSet.DetailsListsDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Fill, false)]
+        public virtual int FillBy(DataSet.DetailsListsDataTable dataTable, int DetailsListID) {
+            this.Adapter.SelectCommand = this.CommandCollection[1];
+            this.Adapter.SelectCommand.Parameters[0].Value = ((int)(DetailsListID));
+            if ((this.ClearBeforeFill == true)) {
+                dataTable.Clear();
+            }
+            int returnValue = this.Adapter.Fill(dataTable);
+            return returnValue;
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Select, false)]
+        public virtual DataSet.DetailsListsDataTable GetDataBy(int DetailsListID) {
+            this.Adapter.SelectCommand = this.CommandCollection[1];
+            this.Adapter.SelectCommand.Parameters[0].Value = ((int)(DetailsListID));
             DataSet.DetailsListsDataTable dataTable = new DataSet.DetailsListsDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
@@ -2321,15 +4678,23 @@ SELECT DetailsListID, Remarks, OrderID FROM DetailsLists WHERE (DetailsListID = 
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(int Original_DetailsListID, System.Nullable<int> Original_OrderID) {
+        public virtual int Delete(int Original_DetailsListID, string Original_OrderID, string Original_Remarks) {
             this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_DetailsListID));
-            if ((Original_OrderID.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[1].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[2].Value = ((int)(Original_OrderID.Value));
-            }
-            else {
+            if ((Original_OrderID == null)) {
                 this.Adapter.DeleteCommand.Parameters[1].Value = ((object)(1));
                 this.Adapter.DeleteCommand.Parameters[2].Value = System.DBNull.Value;
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[1].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[2].Value = ((string)(Original_OrderID));
+            }
+            if ((Original_Remarks == null)) {
+                this.Adapter.DeleteCommand.Parameters[3].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[4].Value = System.DBNull.Value;
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[3].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[4].Value = ((string)(Original_Remarks));
             }
             System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & System.Data.ConnectionState.Open) 
@@ -2350,20 +4715,20 @@ SELECT DetailsListID, Remarks, OrderID FROM DetailsLists WHERE (DetailsListID = 
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(int DetailsListID, string Remarks, System.Nullable<int> OrderID) {
-            this.Adapter.InsertCommand.Parameters[0].Value = ((int)(DetailsListID));
+        public virtual int Insert(string OrderID, string Remarks, int DetailsListID) {
+            if ((OrderID == null)) {
+                this.Adapter.InsertCommand.Parameters[0].Value = System.DBNull.Value;
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[0].Value = ((string)(OrderID));
+            }
             if ((Remarks == null)) {
                 this.Adapter.InsertCommand.Parameters[1].Value = System.DBNull.Value;
             }
             else {
                 this.Adapter.InsertCommand.Parameters[1].Value = ((string)(Remarks));
             }
-            if ((OrderID.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[2].Value = ((int)(OrderID.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[2].Value = System.DBNull.Value;
-            }
+            this.Adapter.InsertCommand.Parameters[2].Value = ((int)(DetailsListID));
             System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & System.Data.ConnectionState.Open) 
                         != System.Data.ConnectionState.Open)) {
@@ -2383,29 +4748,21 @@ SELECT DetailsListID, Remarks, OrderID FROM DetailsLists WHERE (DetailsListID = 
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(int DetailsListID, string Remarks, System.Nullable<int> OrderID, int Original_DetailsListID, System.Nullable<int> Original_OrderID) {
-            this.Adapter.UpdateCommand.Parameters[0].Value = ((int)(DetailsListID));
+        public virtual int Update(string OrderID, string Remarks, int Original_DetailsListID, int DetailsListID) {
+            if ((OrderID == null)) {
+                this.Adapter.UpdateCommand.Parameters[0].Value = System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[0].Value = ((string)(OrderID));
+            }
             if ((Remarks == null)) {
                 this.Adapter.UpdateCommand.Parameters[1].Value = System.DBNull.Value;
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[1].Value = ((string)(Remarks));
             }
-            if ((OrderID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[2].Value = ((int)(OrderID.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[2].Value = System.DBNull.Value;
-            }
-            this.Adapter.UpdateCommand.Parameters[3].Value = ((int)(Original_DetailsListID));
-            if ((Original_OrderID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[4].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[5].Value = ((int)(Original_OrderID.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[4].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[5].Value = System.DBNull.Value;
-            }
+            this.Adapter.UpdateCommand.Parameters[2].Value = ((int)(Original_DetailsListID));
+            this.Adapter.UpdateCommand.Parameters[3].Value = ((int)(DetailsListID));
             System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & System.Data.ConnectionState.Open) 
                         != System.Data.ConnectionState.Open)) {
@@ -2430,7 +4787,7 @@ SELECT DetailsListID, Remarks, OrderID FROM DetailsLists WHERE (DetailsListID = 
     [System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
         ", Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
     [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-    public partial class DetailsListsContentsTableAdapter : System.ComponentModel.Component {
+    public partial class MaterialsTableAdapter : System.ComponentModel.Component {
         
         private System.Data.SqlClient.SqlDataAdapter _adapter;
         
@@ -2441,7 +4798,7 @@ SELECT DetailsListID, Remarks, OrderID FROM DetailsLists WHERE (DetailsListID = 
         private bool _clearBeforeFill;
         
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public DetailsListsContentsTableAdapter() {
+        public MaterialsTableAdapter() {
             this.ClearBeforeFill = true;
         }
         
@@ -2507,107 +4864,47 @@ SELECT DetailsListID, Remarks, OrderID FROM DetailsLists WHERE (DetailsListID = 
             this._adapter = new System.Data.SqlClient.SqlDataAdapter();
             System.Data.Common.DataTableMapping tableMapping = new System.Data.Common.DataTableMapping();
             tableMapping.SourceTable = "Table";
-            tableMapping.DataSetTable = "DetailsListsContents";
-            tableMapping.ColumnMappings.Add("ItemID", "ItemID");
-            tableMapping.ColumnMappings.Add("DetailsListID", "DetailsListID");
-            tableMapping.ColumnMappings.Add("Name", "Name");
-            tableMapping.ColumnMappings.Add("Height", "Height");
-            tableMapping.ColumnMappings.Add("Width", "Width");
-            tableMapping.ColumnMappings.Add("Quantity", "Quantity");
+            tableMapping.DataSetTable = "Materials";
             tableMapping.ColumnMappings.Add("MaterialID", "MaterialID");
-            tableMapping.ColumnMappings.Add("LeftEdgeID", "LeftEdgeID");
-            tableMapping.ColumnMappings.Add("RightEdgeID", "RightEdgeID");
-            tableMapping.ColumnMappings.Add("TopEdgeID", "TopEdgeID");
-            tableMapping.ColumnMappings.Add("BottomEdgeID", "BottomEdgeID");
+            tableMapping.ColumnMappings.Add("Name", "Name");
+            tableMapping.ColumnMappings.Add("HaveDirection", "HaveDirection");
+            tableMapping.ColumnMappings.Add("Remarks", "Remarks");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new System.Data.SqlClient.SqlCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = @"DELETE FROM [dbo].[DetailsListsContents] WHERE (([ItemID] = @Original_ItemID) AND ([DetailsListID] = @Original_DetailsListID) AND ((@IsNull_Name = 1 AND [Name] IS NULL) OR ([Name] = @Original_Name)) AND ([Height] = @Original_Height) AND ([Width] = @Original_Width) AND ([Quantity] = @Original_Quantity) AND ((@IsNull_MaterialID = 1 AND [MaterialID] IS NULL) OR ([MaterialID] = @Original_MaterialID)) AND ((@IsNull_LeftEdgeID = 1 AND [LeftEdgeID] IS NULL) OR ([LeftEdgeID] = @Original_LeftEdgeID)) AND ((@IsNull_RightEdgeID = 1 AND [RightEdgeID] IS NULL) OR ([RightEdgeID] = @Original_RightEdgeID)) AND ((@IsNull_TopEdgeID = 1 AND [TopEdgeID] IS NULL) OR ([TopEdgeID] = @Original_TopEdgeID)) AND ((@IsNull_BottomEdgeID = 1 AND [BottomEdgeID] IS NULL) OR ([BottomEdgeID] = @Original_BottomEdgeID)))";
+            this._adapter.DeleteCommand.CommandText = "DELETE FROM [dbo].[Materials] WHERE (([MaterialID] = @Original_MaterialID) AND ([" +
+                "Name] = @Original_Name) AND ([HaveDirection] = @Original_HaveDirection))";
             this._adapter.DeleteCommand.CommandType = System.Data.CommandType.Text;
-            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_ItemID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "ItemID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_DetailsListID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "DetailsListID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@IsNull_Name", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "Name", System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_Name", System.Data.SqlDbType.NChar, 0, System.Data.ParameterDirection.Input, 0, 0, "Name", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_Height", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 0, "Height", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_Width", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 0, "Width", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_Quantity", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "Quantity", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@IsNull_MaterialID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "MaterialID", System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_MaterialID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "MaterialID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@IsNull_LeftEdgeID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "LeftEdgeID", System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_LeftEdgeID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "LeftEdgeID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@IsNull_RightEdgeID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "RightEdgeID", System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_RightEdgeID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "RightEdgeID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@IsNull_TopEdgeID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "TopEdgeID", System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_TopEdgeID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "TopEdgeID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@IsNull_BottomEdgeID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "BottomEdgeID", System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_BottomEdgeID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "BottomEdgeID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_Name", System.Data.SqlDbType.NVarChar, 0, System.Data.ParameterDirection.Input, 0, 0, "Name", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_HaveDirection", System.Data.SqlDbType.Bit, 0, System.Data.ParameterDirection.Input, 0, 0, "HaveDirection", System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.InsertCommand = new System.Data.SqlClient.SqlCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = @"INSERT INTO DetailsListsContents
-               (DetailsListID, Name, Height, Width, Quantity, MaterialID, LeftEdgeID, RightEdgeID, TopEdgeID, BottomEdgeID)
-VALUES  (@DetailsListID,@Name,@Height,@Width,@Quantity,@MaterialID,@LeftEdgeID,@RightEdgeID,@TopEdgeID,@BottomEdgeID);  
-SELECT ItemID, DetailsListID, Name, Height, Width, Quantity, MaterialID, LeftEdgeID, RightEdgeID, TopEdgeID, BottomEdgeID FROM DetailsListsContents WHERE (ItemID = @ItemID)";
+            this._adapter.InsertCommand.CommandText = "INSERT INTO Materials\r\n               (Name, HaveDirection, Remarks)\r\nVALUES  (@N" +
+                "ame,@HaveDirection,@Remarks);   \r\nSELECT MaterialID, Name, HaveDirection, Remark" +
+                "s FROM Materials WHERE (MaterialID = @MaterialID)";
             this._adapter.InsertCommand.CommandType = System.Data.CommandType.Text;
-            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@DetailsListID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "DetailsListID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Name", System.Data.SqlDbType.NChar, 10, System.Data.ParameterDirection.Input, 0, 0, "Name", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Height", System.Data.SqlDbType.Decimal, 9, System.Data.ParameterDirection.Input, 18, 0, "Height", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Width", System.Data.SqlDbType.Decimal, 9, System.Data.ParameterDirection.Input, 18, 0, "Width", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Quantity", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "Quantity", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Name", System.Data.SqlDbType.NVarChar, 50, System.Data.ParameterDirection.Input, 0, 0, "Name", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@HaveDirection", System.Data.SqlDbType.Bit, 1, System.Data.ParameterDirection.Input, 0, 0, "HaveDirection", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Remarks", System.Data.SqlDbType.Text, 2147483647, System.Data.ParameterDirection.Input, 0, 0, "Remarks", System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@MaterialID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "MaterialID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@LeftEdgeID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "LeftEdgeID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@RightEdgeID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "RightEdgeID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@TopEdgeID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "TopEdgeID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@BottomEdgeID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "BottomEdgeID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@ItemID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "ItemID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand = new System.Data.SqlClient.SqlCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = @"UPDATE DetailsListsContents
-SET        DetailsListID = @DetailsListID, Name = @Name, Height = @Height, Width = @Width, Quantity = @Quantity, MaterialID = @MaterialID, LeftEdgeID = @LeftEdgeID, 
-               RightEdgeID = @RightEdgeID, TopEdgeID = @TopEdgeID, BottomEdgeID = @BottomEdgeID
-WHERE  (ItemID = @Original_ItemID) AND (DetailsListID = @Original_DetailsListID) AND (@IsNull_Name = 1 AND Name IS NULL OR
-               Name = @Original_Name) AND (Height = @Original_Height) AND (Width = @Original_Width) AND (Quantity = @Original_Quantity) AND (@IsNull_MaterialID = 1 AND 
-               MaterialID IS NULL OR
-               MaterialID = @Original_MaterialID) AND (@IsNull_LeftEdgeID = 1 AND LeftEdgeID IS NULL OR
-               LeftEdgeID = @Original_LeftEdgeID) AND (@IsNull_RightEdgeID = 1 AND RightEdgeID IS NULL OR
-               RightEdgeID = @Original_RightEdgeID) AND (@IsNull_TopEdgeID = 1 AND TopEdgeID IS NULL OR
-               TopEdgeID = @Original_TopEdgeID) AND (@IsNull_BottomEdgeID = 1 AND BottomEdgeID IS NULL OR
-               BottomEdgeID = @Original_BottomEdgeID); 
-SELECT ItemID, DetailsListID, Name, Height, Width, Quantity, MaterialID, LeftEdgeID, RightEdgeID, TopEdgeID, BottomEdgeID FROM DetailsListsContents WHERE (ItemID = @ItemID)";
+            this._adapter.UpdateCommand.CommandText = "UPDATE Materials\r\nSET        Name = @Name, HaveDirection = @HaveDirection, Remark" +
+                "s = @Remarks\r\nWHERE  (MaterialID = @Original_MaterialID); \r\nSELECT MaterialID, N" +
+                "ame, HaveDirection, Remarks FROM Materials WHERE (MaterialID = @MaterialID)";
             this._adapter.UpdateCommand.CommandType = System.Data.CommandType.Text;
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@DetailsListID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "DetailsListID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Name", System.Data.SqlDbType.NChar, 10, System.Data.ParameterDirection.Input, 0, 0, "Name", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Height", System.Data.SqlDbType.Decimal, 9, System.Data.ParameterDirection.Input, 18, 0, "Height", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Width", System.Data.SqlDbType.Decimal, 9, System.Data.ParameterDirection.Input, 18, 0, "Width", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Quantity", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "Quantity", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@MaterialID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "MaterialID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@LeftEdgeID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "LeftEdgeID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@RightEdgeID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "RightEdgeID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@TopEdgeID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "TopEdgeID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@BottomEdgeID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "BottomEdgeID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_ItemID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "ItemID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_DetailsListID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "DetailsListID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@IsNull_Name", System.Data.SqlDbType.VarChar, 1024, System.Data.ParameterDirection.Input, 0, 0, "", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_Name", System.Data.SqlDbType.NChar, 10, System.Data.ParameterDirection.Input, 0, 0, "Name", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_Height", System.Data.SqlDbType.Decimal, 9, System.Data.ParameterDirection.Input, 18, 0, "Height", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_Width", System.Data.SqlDbType.Decimal, 9, System.Data.ParameterDirection.Input, 18, 0, "Width", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_Quantity", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "Quantity", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@IsNull_MaterialID", System.Data.SqlDbType.VarChar, 1024, System.Data.ParameterDirection.Input, 0, 0, "", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Name", System.Data.SqlDbType.NVarChar, 50, System.Data.ParameterDirection.Input, 0, 0, "Name", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@HaveDirection", System.Data.SqlDbType.Bit, 1, System.Data.ParameterDirection.Input, 0, 0, "HaveDirection", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Remarks", System.Data.SqlDbType.Text, 2147483647, System.Data.ParameterDirection.Input, 0, 0, "Remarks", System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_MaterialID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "MaterialID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@IsNull_LeftEdgeID", System.Data.SqlDbType.VarChar, 1024, System.Data.ParameterDirection.Input, 0, 0, "", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_LeftEdgeID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "LeftEdgeID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@IsNull_RightEdgeID", System.Data.SqlDbType.VarChar, 1024, System.Data.ParameterDirection.Input, 0, 0, "", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_RightEdgeID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "RightEdgeID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@IsNull_TopEdgeID", System.Data.SqlDbType.VarChar, 1024, System.Data.ParameterDirection.Input, 0, 0, "", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_TopEdgeID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "TopEdgeID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@IsNull_BottomEdgeID", System.Data.SqlDbType.VarChar, 1024, System.Data.ParameterDirection.Input, 0, 0, "", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_BottomEdgeID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "BottomEdgeID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@ItemID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "ItemID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@MaterialID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "MaterialID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
         }
         
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
         private void InitConnection() {
             this._connection = new System.Data.SqlClient.SqlConnection();
-            this._connection.ConnectionString = global::Denisenko.Cutting.CutOptima.Properties.Settings.Default.OrdersConnectionString;
+            this._connection.ConnectionString = global::Denisenko.Cutting.CutOptima.Properties.Settings.Default.CutOptimaConnectionString;
         }
         
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2615,15 +4912,14 @@ SELECT ItemID, DetailsListID, Name, Height, Width, Quantity, MaterialID, LeftEdg
             this._commandCollection = new System.Data.SqlClient.SqlCommand[1];
             this._commandCollection[0] = new System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT ItemID, DetailsListID, Name, Height, Width, Quantity, MaterialID, LeftEdge" +
-                "ID, RightEdgeID, TopEdgeID, BottomEdgeID FROM dbo.DetailsListsContents";
+            this._commandCollection[0].CommandText = "SELECT MaterialID, Name, HaveDirection, Remarks FROM dbo.Materials";
             this._commandCollection[0].CommandType = System.Data.CommandType.Text;
         }
         
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Fill, true)]
-        public virtual int Fill(DataSet.DetailsListsContentsDataTable dataTable) {
+        public virtual int Fill(DataSet.MaterialsDataTable dataTable) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
             if ((this.ClearBeforeFill == true)) {
                 dataTable.Clear();
@@ -2635,23 +4931,23 @@ SELECT ItemID, DetailsListID, Name, Height, Width, Quantity, MaterialID, LeftEdg
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual DataSet.DetailsListsContentsDataTable GetData() {
+        public virtual DataSet.MaterialsDataTable GetData() {
             this.Adapter.SelectCommand = this.CommandCollection[0];
-            DataSet.DetailsListsContentsDataTable dataTable = new DataSet.DetailsListsContentsDataTable();
+            DataSet.MaterialsDataTable dataTable = new DataSet.MaterialsDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
         }
         
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(DataSet.DetailsListsContentsDataTable dataTable) {
+        public virtual int Update(DataSet.MaterialsDataTable dataTable) {
             return this.Adapter.Update(dataTable);
         }
         
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual int Update(DataSet dataSet) {
-            return this.Adapter.Update(dataSet, "DetailsListsContents");
+            return this.Adapter.Update(dataSet, "Materials");
         }
         
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2670,596 +4966,588 @@ SELECT ItemID, DetailsListID, Name, Height, Width, Quantity, MaterialID, LeftEdg
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(int Original_ItemID, int Original_DetailsListID, string Original_Name, decimal Original_Height, decimal Original_Width, int Original_Quantity, System.Nullable<int> Original_MaterialID, System.Nullable<int> Original_LeftEdgeID, System.Nullable<int> Original_RightEdgeID, System.Nullable<int> Original_TopEdgeID, System.Nullable<int> Original_BottomEdgeID) {
-            this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_ItemID));
-            this.Adapter.DeleteCommand.Parameters[1].Value = ((int)(Original_DetailsListID));
-            if ((Original_Name == null)) {
-                this.Adapter.DeleteCommand.Parameters[2].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[3].Value = System.DBNull.Value;
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[2].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[3].Value = ((string)(Original_Name));
-            }
-            this.Adapter.DeleteCommand.Parameters[4].Value = ((decimal)(Original_Height));
-            this.Adapter.DeleteCommand.Parameters[5].Value = ((decimal)(Original_Width));
-            this.Adapter.DeleteCommand.Parameters[6].Value = ((int)(Original_Quantity));
-            if ((Original_MaterialID.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[7].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[8].Value = ((int)(Original_MaterialID.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[7].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[8].Value = System.DBNull.Value;
-            }
-            if ((Original_LeftEdgeID.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[9].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[10].Value = ((int)(Original_LeftEdgeID.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[9].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[10].Value = System.DBNull.Value;
-            }
-            if ((Original_RightEdgeID.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[11].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[12].Value = ((int)(Original_RightEdgeID.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[11].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[12].Value = System.DBNull.Value;
-            }
-            if ((Original_TopEdgeID.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[13].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[14].Value = ((int)(Original_TopEdgeID.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[13].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[14].Value = System.DBNull.Value;
-            }
-            if ((Original_BottomEdgeID.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[15].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[16].Value = ((int)(Original_BottomEdgeID.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[15].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[16].Value = System.DBNull.Value;
-            }
-            System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
-            if (((this.Adapter.DeleteCommand.Connection.State & System.Data.ConnectionState.Open) 
-                        != System.Data.ConnectionState.Open)) {
-                this.Adapter.DeleteCommand.Connection.Open();
-            }
-            try {
-                int returnValue = this.Adapter.DeleteCommand.ExecuteNonQuery();
-                return returnValue;
-            }
-            finally {
-                if ((previousConnectionState == System.Data.ConnectionState.Closed)) {
-                    this.Adapter.DeleteCommand.Connection.Close();
-                }
-            }
-        }
-        
-        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(int DetailsListID, string Name, decimal Height, decimal Width, int Quantity, System.Nullable<int> MaterialID, System.Nullable<int> LeftEdgeID, System.Nullable<int> RightEdgeID, System.Nullable<int> TopEdgeID, System.Nullable<int> BottomEdgeID, int ItemID) {
-            this.Adapter.InsertCommand.Parameters[0].Value = ((int)(DetailsListID));
-            if ((Name == null)) {
-                this.Adapter.InsertCommand.Parameters[1].Value = System.DBNull.Value;
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[1].Value = ((string)(Name));
-            }
-            this.Adapter.InsertCommand.Parameters[2].Value = ((decimal)(Height));
-            this.Adapter.InsertCommand.Parameters[3].Value = ((decimal)(Width));
-            this.Adapter.InsertCommand.Parameters[4].Value = ((int)(Quantity));
-            if ((MaterialID.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[5].Value = ((int)(MaterialID.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[5].Value = System.DBNull.Value;
-            }
-            if ((LeftEdgeID.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[6].Value = ((int)(LeftEdgeID.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[6].Value = System.DBNull.Value;
-            }
-            if ((RightEdgeID.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[7].Value = ((int)(RightEdgeID.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[7].Value = System.DBNull.Value;
-            }
-            if ((TopEdgeID.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[8].Value = ((int)(TopEdgeID.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[8].Value = System.DBNull.Value;
-            }
-            if ((BottomEdgeID.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[9].Value = ((int)(BottomEdgeID.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[9].Value = System.DBNull.Value;
-            }
-            this.Adapter.InsertCommand.Parameters[10].Value = ((int)(ItemID));
-            System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
-            if (((this.Adapter.InsertCommand.Connection.State & System.Data.ConnectionState.Open) 
-                        != System.Data.ConnectionState.Open)) {
-                this.Adapter.InsertCommand.Connection.Open();
-            }
-            try {
-                int returnValue = this.Adapter.InsertCommand.ExecuteNonQuery();
-                return returnValue;
-            }
-            finally {
-                if ((previousConnectionState == System.Data.ConnectionState.Closed)) {
-                    this.Adapter.InsertCommand.Connection.Close();
-                }
-            }
-        }
-        
-        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(
-                    int DetailsListID, 
-                    string Name, 
-                    decimal Height, 
-                    decimal Width, 
-                    int Quantity, 
-                    System.Nullable<int> MaterialID, 
-                    System.Nullable<int> LeftEdgeID, 
-                    System.Nullable<int> RightEdgeID, 
-                    System.Nullable<int> TopEdgeID, 
-                    System.Nullable<int> BottomEdgeID, 
-                    int Original_ItemID, 
-                    int Original_DetailsListID, 
-                    string IsNull_Name, 
-                    string Original_Name, 
-                    decimal Original_Height, 
-                    decimal Original_Width, 
-                    int Original_Quantity, 
-                    string IsNull_MaterialID, 
-                    System.Nullable<int> Original_MaterialID, 
-                    string IsNull_LeftEdgeID, 
-                    System.Nullable<int> Original_LeftEdgeID, 
-                    string IsNull_RightEdgeID, 
-                    System.Nullable<int> Original_RightEdgeID, 
-                    string IsNull_TopEdgeID, 
-                    System.Nullable<int> Original_TopEdgeID, 
-                    string IsNull_BottomEdgeID, 
-                    System.Nullable<int> Original_BottomEdgeID, 
-                    int ItemID) {
-            this.Adapter.UpdateCommand.Parameters[0].Value = ((int)(DetailsListID));
-            if ((Name == null)) {
-                this.Adapter.UpdateCommand.Parameters[1].Value = System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[1].Value = ((string)(Name));
-            }
-            this.Adapter.UpdateCommand.Parameters[2].Value = ((decimal)(Height));
-            this.Adapter.UpdateCommand.Parameters[3].Value = ((decimal)(Width));
-            this.Adapter.UpdateCommand.Parameters[4].Value = ((int)(Quantity));
-            if ((MaterialID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[5].Value = ((int)(MaterialID.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[5].Value = System.DBNull.Value;
-            }
-            if ((LeftEdgeID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[6].Value = ((int)(LeftEdgeID.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[6].Value = System.DBNull.Value;
-            }
-            if ((RightEdgeID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[7].Value = ((int)(RightEdgeID.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[7].Value = System.DBNull.Value;
-            }
-            if ((TopEdgeID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[8].Value = ((int)(TopEdgeID.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[8].Value = System.DBNull.Value;
-            }
-            if ((BottomEdgeID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[9].Value = ((int)(BottomEdgeID.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[9].Value = System.DBNull.Value;
-            }
-            this.Adapter.UpdateCommand.Parameters[10].Value = ((int)(Original_ItemID));
-            this.Adapter.UpdateCommand.Parameters[11].Value = ((int)(Original_DetailsListID));
-            if ((IsNull_Name == null)) {
-                throw new System.ArgumentNullException("IsNull_Name");
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[12].Value = ((string)(IsNull_Name));
-            }
-            if ((Original_Name == null)) {
-                this.Adapter.UpdateCommand.Parameters[13].Value = System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[13].Value = ((string)(Original_Name));
-            }
-            this.Adapter.UpdateCommand.Parameters[14].Value = ((decimal)(Original_Height));
-            this.Adapter.UpdateCommand.Parameters[15].Value = ((decimal)(Original_Width));
-            this.Adapter.UpdateCommand.Parameters[16].Value = ((int)(Original_Quantity));
-            if ((IsNull_MaterialID == null)) {
-                throw new System.ArgumentNullException("IsNull_MaterialID");
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[17].Value = ((string)(IsNull_MaterialID));
-            }
-            if ((Original_MaterialID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[18].Value = ((int)(Original_MaterialID.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[18].Value = System.DBNull.Value;
-            }
-            if ((IsNull_LeftEdgeID == null)) {
-                throw new System.ArgumentNullException("IsNull_LeftEdgeID");
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[19].Value = ((string)(IsNull_LeftEdgeID));
-            }
-            if ((Original_LeftEdgeID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[20].Value = ((int)(Original_LeftEdgeID.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[20].Value = System.DBNull.Value;
-            }
-            if ((IsNull_RightEdgeID == null)) {
-                throw new System.ArgumentNullException("IsNull_RightEdgeID");
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[21].Value = ((string)(IsNull_RightEdgeID));
-            }
-            if ((Original_RightEdgeID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[22].Value = ((int)(Original_RightEdgeID.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[22].Value = System.DBNull.Value;
-            }
-            if ((IsNull_TopEdgeID == null)) {
-                throw new System.ArgumentNullException("IsNull_TopEdgeID");
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[23].Value = ((string)(IsNull_TopEdgeID));
-            }
-            if ((Original_TopEdgeID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[24].Value = ((int)(Original_TopEdgeID.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[24].Value = System.DBNull.Value;
-            }
-            if ((IsNull_BottomEdgeID == null)) {
-                throw new System.ArgumentNullException("IsNull_BottomEdgeID");
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[25].Value = ((string)(IsNull_BottomEdgeID));
-            }
-            if ((Original_BottomEdgeID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[26].Value = ((int)(Original_BottomEdgeID.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[26].Value = System.DBNull.Value;
-            }
-            this.Adapter.UpdateCommand.Parameters[27].Value = ((int)(ItemID));
-            System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
-            if (((this.Adapter.UpdateCommand.Connection.State & System.Data.ConnectionState.Open) 
-                        != System.Data.ConnectionState.Open)) {
-                this.Adapter.UpdateCommand.Connection.Open();
-            }
-            try {
-                int returnValue = this.Adapter.UpdateCommand.ExecuteNonQuery();
-                return returnValue;
-            }
-            finally {
-                if ((previousConnectionState == System.Data.ConnectionState.Closed)) {
-                    this.Adapter.UpdateCommand.Connection.Close();
-                }
-            }
-        }
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.ComponentModel.ToolboxItem(true)]
-    [System.ComponentModel.DataObjectAttribute(true)]
-    [System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
-        ", Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
-    [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-    public partial class ReferenceDetailsTableAdapter : System.ComponentModel.Component {
-        
-        private System.Data.SqlClient.SqlDataAdapter _adapter;
-        
-        private System.Data.SqlClient.SqlConnection _connection;
-        
-        private System.Data.SqlClient.SqlCommand[] _commandCollection;
-        
-        private bool _clearBeforeFill;
-        
-        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public ReferenceDetailsTableAdapter() {
-            this.ClearBeforeFill = true;
-        }
-        
-        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        private System.Data.SqlClient.SqlDataAdapter Adapter {
-            get {
-                if ((this._adapter == null)) {
-                    this.InitAdapter();
-                }
-                return this._adapter;
-            }
-        }
-        
-        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        internal System.Data.SqlClient.SqlConnection Connection {
-            get {
-                if ((this._connection == null)) {
-                    this.InitConnection();
-                }
-                return this._connection;
-            }
-            set {
-                this._connection = value;
-                if ((this.Adapter.InsertCommand != null)) {
-                    this.Adapter.InsertCommand.Connection = value;
-                }
-                if ((this.Adapter.DeleteCommand != null)) {
-                    this.Adapter.DeleteCommand.Connection = value;
-                }
-                if ((this.Adapter.UpdateCommand != null)) {
-                    this.Adapter.UpdateCommand.Connection = value;
-                }
-                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
-                    if ((this.CommandCollection[i] != null)) {
-                        ((System.Data.SqlClient.SqlCommand)(this.CommandCollection[i])).Connection = value;
-                    }
-                }
-            }
-        }
-        
-        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        protected System.Data.SqlClient.SqlCommand[] CommandCollection {
-            get {
-                if ((this._commandCollection == null)) {
-                    this.InitCommandCollection();
-                }
-                return this._commandCollection;
-            }
-        }
-        
-        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public bool ClearBeforeFill {
-            get {
-                return this._clearBeforeFill;
-            }
-            set {
-                this._clearBeforeFill = value;
-            }
-        }
-        
-        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        private void InitAdapter() {
-            this._adapter = new System.Data.SqlClient.SqlDataAdapter();
-            System.Data.Common.DataTableMapping tableMapping = new System.Data.Common.DataTableMapping();
-            tableMapping.SourceTable = "Table";
-            tableMapping.DataSetTable = "ReferenceDetails";
-            tableMapping.ColumnMappings.Add("DetailID", "DetailID");
-            tableMapping.ColumnMappings.Add("Name", "Name");
-            tableMapping.ColumnMappings.Add("Width", "Width");
-            tableMapping.ColumnMappings.Add("Height", "Height");
-            tableMapping.ColumnMappings.Add("MaterialID", "MaterialID");
-            tableMapping.ColumnMappings.Add("LeftEdgeID", "LeftEdgeID");
-            tableMapping.ColumnMappings.Add("RightEdgeID", "RightEdgeID");
-            tableMapping.ColumnMappings.Add("TopEdgeID", "TopEdgeID");
-            tableMapping.ColumnMappings.Add("BottomEdgeID", "BottomEdgeID");
-            this._adapter.TableMappings.Add(tableMapping);
-            this._adapter.DeleteCommand = new System.Data.SqlClient.SqlCommand();
-            this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = @"DELETE FROM [dbo].[ReferenceDetails] WHERE (([DetailID] = @Original_DetailID) AND ([Name] = @Original_Name) AND ((@IsNull_Width = 1 AND [Width] IS NULL) OR ([Width] = @Original_Width)) AND ((@IsNull_Height = 1 AND [Height] IS NULL) OR ([Height] = @Original_Height)) AND ((@IsNull_MaterialID = 1 AND [MaterialID] IS NULL) OR ([MaterialID] = @Original_MaterialID)) AND ((@IsNull_LeftEdgeID = 1 AND [LeftEdgeID] IS NULL) OR ([LeftEdgeID] = @Original_LeftEdgeID)) AND ((@IsNull_RightEdgeID = 1 AND [RightEdgeID] IS NULL) OR ([RightEdgeID] = @Original_RightEdgeID)) AND ((@IsNull_TopEdgeID = 1 AND [TopEdgeID] IS NULL) OR ([TopEdgeID] = @Original_TopEdgeID)) AND ((@IsNull_BottomEdgeID = 1 AND [BottomEdgeID] IS NULL) OR ([BottomEdgeID] = @Original_BottomEdgeID)))";
-            this._adapter.DeleteCommand.CommandType = System.Data.CommandType.Text;
-            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_DetailID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "DetailID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_Name", System.Data.SqlDbType.NChar, 0, System.Data.ParameterDirection.Input, 0, 0, "Name", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@IsNull_Width", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "Width", System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_Width", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 0, "Width", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@IsNull_Height", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "Height", System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_Height", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 0, "Height", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@IsNull_MaterialID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "MaterialID", System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_MaterialID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "MaterialID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@IsNull_LeftEdgeID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "LeftEdgeID", System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_LeftEdgeID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "LeftEdgeID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@IsNull_RightEdgeID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "RightEdgeID", System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_RightEdgeID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "RightEdgeID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@IsNull_TopEdgeID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "TopEdgeID", System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_TopEdgeID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "TopEdgeID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@IsNull_BottomEdgeID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "BottomEdgeID", System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_BottomEdgeID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "BottomEdgeID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.InsertCommand = new System.Data.SqlClient.SqlCommand();
-            this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = @"INSERT INTO ReferenceDetails
-               (Name, Width, Height, MaterialID, LeftEdgeID, RightEdgeID, TopEdgeID, BottomEdgeID)
-VALUES  (@Name,@Width,@Height,@MaterialID,@LeftEdgeID,@RightEdgeID,@TopEdgeID,@BottomEdgeID); 
-SELECT DetailID, Name, Width, Height, MaterialID, LeftEdgeID, RightEdgeID, TopEdgeID, BottomEdgeID FROM ReferenceDetails WHERE (DetailID = @DetailID)";
-            this._adapter.InsertCommand.CommandType = System.Data.CommandType.Text;
-            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Name", System.Data.SqlDbType.NChar, 10, System.Data.ParameterDirection.Input, 0, 0, "Name", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Width", System.Data.SqlDbType.Decimal, 9, System.Data.ParameterDirection.Input, 18, 0, "Width", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Height", System.Data.SqlDbType.Decimal, 9, System.Data.ParameterDirection.Input, 18, 0, "Height", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@MaterialID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "MaterialID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@LeftEdgeID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "LeftEdgeID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@RightEdgeID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "RightEdgeID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@TopEdgeID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "TopEdgeID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@BottomEdgeID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "BottomEdgeID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@DetailID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "DetailID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand = new System.Data.SqlClient.SqlCommand();
-            this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = @"UPDATE [dbo].[ReferenceDetails] SET [DetailID] = @DetailID, [Name] = @Name, [Width] = @Width, [Height] = @Height, [MaterialID] = @MaterialID, [LeftEdgeID] = @LeftEdgeID, [RightEdgeID] = @RightEdgeID, [TopEdgeID] = @TopEdgeID, [BottomEdgeID] = @BottomEdgeID WHERE (([DetailID] = @Original_DetailID) AND ([Name] = @Original_Name) AND ((@IsNull_Width = 1 AND [Width] IS NULL) OR ([Width] = @Original_Width)) AND ((@IsNull_Height = 1 AND [Height] IS NULL) OR ([Height] = @Original_Height)) AND ((@IsNull_MaterialID = 1 AND [MaterialID] IS NULL) OR ([MaterialID] = @Original_MaterialID)) AND ((@IsNull_LeftEdgeID = 1 AND [LeftEdgeID] IS NULL) OR ([LeftEdgeID] = @Original_LeftEdgeID)) AND ((@IsNull_RightEdgeID = 1 AND [RightEdgeID] IS NULL) OR ([RightEdgeID] = @Original_RightEdgeID)) AND ((@IsNull_TopEdgeID = 1 AND [TopEdgeID] IS NULL) OR ([TopEdgeID] = @Original_TopEdgeID)) AND ((@IsNull_BottomEdgeID = 1 AND [BottomEdgeID] IS NULL) OR ([BottomEdgeID] = @Original_BottomEdgeID)));
-SELECT DetailID, Name, Width, Height, MaterialID, LeftEdgeID, RightEdgeID, TopEdgeID, BottomEdgeID FROM ReferenceDetails WHERE (DetailID = @DetailID)";
-            this._adapter.UpdateCommand.CommandType = System.Data.CommandType.Text;
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@DetailID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "DetailID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Name", System.Data.SqlDbType.NChar, 0, System.Data.ParameterDirection.Input, 0, 0, "Name", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Width", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 0, "Width", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Height", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 0, "Height", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@MaterialID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "MaterialID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@LeftEdgeID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "LeftEdgeID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@RightEdgeID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "RightEdgeID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@TopEdgeID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "TopEdgeID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@BottomEdgeID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "BottomEdgeID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_DetailID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "DetailID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_Name", System.Data.SqlDbType.NChar, 0, System.Data.ParameterDirection.Input, 0, 0, "Name", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@IsNull_Width", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "Width", System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_Width", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 0, "Width", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@IsNull_Height", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "Height", System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_Height", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 0, "Height", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@IsNull_MaterialID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "MaterialID", System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_MaterialID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "MaterialID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@IsNull_LeftEdgeID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "LeftEdgeID", System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_LeftEdgeID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "LeftEdgeID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@IsNull_RightEdgeID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "RightEdgeID", System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_RightEdgeID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "RightEdgeID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@IsNull_TopEdgeID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "TopEdgeID", System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_TopEdgeID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "TopEdgeID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@IsNull_BottomEdgeID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "BottomEdgeID", System.Data.DataRowVersion.Original, true, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_BottomEdgeID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "BottomEdgeID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
-        }
-        
-        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        private void InitConnection() {
-            this._connection = new System.Data.SqlClient.SqlConnection();
-            this._connection.ConnectionString = global::Denisenko.Cutting.CutOptima.Properties.Settings.Default.OrdersConnectionString;
-        }
-        
-        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        private void InitCommandCollection() {
-            this._commandCollection = new System.Data.SqlClient.SqlCommand[1];
-            this._commandCollection[0] = new System.Data.SqlClient.SqlCommand();
-            this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT DetailID, Name, Width, Height, MaterialID, LeftEdgeID, RightEdgeID, TopEdg" +
-                "eID, BottomEdgeID FROM dbo.ReferenceDetails";
-            this._commandCollection[0].CommandType = System.Data.CommandType.Text;
-        }
-        
-        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Fill, true)]
-        public virtual int Fill(DataSet.ReferenceDetailsDataTable dataTable) {
-            this.Adapter.SelectCommand = this.CommandCollection[0];
-            if ((this.ClearBeforeFill == true)) {
-                dataTable.Clear();
-            }
-            int returnValue = this.Adapter.Fill(dataTable);
-            return returnValue;
-        }
-        
-        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual DataSet.ReferenceDetailsDataTable GetData() {
-            this.Adapter.SelectCommand = this.CommandCollection[0];
-            DataSet.ReferenceDetailsDataTable dataTable = new DataSet.ReferenceDetailsDataTable();
-            this.Adapter.Fill(dataTable);
-            return dataTable;
-        }
-        
-        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(DataSet.ReferenceDetailsDataTable dataTable) {
-            return this.Adapter.Update(dataTable);
-        }
-        
-        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(DataSet dataSet) {
-            return this.Adapter.Update(dataSet, "ReferenceDetails");
-        }
-        
-        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(System.Data.DataRow dataRow) {
-            return this.Adapter.Update(new System.Data.DataRow[] {
-                        dataRow});
-        }
-        
-        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(System.Data.DataRow[] dataRows) {
-            return this.Adapter.Update(dataRows);
-        }
-        
-        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(int Original_DetailID, string Original_Name, System.Nullable<decimal> Original_Width, System.Nullable<decimal> Original_Height, System.Nullable<int> Original_MaterialID, System.Nullable<int> Original_LeftEdgeID, System.Nullable<int> Original_RightEdgeID, System.Nullable<int> Original_TopEdgeID, System.Nullable<int> Original_BottomEdgeID) {
-            this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_DetailID));
+        public virtual int Delete(int Original_MaterialID, string Original_Name, bool Original_HaveDirection) {
+            this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_MaterialID));
             if ((Original_Name == null)) {
                 throw new System.ArgumentNullException("Original_Name");
             }
             else {
                 this.Adapter.DeleteCommand.Parameters[1].Value = ((string)(Original_Name));
             }
-            if ((Original_Width.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[2].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[3].Value = ((decimal)(Original_Width.Value));
+            this.Adapter.DeleteCommand.Parameters[2].Value = ((bool)(Original_HaveDirection));
+            System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
+            if (((this.Adapter.DeleteCommand.Connection.State & System.Data.ConnectionState.Open) 
+                        != System.Data.ConnectionState.Open)) {
+                this.Adapter.DeleteCommand.Connection.Open();
+            }
+            try {
+                int returnValue = this.Adapter.DeleteCommand.ExecuteNonQuery();
+                return returnValue;
+            }
+            finally {
+                if ((previousConnectionState == System.Data.ConnectionState.Closed)) {
+                    this.Adapter.DeleteCommand.Connection.Close();
+                }
+            }
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Insert, true)]
+        public virtual int Insert(string Name, bool HaveDirection, string Remarks, int MaterialID) {
+            if ((Name == null)) {
+                throw new System.ArgumentNullException("Name");
             }
             else {
-                this.Adapter.DeleteCommand.Parameters[2].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[3].Value = System.DBNull.Value;
+                this.Adapter.InsertCommand.Parameters[0].Value = ((string)(Name));
             }
-            if ((Original_Height.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[4].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[5].Value = ((decimal)(Original_Height.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[4].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[5].Value = System.DBNull.Value;
-            }
-            if ((Original_MaterialID.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[6].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[7].Value = ((int)(Original_MaterialID.Value));
+            this.Adapter.InsertCommand.Parameters[1].Value = ((bool)(HaveDirection));
+            if ((Remarks == null)) {
+                this.Adapter.InsertCommand.Parameters[2].Value = System.DBNull.Value;
             }
             else {
-                this.Adapter.DeleteCommand.Parameters[6].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[7].Value = System.DBNull.Value;
+                this.Adapter.InsertCommand.Parameters[2].Value = ((string)(Remarks));
             }
-            if ((Original_LeftEdgeID.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[8].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[9].Value = ((int)(Original_LeftEdgeID.Value));
+            this.Adapter.InsertCommand.Parameters[3].Value = ((int)(MaterialID));
+            System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
+            if (((this.Adapter.InsertCommand.Connection.State & System.Data.ConnectionState.Open) 
+                        != System.Data.ConnectionState.Open)) {
+                this.Adapter.InsertCommand.Connection.Open();
             }
-            else {
-                this.Adapter.DeleteCommand.Parameters[8].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[9].Value = System.DBNull.Value;
+            try {
+                int returnValue = this.Adapter.InsertCommand.ExecuteNonQuery();
+                return returnValue;
             }
-            if ((Original_RightEdgeID.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[10].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[11].Value = ((int)(Original_RightEdgeID.Value));
+            finally {
+                if ((previousConnectionState == System.Data.ConnectionState.Closed)) {
+                    this.Adapter.InsertCommand.Connection.Close();
+                }
             }
-            else {
-                this.Adapter.DeleteCommand.Parameters[10].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[11].Value = System.DBNull.Value;
-            }
-            if ((Original_TopEdgeID.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[12].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[13].Value = ((int)(Original_TopEdgeID.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[12].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[13].Value = System.DBNull.Value;
-            }
-            if ((Original_BottomEdgeID.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[14].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[15].Value = ((int)(Original_BottomEdgeID.Value));
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Update, true)]
+        public virtual int Update(string Name, bool HaveDirection, string Remarks, int Original_MaterialID, int MaterialID) {
+            if ((Name == null)) {
+                throw new System.ArgumentNullException("Name");
             }
             else {
-                this.Adapter.DeleteCommand.Parameters[14].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[15].Value = System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[0].Value = ((string)(Name));
+            }
+            this.Adapter.UpdateCommand.Parameters[1].Value = ((bool)(HaveDirection));
+            if ((Remarks == null)) {
+                this.Adapter.UpdateCommand.Parameters[2].Value = System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[2].Value = ((string)(Remarks));
+            }
+            this.Adapter.UpdateCommand.Parameters[3].Value = ((int)(Original_MaterialID));
+            this.Adapter.UpdateCommand.Parameters[4].Value = ((int)(MaterialID));
+            System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
+            if (((this.Adapter.UpdateCommand.Connection.State & System.Data.ConnectionState.Open) 
+                        != System.Data.ConnectionState.Open)) {
+                this.Adapter.UpdateCommand.Connection.Open();
+            }
+            try {
+                int returnValue = this.Adapter.UpdateCommand.ExecuteNonQuery();
+                return returnValue;
+            }
+            finally {
+                if ((previousConnectionState == System.Data.ConnectionState.Closed)) {
+                    this.Adapter.UpdateCommand.Connection.Close();
+                }
+            }
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.ComponentModel.ToolboxItem(true)]
+    [System.ComponentModel.DataObjectAttribute(true)]
+    [System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
+        ", Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
+    [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+    public partial class SheetsTableAdapter : System.ComponentModel.Component {
+        
+        private System.Data.SqlClient.SqlDataAdapter _adapter;
+        
+        private System.Data.SqlClient.SqlConnection _connection;
+        
+        private System.Data.SqlClient.SqlCommand[] _commandCollection;
+        
+        private bool _clearBeforeFill;
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public SheetsTableAdapter() {
+            this.ClearBeforeFill = true;
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private System.Data.SqlClient.SqlDataAdapter Adapter {
+            get {
+                if ((this._adapter == null)) {
+                    this.InitAdapter();
+                }
+                return this._adapter;
+            }
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        internal System.Data.SqlClient.SqlConnection Connection {
+            get {
+                if ((this._connection == null)) {
+                    this.InitConnection();
+                }
+                return this._connection;
+            }
+            set {
+                this._connection = value;
+                if ((this.Adapter.InsertCommand != null)) {
+                    this.Adapter.InsertCommand.Connection = value;
+                }
+                if ((this.Adapter.DeleteCommand != null)) {
+                    this.Adapter.DeleteCommand.Connection = value;
+                }
+                if ((this.Adapter.UpdateCommand != null)) {
+                    this.Adapter.UpdateCommand.Connection = value;
+                }
+                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
+                    if ((this.CommandCollection[i] != null)) {
+                        ((System.Data.SqlClient.SqlCommand)(this.CommandCollection[i])).Connection = value;
+                    }
+                }
+            }
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        protected System.Data.SqlClient.SqlCommand[] CommandCollection {
+            get {
+                if ((this._commandCollection == null)) {
+                    this.InitCommandCollection();
+                }
+                return this._commandCollection;
+            }
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public bool ClearBeforeFill {
+            get {
+                return this._clearBeforeFill;
+            }
+            set {
+                this._clearBeforeFill = value;
+            }
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private void InitAdapter() {
+            this._adapter = new System.Data.SqlClient.SqlDataAdapter();
+            System.Data.Common.DataTableMapping tableMapping = new System.Data.Common.DataTableMapping();
+            tableMapping.SourceTable = "Table";
+            tableMapping.DataSetTable = "Sheets";
+            tableMapping.ColumnMappings.Add("SheetID", "SheetID");
+            tableMapping.ColumnMappings.Add("Name", "Name");
+            tableMapping.ColumnMappings.Add("Length", "Length");
+            tableMapping.ColumnMappings.Add("Width", "Width");
+            tableMapping.ColumnMappings.Add("MaterialID", "MaterialID");
+            this._adapter.TableMappings.Add(tableMapping);
+            this._adapter.DeleteCommand = new System.Data.SqlClient.SqlCommand();
+            this._adapter.DeleteCommand.Connection = this.Connection;
+            this._adapter.DeleteCommand.CommandText = "DELETE FROM [dbo].[Sheets] WHERE (([SheetID] = @Original_SheetID) AND ((@IsNull_N" +
+                "ame = 1 AND [Name] IS NULL) OR ([Name] = @Original_Name)) AND ([Length] = @Origi" +
+                "nal_Length) AND ([Width] = @Original_Width) AND ([MaterialID] = @Original_Materi" +
+                "alID))";
+            this._adapter.DeleteCommand.CommandType = System.Data.CommandType.Text;
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_SheetID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "SheetID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@IsNull_Name", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "Name", System.Data.DataRowVersion.Original, true, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_Name", System.Data.SqlDbType.NVarChar, 0, System.Data.ParameterDirection.Input, 0, 0, "Name", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_Length", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 3, "Length", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_Width", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 3, "Width", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_MaterialID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "MaterialID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.InsertCommand = new System.Data.SqlClient.SqlCommand();
+            this._adapter.InsertCommand.Connection = this.Connection;
+            this._adapter.InsertCommand.CommandText = "INSERT INTO [dbo].[Sheets] ([Name], [Length], [Width], [MaterialID]) VALUES (@Nam" +
+                "e, @Length, @Width, @MaterialID);\r\nSELECT SheetID, Name, Length, Width, Material" +
+                "ID FROM Sheets WHERE (SheetID = SCOPE_IDENTITY())";
+            this._adapter.InsertCommand.CommandType = System.Data.CommandType.Text;
+            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Name", System.Data.SqlDbType.NVarChar, 0, System.Data.ParameterDirection.Input, 0, 0, "Name", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Length", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 3, "Length", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Width", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 3, "Width", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@MaterialID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "MaterialID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand = new System.Data.SqlClient.SqlCommand();
+            this._adapter.UpdateCommand.Connection = this.Connection;
+            this._adapter.UpdateCommand.CommandText = @"UPDATE [dbo].[Sheets] SET [Name] = @Name, [Length] = @Length, [Width] = @Width, [MaterialID] = @MaterialID WHERE (([SheetID] = @Original_SheetID) AND ((@IsNull_Name = 1 AND [Name] IS NULL) OR ([Name] = @Original_Name)) AND ([Length] = @Original_Length) AND ([Width] = @Original_Width) AND ([MaterialID] = @Original_MaterialID));
+SELECT SheetID, Name, Length, Width, MaterialID FROM Sheets WHERE (SheetID = @SheetID)";
+            this._adapter.UpdateCommand.CommandType = System.Data.CommandType.Text;
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Name", System.Data.SqlDbType.NVarChar, 0, System.Data.ParameterDirection.Input, 0, 0, "Name", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Length", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 3, "Length", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Width", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 3, "Width", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@MaterialID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "MaterialID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_SheetID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "SheetID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@IsNull_Name", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "Name", System.Data.DataRowVersion.Original, true, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_Name", System.Data.SqlDbType.NVarChar, 0, System.Data.ParameterDirection.Input, 0, 0, "Name", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_Length", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 3, "Length", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_Width", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 3, "Width", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_MaterialID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "MaterialID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@SheetID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "SheetID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private void InitConnection() {
+            this._connection = new System.Data.SqlClient.SqlConnection();
+            this._connection.ConnectionString = global::Denisenko.Cutting.CutOptima.Properties.Settings.Default.CutOptimaConnectionString;
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private void InitCommandCollection() {
+            this._commandCollection = new System.Data.SqlClient.SqlCommand[1];
+            this._commandCollection[0] = new System.Data.SqlClient.SqlCommand();
+            this._commandCollection[0].Connection = this.Connection;
+            this._commandCollection[0].CommandText = "SELECT SheetID, Name, Length, Width, MaterialID FROM dbo.Sheets";
+            this._commandCollection[0].CommandType = System.Data.CommandType.Text;
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Fill, true)]
+        public virtual int Fill(DataSet.SheetsDataTable dataTable) {
+            this.Adapter.SelectCommand = this.CommandCollection[0];
+            if ((this.ClearBeforeFill == true)) {
+                dataTable.Clear();
+            }
+            int returnValue = this.Adapter.Fill(dataTable);
+            return returnValue;
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Select, true)]
+        public virtual DataSet.SheetsDataTable GetData() {
+            this.Adapter.SelectCommand = this.CommandCollection[0];
+            DataSet.SheetsDataTable dataTable = new DataSet.SheetsDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(DataSet.SheetsDataTable dataTable) {
+            return this.Adapter.Update(dataTable);
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(DataSet dataSet) {
+            return this.Adapter.Update(dataSet, "Sheets");
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(System.Data.DataRow dataRow) {
+            return this.Adapter.Update(new System.Data.DataRow[] {
+                        dataRow});
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(System.Data.DataRow[] dataRows) {
+            return this.Adapter.Update(dataRows);
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Delete, true)]
+        public virtual int Delete(int Original_SheetID, string Original_Name, decimal Original_Length, decimal Original_Width, int Original_MaterialID) {
+            this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_SheetID));
+            if ((Original_Name == null)) {
+                this.Adapter.DeleteCommand.Parameters[1].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[2].Value = System.DBNull.Value;
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[1].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[2].Value = ((string)(Original_Name));
+            }
+            this.Adapter.DeleteCommand.Parameters[3].Value = ((decimal)(Original_Length));
+            this.Adapter.DeleteCommand.Parameters[4].Value = ((decimal)(Original_Width));
+            this.Adapter.DeleteCommand.Parameters[5].Value = ((int)(Original_MaterialID));
+            System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
+            if (((this.Adapter.DeleteCommand.Connection.State & System.Data.ConnectionState.Open) 
+                        != System.Data.ConnectionState.Open)) {
+                this.Adapter.DeleteCommand.Connection.Open();
+            }
+            try {
+                int returnValue = this.Adapter.DeleteCommand.ExecuteNonQuery();
+                return returnValue;
+            }
+            finally {
+                if ((previousConnectionState == System.Data.ConnectionState.Closed)) {
+                    this.Adapter.DeleteCommand.Connection.Close();
+                }
+            }
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Insert, true)]
+        public virtual int Insert(string Name, decimal Length, decimal Width, int MaterialID) {
+            if ((Name == null)) {
+                this.Adapter.InsertCommand.Parameters[0].Value = System.DBNull.Value;
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[0].Value = ((string)(Name));
+            }
+            this.Adapter.InsertCommand.Parameters[1].Value = ((decimal)(Length));
+            this.Adapter.InsertCommand.Parameters[2].Value = ((decimal)(Width));
+            this.Adapter.InsertCommand.Parameters[3].Value = ((int)(MaterialID));
+            System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
+            if (((this.Adapter.InsertCommand.Connection.State & System.Data.ConnectionState.Open) 
+                        != System.Data.ConnectionState.Open)) {
+                this.Adapter.InsertCommand.Connection.Open();
+            }
+            try {
+                int returnValue = this.Adapter.InsertCommand.ExecuteNonQuery();
+                return returnValue;
+            }
+            finally {
+                if ((previousConnectionState == System.Data.ConnectionState.Closed)) {
+                    this.Adapter.InsertCommand.Connection.Close();
+                }
+            }
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Update, true)]
+        public virtual int Update(string Name, decimal Length, decimal Width, int MaterialID, int Original_SheetID, string Original_Name, decimal Original_Length, decimal Original_Width, int Original_MaterialID, int SheetID) {
+            if ((Name == null)) {
+                this.Adapter.UpdateCommand.Parameters[0].Value = System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[0].Value = ((string)(Name));
+            }
+            this.Adapter.UpdateCommand.Parameters[1].Value = ((decimal)(Length));
+            this.Adapter.UpdateCommand.Parameters[2].Value = ((decimal)(Width));
+            this.Adapter.UpdateCommand.Parameters[3].Value = ((int)(MaterialID));
+            this.Adapter.UpdateCommand.Parameters[4].Value = ((int)(Original_SheetID));
+            if ((Original_Name == null)) {
+                this.Adapter.UpdateCommand.Parameters[5].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[6].Value = System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[5].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[6].Value = ((string)(Original_Name));
+            }
+            this.Adapter.UpdateCommand.Parameters[7].Value = ((decimal)(Original_Length));
+            this.Adapter.UpdateCommand.Parameters[8].Value = ((decimal)(Original_Width));
+            this.Adapter.UpdateCommand.Parameters[9].Value = ((int)(Original_MaterialID));
+            this.Adapter.UpdateCommand.Parameters[10].Value = ((int)(SheetID));
+            System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
+            if (((this.Adapter.UpdateCommand.Connection.State & System.Data.ConnectionState.Open) 
+                        != System.Data.ConnectionState.Open)) {
+                this.Adapter.UpdateCommand.Connection.Open();
+            }
+            try {
+                int returnValue = this.Adapter.UpdateCommand.ExecuteNonQuery();
+                return returnValue;
+            }
+            finally {
+                if ((previousConnectionState == System.Data.ConnectionState.Closed)) {
+                    this.Adapter.UpdateCommand.Connection.Close();
+                }
+            }
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.ComponentModel.ToolboxItem(true)]
+    [System.ComponentModel.DataObjectAttribute(true)]
+    [System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
+        ", Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
+    [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+    public partial class CuttingResultsTableAdapter : System.ComponentModel.Component {
+        
+        private System.Data.SqlClient.SqlDataAdapter _adapter;
+        
+        private System.Data.SqlClient.SqlConnection _connection;
+        
+        private System.Data.SqlClient.SqlCommand[] _commandCollection;
+        
+        private bool _clearBeforeFill;
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public CuttingResultsTableAdapter() {
+            this.ClearBeforeFill = true;
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private System.Data.SqlClient.SqlDataAdapter Adapter {
+            get {
+                if ((this._adapter == null)) {
+                    this.InitAdapter();
+                }
+                return this._adapter;
+            }
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        internal System.Data.SqlClient.SqlConnection Connection {
+            get {
+                if ((this._connection == null)) {
+                    this.InitConnection();
+                }
+                return this._connection;
+            }
+            set {
+                this._connection = value;
+                if ((this.Adapter.InsertCommand != null)) {
+                    this.Adapter.InsertCommand.Connection = value;
+                }
+                if ((this.Adapter.DeleteCommand != null)) {
+                    this.Adapter.DeleteCommand.Connection = value;
+                }
+                if ((this.Adapter.UpdateCommand != null)) {
+                    this.Adapter.UpdateCommand.Connection = value;
+                }
+                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
+                    if ((this.CommandCollection[i] != null)) {
+                        ((System.Data.SqlClient.SqlCommand)(this.CommandCollection[i])).Connection = value;
+                    }
+                }
+            }
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        protected System.Data.SqlClient.SqlCommand[] CommandCollection {
+            get {
+                if ((this._commandCollection == null)) {
+                    this.InitCommandCollection();
+                }
+                return this._commandCollection;
+            }
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public bool ClearBeforeFill {
+            get {
+                return this._clearBeforeFill;
+            }
+            set {
+                this._clearBeforeFill = value;
+            }
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private void InitAdapter() {
+            this._adapter = new System.Data.SqlClient.SqlDataAdapter();
+            System.Data.Common.DataTableMapping tableMapping = new System.Data.Common.DataTableMapping();
+            tableMapping.SourceTable = "Table";
+            tableMapping.DataSetTable = "CuttingResults";
+            tableMapping.ColumnMappings.Add("CuttingResultID", "CuttingResultID");
+            tableMapping.ColumnMappings.Add("Data", "Data");
+            this._adapter.TableMappings.Add(tableMapping);
+            this._adapter.DeleteCommand = new System.Data.SqlClient.SqlCommand();
+            this._adapter.DeleteCommand.Connection = this.Connection;
+            this._adapter.DeleteCommand.CommandText = "DELETE FROM [dbo].[CuttingResults] WHERE (([CuttingResultID] = @Original_CuttingR" +
+                "esultID) AND ((@IsNull_Data = 1 AND [Data] IS NULL) OR ([Data] = @Original_Data)" +
+                "))";
+            this._adapter.DeleteCommand.CommandType = System.Data.CommandType.Text;
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_CuttingResultID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "CuttingResultID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@IsNull_Data", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "Data", System.Data.DataRowVersion.Original, true, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_Data", System.Data.SqlDbType.Binary, 0, System.Data.ParameterDirection.Input, 0, 0, "Data", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.InsertCommand = new System.Data.SqlClient.SqlCommand();
+            this._adapter.InsertCommand.Connection = this.Connection;
+            this._adapter.InsertCommand.CommandText = "INSERT INTO [dbo].[CuttingResults] ([Data]) VALUES (@Data);\r\nSELECT CuttingResult" +
+                "ID, Data FROM CuttingResults WHERE (CuttingResultID = SCOPE_IDENTITY())";
+            this._adapter.InsertCommand.CommandType = System.Data.CommandType.Text;
+            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Data", System.Data.SqlDbType.Binary, 0, System.Data.ParameterDirection.Input, 0, 0, "Data", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand = new System.Data.SqlClient.SqlCommand();
+            this._adapter.UpdateCommand.Connection = this.Connection;
+            this._adapter.UpdateCommand.CommandText = @"UPDATE [dbo].[CuttingResults] SET [Data] = @Data WHERE (([CuttingResultID] = @Original_CuttingResultID) AND ((@IsNull_Data = 1 AND [Data] IS NULL) OR ([Data] = @Original_Data)));
+SELECT CuttingResultID, Data FROM CuttingResults WHERE (CuttingResultID = @CuttingResultID)";
+            this._adapter.UpdateCommand.CommandType = System.Data.CommandType.Text;
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Data", System.Data.SqlDbType.Binary, 0, System.Data.ParameterDirection.Input, 0, 0, "Data", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_CuttingResultID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "CuttingResultID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@IsNull_Data", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "Data", System.Data.DataRowVersion.Original, true, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_Data", System.Data.SqlDbType.Binary, 0, System.Data.ParameterDirection.Input, 0, 0, "Data", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@CuttingResultID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "CuttingResultID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private void InitConnection() {
+            this._connection = new System.Data.SqlClient.SqlConnection();
+            this._connection.ConnectionString = global::Denisenko.Cutting.CutOptima.Properties.Settings.Default.CutOptimaConnectionString;
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private void InitCommandCollection() {
+            this._commandCollection = new System.Data.SqlClient.SqlCommand[1];
+            this._commandCollection[0] = new System.Data.SqlClient.SqlCommand();
+            this._commandCollection[0].Connection = this.Connection;
+            this._commandCollection[0].CommandText = "SELECT CuttingResultID, Data FROM dbo.CuttingResults";
+            this._commandCollection[0].CommandType = System.Data.CommandType.Text;
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Fill, true)]
+        public virtual int Fill(DataSet.CuttingResultsDataTable dataTable) {
+            this.Adapter.SelectCommand = this.CommandCollection[0];
+            if ((this.ClearBeforeFill == true)) {
+                dataTable.Clear();
+            }
+            int returnValue = this.Adapter.Fill(dataTable);
+            return returnValue;
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Select, true)]
+        public virtual DataSet.CuttingResultsDataTable GetData() {
+            this.Adapter.SelectCommand = this.CommandCollection[0];
+            DataSet.CuttingResultsDataTable dataTable = new DataSet.CuttingResultsDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(DataSet.CuttingResultsDataTable dataTable) {
+            return this.Adapter.Update(dataTable);
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(DataSet dataSet) {
+            return this.Adapter.Update(dataSet, "CuttingResults");
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(System.Data.DataRow dataRow) {
+            return this.Adapter.Update(new System.Data.DataRow[] {
+                        dataRow});
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(System.Data.DataRow[] dataRows) {
+            return this.Adapter.Update(dataRows);
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Delete, true)]
+        public virtual int Delete(int Original_CuttingResultID, byte[] Original_Data) {
+            this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_CuttingResultID));
+            if ((Original_Data == null)) {
+                this.Adapter.DeleteCommand.Parameters[1].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[2].Value = System.DBNull.Value;
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[1].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[2].Value = ((byte[])(Original_Data));
             }
             System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & System.Data.ConnectionState.Open) 
@@ -3280,56 +5568,13 @@ SELECT DetailID, Name, Width, Height, MaterialID, LeftEdgeID, RightEdgeID, TopEd
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(string Name, System.Nullable<decimal> Width, System.Nullable<decimal> Height, System.Nullable<int> MaterialID, System.Nullable<int> LeftEdgeID, System.Nullable<int> RightEdgeID, System.Nullable<int> TopEdgeID, System.Nullable<int> BottomEdgeID, int DetailID) {
-            if ((Name == null)) {
-                throw new System.ArgumentNullException("Name");
+        public virtual int Insert(byte[] Data) {
+            if ((Data == null)) {
+                this.Adapter.InsertCommand.Parameters[0].Value = System.DBNull.Value;
             }
             else {
-                this.Adapter.InsertCommand.Parameters[0].Value = ((string)(Name));
+                this.Adapter.InsertCommand.Parameters[0].Value = ((byte[])(Data));
             }
-            if ((Width.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[1].Value = ((decimal)(Width.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[1].Value = System.DBNull.Value;
-            }
-            if ((Height.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[2].Value = ((decimal)(Height.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[2].Value = System.DBNull.Value;
-            }
-            if ((MaterialID.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[3].Value = ((int)(MaterialID.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[3].Value = System.DBNull.Value;
-            }
-            if ((LeftEdgeID.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[4].Value = ((int)(LeftEdgeID.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[4].Value = System.DBNull.Value;
-            }
-            if ((RightEdgeID.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[5].Value = ((int)(RightEdgeID.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[5].Value = System.DBNull.Value;
-            }
-            if ((TopEdgeID.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[6].Value = ((int)(TopEdgeID.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[6].Value = System.DBNull.Value;
-            }
-            if ((BottomEdgeID.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[7].Value = ((int)(BottomEdgeID.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[7].Value = System.DBNull.Value;
-            }
-            this.Adapter.InsertCommand.Parameters[8].Value = ((int)(DetailID));
             System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & System.Data.ConnectionState.Open) 
                         != System.Data.ConnectionState.Open)) {
@@ -3349,137 +5594,330 @@ SELECT DetailID, Name, Width, Height, MaterialID, LeftEdgeID, RightEdgeID, TopEd
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(
-                    int DetailID, 
-                    string Name, 
-                    System.Nullable<decimal> Width, 
-                    System.Nullable<decimal> Height, 
-                    System.Nullable<int> MaterialID, 
-                    System.Nullable<int> LeftEdgeID, 
-                    System.Nullable<int> RightEdgeID, 
-                    System.Nullable<int> TopEdgeID, 
-                    System.Nullable<int> BottomEdgeID, 
-                    int Original_DetailID, 
-                    string Original_Name, 
-                    System.Nullable<decimal> Original_Width, 
-                    System.Nullable<decimal> Original_Height, 
-                    System.Nullable<int> Original_MaterialID, 
-                    System.Nullable<int> Original_LeftEdgeID, 
-                    System.Nullable<int> Original_RightEdgeID, 
-                    System.Nullable<int> Original_TopEdgeID, 
-                    System.Nullable<int> Original_BottomEdgeID) {
-            this.Adapter.UpdateCommand.Parameters[0].Value = ((int)(DetailID));
-            if ((Name == null)) {
-                throw new System.ArgumentNullException("Name");
+        public virtual int Update(byte[] Data, int Original_CuttingResultID, byte[] Original_Data, int CuttingResultID) {
+            if ((Data == null)) {
+                this.Adapter.UpdateCommand.Parameters[0].Value = System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[1].Value = ((string)(Name));
+                this.Adapter.UpdateCommand.Parameters[0].Value = ((byte[])(Data));
             }
-            if ((Width.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[2].Value = ((decimal)(Width.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[2].Value = System.DBNull.Value;
-            }
-            if ((Height.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[3].Value = ((decimal)(Height.Value));
-            }
-            else {
+            this.Adapter.UpdateCommand.Parameters[1].Value = ((int)(Original_CuttingResultID));
+            if ((Original_Data == null)) {
+                this.Adapter.UpdateCommand.Parameters[2].Value = ((object)(1));
                 this.Adapter.UpdateCommand.Parameters[3].Value = System.DBNull.Value;
             }
-            if ((MaterialID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[4].Value = ((int)(MaterialID.Value));
-            }
             else {
-                this.Adapter.UpdateCommand.Parameters[4].Value = System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[2].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[3].Value = ((byte[])(Original_Data));
             }
-            if ((LeftEdgeID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[5].Value = ((int)(LeftEdgeID.Value));
+            this.Adapter.UpdateCommand.Parameters[4].Value = ((int)(CuttingResultID));
+            System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
+            if (((this.Adapter.UpdateCommand.Connection.State & System.Data.ConnectionState.Open) 
+                        != System.Data.ConnectionState.Open)) {
+                this.Adapter.UpdateCommand.Connection.Open();
             }
-            else {
-                this.Adapter.UpdateCommand.Parameters[5].Value = System.DBNull.Value;
+            try {
+                int returnValue = this.Adapter.UpdateCommand.ExecuteNonQuery();
+                return returnValue;
             }
-            if ((RightEdgeID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[6].Value = ((int)(RightEdgeID.Value));
+            finally {
+                if ((previousConnectionState == System.Data.ConnectionState.Closed)) {
+                    this.Adapter.UpdateCommand.Connection.Close();
+                }
             }
-            else {
-                this.Adapter.UpdateCommand.Parameters[6].Value = System.DBNull.Value;
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "2.0.0.0")]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.ComponentModel.ToolboxItem(true)]
+    [System.ComponentModel.DataObjectAttribute(true)]
+    [System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
+        ", Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
+    [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+    public partial class CuttingParametersTableAdapter : System.ComponentModel.Component {
+        
+        private System.Data.SqlClient.SqlDataAdapter _adapter;
+        
+        private System.Data.SqlClient.SqlConnection _connection;
+        
+        private System.Data.SqlClient.SqlCommand[] _commandCollection;
+        
+        private bool _clearBeforeFill;
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public CuttingParametersTableAdapter() {
+            this.ClearBeforeFill = true;
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private System.Data.SqlClient.SqlDataAdapter Adapter {
+            get {
+                if ((this._adapter == null)) {
+                    this.InitAdapter();
+                }
+                return this._adapter;
             }
-            if ((TopEdgeID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[7].Value = ((int)(TopEdgeID.Value));
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        internal System.Data.SqlClient.SqlConnection Connection {
+            get {
+                if ((this._connection == null)) {
+                    this.InitConnection();
+                }
+                return this._connection;
             }
-            else {
-                this.Adapter.UpdateCommand.Parameters[7].Value = System.DBNull.Value;
+            set {
+                this._connection = value;
+                if ((this.Adapter.InsertCommand != null)) {
+                    this.Adapter.InsertCommand.Connection = value;
+                }
+                if ((this.Adapter.DeleteCommand != null)) {
+                    this.Adapter.DeleteCommand.Connection = value;
+                }
+                if ((this.Adapter.UpdateCommand != null)) {
+                    this.Adapter.UpdateCommand.Connection = value;
+                }
+                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
+                    if ((this.CommandCollection[i] != null)) {
+                        ((System.Data.SqlClient.SqlCommand)(this.CommandCollection[i])).Connection = value;
+                    }
+                }
             }
-            if ((BottomEdgeID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[8].Value = ((int)(BottomEdgeID.Value));
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        protected System.Data.SqlClient.SqlCommand[] CommandCollection {
+            get {
+                if ((this._commandCollection == null)) {
+                    this.InitCommandCollection();
+                }
+                return this._commandCollection;
             }
-            else {
-                this.Adapter.UpdateCommand.Parameters[8].Value = System.DBNull.Value;
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public bool ClearBeforeFill {
+            get {
+                return this._clearBeforeFill;
             }
-            this.Adapter.UpdateCommand.Parameters[9].Value = ((int)(Original_DetailID));
+            set {
+                this._clearBeforeFill = value;
+            }
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private void InitAdapter() {
+            this._adapter = new System.Data.SqlClient.SqlDataAdapter();
+            System.Data.Common.DataTableMapping tableMapping = new System.Data.Common.DataTableMapping();
+            tableMapping.SourceTable = "Table";
+            tableMapping.DataSetTable = "CuttingParameters";
+            tableMapping.ColumnMappings.Add("CuttingParametersID", "CuttingParametersID");
+            tableMapping.ColumnMappings.Add("Name", "Name");
+            tableMapping.ColumnMappings.Add("CutterThickness", "CutterThickness");
+            tableMapping.ColumnMappings.Add("TopCutOff", "TopCutOff");
+            tableMapping.ColumnMappings.Add("LeftCutOff", "LeftCutOff");
+            tableMapping.ColumnMappings.Add("RightCutOff", "RightCutOff");
+            tableMapping.ColumnMappings.Add("BottomCutOff", "BottomCutOff");
+            this._adapter.TableMappings.Add(tableMapping);
+            this._adapter.DeleteCommand = new System.Data.SqlClient.SqlCommand();
+            this._adapter.DeleteCommand.Connection = this.Connection;
+            this._adapter.DeleteCommand.CommandText = @"DELETE FROM [dbo].[CuttingParameters] WHERE (([CuttingParametersID] = @Original_CuttingParametersID) AND ([Name] = @Original_Name) AND ([CutterThickness] = @Original_CutterThickness) AND ([TopCutOff] = @Original_TopCutOff) AND ([LeftCutOff] = @Original_LeftCutOff) AND ([RightCutOff] = @Original_RightCutOff) AND ([BottomCutOff] = @Original_BottomCutOff))";
+            this._adapter.DeleteCommand.CommandType = System.Data.CommandType.Text;
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_CuttingParametersID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "CuttingParametersID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_Name", System.Data.SqlDbType.NVarChar, 0, System.Data.ParameterDirection.Input, 0, 0, "Name", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_CutterThickness", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 3, "CutterThickness", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_TopCutOff", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 3, "TopCutOff", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_LeftCutOff", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 3, "LeftCutOff", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_RightCutOff", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 3, "RightCutOff", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_BottomCutOff", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 3, "BottomCutOff", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.InsertCommand = new System.Data.SqlClient.SqlCommand();
+            this._adapter.InsertCommand.Connection = this.Connection;
+            this._adapter.InsertCommand.CommandText = @"INSERT INTO [dbo].[CuttingParameters] ([Name], [CutterThickness], [TopCutOff], [LeftCutOff], [RightCutOff], [BottomCutOff]) VALUES (@Name, @CutterThickness, @TopCutOff, @LeftCutOff, @RightCutOff, @BottomCutOff);
+SELECT CuttingParametersID, Name, CutterThickness, TopCutOff, LeftCutOff, RightCutOff, BottomCutOff FROM CuttingParameters WHERE (CuttingParametersID = SCOPE_IDENTITY())";
+            this._adapter.InsertCommand.CommandType = System.Data.CommandType.Text;
+            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Name", System.Data.SqlDbType.NVarChar, 0, System.Data.ParameterDirection.Input, 0, 0, "Name", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@CutterThickness", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 3, "CutterThickness", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@TopCutOff", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 3, "TopCutOff", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@LeftCutOff", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 3, "LeftCutOff", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@RightCutOff", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 3, "RightCutOff", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.InsertCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@BottomCutOff", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 3, "BottomCutOff", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand = new System.Data.SqlClient.SqlCommand();
+            this._adapter.UpdateCommand.Connection = this.Connection;
+            this._adapter.UpdateCommand.CommandText = @"UPDATE [dbo].[CuttingParameters] SET [Name] = @Name, [CutterThickness] = @CutterThickness, [TopCutOff] = @TopCutOff, [LeftCutOff] = @LeftCutOff, [RightCutOff] = @RightCutOff, [BottomCutOff] = @BottomCutOff WHERE (([CuttingParametersID] = @Original_CuttingParametersID) AND ([Name] = @Original_Name) AND ([CutterThickness] = @Original_CutterThickness) AND ([TopCutOff] = @Original_TopCutOff) AND ([LeftCutOff] = @Original_LeftCutOff) AND ([RightCutOff] = @Original_RightCutOff) AND ([BottomCutOff] = @Original_BottomCutOff));
+SELECT CuttingParametersID, Name, CutterThickness, TopCutOff, LeftCutOff, RightCutOff, BottomCutOff FROM CuttingParameters WHERE (CuttingParametersID = @CuttingParametersID)";
+            this._adapter.UpdateCommand.CommandType = System.Data.CommandType.Text;
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Name", System.Data.SqlDbType.NVarChar, 0, System.Data.ParameterDirection.Input, 0, 0, "Name", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@CutterThickness", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 3, "CutterThickness", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@TopCutOff", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 3, "TopCutOff", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@LeftCutOff", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 3, "LeftCutOff", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@RightCutOff", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 3, "RightCutOff", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@BottomCutOff", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 3, "BottomCutOff", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_CuttingParametersID", System.Data.SqlDbType.Int, 0, System.Data.ParameterDirection.Input, 0, 0, "CuttingParametersID", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_Name", System.Data.SqlDbType.NVarChar, 0, System.Data.ParameterDirection.Input, 0, 0, "Name", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_CutterThickness", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 3, "CutterThickness", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_TopCutOff", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 3, "TopCutOff", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_LeftCutOff", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 3, "LeftCutOff", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_RightCutOff", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 3, "RightCutOff", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@Original_BottomCutOff", System.Data.SqlDbType.Decimal, 0, System.Data.ParameterDirection.Input, 18, 3, "BottomCutOff", System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new System.Data.SqlClient.SqlParameter("@CuttingParametersID", System.Data.SqlDbType.Int, 4, System.Data.ParameterDirection.Input, 0, 0, "CuttingParametersID", System.Data.DataRowVersion.Current, false, null, "", "", ""));
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private void InitConnection() {
+            this._connection = new System.Data.SqlClient.SqlConnection();
+            this._connection.ConnectionString = global::Denisenko.Cutting.CutOptima.Properties.Settings.Default.CutOptimaConnectionString;
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        private void InitCommandCollection() {
+            this._commandCollection = new System.Data.SqlClient.SqlCommand[1];
+            this._commandCollection[0] = new System.Data.SqlClient.SqlCommand();
+            this._commandCollection[0].Connection = this.Connection;
+            this._commandCollection[0].CommandText = "SELECT CuttingParametersID, Name, CutterThickness, TopCutOff, LeftCutOff, RightCu" +
+                "tOff, BottomCutOff FROM dbo.CuttingParameters";
+            this._commandCollection[0].CommandType = System.Data.CommandType.Text;
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Fill, true)]
+        public virtual int Fill(DataSet.CuttingParametersDataTable dataTable) {
+            this.Adapter.SelectCommand = this.CommandCollection[0];
+            if ((this.ClearBeforeFill == true)) {
+                dataTable.Clear();
+            }
+            int returnValue = this.Adapter.Fill(dataTable);
+            return returnValue;
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Select, true)]
+        public virtual DataSet.CuttingParametersDataTable GetData() {
+            this.Adapter.SelectCommand = this.CommandCollection[0];
+            DataSet.CuttingParametersDataTable dataTable = new DataSet.CuttingParametersDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(DataSet.CuttingParametersDataTable dataTable) {
+            return this.Adapter.Update(dataTable);
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(DataSet dataSet) {
+            return this.Adapter.Update(dataSet, "CuttingParameters");
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(System.Data.DataRow dataRow) {
+            return this.Adapter.Update(new System.Data.DataRow[] {
+                        dataRow});
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(System.Data.DataRow[] dataRows) {
+            return this.Adapter.Update(dataRows);
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Delete, true)]
+        public virtual int Delete(int Original_CuttingParametersID, string Original_Name, decimal Original_CutterThickness, decimal Original_TopCutOff, decimal Original_LeftCutOff, decimal Original_RightCutOff, decimal Original_BottomCutOff) {
+            this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_CuttingParametersID));
             if ((Original_Name == null)) {
                 throw new System.ArgumentNullException("Original_Name");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[10].Value = ((string)(Original_Name));
+                this.Adapter.DeleteCommand.Parameters[1].Value = ((string)(Original_Name));
             }
-            if ((Original_Width.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[11].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[12].Value = ((decimal)(Original_Width.Value));
+            this.Adapter.DeleteCommand.Parameters[2].Value = ((decimal)(Original_CutterThickness));
+            this.Adapter.DeleteCommand.Parameters[3].Value = ((decimal)(Original_TopCutOff));
+            this.Adapter.DeleteCommand.Parameters[4].Value = ((decimal)(Original_LeftCutOff));
+            this.Adapter.DeleteCommand.Parameters[5].Value = ((decimal)(Original_RightCutOff));
+            this.Adapter.DeleteCommand.Parameters[6].Value = ((decimal)(Original_BottomCutOff));
+            System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
+            if (((this.Adapter.DeleteCommand.Connection.State & System.Data.ConnectionState.Open) 
+                        != System.Data.ConnectionState.Open)) {
+                this.Adapter.DeleteCommand.Connection.Open();
             }
-            else {
-                this.Adapter.UpdateCommand.Parameters[11].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[12].Value = System.DBNull.Value;
+            try {
+                int returnValue = this.Adapter.DeleteCommand.ExecuteNonQuery();
+                return returnValue;
             }
-            if ((Original_Height.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[13].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[14].Value = ((decimal)(Original_Height.Value));
+            finally {
+                if ((previousConnectionState == System.Data.ConnectionState.Closed)) {
+                    this.Adapter.DeleteCommand.Connection.Close();
+                }
             }
-            else {
-                this.Adapter.UpdateCommand.Parameters[13].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[14].Value = System.DBNull.Value;
-            }
-            if ((Original_MaterialID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[15].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[16].Value = ((int)(Original_MaterialID.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[15].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[16].Value = System.DBNull.Value;
-            }
-            if ((Original_LeftEdgeID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[17].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[18].Value = ((int)(Original_LeftEdgeID.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[17].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[18].Value = System.DBNull.Value;
-            }
-            if ((Original_RightEdgeID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[19].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[20].Value = ((int)(Original_RightEdgeID.Value));
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Insert, true)]
+        public virtual int Insert(string Name, decimal CutterThickness, decimal TopCutOff, decimal LeftCutOff, decimal RightCutOff, decimal BottomCutOff) {
+            if ((Name == null)) {
+                throw new System.ArgumentNullException("Name");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[19].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[20].Value = System.DBNull.Value;
+                this.Adapter.InsertCommand.Parameters[0].Value = ((string)(Name));
             }
-            if ((Original_TopEdgeID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[21].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[22].Value = ((int)(Original_TopEdgeID.Value));
+            this.Adapter.InsertCommand.Parameters[1].Value = ((decimal)(CutterThickness));
+            this.Adapter.InsertCommand.Parameters[2].Value = ((decimal)(TopCutOff));
+            this.Adapter.InsertCommand.Parameters[3].Value = ((decimal)(LeftCutOff));
+            this.Adapter.InsertCommand.Parameters[4].Value = ((decimal)(RightCutOff));
+            this.Adapter.InsertCommand.Parameters[5].Value = ((decimal)(BottomCutOff));
+            System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
+            if (((this.Adapter.InsertCommand.Connection.State & System.Data.ConnectionState.Open) 
+                        != System.Data.ConnectionState.Open)) {
+                this.Adapter.InsertCommand.Connection.Open();
+            }
+            try {
+                int returnValue = this.Adapter.InsertCommand.ExecuteNonQuery();
+                return returnValue;
+            }
+            finally {
+                if ((previousConnectionState == System.Data.ConnectionState.Closed)) {
+                    this.Adapter.InsertCommand.Connection.Close();
+                }
+            }
+        }
+        
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [System.ComponentModel.DataObjectMethodAttribute(System.ComponentModel.DataObjectMethodType.Update, true)]
+        public virtual int Update(string Name, decimal CutterThickness, decimal TopCutOff, decimal LeftCutOff, decimal RightCutOff, decimal BottomCutOff, int Original_CuttingParametersID, string Original_Name, decimal Original_CutterThickness, decimal Original_TopCutOff, decimal Original_LeftCutOff, decimal Original_RightCutOff, decimal Original_BottomCutOff, int CuttingParametersID) {
+            if ((Name == null)) {
+                throw new System.ArgumentNullException("Name");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[21].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[22].Value = System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[0].Value = ((string)(Name));
             }
-            if ((Original_BottomEdgeID.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[23].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[24].Value = ((int)(Original_BottomEdgeID.Value));
+            this.Adapter.UpdateCommand.Parameters[1].Value = ((decimal)(CutterThickness));
+            this.Adapter.UpdateCommand.Parameters[2].Value = ((decimal)(TopCutOff));
+            this.Adapter.UpdateCommand.Parameters[3].Value = ((decimal)(LeftCutOff));
+            this.Adapter.UpdateCommand.Parameters[4].Value = ((decimal)(RightCutOff));
+            this.Adapter.UpdateCommand.Parameters[5].Value = ((decimal)(BottomCutOff));
+            this.Adapter.UpdateCommand.Parameters[6].Value = ((int)(Original_CuttingParametersID));
+            if ((Original_Name == null)) {
+                throw new System.ArgumentNullException("Original_Name");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[23].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[24].Value = System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[7].Value = ((string)(Original_Name));
             }
+            this.Adapter.UpdateCommand.Parameters[8].Value = ((decimal)(Original_CutterThickness));
+            this.Adapter.UpdateCommand.Parameters[9].Value = ((decimal)(Original_TopCutOff));
+            this.Adapter.UpdateCommand.Parameters[10].Value = ((decimal)(Original_LeftCutOff));
+            this.Adapter.UpdateCommand.Parameters[11].Value = ((decimal)(Original_RightCutOff));
+            this.Adapter.UpdateCommand.Parameters[12].Value = ((decimal)(Original_BottomCutOff));
+            this.Adapter.UpdateCommand.Parameters[13].Value = ((int)(CuttingParametersID));
             System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & System.Data.ConnectionState.Open) 
                         != System.Data.ConnectionState.Open)) {
