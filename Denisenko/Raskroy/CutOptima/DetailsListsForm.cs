@@ -10,32 +10,31 @@ namespace Denisenko.Cutting.CutOptima
 {
 	public partial class DetailsListsForm : Form
 	{
-		private static DetailsListsForm m_instance;
-
-		public static DetailsListsForm Instance
-		{
-			get
-			{
-				if (m_instance == null)
-					m_instance = new DetailsListsForm();
-				return m_instance;
-			}
-		}
-
-		private DetailsListsForm()
+		public DetailsListsForm()
 		{
 			InitializeComponent();
 		}
 
-		private void listBox_DoubleClick(object sender, EventArgs e)
+		private void detailsListsBindingNavigatorSaveItem_Click(object sender, EventArgs e)
 		{
-			Mediator.Instance.OpenListEditor(((DataSet.DetailsListsRow)((DataRowView)listBox.SelectedItem).Row).DetailsListID);
+			this.Validate();
+			this.detailsListsBindingSource.EndEdit();
+			this.detailsListsTableAdapter.Update(this.dataSet.DetailsLists);
+
 		}
 
 		private void DetailsListsForm_Load(object sender, EventArgs e)
 		{
 			// TODO: This line of code loads data into the 'dataSet.DetailsLists' table. You can move, or remove it, as needed.
 			this.detailsListsTableAdapter.Fill(this.dataSet.DetailsLists);
+
+		}
+
+		private void detailsListsDataGridView_DoubleClick(object sender, EventArgs e)
+		{
+			DataRowView dataRowView = (DataRowView)detailsListsDataGridView.CurrentRow.DataBoundItem;
+			DataSet.DetailsListsRow row = (DataSet.DetailsListsRow)dataRowView.Row;
+			Mediator.Instance.OpenListEditor(row.DetailsListID);
 		}
 	}
 }
