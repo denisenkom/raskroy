@@ -117,27 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="toolStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <metadata name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
-  </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="saveButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAjNJREFUOE+lk+1L
-        k1EYh9ef0Pe+BH3oa02N4VosB085h7JqGFZEVk+kWZou0yTFyjRyvkE2w6WTVqtJOKnIF/AFKRFjKVmt
-        5YqWODZTbCIY/Dz3MXdaWRAeuHngwHXd5355NigUCrBY18HTJxEe7o55tLvmcN8xg9aWIJqsU2io/wJL
-        tR/XK3woK32P4qI3KMgfw7mzHkrMk3Owtweor1vEv87C4hL06b04mP6YR1TgejTLBVWV3/7KExycWcAu
-        4zMolTJMB5xC4LgX5oKy0q9rClbhj4FZxBncKLo4iX3GNiGwNU9zwQXzhz8Ev8KvvUFslVzIy51AWqpN
-        CBpvBbgg58xYjOB3eMgTwCatA7I8AoPBKgR1tZ+5QD45EhWsBfcMf8LGxBYcOtyP5OQGIbhRNYnuLrBR
-        AkczX8J0ZJB3mxpGNdOzKfMK3If9pueQJIsQXCn3otMNtgNAm/0Hm/t3VFwL8aZSw6jm7CxPFE5J64BO
-        VykEl4on4HwA3LUtscWJQJ+RGxPGY2ZknC7hmVNSGbzXCa22XAjMBeMMBmprIjwzCWhJ4tQSRt9NY9wX
-        gpx/FUn6dg6rd9uh0ZQIAa2l9TaizyYBwacKb+KtPwz/1BzOX7YgXmtncCvid96BOrFQCLKzXrG653nN
-        W3RObN4u4WHnANxdQ+juG8bgi1HsMZig1DQjgcHbVI1QqfJiBSeOD/D1pA2jJaE506io29QwqpmyUhC8
-        IyFHCH7+FKsX//VdBg9daD5p7elHAAAAAElFTkSuQmCC
-</value>
-  </data>
-  <metadata name="menuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>121, 17</value>
   </metadata>
 </root>

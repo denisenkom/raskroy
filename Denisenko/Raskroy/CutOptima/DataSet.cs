@@ -3,8 +3,5 @@
 
 	partial class DataSet
 	{
-		partial class ReferencePartsDataTable
-		{
-		}
-	}
+    }
 }

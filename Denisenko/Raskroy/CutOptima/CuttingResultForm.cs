@@ -53,7 +53,7 @@ namespace Denisenko.Cutting.CutOptima
 			}
 		}
 
-		private void saveButton_Click(object sender, EventArgs e)
+		private void saveToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			Mediator.Instance.SaveCuttingCommand(DataSource);
 		}

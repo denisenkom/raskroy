@@ -45,6 +45,7 @@
 			this.mainMenuStrip = new System.Windows.Forms.MenuStrip();
 			this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.windowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			operationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			referencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.mainMenuStrip.SuspendLayout();
@@ -55,7 +56,8 @@
 			operationsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.detailsListsToolStripMenuItem,
             this.optimizeToolStripMenuItem,
-            this.loadCuttingToolStripMenuItem});
+            this.loadCuttingToolStripMenuItem,
+            this.exitMenuItem});
 			operationsToolStripMenuItem.Name = "operationsToolStripMenuItem";
 			operationsToolStripMenuItem.Size = new System.Drawing.Size(76, 20);
 			operationsToolStripMenuItem.Text = "Операции";
@@ -183,6 +185,13 @@
 			this.windowsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
 			this.windowsToolStripMenuItem.Text = "Окна";
 			// 
+			// exitMenuItem
+			// 
+			this.exitMenuItem.Name = "exitMenuItem";
+			this.exitMenuItem.Size = new System.Drawing.Size(190, 22);
+			this.exitMenuItem.Text = "Выход";
+			this.exitMenuItem.Click += new System.EventHandler(this.exitMenuItem_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -218,6 +227,7 @@
 		private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem windowsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem cuttingParametersToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem exitMenuItem;
 
 	}
 }

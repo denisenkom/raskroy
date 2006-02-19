@@ -65,5 +65,10 @@ namespace Denisenko.Cutting.CutOptima
 		{
 			Mediator.Instance.CuttingCommand();
 		}
+
+		private void exitMenuItem_Click(object sender, EventArgs e)
+		{
+			Close();
+		}
 	}
 }

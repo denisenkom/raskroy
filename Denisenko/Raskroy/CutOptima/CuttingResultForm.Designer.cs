@@ -28,69 +28,78 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CuttingResultForm));
 			this.tabControl = new System.Windows.Forms.TabControl();
-			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-			this.saveButton = new System.Windows.Forms.ToolStripButton();
-			this.menuStrip = new System.Windows.Forms.MenuStrip();
+			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.operationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.exportLC4ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStrip1.SuspendLayout();
-			this.menuStrip.SuspendLayout();
+			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabControl
 			// 
 			this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tabControl.Location = new System.Drawing.Point(0, 0);
+			this.tabControl.Location = new System.Drawing.Point(0, 24);
 			this.tabControl.Name = "tabControl";
 			this.tabControl.SelectedIndex = 0;
-			this.tabControl.Size = new System.Drawing.Size(621, 432);
+			this.tabControl.Size = new System.Drawing.Size(621, 408);
 			this.tabControl.TabIndex = 0;
 			// 
-			// toolStrip1
+			// menuStrip1
 			// 
-			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.saveButton});
-			this.toolStrip1.Location = new System.Drawing.Point(0, 24);
-			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(621, 25);
-			this.toolStrip1.TabIndex = 1;
-			this.toolStrip1.Text = "toolStrip1";
-			// 
-			// saveButton
-			// 
-			this.saveButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.saveButton.Image = ((System.Drawing.Image)(resources.GetObject("saveButton.Image")));
-			this.saveButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.saveButton.Name = "saveButton";
-			this.saveButton.Size = new System.Drawing.Size(23, 22);
-			this.saveButton.Text = "toolStripButton1";
-			this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
-			// 
-			// menuStrip
-			// 
-			this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.operationsToolStripMenuItem});
-			this.menuStrip.Location = new System.Drawing.Point(0, 0);
-			this.menuStrip.Name = "menuStrip";
-			this.menuStrip.Size = new System.Drawing.Size(621, 24);
-			this.menuStrip.TabIndex = 2;
-			this.menuStrip.Text = "menuStrip1";
+			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+			this.menuStrip1.Name = "menuStrip1";
+			this.menuStrip1.Size = new System.Drawing.Size(621, 24);
+			this.menuStrip1.TabIndex = 1;
+			this.menuStrip1.Text = "menuStrip1";
+			this.menuStrip1.Visible = false;
 			// 
 			// operationsToolStripMenuItem
 			// 
 			this.operationsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.exportLC4ToolStripMenuItem});
+            this.toolStripSeparator1,
+            this.saveToolStripMenuItem,
+            this.exportLC4ToolStripMenuItem,
+            this.toolStripSeparator2});
+			this.operationsToolStripMenuItem.MergeAction = System.Windows.Forms.MergeAction.MatchOnly;
 			this.operationsToolStripMenuItem.Name = "operationsToolStripMenuItem";
 			this.operationsToolStripMenuItem.Size = new System.Drawing.Size(76, 20);
 			this.operationsToolStripMenuItem.Text = "Операции";
 			// 
+			// saveToolStripMenuItem
+			// 
+			this.saveToolStripMenuItem.MergeAction = System.Windows.Forms.MergeAction.Insert;
+			this.saveToolStripMenuItem.MergeIndex = 4;
+			this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+			this.saveToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+			this.saveToolStripMenuItem.Text = "Сохранить раскрой";
+			this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.MergeAction = System.Windows.Forms.MergeAction.Insert;
+			this.toolStripSeparator1.MergeIndex = 3;
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(192, 6);
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.MergeAction = System.Windows.Forms.MergeAction.Insert;
+			this.toolStripSeparator2.MergeIndex = 6;
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(192, 6);
+			// 
 			// exportLC4ToolStripMenuItem
 			// 
+			this.exportLC4ToolStripMenuItem.MergeAction = System.Windows.Forms.MergeAction.Insert;
+			this.exportLC4ToolStripMenuItem.MergeIndex = 5;
 			this.exportLC4ToolStripMenuItem.Name = "exportLC4ToolStripMenuItem";
-			this.exportLC4ToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
-			this.exportLC4ToolStripMenuItem.Text = "Экспорт LC4";
+			this.exportLC4ToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+			this.exportLC4ToolStripMenuItem.Text = "Экспорт в LC4";
 			this.exportLC4ToolStripMenuItem.Click += new System.EventHandler(this.exportLC4ToolStripMenuItem_Click);
 			// 
 			// CuttingResultForm
@@ -98,16 +107,12 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(621, 432);
-			this.Controls.Add(this.toolStrip1);
-			this.Controls.Add(this.menuStrip);
 			this.Controls.Add(this.tabControl);
-			this.MainMenuStrip = this.menuStrip;
+			this.Controls.Add(this.menuStrip1);
 			this.Name = "CuttingResultForm";
 			this.Text = "Результат раскроя";
-			this.toolStrip1.ResumeLayout(false);
-			this.toolStrip1.PerformLayout();
-			this.menuStrip.ResumeLayout(false);
-			this.menuStrip.PerformLayout();
+			this.menuStrip1.ResumeLayout(false);
+			this.menuStrip1.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -116,10 +121,11 @@
 		#endregion
 
 		private System.Windows.Forms.TabControl tabControl;
-		private System.Windows.Forms.ToolStrip toolStrip1;
-		private System.Windows.Forms.ToolStripButton saveButton;
-		private System.Windows.Forms.MenuStrip menuStrip;
+		private System.Windows.Forms.MenuStrip menuStrip1;
 		private System.Windows.Forms.ToolStripMenuItem operationsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.ToolStripMenuItem exportLC4ToolStripMenuItem;
 	}
 }

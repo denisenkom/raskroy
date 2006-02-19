@@ -137,6 +137,8 @@ namespace Denisenko.Cutting.CutOptima
 			try
 			{
 				OpenFileDialog dialog = new OpenFileDialog();
+				dialog.DefaultExt = "cutting";
+				dialog.Filter = "Файлы раскроя (*.cutting)|*.cutting|Все файлы (*.*)|*.*";
 				if (dialog.ShowDialog() == DialogResult.Cancel)
 					return;
 				FileStream stream = File.OpenRead(dialog.FileName);
@@ -156,6 +158,9 @@ namespace Denisenko.Cutting.CutOptima
 		internal void SaveCuttingCommand(List<CuttingScheme> cutting)
 		{
 			SaveFileDialog dialog = new SaveFileDialog();
+			dialog.AddExtension = true;
+			dialog.DefaultExt = "cutting";
+			dialog.Filter = "Файлы раскроя (*.cutting)|*.cutting|Все файлы (*.*)|*.*";
 			if (dialog.ShowDialog() == DialogResult.Cancel)
 				return;
 			FileStream stream = File.Create(dialog.FileName);
@@ -175,6 +180,9 @@ namespace Denisenko.Cutting.CutOptima
 			}
 			Denisenko.Cutting.LC4.LC4Parser parser = new Denisenko.Cutting.LC4.LC4Parser();
 			SaveFileDialog dialog = new SaveFileDialog();
+			dialog.AddExtension = true;
+			dialog.DefaultExt = "lc4";
+			dialog.Filter = "Файлы раскроя (*.lc4)|*.lc4|Все файлы (*.*)|*.*";
 			if (dialog.ShowDialog() == DialogResult.Cancel)
 				return;
 			convertor.Result.InternalName = dialog.FileName.Substring(0, dialog.FileName.LastIndexOf('.'));
