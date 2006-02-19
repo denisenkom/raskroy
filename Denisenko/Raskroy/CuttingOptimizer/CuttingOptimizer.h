@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "errors.h"
 #include "raskroy.h"
 
 using namespace std;
@@ -11,6 +12,15 @@ using namespace Denisenko::Raskroy;
 namespace Denisenko {
 namespace Cutting {
 namespace Optimizing {
+
+	public ref class CannotCutDetailsException : public Exception
+	{
+	public:
+		CannotCutDetailsException(String^ message)
+			: Exception(message)
+		{
+		}
+	};
 
 	public ref class Optimizer
 	{
@@ -46,20 +56,31 @@ namespace Optimizing {
 			{
 				Denisenko::Raskroy::Parts convParts = ConvertParts();
 				Denisenko::Raskroy::Parts convSheets = ConvertSheets();
-				m_raskroy->put_SawThickness(Parameters->CutterThickness.Scaled);
+				m_raskroy->put_SawThickness(ToScaled(Parameters->CutterThickness));
 				m_raskroy->Begin(convParts, convSheets);
 				m_started = true;
 			}
 			Denisenko::Raskroy::t_result result;
-			if(m_raskroy->NextResult(result))
+			try
 			{
-				m_result = ConvertResult(result);
-				return true;
+				if(m_raskroy->NextResult(result))
+				{
+					m_result = ConvertResult(result);
+					return true;
+				}
+				else
+				{
+					m_result = nullptr;
+					return false;
+				}
 			}
-			else
+			catch(Denisenko::Raskroy::err_cannot_set_parts& err)
 			{
-				m_result = nullptr;
-				return false;
+				if(err.sheets.size() == 0)
+					throw gcnew CannotCutDetailsException("Нельзя расположить детали, список листов не заполнен.");
+				if(err.sizes[0].size() == 0)
+					throw gcnew CannotCutDetailsException("Нельзя расположить детали, список деталей не заполнен.");
+				throw gcnew CannotCutDetailsException("Нельзя расположить детали, возможно размер детали не соответствует размеру листа.");
 			}
 		}
 
@@ -77,8 +98,8 @@ namespace Optimizing {
 			for each(Part^ part in Parts)
 			{
 				result.push_back(Denisenko::Raskroy::Part(
-					part->Length.Scaled,
-					part->Width.Scaled,
+					ToScaled(part->Length),
+					ToScaled(part->Width),
 					part->CanRotate,
 					part->Quantity));
 			}
@@ -91,8 +112,8 @@ namespace Optimizing {
 			for each(Sheet^ sheet in Sheets)
 			{
 				result.push_back(Denisenko::Raskroy::Part(
-					(sheet->Length - Parameters->CutOffLeft - Parameters->CutOffRight).Scaled,
-					(sheet->Width - Parameters->CutOffTop - Parameters->CutOffBottom).Scaled));
+					ToScaled(sheet->Length - Parameters->CutOffLeft - Parameters->CutOffRight),
+					ToScaled(sheet->Width - Parameters->CutOffTop - Parameters->CutOffBottom)));
 			}
 			return result;
 		}
@@ -101,8 +122,8 @@ namespace Optimizing {
 		{
 			CuttingResultBuilder^ builder = gcnew CuttingResultBuilder();
 			return builder->Convert(result, Parameters,
-				Size::FromScaled(result.sheet->Rect.Length),
-				Size::FromScaled(result.sheet->Rect.Width));
+				FromScaled(result.sheet->Rect.Length),
+				FromScaled(result.sheet->Rect.Width));
 		}
 	};
 }

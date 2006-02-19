@@ -2,7 +2,6 @@
 
 #include "stdafx.h"
 
-#include "Size.h"
 #include "Part.h"
 #include "PartsCollection.h"
 #include "Sheet.h"

@@ -1,6 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
+using System.Threading;
+using System.Windows.Forms;
+
+using Denisenko.Cutting;
+using Denisenko.Cutting.Optimizing;
 
 namespace Denisenko.Cutting.CutOptima
 {
@@ -18,23 +27,190 @@ namespace Denisenko.Cutting.CutOptima
 			} 
 		}
 
-		public void OpenReferenceDetails()
+		/*public void OpenReferenceDetails()
 		{
 			ReferenceDetailsForm.Instance.MdiParent = MainForm.Instance;
 			ReferenceDetailsForm.Instance.Show();
-		}
+		}*/
 
 		public void OpenListsEditor()
 		{
-			DetailsListsForm.Instance.MdiParent = MainForm.Instance;
-			DetailsListsForm.Instance.Show();
+			DetailsListsForm detailListsForm = new DetailsListsForm();
+			detailListsForm.MdiParent = MainForm.Instance;
+			detailListsForm.Show();
 		}
 
 		public void OpenListEditor(Int32 listID)
 		{
-			DetailsListForm editor = new DetailsListForm();
+			DetailsListForm editor = new DetailsListForm(listID);
 			editor.MdiParent = MainForm.Instance;
 			editor.Show();
+		}
+
+		public PropertyTypes PropertyTypes
+		{
+			get { throw new NotImplementedException(); }
+		}
+
+		private ProgressForm _progressForm;
+		private OptimizingJob _job;
+
+		private delegate void UpdateProgressHandler(Int32 progress);
+
+		private void OnCuttingProgressUpdate(OptimizingJob job, Int32 progress)
+		{
+			_progressForm.BeginInvoke(new UpdateProgressHandler(_progressForm.UpdateProgress), progress);
+		}
+
+		private delegate void CloseFormHandler();
+
+		private void OnCuttingFinished(OptimizingJob job)
+		{
+			_progressForm.BeginInvoke(new CloseFormHandler(_progressForm.Close));
+		}
+
+		private void OnCuttingError(OptimizingJob job, Exception error)
+		{
+			MessageBox.Show(error.Message);
+			_progressForm.BeginInvoke(new CloseFormHandler(_progressForm.Close));
+		}
+
+		internal void OptimizeDetailsList(Int32 detailsIistID)
+		{
+			_job = new OptimizingJob();
+			_job.Load(Properties.Settings.Default.CutOptimaConnectionString,
+				new Int32[] { detailsIistID });
+			_progressForm = new ProgressForm();
+			_progressForm.StartPosition = FormStartPosition.CenterParent;
+			_progressForm.Pause += OnPause;
+			_progressForm.Resume += OnResume;
+			_progressForm.Cancel += OnCancel;
+			_job.ProgressUpdate += OnCuttingProgressUpdate;
+			_job.Finished += OnCuttingFinished;
+			_job.Error += OnCuttingError;
+			_job.AsyncExecute();
+
+			_progressForm.ShowDialog();
+			if(!_job.Canceled)
+				ShowCuttingResult(_job.Result);
+		}
+
+		private void ShowCuttingResult(List<CuttingScheme> result)
+		{
+			CuttingResultForm form = new CuttingResultForm();
+			form.MdiParent = MainForm.Instance;
+			form.DataSource = result;
+			form.Show();
+		}
+
+		private void OnPause(ProgressForm sender)
+		{
+			_job.Pause();
+		}
+
+		private void OnResume(ProgressForm sender)
+		{
+			_job.Resume();
+		}
+
+		private void OnCancel(ProgressForm sender)
+		{
+			_job.Cancel();
+		}
+
+		internal void OpenSheetsEditor()
+		{
+			SheetsListForm form = new SheetsListForm();
+			form.MdiParent = MainForm.Instance;
+			form.Show();
+		}
+
+		internal void OpenMaterialsEditor()
+		{
+			MaterialsForm form = new MaterialsForm();
+			form.MdiParent = MainForm.Instance;
+			form.Show();
+		}
+
+		internal void LoadCuttingCommand()
+		{
+			try
+			{
+				OpenFileDialog dialog = new OpenFileDialog();
+				if (dialog.ShowDialog() == DialogResult.Cancel)
+					return;
+				FileStream stream = File.OpenRead(dialog.FileName);
+				BinaryFormatter formatter = new BinaryFormatter();
+				CuttingResultForm form = new CuttingResultForm();
+				form.DataSource = (List<CuttingScheme>)formatter.Deserialize(stream);
+				form.MdiParent = MainForm.Instance;
+				form.Show();
+				stream.Close();
+			}
+			catch (SerializationException)
+			{
+				MessageBox.Show("Файл имеет не правильный формат или поврежден");
+			}
+		}
+
+		internal void SaveCuttingCommand(List<CuttingScheme> cutting)
+		{
+			SaveFileDialog dialog = new SaveFileDialog();
+			if (dialog.ShowDialog() == DialogResult.Cancel)
+				return;
+			FileStream stream = File.Create(dialog.FileName);
+			BinaryFormatter formatter = new BinaryFormatter();
+			formatter.Serialize(stream, cutting);
+			stream.Close();
+		}
+
+		internal void ExportLC4Command(List<CuttingScheme> cutting)
+		{
+			Denisenko.Cutting.Converting.LC4Convertor convertor = new Denisenko.Cutting.Converting.LC4Convertor();
+			Int32 index = 1;
+			foreach(CuttingScheme scheme in cutting)
+			{
+				convertor.AddCuttingResult(scheme, index.ToString());
+				index++;
+			}
+			Denisenko.Cutting.LC4.LC4Parser parser = new Denisenko.Cutting.LC4.LC4Parser();
+			SaveFileDialog dialog = new SaveFileDialog();
+			if (dialog.ShowDialog() == DialogResult.Cancel)
+				return;
+			convertor.Result.InternalName = dialog.FileName.Substring(0, dialog.FileName.LastIndexOf('.'));
+			convertor.Result.Generator = "CutOptima";
+			parser.Save(dialog.FileName, FileMode.Create, convertor.Result);
+		}
+
+		internal void OpenCuttingParametersCommand()
+		{
+			CuttingParametersForm form = new CuttingParametersForm();
+			form.MdiParent = MainForm.Instance;
+			form.Show();
+		}
+
+		internal void CuttingCommand()
+		{
+			CuttingWizard.CuttingWizard wizard = new CuttingWizard.CuttingWizard();
+			if (wizard.Execute(MainForm.Instance))
+			{
+				_job = new OptimizingJob();
+				_job.Load(Properties.Settings.Default.CutOptimaConnectionString,
+					wizard.DetailsListsIDs, wizard.SheetsIDs);
+				_progressForm = new ProgressForm();
+				_progressForm.StartPosition = FormStartPosition.CenterParent;
+				_progressForm.Pause += OnPause;
+				_progressForm.Resume += OnResume;
+				_progressForm.Cancel += OnCancel;
+				_job.ProgressUpdate += OnCuttingProgressUpdate;
+				_job.Finished += OnCuttingFinished;
+				_job.Error += OnCuttingError;
+				_job.AsyncExecute();
+
+				_progressForm.ShowDialog();
+				if (!_job.Canceled)
+					ShowCuttingResult(_job.Result);
+			}
 		}
 	}
 }

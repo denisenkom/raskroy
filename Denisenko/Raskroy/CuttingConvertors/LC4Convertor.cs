@@ -23,8 +23,8 @@ namespace Denisenko.Cutting.Converting
 			LC4Cutting lc4Cutting = m_result.CreateCutting();
 			lc4Cutting.Name = cuttingName;
 			// TODO: Здесь может быть ошибка
-			lc4Cutting.Size1 = NumericFromSize(cuttingResult.Width);
-			lc4Cutting.Size2 = NumericFromSize(cuttingResult.Height);
+			lc4Cutting.Size1 = NumericFromDecimal(cuttingResult.Width);
+			lc4Cutting.Size2 = NumericFromDecimal(cuttingResult.Height);
 			AddSections(lc4Cutting, cuttingResult.RootSection);
 			m_result.Cuttings.Add(lc4Cutting);
 		}
@@ -63,15 +63,13 @@ namespace Denisenko.Cutting.Converting
 					result.SectionType = LC4SectionType.Scrap;
 					break;
 			}
-			result.Size = NumericFromSize(input.Size);
+			result.Size = NumericFromDecimal(input.Size);
 			return result;
 		}
 
-		static LC4Numeric NumericFromSize(Size size)
+		static LC4Numeric NumericFromDecimal(Decimal value)
 		{
-			Debug.Assert(Size.Factor == 1000);
-			Debug.Assert(LC4Numeric.Scale == 100000);
-			return LC4Numeric.FromScaled(size.Scaled * 100);
+			return LC4Numeric.FromScaled(Decimal.ToInt64(value * LC4Numeric.Scale));
 		}
 	}
 

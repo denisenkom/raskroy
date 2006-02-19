@@ -1,13 +1,43 @@
 #pragma once
 
+using namespace System;
 using namespace System::Diagnostics;
 using namespace System::Collections::Generic;
 
 namespace Denisenko {
 namespace Cutting {
 
+[Serializable]
+public ref class Material
+{
+public:
+	Material(Int32 materialID, String^ name, Boolean canRotate)
+		: m_materialID(materialID),
+		m_name(name),
+		m_canRotate(canRotate)
+	{
+	}
+
+	Material(const Material^ ref)
+		: m_materialID(ref->m_materialID),
+		m_name(ref->m_name),
+		m_canRotate(ref->m_canRotate)
+	{
+	}
+
+	property Int32 MaterialID { Int32 get() { return m_materialID; } }
+	property String^ Name { String^ get() { return m_name; } }
+	property Boolean CanRotate { Boolean get() { return m_canRotate; } }
+
+private:
+	Int32 m_materialID;
+	String^ m_name;
+	Boolean m_canRotate;
+};
+
 ref class Section;
 
+[Serializable]
 public ref class SectionsCollection abstract : IEnumerable<Section^>, ICloneable
 {
 public:
@@ -72,6 +102,7 @@ public enum class CutType
 };
 
 
+[Serializable]
 public ref class Section : SectionsCollection
 {
 public:
@@ -85,9 +116,9 @@ public:
 		return gcnew Section(this);
 	}
 
-	property Denisenko::Size Size
+	property Decimal Size
 	{
-		Denisenko::Size get()
+		Decimal get()
 		{
 			switch(m_cutType)
 			{
@@ -112,13 +143,21 @@ public:
 		Section^ get() { return m_parent; }
 	}
 
-	property Denisenko::Size Width
-	{ 
-		Denisenko::Size get() { return m_width; } 
+	property Decimal X
+	{
+		Decimal get() { return m_x; }
 	}
-	property Denisenko::Size Height 
+	property Decimal Y
+	{
+		Decimal get() { return m_y; }
+	}
+	property Decimal Width
 	{ 
-		Denisenko::Size get() { return m_height; } 
+		Decimal get() { return m_width; } 
+	}
+	property Decimal Height 
+	{ 
+		Decimal get() { return m_height; } 
 	}
 	Boolean IsLeftEven()
 	{
@@ -138,8 +177,10 @@ public:
 	}
 
 internal:
-	Denisenko::Size m_width;
-	Denisenko::Size m_height;
+	Decimal m_x;
+	Decimal m_y;
+	Decimal m_width;
+	Decimal m_height;
 	CutType m_cutType;
 	Cutting::SectionType m_sectionType;
 	Section^ m_parent;
@@ -168,10 +209,11 @@ public value class CutResult
 };
 
 
+[Serializable]
 public ref class CuttingScheme
 {
 public:
-	Section^ Cut(Section^ section, Size size, CutType cutType, Section^% remain)
+	Section^ Cut(Section^ section, Decimal size, CutType cutType, Section^% remain)
 	{
 		if(section->m_cutType != cutType)
 		{
@@ -188,7 +230,7 @@ public:
 			Cut(section, m_parameters->CutOffLeft - m_parameters->CutterThickness, cutType, section);
 	}
 
-	Section^ Cut(Size size, Section^% remain)
+	Section^ Cut(Decimal size, Section^% remain)
 	{
 		throw gcnew NotImplementedException();
 	}
@@ -221,7 +263,7 @@ public:
 			return CutType::Vertical;
 	}
 
-	CuttingScheme(Denisenko::Size width, Denisenko::Size height, ParametersCollection^ parameters)
+	CuttingScheme(Decimal width, Decimal height, ParametersCollection^ parameters)
 	{
 		m_rootSection = gcnew Section();
 		m_rootSection->m_width = width;
@@ -234,21 +276,28 @@ public:
 		Section^ get() { return m_rootSection; }
 	}
 
-	property Size Width
+	property Decimal Width
 	{
-		Size get() { return m_rootSection->Width; }
+		Decimal get() { return m_rootSection->Width; }
 	}
 
-	property Size Height
+	property Decimal Height
 	{
-		Size get() { return m_rootSection->Height; }
+		Decimal get() { return m_rootSection->Height; }
+	}
+
+	property Material^ Material
+	{
+		Denisenko::Cutting::Material^ get() { return m_material; }
+		void set(Denisenko::Cutting::Material^ value) { m_material = value; }
 	}
 
 private:
 	Section^ m_rootSection;
 	ParametersCollection^ m_parameters;
+	Denisenko::Cutting::Material^ m_material;
 
-	Section^ SplitSection(Section^ section, Size size, CutType cutType, Section^% remain)
+	Section^ SplitSection(Section^ section, Decimal size, CutType cutType, Section^% remain)
 	{
 		Debug::Assert(cutType == section->m_cutType);
 
@@ -265,33 +314,41 @@ private:
 			if(size > section->m_height)
 				throw gcnew Exception("Section is too small");
 			section1->m_topEven = section->m_topEven;
+			section1->m_x = cut->m_x = remain->m_x = section->m_x;
+			section1->m_y = section->m_y;
 			section1->m_width = cut->m_width = remain->m_width = section->m_width;
 			section1->m_height = size;
 			section1->m_bottomEven = true;
-			cut->m_height = Size::Min(m_parameters->CutterThickness, section->m_height - size);
+			cut->m_y = section->m_y + size;
+			cut->m_height = Math::Min(m_parameters->CutterThickness, section->m_height - size);
 			remain->m_topEven = true;
 			remain->m_bottomEven = section->m_bottomEven;
 			section1->m_leftEven = remain->m_leftEven = section->m_leftEven;
 			section1->m_rightEven = remain->m_rightEven = section->m_rightEven;
+			remain->m_y = section->m_y + size + m_parameters->CutterThickness;
 			remain->m_height = section->m_height - size - m_parameters->CutterThickness;
-			if(remain->m_height < Size::Zero)
+			if(remain->m_height < Decimal::Zero)
 				remain = nullptr;
 		}
 		else // Vertical
 		{
 			if(size > section->m_width)
 				throw gcnew Exception("Section is too small");
+			section1->m_x = section->m_x;
+			section1->m_y = cut->m_y = remain->m_y = section->m_y;
 			section1->m_height = cut->m_height = remain->m_height = section->m_height;
 			section1->m_width = size;
 			section1->m_rightEven = true;
 			section1->m_leftEven = section->m_leftEven;
-			cut->m_width = Size::Min(m_parameters->CutterThickness, section->m_width - size);
+			cut->m_x = section->m_x + size;
+			cut->m_width = Math::Min(m_parameters->CutterThickness, section->m_width - size);
 			remain->m_leftEven = true;
 			remain->m_rightEven = section->m_rightEven;
 			section1->m_topEven = remain->m_topEven = section->m_topEven;
 			section1->m_bottomEven = remain->m_bottomEven = section->m_bottomEven;
+			remain->m_x = section->m_x + size + m_parameters->CutterThickness;
 			remain->m_width = section->m_width - size - m_parameters->CutterThickness;
-			if(remain->m_width < Size::Zero)
+			if(remain->m_width < Decimal::Zero)
 				remain = nullptr;
 		}
 
@@ -305,6 +362,8 @@ private:
 	Section^ CreateNestedSection(Section^ section, CutType cutType)
 	{
 		Section^ result = gcnew Section();
+		result->m_x = section->m_x;
+		result->m_y = section->m_y;
 		result->m_width = section->m_width;
 		result->m_height = section->m_height;
 		result->m_cutType = cutType;

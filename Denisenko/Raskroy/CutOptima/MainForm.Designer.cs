@@ -28,61 +28,160 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.mainMenuStrip = new System.Windows.Forms.MenuStrip();
-			this.операцииToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.referenceDetailsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			System.Windows.Forms.ToolStripMenuItem operationsToolStripMenuItem;
+			System.Windows.Forms.ToolStripMenuItem referencesToolStripMenuItem;
 			this.detailsListsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.optimizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.настройкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.loadCuttingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.materialsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.sheetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.stdDetailsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.cuttingParametersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.BottomToolStripPanel = new System.Windows.Forms.ToolStripPanel();
+			this.TopToolStripPanel = new System.Windows.Forms.ToolStripPanel();
+			this.RightToolStripPanel = new System.Windows.Forms.ToolStripPanel();
+			this.LeftToolStripPanel = new System.Windows.Forms.ToolStripPanel();
+			this.ContentPanel = new System.Windows.Forms.ToolStripContentPanel();
+			this.mainMenuStrip = new System.Windows.Forms.MenuStrip();
+			this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.windowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			operationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			referencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.mainMenuStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// mainMenuStrip
+			// operationsToolStripMenuItem
 			// 
-			this.mainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.операцииToolStripMenuItem,
-            this.настройкиToolStripMenuItem});
-			this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
-			this.mainMenuStrip.Name = "mainMenuStrip";
-			this.mainMenuStrip.Size = new System.Drawing.Size(663, 24);
-			this.mainMenuStrip.TabIndex = 1;
-			this.mainMenuStrip.Text = "menuStrip1";
-			// 
-			// операцииToolStripMenuItem
-			// 
-			this.операцииToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.referenceDetailsToolStripMenuItem,
+			operationsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.detailsListsToolStripMenuItem,
-            this.optimizeToolStripMenuItem});
-			this.операцииToolStripMenuItem.Name = "операцииToolStripMenuItem";
-			this.операцииToolStripMenuItem.Size = new System.Drawing.Size(76, 20);
-			this.операцииToolStripMenuItem.Text = "Операции";
-			// 
-			// referenceDetailsToolStripMenuItem
-			// 
-			this.referenceDetailsToolStripMenuItem.Name = "referenceDetailsToolStripMenuItem";
-			this.referenceDetailsToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
-			this.referenceDetailsToolStripMenuItem.Text = "Списки стд. деталей";
-			this.referenceDetailsToolStripMenuItem.Click += new System.EventHandler(this.referenceDetailsToolStripMenuItem_Click);
+            this.optimizeToolStripMenuItem,
+            this.loadCuttingToolStripMenuItem});
+			operationsToolStripMenuItem.Name = "operationsToolStripMenuItem";
+			operationsToolStripMenuItem.Size = new System.Drawing.Size(76, 20);
+			operationsToolStripMenuItem.Text = "Операции";
 			// 
 			// detailsListsToolStripMenuItem
 			// 
 			this.detailsListsToolStripMenuItem.Name = "detailsListsToolStripMenuItem";
-			this.detailsListsToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+			this.detailsListsToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
 			this.detailsListsToolStripMenuItem.Text = "Списки деталей";
 			this.detailsListsToolStripMenuItem.Click += new System.EventHandler(this.detailsListsToolStripMenuItem_Click);
 			// 
 			// optimizeToolStripMenuItem
 			// 
 			this.optimizeToolStripMenuItem.Name = "optimizeToolStripMenuItem";
-			this.optimizeToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+			this.optimizeToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
 			this.optimizeToolStripMenuItem.Text = "Оптимизация";
+			this.optimizeToolStripMenuItem.Click += new System.EventHandler(this.optimizeToolStripMenuItem_Click);
 			// 
-			// настройкиToolStripMenuItem
+			// loadCuttingToolStripMenuItem
 			// 
-			this.настройкиToolStripMenuItem.Name = "настройкиToolStripMenuItem";
-			this.настройкиToolStripMenuItem.Size = new System.Drawing.Size(79, 20);
-			this.настройкиToolStripMenuItem.Text = "Настройки";
+			this.loadCuttingToolStripMenuItem.MergeIndex = 1;
+			this.loadCuttingToolStripMenuItem.Name = "loadCuttingToolStripMenuItem";
+			this.loadCuttingToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
+			this.loadCuttingToolStripMenuItem.Text = "Загрузить раскрой";
+			this.loadCuttingToolStripMenuItem.Click += new System.EventHandler(this.loadCuttingToolStripMenuItem_Click);
+			// 
+			// referencesToolStripMenuItem
+			// 
+			referencesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.materialsToolStripMenuItem,
+            this.sheetsToolStripMenuItem,
+            this.stdDetailsToolStripMenuItem,
+            this.cuttingParametersToolStripMenuItem});
+			referencesToolStripMenuItem.Name = "referencesToolStripMenuItem";
+			referencesToolStripMenuItem.Size = new System.Drawing.Size(93, 20);
+			referencesToolStripMenuItem.Text = "Справочники";
+			// 
+			// materialsToolStripMenuItem
+			// 
+			this.materialsToolStripMenuItem.Name = "materialsToolStripMenuItem";
+			this.materialsToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+			this.materialsToolStripMenuItem.Text = "Материалы";
+			this.materialsToolStripMenuItem.Click += new System.EventHandler(this.materialsToolStripMenuItem_Click);
+			// 
+			// sheetsToolStripMenuItem
+			// 
+			this.sheetsToolStripMenuItem.Name = "sheetsToolStripMenuItem";
+			this.sheetsToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+			this.sheetsToolStripMenuItem.Text = "Листы";
+			this.sheetsToolStripMenuItem.Click += new System.EventHandler(this.sheetsToolStripMenuItem_Click);
+			// 
+			// stdDetailsToolStripMenuItem
+			// 
+			this.stdDetailsToolStripMenuItem.Name = "stdDetailsToolStripMenuItem";
+			this.stdDetailsToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+			this.stdDetailsToolStripMenuItem.Text = "Стандартные детали";
+			this.stdDetailsToolStripMenuItem.Click += new System.EventHandler(this.stdDetailsToolStripMenuItem_Click);
+			// 
+			// cuttingParametersToolStripMenuItem
+			// 
+			this.cuttingParametersToolStripMenuItem.Name = "cuttingParametersToolStripMenuItem";
+			this.cuttingParametersToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
+			this.cuttingParametersToolStripMenuItem.Text = "Параметры раскроя";
+			this.cuttingParametersToolStripMenuItem.Click += new System.EventHandler(this.cuttingParametersToolStripMenuItem_Click);
+			// 
+			// BottomToolStripPanel
+			// 
+			this.BottomToolStripPanel.Location = new System.Drawing.Point(0, 0);
+			this.BottomToolStripPanel.Name = "BottomToolStripPanel";
+			this.BottomToolStripPanel.Orientation = System.Windows.Forms.Orientation.Horizontal;
+			this.BottomToolStripPanel.RowMargin = new System.Windows.Forms.Padding(3, 0, 0, 0);
+			this.BottomToolStripPanel.Size = new System.Drawing.Size(0, 0);
+			// 
+			// TopToolStripPanel
+			// 
+			this.TopToolStripPanel.Location = new System.Drawing.Point(0, 0);
+			this.TopToolStripPanel.Name = "TopToolStripPanel";
+			this.TopToolStripPanel.Orientation = System.Windows.Forms.Orientation.Horizontal;
+			this.TopToolStripPanel.RowMargin = new System.Windows.Forms.Padding(3, 0, 0, 0);
+			this.TopToolStripPanel.Size = new System.Drawing.Size(0, 0);
+			// 
+			// RightToolStripPanel
+			// 
+			this.RightToolStripPanel.Location = new System.Drawing.Point(0, 0);
+			this.RightToolStripPanel.Name = "RightToolStripPanel";
+			this.RightToolStripPanel.Orientation = System.Windows.Forms.Orientation.Horizontal;
+			this.RightToolStripPanel.RowMargin = new System.Windows.Forms.Padding(3, 0, 0, 0);
+			this.RightToolStripPanel.Size = new System.Drawing.Size(0, 0);
+			// 
+			// LeftToolStripPanel
+			// 
+			this.LeftToolStripPanel.Location = new System.Drawing.Point(0, 0);
+			this.LeftToolStripPanel.Name = "LeftToolStripPanel";
+			this.LeftToolStripPanel.Orientation = System.Windows.Forms.Orientation.Horizontal;
+			this.LeftToolStripPanel.RowMargin = new System.Windows.Forms.Padding(3, 0, 0, 0);
+			this.LeftToolStripPanel.Size = new System.Drawing.Size(0, 0);
+			// 
+			// ContentPanel
+			// 
+			this.ContentPanel.Size = new System.Drawing.Size(150, 175);
+			// 
+			// mainMenuStrip
+			// 
+			this.mainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            operationsToolStripMenuItem,
+            referencesToolStripMenuItem,
+            this.settingsToolStripMenuItem,
+            this.windowsToolStripMenuItem});
+			this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
+			this.mainMenuStrip.MdiWindowListItem = this.windowsToolStripMenuItem;
+			this.mainMenuStrip.Name = "mainMenuStrip";
+			this.mainMenuStrip.Size = new System.Drawing.Size(663, 24);
+			this.mainMenuStrip.TabIndex = 1;
+			this.mainMenuStrip.Text = "menuStrip1";
+			// 
+			// settingsToolStripMenuItem
+			// 
+			this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
+			this.settingsToolStripMenuItem.Size = new System.Drawing.Size(79, 20);
+			this.settingsToolStripMenuItem.Text = "Настройки";
+			// 
+			// windowsToolStripMenuItem
+			// 
+			this.windowsToolStripMenuItem.Name = "windowsToolStripMenuItem";
+			this.windowsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
+			this.windowsToolStripMenuItem.Text = "Окна";
 			// 
 			// MainForm
 			// 
@@ -94,6 +193,7 @@
 			this.MainMenuStrip = this.mainMenuStrip;
 			this.Name = "MainForm";
 			this.Text = "CutOptima";
+			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
 			this.mainMenuStrip.ResumeLayout(false);
 			this.mainMenuStrip.PerformLayout();
 			this.ResumeLayout(false);
@@ -103,11 +203,21 @@
 
 		#endregion
 
+		private System.Windows.Forms.ToolStripPanel BottomToolStripPanel;
+		private System.Windows.Forms.ToolStripPanel TopToolStripPanel;
+		private System.Windows.Forms.ToolStripPanel RightToolStripPanel;
+		private System.Windows.Forms.ToolStripPanel LeftToolStripPanel;
+		private System.Windows.Forms.ToolStripContentPanel ContentPanel;
 		private System.Windows.Forms.MenuStrip mainMenuStrip;
-		private System.Windows.Forms.ToolStripMenuItem операцииToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem referenceDetailsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem detailsListsToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem настройкиToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem optimizeToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem loadCuttingToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem materialsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem sheetsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem stdDetailsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem windowsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem cuttingParametersToolStripMenuItem;
+
 	}
 }

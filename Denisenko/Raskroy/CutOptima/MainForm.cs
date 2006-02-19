@@ -29,12 +29,41 @@ namespace Denisenko.Cutting.CutOptima
 
 		private void referenceDetailsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			Mediator.Instance.OpenReferenceDetails();
 		}
 
 		private void detailsListsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			Mediator.Instance.OpenListsEditor();
+		}
+
+		private void sheetsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Mediator.Instance.OpenSheetsEditor();
+		}
+
+		private void materialsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Mediator.Instance.OpenMaterialsEditor();
+		}
+
+		private void stdDetailsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			//Mediator.Instance.OpenReferenceDetails();
+		}
+
+		private void loadCuttingToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Mediator.Instance.LoadCuttingCommand();
+		}
+
+		private void cuttingParametersToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Mediator.Instance.OpenCuttingParametersCommand();
+		}
+
+		private void optimizeToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Mediator.Instance.CuttingCommand();
 		}
 	}
 }

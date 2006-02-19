@@ -3,19 +3,20 @@
 namespace Denisenko {
 namespace Cutting {
 
+[Serializable]
 public ref class ParametersCollection
 {
 public:
-	property Size CutterThickness
+	property Decimal CutterThickness
 	{
-		Size get() { return m_cutterThickness; }
-		void set(Size value) { m_cutterThickness = value; }
+		Decimal get() { return m_cutterThickness; }
+		void set(Decimal value) { m_cutterThickness = value; }
 	}
 
-	Size CutOffTop;
-	Size CutOffBottom;
-	Size CutOffLeft;
-	Size CutOffRight;
+	Decimal CutOffTop;
+	Decimal CutOffBottom;
+	Decimal CutOffLeft;
+	Decimal CutOffRight;
 
 	ParametersCollection^ Clone()
 	{
@@ -25,15 +26,15 @@ public:
 internal:
 	ParametersCollection()
 	{
-		m_cutterThickness = Size(4.4);
-		CutOffTop = Size(12);
-		CutOffBottom = Size(12);
-		CutOffLeft = Size(12);
-		CutOffRight = Size(12);
+		m_cutterThickness = Decimal(4.4);
+		CutOffTop = 12;
+		CutOffBottom = 12;
+		CutOffLeft = 12;
+		CutOffRight = 12;
 	}
 
 private:
-	Size m_cutterThickness;
+	Decimal m_cutterThickness;
 };
 
 }

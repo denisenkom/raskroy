@@ -18,6 +18,7 @@ namespace Denisenko.Cutting.CutOptima
 			public Single Y;
 			public Single Width;
 			public Single Height;
+			public Brush Brush;
 			public Denisenko.Cutting.Section SourceSection;
 		}
 
@@ -36,7 +37,7 @@ namespace Denisenko.Cutting.CutOptima
 		public CuttingControl()
 		{
 			m_sections = new List<Section>();
-			m_scale = 0.2f;
+			m_scale = 0.5f;
 			m_margin = 50.0f;
 			InitializeComponent();
 		}
@@ -47,32 +48,29 @@ namespace Denisenko.Cutting.CutOptima
 			if (m_cutting != null)
 			{
 				pe.Graphics.ScaleTransform(m_scale, m_scale);
+				pe.Graphics.TranslateTransform(m_margin, m_margin);
 				pe.Graphics.FillRectangle(Brushes.Black, m_sheetRect.X + 20, m_sheetRect.Y + 20,
 					m_sheetRect.Width, m_sheetRect.Height);
-				pe.Graphics.FillRectangle(Brushes.White, m_sheetRect.X, m_sheetRect.Y,
+				pe.Graphics.FillRectangle(Brushes.Silver, m_sheetRect.X, m_sheetRect.Y,
 					m_sheetRect.Width, m_sheetRect.Height);
 				foreach (Section section in m_sections)
 				{
-					switch(section.SourceSection.SectionType)
+					if(section.Brush != null)
+						pe.Graphics.FillRectangle(section.Brush, section.X, section.Y, section.Width, section.Height);
+					if (section.SourceSection.SectionType == SectionType.Element)
 					{
-						case SectionType.Element:
-							pe.Graphics.FillRectangle(Brushes.Salmon,
-								section.X, section.Y, section.Width, section.Height);
-							pe.Graphics.DrawRectangle(new Pen(Color.Black, 0.1f),
-								section.X, section.Y, section.Width, section.Height);
-							break;
-						case SectionType.Remain:
-							pe.Graphics.DrawRectangle(new Pen(Color.Black, 0.1f),
-								section.X, section.Y, section.Width, section.Height);
-							break;
-						case SectionType.Scrap:
-							pe.Graphics.DrawRectangle(new Pen(Color.Black, 0.1f),
-								section.X, section.Y, section.Width, section.Height);
-							break;
-						case SectionType.Undefined:
-							pe.Graphics.DrawRectangle(new Pen(Color.Black, 0.1f),
-								section.X, section.Y, section.Width, section.Height);
-							break;
+						String str1 = "Элементы";
+						String str2 = String.Format("{0:0.0} x {1:0.0}", section.Width, section.Height);
+						Font font = new Font("Arial", 20);
+						// выравнивание по центру
+						SizeF size1 = pe.Graphics.MeasureString(str1, font);
+						SizeF size2 = pe.Graphics.MeasureString(str2, font);
+						Single x1 = section.X + section.Width / 2.0f - size1.Width / 2.0f;
+						Single y1 = section.Y + section.Height / 2.0f - (size1.Height + size2.Height) / 2.0f;
+						Single x2 = section.X + section.Width / 2.0f - size2.Width / 2.0f;
+						Single y2 = section.Y + section.Height / 2.0f - (size1.Height + size2.Height) / 2.0f + size1.Height;
+						pe.Graphics.DrawString(str1, font, Brushes.Black, x1, y1);
+						pe.Graphics.DrawString(str2, font, Brushes.Black, x2, y2);
 					}
 				}
 			}
@@ -81,38 +79,49 @@ namespace Denisenko.Cutting.CutOptima
 			base.OnPaint(pe);
 		}
 
-		private void LoadSections(SectionsCollection sections, Single x, Single y, Single width, Single height, Boolean transpose)
+		private void RecursiveLoadSections(SectionsCollection sections, Boolean transpose)
 		{
-			Single pinx = x;
-			Single piny = y;
 			foreach (Denisenko.Cutting.Section section in sections)
 			{
 				Section sec = new Section();
-				sec.X = pinx;
-				sec.Y = piny;
+
+				switch (section.SectionType)
+				{
+					case SectionType.Element:
+						sec.Brush = Brushes.SlateBlue;
+						break;
+					case SectionType.Remain:
+						sec.Brush = Brushes.Red;
+						break;
+					case SectionType.Scrap:
+						break;
+					case SectionType.Undefined:
+						break;
+					case SectionType.Cut:
+						if(section.Width > section.Height)
+							sec.Brush = Brushes.DarkCyan;
+						else
+							sec.Brush = Brushes.Cyan;
+						break;
+				}
+
 				if (transpose)
 				{
-					sec.Width = width;
-					sec.Height = section.Size.ToSingle();
+					sec.X = (Single)section.Y;
+					sec.Y = (Single)section.X;
+					sec.Width = (Single)section.Height;
+					sec.Height = (Single)section.Width;
 				}
 				else
 				{
-					sec.Width = section.Size.ToSingle();
-					sec.Height = height;
+					sec.X = (Single)section.X;
+					sec.Y = (Single)section.Y;
+					sec.Width = (Single)section.Width;
+					sec.Height = (Single)section.Height;
 				}
 				sec.SourceSection = section;
 				m_sections.Add(sec);
-
-				LoadSections(section, sec.X, sec.Y, sec.Width, sec.Height, !transpose);
-
-				if (transpose)
-				{
-					piny += section.Size.ToSingle();
-				}
-				else
-				{
-					pinx += section.Size.ToSingle();
-				}
+				RecursiveLoadSections(section, transpose);
 			}
 		}
 
@@ -131,24 +140,20 @@ namespace Denisenko.Cutting.CutOptima
 					m_cutting = value;
 					if (m_cutting != null)
 					{
-						if (m_cutting.Width.Scaled < m_cutting.Height.Scaled)
+						Boolean transpose = m_cutting.Width < m_cutting.Height;
+						m_sheetRect.X = 0;
+						m_sheetRect.Y = 0;
+						if (transpose)
 						{
-							m_sheetRect.X = m_margin;
-							m_sheetRect.Y = m_margin;
-							m_sheetRect.Width = m_cutting.Height.ToSingle();
-							m_sheetRect.Height = m_cutting.Width.ToSingle();
-							LoadSections(m_cutting.RootSection, m_sheetRect.X, m_sheetRect.Y,
-								m_sheetRect.Width, m_sheetRect.Height, true);
+							m_sheetRect.Width = (Single)m_cutting.Height;
+							m_sheetRect.Height = (Single)m_cutting.Width;
 						}
 						else
 						{
-							m_sheetRect.X = m_margin;
-							m_sheetRect.Y = m_margin;
-							m_sheetRect.Width = m_cutting.Width.ToSingle();
-							m_sheetRect.Height = m_cutting.Height.ToSingle();
-							LoadSections(m_cutting.RootSection, m_sheetRect.X, m_sheetRect.Y,
-								m_sheetRect.Width, m_sheetRect.Height, false);
+							m_sheetRect.Width = (Single)m_cutting.Width;
+							m_sheetRect.Height = (Single)m_cutting.Height;
 						}
+						RecursiveLoadSections(m_cutting.RootSection, transpose);
 					}
 					else
 						ClearSections();

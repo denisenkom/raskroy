@@ -46,6 +46,52 @@
     <Compile Include="CuttingControl.Designer.cs">
       <DependentUpon>CuttingControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="CuttingParametersForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CuttingParametersForm.Designer.cs">
+      <DependentUpon>CuttingParametersForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CuttingResultForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CuttingResultForm.Designer.cs">
+      <DependentUpon>CuttingResultForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CuttingWizard\BasePage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CuttingWizard\BasePage.Designer.cs">
+      <DependentUpon>BasePage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CuttingWizard\BaseWizardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CuttingWizard\BaseWizardForm.Designer.cs">
+      <DependentUpon>BaseWizardForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CuttingWizard\CuttingWizard.cs" />
+    <Compile Include="CuttingWizard\DataSet.cs">
+      <DependentUpon>DataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="CuttingWizard\DataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="CuttingWizard\Mediator.cs" />
+    <Compile Include="CuttingWizard\SelectDetailsPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CuttingWizard\SelectDetailsPage.Designer.cs">
+      <DependentUpon>SelectDetailsPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CuttingWizard\SelectSheetsPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CuttingWizard\SelectSheetsPage.Designer.cs">
+      <DependentUpon>SelectSheetsPage.cs</DependentUpon>
+    </Compile>
     <Compile Include="DataSet.cs">
       <DependentUpon>DataSet.xsd</DependentUpon>
     </Compile>
@@ -53,6 +99,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DetailsListControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DetailsListControl.Designer.cs">
+      <DependentUpon>DetailsListControl.cs</DependentUpon>
     </Compile>
     <Compile Include="DetailsListForm.cs">
       <SubType>Form</SubType>
@@ -66,21 +118,63 @@
     <Compile Include="DetailsListsForm.Designer.cs">
       <DependentUpon>DetailsListsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MaterialsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MaterialsForm.Designer.cs">
+      <DependentUpon>MaterialsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Mediator.cs" />
+    <Compile Include="Part.cs" />
+    <Compile Include="PartPropertiesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PartPropertiesForm.Designer.cs">
+      <DependentUpon>PartPropertiesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Parts.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="ProgressForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProgressForm.Designer.cs">
+      <DependentUpon>ProgressForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="CuttingParametersForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CuttingParametersForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CuttingResultForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CuttingResultForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CuttingWizard\BasePage.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>BasePage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CuttingWizard\BaseWizardForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>BaseWizardForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CuttingWizard\SelectDetailsPage.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SelectDetailsPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CuttingWizard\SelectSheetsPage.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>SelectSheetsPage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DetailsListControl.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>DetailsListControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DetailsListForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>DetailsListForm.cs</DependentUpon>
@@ -89,22 +183,30 @@
       <SubType>Designer</SubType>
       <DependentUpon>DetailsListsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MaterialsForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>MaterialsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PartPropertiesForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PartPropertiesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProgressForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ProgressForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="ReferenceDetailsForm.resx">
+    <EmbeddedResource Include="SheetsListForm.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>ReferenceDetailsForm.cs</DependentUpon>
+      <DependentUpon>SheetsListForm.cs</DependentUpon>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -112,6 +214,17 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="app.config" />
+    <None Include="CuttingWizard\DataSet.xsc">
+      <DependentUpon>DataSet.xsd</DependentUpon>
+    </None>
+    <None Include="CuttingWizard\DataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="CuttingWizard\DataSet.xss">
+      <DependentUpon>DataSet.xsd</DependentUpon>
+    </None>
     <None Include="DataSet.xsc">
       <DependentUpon>DataSet.xsd</DependentUpon>
     </None>
@@ -132,11 +245,13 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ReferenceDetailsForm.cs">
+    <Compile Include="PropertyType.cs" />
+    <Compile Include="PropertyTypes.cs" />
+    <Compile Include="SheetsListForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ReferenceDetailsForm.Designer.cs">
-      <DependentUpon>ReferenceDetailsForm.cs</DependentUpon>
+    <Compile Include="SheetsListForm.Designer.cs">
+      <DependentUpon>SheetsListForm.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -147,6 +262,10 @@
     <ProjectReference Include="..\CuttingOptimizer\CuttingOptimizer.vcproj">
       <Project>{E3D1B48A-C56C-4C17-A001-DB8C9AB9221C}</Project>
       <Name>CuttingOptimizer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CuttingOptimizing\CuttingOptimizing.csproj">
+      <Project>{74F40B10-CA86-4DD8-887C-7F7AFC6013B5}</Project>
+      <Name>CuttingOptimizing</Name>
     </ProjectReference>
     <ProjectReference Include="..\LC4Parser\LC4Parser.csproj">
       <Project>{83C5C11C-F1CA-4792-A4FF-810DCA49F20E}</Project>

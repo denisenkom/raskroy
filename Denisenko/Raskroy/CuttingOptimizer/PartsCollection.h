@@ -16,6 +16,11 @@ public:
 		m_list->Add(part);
 	}
 
+	void Clear()
+	{
+		m_list->Clear();
+	}
+
 	virtual IEnumerator<Part>^ GetEnumerator()
 	{
 		return m_list->GetEnumerator();

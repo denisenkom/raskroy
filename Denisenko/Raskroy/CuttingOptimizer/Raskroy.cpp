@@ -29,7 +29,10 @@ void Raskroy::RemoveExostedSizes(void)
 				pSize = m_sizes[s].begin();
 			}
 			else
+			{
+				pSize->OtherSizes.SetMin();
 				pSize++;
+			}
 		}
 	}
 }

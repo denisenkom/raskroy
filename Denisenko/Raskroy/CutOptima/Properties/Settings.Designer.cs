@@ -32,5 +32,16 @@ namespace Denisenko.Cutting.CutOptima.Properties {
                 return ((string)(this["OrdersConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=misha\\v2000;Initial Catalog=CutOptima;Integrated Security=True;Poolin" +
+            "g=False")]
+        public string CutOptimaConnectionString {
+            get {
+                return ((string)(this["CutOptimaConnectionString"]));
+            }
+        }
     }
 }

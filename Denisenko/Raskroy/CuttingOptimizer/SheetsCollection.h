@@ -11,6 +11,11 @@ public:
 		m_list->Add(sheet);
 	}
 
+	void Clear()
+	{
+		m_list->Clear();
+	}
+
 	virtual IEnumerator<Sheet>^ GetEnumerator()
 	{
 		return m_list->GetEnumerator();

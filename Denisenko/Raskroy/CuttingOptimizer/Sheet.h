@@ -6,17 +6,17 @@ namespace Cutting {
 public value class Sheet
 {
 public:
-	Sheet(Size length, Size width) :
+	Sheet(Decimal length, Decimal width) :
 	  m_length(length), m_width(width)
 	{
 	}
 
-	property Size Length { Size get() { return m_length; } }
-	property Size Width { Size get() { return m_width; } }
+	property Decimal Length { Decimal get() { return m_length; } }
+	property Decimal Width { Decimal get() { return m_width; } }
 
 private:
-	Size m_length;
-	Size m_width;
+	Decimal m_length;
+	Decimal m_width;
 };
 
 }
