@@ -16,7 +16,7 @@
   &lt;ConnectionString&gt;Data Source=.\SQLEXPRESS;AttachDbFilename=|DataDirectory|\CutOptima.mdf;Initial Catalog=CutOptima;Integrated Security=True;Pooling=False&lt;/ConnectionString&gt;
   &lt;ProviderName&gt;System.Data.SqlClient&lt;/ProviderName&gt;
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
-      <Value Profile="(Default)">Data Source=misha\v2000;Initial Catalog=CutOptima;Integrated Security=True;Pooling=False</Value>
+      <Value Profile="(Default)">Data Source=.\SQLEXPRESS;AttachDbFilename=|DataDirectory|\CutOptima.mdf;Initial Catalog=CutOptima;Integrated Security=True;Pooling=False</Value>
     </Setting>
   </Settings>
 </SettingsFile>
