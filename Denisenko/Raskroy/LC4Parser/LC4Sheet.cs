@@ -1,41 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Xml;
+using System.Xml.Serialization;
 
 namespace Denisenko.Cutting.LC4
 {
 	public class LC4Sheet
 	{
-		internal XmlElement m_element;
-		private XmlAttribute m_size1Attribute;
-		private XmlAttribute m_size2Attribute;
-		private XmlAttribute m_thicknessAttribute;
+		[XmlAttribute("size1")]
+		public Decimal Size1;
 
-		internal LC4Sheet(XmlElement element)
-		{
-			m_element = element;
-			m_size1Attribute = element.Attributes["size1"];
-			m_size2Attribute = element.Attributes["size2"];
-			m_thicknessAttribute = element.Attributes["thickness"];
-		}
+		[XmlAttribute("size2")]
+		public Decimal Size2;
 
-		public LC4Numeric Size1
-		{
-			get { return LC4Numeric.FromScaled(Int64.Parse(m_size1Attribute.Value)); }
-			set { m_size1Attribute.Value = value.Scaled.ToString(); }
-		}
+		[XmlAttribute("thickness")]
+		public Decimal Thickness;
 
-		public LC4Numeric Size2
-		{
-			get { return LC4Numeric.FromScaled(Int64.Parse(m_size2Attribute.Value)); }
-			set { m_size2Attribute.Value = value.Scaled.ToString(); }
-		}
+		[XmlAttribute("someString1")]
+		public String SomeString1;
 
-		public LC4Numeric Thickness
+		[XmlAttribute("someString2")]
+		public String SomeString2;
+
+		[XmlAttribute("someString3")]
+		public String SomeString3;
+
+		[XmlAttribute("someInteger1")]
+		public Int32 SomeInteger1;
+
+		[XmlAttribute("someInteger2")]
+		public Int32 SomeInteger2;
+
+		[XmlAttribute("someInteger3")]
+		public Int32 SomeInteger3;
+
+		[XmlAttribute("someInteger4")]
+		public Int32 SomeInteger4;
+
+		public LC4Sheet()
 		{
-			get { return LC4Numeric.FromScaled(Int64.Parse(m_thicknessAttribute.Value)); }
-			set { m_thicknessAttribute.Value = value.Scaled.ToString(); }
+			SomeInteger1 = 1;
+			SomeInteger2 = 0; // may be 1, 3, 4, 7, 31. Can it be bit flags? Correlate with LC4Cutting.SomeInteger9 and SomeInteger12.
+			SomeInteger3 = 0;
+			SomeInteger4 = 0;
+			SomeString1 = "";
+			SomeString2 = "";
+			SomeString3 = "";
 		}
 	}
 }

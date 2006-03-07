@@ -4,11 +4,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{74F40B10-CA86-4DD8-887C-7F7AFC6013B5}</ProjectGuid>
+    <ProjectGuid>{64E4F13E-4F2E-4E6D-91AB-E3DF9502E0D4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Denisenko.Cutting.Optimizing</RootNamespace>
-    <AssemblyName>CuttingOptimizing</AssemblyName>
+    <RootNamespace>Denisenko.Cutting</RootNamespace>
+    <AssemblyName>CuttingScheme</AssemblyName>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
@@ -37,50 +37,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CuttingResult.cs" />
-    <Compile Include="DataSet.cs">
-      <DependentUpon>DataSet.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="DataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DataSet.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="OptimizingJob.cs" />
+    <Compile Include="CuttingScheme.cs" />
+    <Compile Include="Material.cs" />
+    <Compile Include="ParametersCollection.cs" />
+    <Compile Include="Part.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
+    <Compile Include="Section.cs" />
+    <Compile Include="Sheet.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
-    <None Include="DataSet.xsc">
-      <DependentUpon>DataSet.xsd</DependentUpon>
-    </None>
-    <None Include="DataSet.xsd">
-      <SubType>Designer</SubType>
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>DataSet.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="DataSet.xss">
-      <DependentUpon>DataSet.xsd</DependentUpon>
-    </None>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CuttingOptimizer\CuttingOptimizer.vcproj">
-      <Project>{E3D1B48A-C56C-4C17-A001-DB8C9AB9221C}</Project>
-      <Name>CuttingOptimizer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CuttingScheme\CuttingScheme.csproj">
-      <Project>{64E4F13E-4F2E-4E6D-91AB-E3DF9502E0D4}</Project>
-      <Name>CuttingScheme</Name>
-    </ProjectReference>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

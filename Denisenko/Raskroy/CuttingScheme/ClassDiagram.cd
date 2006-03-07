@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Font Name="Tahoma" Size="9" />
+  <Class Name="Denisenko.Cutting.CuttingScheme" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>CuttingScheme.cs</FileName>
+      <HashCode>AEQABAAABAAiAAEAAgAgAEAAEBAAAAIAAIAAAAAAEEA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Denisenko.Cutting.Material" Collapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Material.cs</FileName>
+      <HashCode>GAAAAAAAAAAABAEAAAAAAAQAAAAAAAAAAAgAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Denisenko.Cutting.ParametersCollection" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>ParametersCollection.cs</FileName>
+      <HashCode>AAAAAAAAAAQAAAACAAAAAAAAAAAABAAAACABAAAAARA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Denisenko.Cutting.Part" Collapsed="true">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Part.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAEAAAAAAEBAAAgAAACAAAgAgAAAQAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Denisenko.Cutting.Section" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="2.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Section.cs</FileName>
+      <HashCode>AAQAAAAQBAAAgAAJBQAAQEABQAAAMACAEAAABBABYBA=</HashCode>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Denisenko.Cutting.Sheet">
+    <Position X="5.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Sheet.cs</FileName>
+      <HashCode>AAAAAAAABAABAAAAAAAAAEAAAAgAAACAAAAAQAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="Denisenko.Cutting.SectionType" Collapsed="true">
+    <Position X="2.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Section.cs</FileName>
+      <HashCode>AAQAAAAAAAAAAAAAAAgAAAAAACAAAAAAAAACACAAACA=</HashCode>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Denisenko.Cutting.CutType" Collapsed="true">
+    <Position X="4" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>Section.cs</FileName>
+      <HashCode>AAAAAAAAAABAAAAAAAAAAAIAAAAAAAAAAAAAAAAAACA=</HashCode>
+    </TypeIdentifier>
+  </Enum>
+</ClassDiagram>

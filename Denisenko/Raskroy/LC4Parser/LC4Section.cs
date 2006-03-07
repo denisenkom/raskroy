@@ -1,41 +1,58 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Xml;
+using System.Xml.Serialization;
 
 namespace Denisenko.Cutting.LC4
 {
 	public enum LC4SectionType {
-		Scrap,
-		NewLine,
-		Detail,
-		Remain,
-		Cut
+		Invalid0,
+		Invalid1,
+		Schnitt, // Schnitt - 2
+		Streifen, // Streifen - 3
+		Anschnitt, // Aunschnitt - 4
+		Invalid5,
+		Invalid6,
+		Invalid7,
+		Invalid8,
+		Invalid9,
+		Rest, // 10
+		Teil, // 11
 	}
 
-	public class LC4Section : LC4SectionsCollection
+	public class LC4Section
 	{
-		internal XmlElement m_element;
-		private XmlAttribute m_shiftAttribute;
-		private XmlAttribute m_typeAttribute;
+		[XmlAttribute("sectionType")]
+		public LC4SectionType SectionType;
 
-		internal LC4Section(XmlElement element, XmlAttribute typeAttr, XmlAttribute sizeAttr) : base(element)
-		{
-			m_element = element;
-			m_typeAttribute = typeAttr;
-			m_shiftAttribute = sizeAttr;
-		}
+		[XmlAttribute("copyString")]
+		public String CopyString;
 
-		public LC4SectionType SectionType
-		{
-			get { return (LC4SectionType)Enum.Parse(typeof(LC4SectionType), m_typeAttribute.Value); }
-			set { m_typeAttribute.Value = value.ToString(); }
-		}
+		[XmlAttribute("size")]
+		public Decimal Size;
 
-		public LC4Numeric Size
+		[XmlAttribute("someInteger1")]
+		public Int32 SomeInteger1;
+
+		[XmlAttribute("someInteger2")]
+		public Int32 SomeInteger2;
+
+		[XmlAttribute("someInteger3")]
+		public Int32 SomeInteger3;
+
+		[XmlAttribute("someInteger4")]
+		public Int32 SomeInteger4;
+
+		[XmlElement("section")]
+		public List<LC4Section> NestedSections = new List<LC4Section>();
+
+		public LC4Section()
 		{
-			get { return LC4Numeric.FromScaled(Int64.Parse(m_shiftAttribute.Value)); }
-			set { m_shiftAttribute.Value = value.Scaled.ToString(); }
+			SomeInteger1 = 1;
+			SomeInteger2 = 0; // may be 1, 4. Correlate with section type. For schnitt, anschnitt and rest = 4, for streifen and teil = 0
+			SomeInteger3 = 0;
+			SomeInteger4 = 0;
+			CopyString = "";
 		}
 	}
 }
