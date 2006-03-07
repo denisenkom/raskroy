@@ -169,15 +169,11 @@ namespace Denisenko.Cutting.CutOptima
 			stream.Close();
 		}
 
-		internal void ExportLC4Command(List<CuttingScheme> cutting)
+		internal void ExportLC4Command(List<CuttingScheme> cuttings)
 		{
 			Denisenko.Cutting.Converting.LC4Convertor convertor = new Denisenko.Cutting.Converting.LC4Convertor();
-			Int32 index = 1;
-			foreach(CuttingScheme scheme in cutting)
-			{
-				convertor.AddCuttingResult(scheme, index.ToString());
-				index++;
-			}
+
+			LC4.LC4Document lc4Document = convertor.Convert(cuttings);
 			Denisenko.Cutting.LC4.LC4Parser parser = new Denisenko.Cutting.LC4.LC4Parser();
 			SaveFileDialog dialog = new SaveFileDialog();
 			dialog.AddExtension = true;
@@ -185,9 +181,9 @@ namespace Denisenko.Cutting.CutOptima
 			dialog.Filter = "Файлы раскроя (*.lc4)|*.lc4|Все файлы (*.*)|*.*";
 			if (dialog.ShowDialog() == DialogResult.Cancel)
 				return;
-			convertor.Result.InternalName = dialog.FileName.Substring(0, dialog.FileName.LastIndexOf('.'));
-			convertor.Result.Generator = "CutOptima";
-			parser.Save(dialog.FileName, FileMode.Create, convertor.Result);
+			lc4Document.InternalName = Path.GetFileNameWithoutExtension(dialog.FileName);
+			lc4Document.Description = "Создано в CutOptima";
+			parser.Save(dialog.FileName, FileMode.Create, lc4Document);
 		}
 
 		internal void OpenCuttingParametersCommand()
@@ -219,6 +215,11 @@ namespace Denisenko.Cutting.CutOptima
 				if (!_job.Canceled)
 					ShowCuttingResult(_job.Result);
 			}
+		}
+
+		internal void Startup()
+		{
+			DBManager.Instance.Startup(MainForm.Instance);
 		}
 	}
 }
