@@ -188,6 +188,10 @@
 			RelativePath="System.Windows.Forms.dll"
 			AssemblyName="System.Windows.Forms, Version=2.0.0.0, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL"
 		/>
+		<ProjectReference
+			ReferencedProjectIdentifier="{64E4F13E-4F2E-4E6D-91AB-E3DF9502E0D4}"
+			RelativePathToProject=".\CuttingScheme\CuttingScheme.csproj"
+		/>
 	</References>
 	<Files>
 		<Filter
@@ -238,31 +242,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\CuttingScheme.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ParametersCollection.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Part.h"
-				>
-			</File>
-			<File
-				RelativePath=".\PartsCollection.h"
-				>
-			</File>
-			<File
 				RelativePath=".\resource.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Sheet.h"
-				>
-			</File>
-			<File
-				RelativePath=".\SheetsCollection.h"
 				>
 			</File>
 			<File
