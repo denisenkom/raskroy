@@ -7,7 +7,6 @@
 
 using namespace std;
 using namespace System;
-using namespace Denisenko::Raskroy;
 
 namespace Denisenko {
 namespace Cutting {
@@ -29,8 +28,8 @@ namespace Optimizing {
 		Optimizer()
 		{
 			m_started = false;
-			m_parts = gcnew PartsCollection();
-			m_sheets = gcnew SheetsCollection();
+			m_parts = gcnew List<Part^>();
+			m_sheets = gcnew List<Sheet^>();
 			m_parameters = gcnew ParametersCollection();
 			m_raskroy = new Denisenko::Raskroy::Raskroy();
 		}
@@ -40,8 +39,8 @@ namespace Optimizing {
 			delete m_raskroy;
 		}
 
-		property PartsCollection^ Parts { PartsCollection^ get() { return m_parts; } }
-		property SheetsCollection^ Sheets { SheetsCollection^ get() { return m_sheets; } }
+		property List<Part^>^ Parts { List<Part^>^ get() { return m_parts; } }
+		property List<Sheet^>^ Sheets { List<Sheet^>^ get() { return m_sheets; } }
 		property ParametersCollection^ Parameters { ParametersCollection^ get() { return m_parameters; } }
 		property CuttingScheme^ CurrentResult { CuttingScheme^ get() { return m_result; } }
 
@@ -86,8 +85,8 @@ namespace Optimizing {
 
 	private:
 		Denisenko::Raskroy::Raskroy* m_raskroy;
-		PartsCollection^ m_parts;
-		SheetsCollection^ m_sheets;
+		List<Part^>^ m_parts;
+		List<Sheet^>^ m_sheets;
 		Boolean m_started;
 		ParametersCollection^ m_parameters;
 		CuttingScheme^ m_result;
@@ -95,13 +94,16 @@ namespace Optimizing {
 		Denisenko::Raskroy::Parts ConvertParts()
 		{
 			Denisenko::Raskroy::Parts result;
-			for each(Part^ part in Parts)
+			
+			for(Int32 i = 0; i < Parts->Count; i++)
 			{
-				result.push_back(Denisenko::Raskroy::Part(
-					ToScaled(part->Length),
-					ToScaled(part->Width),
-					part->CanRotate,
-					part->Quantity));
+				Denisenko::Raskroy::Part part;
+				part.Rect.Length = ToScaled(Parts[i]->Length);
+				part.Rect.Width = ToScaled(Parts[i]->Width);
+				part.Rotate = Parts[i]->CanRotate;
+				part.Amount = Parts[i]->Quantity;
+				part.Tag = i;
+				result.push_back(part);
 			}
 			return result;
 		}
@@ -109,21 +111,25 @@ namespace Optimizing {
 		Denisenko::Raskroy::Parts ConvertSheets()
 		{
 			Denisenko::Raskroy::Parts result;
-			for each(Sheet^ sheet in Sheets)
+			for(Int32 i = 0; i < Sheets->Count; i++)
 			{
-				result.push_back(Denisenko::Raskroy::Part(
-					ToScaled(sheet->Length - Parameters->CutOffLeft - Parameters->CutOffRight),
-					ToScaled(sheet->Width - Parameters->CutOffTop - Parameters->CutOffBottom)));
+				Denisenko::Raskroy::Part sheet;
+				sheet.Rect.Length = ToScaled(Sheets[i]->Width - Parameters->CutOffLeft - Parameters->CutOffRight);
+				sheet.Rect.Width = ToScaled(Sheets[i]->Height - Parameters->CutOffTop - Parameters->CutOffBottom);
+				sheet.Tag = i;
+				result.push_back(sheet);
 			}
 			return result;
 		}
 
-		CuttingScheme^ ConvertResult(const Denisenko::Raskroy::t_result& result)
+		CuttingScheme^ ConvertResult(const Denisenko::Raskroy::t_result& input)
 		{
+			CuttingScheme^ result = gcnew CuttingScheme();
+			result->Sheet = Sheets[input.sheet->Tag];
+			result->Parameters = m_parameters;
 			CuttingResultBuilder^ builder = gcnew CuttingResultBuilder();
-			return builder->Convert(result, Parameters,
-				FromScaled(result.sheet->Rect.Length),
-				FromScaled(result.sheet->Rect.Width));
+			builder->LoadSections(input.raskroy, m_parameters, result);
+			return result;
 		}
 	};
 }
