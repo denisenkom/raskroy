@@ -33,14 +33,38 @@ namespace Denisenko.Cutting.CutOptima.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.\\SQLEXPRESS;AttachDbFilename=|DataDirectory|\\CutOptima.mdf;Initial C" +
-            "atalog=CutOptima;Integrated Security=True;Pooling=False")]
+        public global::System.Collections.Specialized.StringCollection Bases {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["Bases"]));
+            }
+            set {
+                this["Bases"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DefaultCutOptimaConnectionString {
+            get {
+                return ((string)(this["DefaultCutOptimaConnectionString"]));
+            }
+            set {
+                this["DefaultCutOptimaConnectionString"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string CutOptimaConnectionString {
             get {
                 return ((string)(this["CutOptimaConnectionString"]));
+            }
+            set {
+                this["CutOptimaConnectionString"] = value;
             }
         }
     }

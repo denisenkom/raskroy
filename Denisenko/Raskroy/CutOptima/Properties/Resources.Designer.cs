@@ -59,5 +59,22 @@ namespace Denisenko.Cutting.CutOptima.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to USE [master]
+        ///GO
+        ///CREATE DATABASE [CutOptima] ON  PRIMARY 
+        ///( NAME = N&apos;CutOptima&apos;, FILENAME = N&apos;E:\Program Files\Microsoft SQL Server\MSSQL$V2000\data\CutOptima.mdf&apos; , SIZE = 896KB , MAXSIZE = UNLIMITED, FILEGROWTH = 10%)
+        /// LOG ON 
+        ///( NAME = N&apos;CutOptima_log&apos;, FILENAME = N&apos;E:\Program Files\Microsoft SQL Server\MSSQL$V2000\data\CutOptima_log.LDF&apos; , SIZE = 768KB , MAXSIZE = UNLIMITED, FILEGROWTH = 10%)
+        /// COLLATE Cyrillic_General_CI_AS
+        ///GO
+        ///EXEC dbo.sp_dbcmptlevel @dbname=N&apos;CutOptima&apos;, @new_cmptlevel=80 -- SQL  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string CreateDB {
+            get {
+                return ResourceManager.GetString("CreateDB", resourceCulture);
+            }
+        }
     }
 }
