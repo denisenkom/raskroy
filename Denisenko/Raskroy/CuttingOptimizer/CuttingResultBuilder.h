@@ -2,6 +2,10 @@
 
 #include "raskroy.h"
 
+using namespace System;
+using namespace System::Collections::Generic;
+using namespace Denisenko::Cutting;
+
 namespace Denisenko {
 namespace Cutting {
 
@@ -22,17 +26,12 @@ public:
 	{
 	}
 
-	CuttingScheme^ Convert(const Denisenko::Raskroy::t_result& input, ParametersCollection^ parameters, Decimal size1, Decimal size2)
+	void LoadSections(const Denisenko::Raskroy::t_raskroy& input, ParametersCollection^ parameters, CuttingScheme^ output)
 	{
+		m_result = output;
 		m_parameters = parameters;
-		m_result = gcnew CuttingScheme(
-			FromScaled(input.sheet->Rect.Length) + parameters->CutOffLeft + parameters->CutOffRight,
-			FromScaled(input.sheet->Rect.Width) + parameters->CutOffBottom + parameters->CutOffTop,
-			parameters);
-		CutType cutType = input.raskroy.s == 0 ? CutType::Vertical : CutType::Horizontal;
-
-		Recursive(input.raskroy, cutType, m_result->RootSection);
-		return m_result;
+		CutType cutType = input.s == 0 ? CutType::Vertical : CutType::Horizontal;
+		Recursive(input, cutType, output->RootSection);
 	}
 
 private:

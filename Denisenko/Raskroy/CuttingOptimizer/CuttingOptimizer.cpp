@@ -2,12 +2,6 @@
 
 #include "stdafx.h"
 
-#include "Part.h"
-#include "PartsCollection.h"
-#include "Sheet.h"
-#include "SheetsCollection.h"
-#include "ParametersCollection.h"
-#include "CuttingScheme.h"
 #include "CuttingResultBuilder.h"
 #include "CuttingOptimizer.h"
 
