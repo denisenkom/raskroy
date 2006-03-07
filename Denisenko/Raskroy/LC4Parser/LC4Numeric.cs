@@ -37,5 +37,15 @@ namespace Denisenko.Cutting.LC4
 		{
 			m_scaled = scaled;
 		}
+
+		public static implicit operator LC4Numeric(Decimal value)
+		{
+			return new LC4Numeric((Int64)(value * Scale));
+		}
+
+		public static implicit operator Decimal(LC4Numeric num)
+		{
+			return new Decimal(num.m_scaled) / Scale;
+		}
 	}
 }

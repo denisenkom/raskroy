@@ -4,11 +4,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{83C5C11C-F1CA-4792-A4FF-810DCA49F20E}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{7AF721EF-BD94-4F96-8D13-0CC2603D33A9}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Denisenko.Cutting.LC4</RootNamespace>
-    <AssemblyName>LC4Parser</AssemblyName>
+    <RootNamespace>ReingeneringProject</RootNamespace>
+    <AssemblyName>ReingeneringProject</AssemblyName>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
@@ -37,14 +37,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LC4Cutting.cs" />
-    <Compile Include="LC4Document.cs" />
-    <Compile Include="LC4Numeric.cs" />
-    <Compile Include="LC4Section.cs" />
-    <Compile Include="LC4Parser.cs" />
-    <Compile Include="LC4Sheet.cs" />
-    <Compile Include="LC4Variable.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LC4Parser\LC4Parser.csproj">
+      <Project>{83C5C11C-F1CA-4792-A4FF-810DCA49F20E}</Project>
+      <Name>LC4Parser</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
