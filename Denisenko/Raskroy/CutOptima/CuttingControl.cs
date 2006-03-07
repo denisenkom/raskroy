@@ -79,7 +79,7 @@ namespace Denisenko.Cutting.CutOptima
 			base.OnPaint(pe);
 		}
 
-		private void RecursiveLoadSections(SectionsCollection sections, Boolean transpose)
+		private void RecursiveLoadSections(List<Denisenko.Cutting.Section> sections, Boolean transpose)
 		{
 			foreach (Denisenko.Cutting.Section section in sections)
 			{
@@ -121,7 +121,7 @@ namespace Denisenko.Cutting.CutOptima
 				}
 				sec.SourceSection = section;
 				m_sections.Add(sec);
-				RecursiveLoadSections(section, transpose);
+				RecursiveLoadSections(section.NestedSections, transpose);
 			}
 		}
 
@@ -153,7 +153,7 @@ namespace Denisenko.Cutting.CutOptima
 							m_sheetRect.Width = (Single)m_cutting.Width;
 							m_sheetRect.Height = (Single)m_cutting.Height;
 						}
-						RecursiveLoadSections(m_cutting.RootSection, transpose);
+						RecursiveLoadSections(m_cutting.RootSection.NestedSections, transpose);
 					}
 					else
 						ClearSections();
