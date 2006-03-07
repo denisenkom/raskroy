@@ -4,7 +4,7 @@
     <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
       <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
         <Connections>
-          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="CutOptimaConnectionString" ConnectionStringObject="" IsAppSettingsProperty="True" Modifier="Assembly" Name="CutOptimaConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.Denisenko.Cutting.CutOptima.Properties.Settings.GlobalReference.Default.CutOptimaConnectionString" Provider="System.Data.SqlClient">
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="CutOptimaConnectionString" IsAppSettingsProperty="True" Modifier="Assembly" Name="CutOptimaConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.Denisenko.Cutting.CutOptima.Properties.Settings.GlobalReference.Default.CutOptimaConnectionString" Provider="System.Data.SqlClient">
           </Connection>
         </Connections>
         <Tables>
@@ -866,7 +866,7 @@ SELECT CuttingParametersID, Name, CutterThickness, TopCutOff, LeftCutOff, RightC
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="CuttingParameters" msprop:Generator_UserTableName="CuttingParameters" msprop:Generator_RowDeletedName="CuttingParametersRowDeleted" msprop:Generator_TableClassName="CuttingParametersDataTable" msprop:Generator_RowChangedName="CuttingParametersRowChanged" msprop:Generator_RowClassName="CuttingParametersRow" msprop:Generator_RowChangingName="CuttingParametersRowChanging" msprop:Generator_RowEvArgName="CuttingParametersRowChangeEvent" msprop:Generator_RowEvHandlerName="CuttingParametersRowChangeEventHandler" msprop:Generator_TablePropName="CuttingParameters" msprop:Generator_TableVarName="tableCuttingParameters" msprop:Generator_RowDeletingName="CuttingParametersRowDeleting">
+        <xs:element name="CuttingParameters" msprop:Generator_UserTableName="CuttingParameters" msprop:Generator_RowDeletedName="CuttingParametersRowDeleted" msprop:Generator_RowChangedName="CuttingParametersRowChanged" msprop:Generator_RowClassName="CuttingParametersRow" msprop:Generator_RowChangingName="CuttingParametersRowChanging" msprop:Generator_RowEvArgName="CuttingParametersRowChangeEvent" msprop:Generator_RowEvHandlerName="CuttingParametersRowChangeEventHandler" msprop:Generator_TableClassName="CuttingParametersDataTable" msprop:Generator_TableVarName="tableCuttingParameters" msprop:Generator_RowDeletingName="CuttingParametersRowDeleting" msprop:Generator_TablePropName="CuttingParameters">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="CuttingParametersID" msdata:ReadOnly="true" msdata:AutoIncrement="true" msprop:Generator_UserColumnName="CuttingParametersID" msprop:Generator_ColumnPropNameInRow="CuttingParametersID" msprop:Generator_ColumnVarNameInTable="columnCuttingParametersID" msprop:Generator_ColumnPropNameInTable="CuttingParametersIDColumn" type="xs:int" />
