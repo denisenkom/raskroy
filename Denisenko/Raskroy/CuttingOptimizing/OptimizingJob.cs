@@ -104,11 +104,22 @@ namespace Denisenko.Cutting.Optimizing
 				{
 					foreach (DataSet.DetailsListsDetailsRow row in materialRow.GetDetailsListsDetailsRows())
 					{
-						optimizer.Parts.Add(new Part(row.Length, row.Width, row.Amount, !row.MaterialsRow.HaveDirection));
+						Part part = new Part();
+						part.Length = row.Length;
+						part.Width = row.Width;
+						part.Quantity = row.Amount;
+						part.CanRotate = !row.MaterialsRow.HaveDirection;
+						optimizer.Parts.Add(part);
 					}
 					foreach (DataSet.SheetsRow row in materialRow.GetSheetsRows())
 					{
-						optimizer.Sheets.Add(new Sheet(row.Length, row.Width));
+						Sheet sheet = new Sheet();
+						sheet.Width = row.Length;
+						sheet.Height = row.Width;
+						// TODO: добавить в схему БД поле Толщина для листов
+						//sheet.Thickness = row.Thickness;
+						sheet.Thickness = 16M;
+						optimizer.Sheets.Add(sheet);
 					}
 					FillOptimizer(optimizer);
 					while (optimizer.NextResult())
