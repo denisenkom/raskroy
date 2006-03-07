@@ -27,6 +27,7 @@ struct Part {
 	bool Rotate;
 	unsigned Amount;
 	unsigned AmountOffset;
+	int Tag;
 
 	Part() {}
 	Part(scalar length, scalar width, bool rotate = false, unsigned amount = 0)
