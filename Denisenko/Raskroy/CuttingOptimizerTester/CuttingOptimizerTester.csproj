@@ -49,6 +49,10 @@
       <Project>{E3D1B48A-C56C-4C17-A001-DB8C9AB9221C}</Project>
       <Name>CuttingOptimizer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CuttingScheme\CuttingScheme.csproj">
+      <Project>{64E4F13E-4F2E-4E6D-91AB-E3DF9502E0D4}</Project>
+      <Name>CuttingScheme</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LC4Parser\LC4Parser.csproj">
       <Project>{83C5C11C-F1CA-4792-A4FF-810DCA49F20E}</Project>
       <Name>LC4Parser</Name>
