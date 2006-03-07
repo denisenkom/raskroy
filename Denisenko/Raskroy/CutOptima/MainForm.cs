@@ -70,5 +70,15 @@ namespace Denisenko.Cutting.CutOptima
 		{
 			Close();
 		}
+
+		private void MainForm_Load(object sender, EventArgs e)
+		{
+			Mediator.Instance.Startup();
+		}
+
+		private void baseSelectionToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			DBManager.Instance.SelectDB(this);
+		}
 	}
 }

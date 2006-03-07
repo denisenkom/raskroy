@@ -33,6 +33,7 @@
 			this.detailsListsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.optimizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.loadCuttingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.materialsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.sheetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.stdDetailsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,7 +46,7 @@
 			this.mainMenuStrip = new System.Windows.Forms.MenuStrip();
 			this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.windowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.baseSelectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			operationsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			referencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.mainMenuStrip.SuspendLayout();
@@ -83,6 +84,13 @@
 			this.loadCuttingToolStripMenuItem.Size = new System.Drawing.Size(190, 22);
 			this.loadCuttingToolStripMenuItem.Text = "Загрузить раскрой";
 			this.loadCuttingToolStripMenuItem.Click += new System.EventHandler(this.loadCuttingToolStripMenuItem_Click);
+			// 
+			// exitMenuItem
+			// 
+			this.exitMenuItem.Name = "exitMenuItem";
+			this.exitMenuItem.Size = new System.Drawing.Size(190, 22);
+			this.exitMenuItem.Text = "Выход";
+			this.exitMenuItem.Click += new System.EventHandler(this.exitMenuItem_Click);
 			// 
 			// referencesToolStripMenuItem
 			// 
@@ -175,6 +183,8 @@
 			// 
 			// settingsToolStripMenuItem
 			// 
+			this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.baseSelectionToolStripMenuItem});
 			this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
 			this.settingsToolStripMenuItem.Size = new System.Drawing.Size(79, 20);
 			this.settingsToolStripMenuItem.Text = "Настройки";
@@ -185,12 +195,12 @@
 			this.windowsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
 			this.windowsToolStripMenuItem.Text = "Окна";
 			// 
-			// exitMenuItem
+			// baseSelectionToolStripMenuItem
 			// 
-			this.exitMenuItem.Name = "exitMenuItem";
-			this.exitMenuItem.Size = new System.Drawing.Size(190, 22);
-			this.exitMenuItem.Text = "Выход";
-			this.exitMenuItem.Click += new System.EventHandler(this.exitMenuItem_Click);
+			this.baseSelectionToolStripMenuItem.Name = "baseSelectionToolStripMenuItem";
+			this.baseSelectionToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.baseSelectionToolStripMenuItem.Text = "Выбор базы";
+			this.baseSelectionToolStripMenuItem.Click += new System.EventHandler(this.baseSelectionToolStripMenuItem_Click);
 			// 
 			// MainForm
 			// 
@@ -203,6 +213,7 @@
 			this.Name = "MainForm";
 			this.Text = "CutOptima";
 			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.mainMenuStrip.ResumeLayout(false);
 			this.mainMenuStrip.PerformLayout();
 			this.ResumeLayout(false);
@@ -228,6 +239,7 @@
 		private System.Windows.Forms.ToolStripMenuItem windowsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem cuttingParametersToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem exitMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem baseSelectionToolStripMenuItem;
 
 	}
 }
