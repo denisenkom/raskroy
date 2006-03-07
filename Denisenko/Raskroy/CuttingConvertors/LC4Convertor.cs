@@ -9,67 +9,115 @@ namespace Denisenko.Cutting.Converting
 {
 	public class LC4Convertor
 	{
-		private LC4Document m_result;
-
-		public LC4Document Result { get { return m_result; } }
+		private List<Sheet> m_sheets;
 
 		public LC4Convertor()
 		{
-			m_result = new LC4Document();
 		}
 
-		public void AddCuttingResult(CuttingScheme cuttingResult, String cuttingName)
+		private LC4Cutting ConvertCuttingScheme(CuttingScheme cuttingResult)
 		{
-			LC4Cutting lc4Cutting = m_result.CreateCutting();
-			lc4Cutting.Name = cuttingName;
-			// TODO: Здесь может быть ошибка
-			lc4Cutting.Size1 = NumericFromDecimal(cuttingResult.Width);
-			lc4Cutting.Size2 = NumericFromDecimal(cuttingResult.Height);
-			AddSections(lc4Cutting, cuttingResult.RootSection);
-			m_result.Cuttings.Add(lc4Cutting);
-		}
-
-		private void AddSections(LC4SectionsCollection into, SectionsCollection sections)
-		{
-			foreach (Section section in sections)
+			LC4Cutting lc4Cutting = new LC4Cutting();
+			if (cuttingResult.RootSection.NestedSections[0].CutType == CutType.Horizontal)
 			{
-				LC4Section lc4Section = ConvertSection(section);
+				lc4Cutting.Size1 = cuttingResult.Width;
+				lc4Cutting.Size2 = cuttingResult.Height;
+			}
+			else
+			{
+				lc4Cutting.Size1 = cuttingResult.Height;
+				lc4Cutting.Size2 = cuttingResult.Width;
+			}
+			AddSections(lc4Cutting.Sections, cuttingResult.RootSection.NestedSections);
+			// TODO: Assign statistics
+			return lc4Cutting;
+		}
+
+		private void AddSections(List<LC4Section> into, List<Section> sections)
+		{
+			Section prevSection;
+			Section nextSection;
+			for (Int32 i = 0; i < sections.Count; i++)
+			{
+				if(i > 0)
+					prevSection = sections[i - 1];
+				else
+					prevSection = null;
+				if(i < sections.Count - 1)
+					nextSection = sections[i + 1];
+				else
+					nextSection = null;
+				LC4Section lc4Section = ConvertSection(sections[i], prevSection, nextSection);
 				into.Add(lc4Section);
-				AddSections(lc4Section, section);
+				AddSections(lc4Section.NestedSections, sections[i].NestedSections);
 			}
 		}
 
-		private LC4Section ConvertSection(Section input)
+		/*
+		 * Предыдущая секция нужна в случае если конвертитуется обрезок, т.к.
+		 * его размер должен включать размер реза, который находится перед ним.
+		 */
+		private LC4Section ConvertSection(Section input, Section prevSection, Section nextSection)
 		{
-			LC4Section result = m_result.CreateSection();
+			LC4Section result = new LC4Section();
+			result.Size = input.Size;
 			switch (input.SectionType)
 			{
 				case SectionType.Cut:
-					result.SectionType = LC4SectionType.Cut;
+					result.SectionType = LC4SectionType.Schnitt;
 					break;
 				case SectionType.Element:
-					result.SectionType = LC4SectionType.Detail;
+					result.SectionType = LC4SectionType.Teil;
 					break;
 				case SectionType.NewLine:
-					result.SectionType = LC4SectionType.NewLine;
+					result.SectionType = LC4SectionType.Streifen;
 					break;
 				case SectionType.Remain:
-					result.SectionType = LC4SectionType.Remain;
+					result.SectionType = LC4SectionType.Rest;
 					break;
 				case SectionType.Scrap:
-					result.SectionType = LC4SectionType.Scrap;
+					result.SectionType = LC4SectionType.Anschnitt;
+					if (prevSection != null && prevSection.SectionType == SectionType.Cut)
+						result.Size = input.Size + prevSection.Size;
+					if (nextSection != null && nextSection.SectionType == SectionType.Cut)
+						result.Size = input.Size + nextSection.Size;
 					break;
 				case SectionType.Undefined:
-					result.SectionType = LC4SectionType.Scrap;
+					result.SectionType = LC4SectionType.Anschnitt;
+					if (prevSection != null && prevSection.SectionType == SectionType.Cut)
+						result.Size = input.Size + prevSection.Size;
+					if (nextSection != null && nextSection.SectionType == SectionType.Cut)
+						result.Size = input.Size + nextSection.Size;
 					break;
 			}
-			result.Size = NumericFromDecimal(input.Size);
 			return result;
 		}
 
-		static LC4Numeric NumericFromDecimal(Decimal value)
+		public LC4Document Convert(List<CuttingScheme> schemes)
 		{
-			return LC4Numeric.FromScaled(Decimal.ToInt64(value * LC4Numeric.Scale));
+			LC4Document result = new LC4Document();
+			Int32 cuttingIndex = 0;
+			m_sheets = new List<Sheet>();
+			foreach (CuttingScheme scheme in schemes)
+			{
+				LC4Cutting lc4Cutting = ConvertCuttingScheme(scheme);
+				lc4Cutting.Name = cuttingIndex.ToString();
+				Int32 sheetIndex = m_sheets.IndexOf(scheme.Sheet);
+				if (sheetIndex == -1)
+				{
+					sheetIndex = m_sheets.Count;
+					m_sheets.Add(scheme.Sheet);
+					LC4Sheet sheet = new LC4Sheet();
+					sheet.Size1 = scheme.Sheet.Width;
+					sheet.Size2 = scheme.Sheet.Height;
+					sheet.Thickness = scheme.Sheet.Thickness;
+					result.Sheets.Add(sheet);
+				}
+				lc4Cutting.SheetIndex = sheetIndex;
+				result.Cuttings.Add(lc4Cutting);
+				cuttingIndex++;
+			}
+			return result;
 		}
 	}
 

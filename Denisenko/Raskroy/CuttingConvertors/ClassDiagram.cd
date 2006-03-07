@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Font Name="Tahoma" Size="9" />
+  <Class Name="Denisenko.Cutting.Converting.LC4Convertor">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>LC4Convertor.cs</FileName>
+      <HashCode>AAAAAAAIAQAAAAAAAIAAAAQABCAAAAAAAAAABAAEAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+</ClassDiagram>
