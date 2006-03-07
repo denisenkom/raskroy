@@ -111,7 +111,15 @@
     <Compile Include="DataSet.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>DataSet.cs</DependentUpon>
+      <DependentUpon>DataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DBManager.cs" />
+    <Compile Include="DBSelectionDialog.cs" />
+    <Compile Include="DBSelectionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DBSelectionForm.Designer.cs">
+      <DependentUpon>DBSelectionForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DetailsListControl.cs">
       <SubType>UserControl</SubType>
@@ -144,6 +152,13 @@
       <DependentUpon>MaterialsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Mediator.cs" />
+    <Compile Include="NewDatabaseDialog.cs" />
+    <Compile Include="NewDatabaseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewDatabaseForm.Designer.cs">
+      <DependentUpon>NewDatabaseForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Part.cs" />
     <Compile Include="PartPropertiesForm.cs">
       <SubType>Form</SubType>
@@ -184,6 +199,10 @@
       <SubType>Designer</SubType>
       <DependentUpon>SelectSheetsPage.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DBSelectionForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>DBSelectionForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DetailsListControl.resx">
       <SubType>Designer</SubType>
       <DependentUpon>DetailsListControl.cs</DependentUpon>
@@ -203,6 +222,14 @@
     <EmbeddedResource Include="MaterialsForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>MaterialsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewDatabaseForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>NewDatabaseForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewDatabaseForm.ru-RU.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>NewDatabaseForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PartPropertiesForm.resx">
       <SubType>Designer</SubType>
@@ -227,12 +254,15 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="app.config" />
+    <None Include="ClassDiagram.cd" />
+    <None Include="CreateDB.sql" />
     <None Include="DataSet.xsc">
       <DependentUpon>DataSet.xsd</DependentUpon>
     </None>
     <None Include="DataSet.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSet.Designer.cs</LastGenOutput>
     </None>
     <None Include="DataSet.xss">
       <DependentUpon>DataSet.xsd</DependentUpon>
@@ -259,6 +289,7 @@
     </Compile>
     <Compile Include="PropertyType.cs" />
     <Compile Include="PropertyTypes.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="SheetsListForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -279,19 +310,16 @@
       <Project>{74F40B10-CA86-4DD8-887C-7F7AFC6013B5}</Project>
       <Name>CuttingOptimizing</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CuttingScheme\CuttingScheme.csproj">
+      <Project>{64E4F13E-4F2E-4E6D-91AB-E3DF9502E0D4}</Project>
+      <Name>CuttingScheme</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LC4Parser\LC4Parser.csproj">
       <Project>{83C5C11C-F1CA-4792-A4FF-810DCA49F20E}</Project>
       <Name>LC4Parser</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="CutOptima.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="CutOptima_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>CutOptima.mdf</DependentUpon>
-    </Content>
     <Content Include="readme.htm" />
   </ItemGroup>
   <ItemGroup>

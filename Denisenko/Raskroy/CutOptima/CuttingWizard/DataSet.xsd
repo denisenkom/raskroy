@@ -4,7 +4,7 @@
     <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
       <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
         <Connections>
-          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="CutOptimaConnectionString" ConnectionStringObject="" IsAppSettingsProperty="True" Modifier="Assembly" Name="CutOptimaConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.Denisenko.Cutting.CutOptima.Properties.Settings.GlobalReference.Default.CutOptimaConnectionString" Provider="System.Data.SqlClient">
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="CutOptimaConnectionString" IsAppSettingsProperty="True" Modifier="Assembly" Name="CutOptimaConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.Denisenko.Cutting.CutOptima.Properties.Settings.GlobalReference.Default.CutOptimaConnectionString" Provider="System.Data.SqlClient">
           </Connection>
         </Connections>
         <Tables>
@@ -177,7 +177,7 @@ SELECT SheetID, Name, Length, Width, MaterialID FROM Sheets WHERE (SheetID = @Sh
   <xs:element name="DataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="DataSet" msprop:Generator_DataSetName="DataSet">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="DetailsLists" msprop:Generator_UserTableName="DetailsLists" msprop:Generator_RowDeletedName="DetailsListsRowDeleted" msprop:Generator_TableClassName="DetailsListsDataTable" msprop:Generator_RowChangedName="DetailsListsRowChanged" msprop:Generator_RowClassName="DetailsListsRow" msprop:Generator_RowChangingName="DetailsListsRowChanging" msprop:Generator_RowEvArgName="DetailsListsRowChangeEvent" msprop:Generator_RowEvHandlerName="DetailsListsRowChangeEventHandler" msprop:Generator_TablePropName="DetailsLists" msprop:Generator_TableVarName="tableDetailsLists" msprop:Generator_RowDeletingName="DetailsListsRowDeleting">
+        <xs:element name="DetailsLists" msprop:Generator_UserTableName="DetailsLists" msprop:Generator_RowDeletedName="DetailsListsRowDeleted" msprop:Generator_RowChangedName="DetailsListsRowChanged" msprop:Generator_RowClassName="DetailsListsRow" msprop:Generator_RowChangingName="DetailsListsRowChanging" msprop:Generator_RowEvArgName="DetailsListsRowChangeEvent" msprop:Generator_RowEvHandlerName="DetailsListsRowChangeEventHandler" msprop:Generator_TableClassName="DetailsListsDataTable" msprop:Generator_TableVarName="tableDetailsLists" msprop:Generator_RowDeletingName="DetailsListsRowDeleting" msprop:Generator_TablePropName="DetailsLists">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="DetailsListID" msdata:ReadOnly="true" msdata:AutoIncrement="true" msprop:Generator_UserColumnName="DetailsListID" msprop:Generator_ColumnPropNameInRow="DetailsListID" msprop:Generator_ColumnVarNameInTable="columnDetailsListID" msprop:Generator_ColumnPropNameInTable="DetailsListIDColumn" type="xs:int" />
@@ -198,7 +198,7 @@ SELECT SheetID, Name, Length, Width, MaterialID FROM Sheets WHERE (SheetID = @Sh
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="Sheets" msprop:Generator_UserTableName="Sheets" msprop:Generator_RowDeletedName="SheetsRowDeleted" msprop:Generator_TableClassName="SheetsDataTable" msprop:Generator_RowChangedName="SheetsRowChanged" msprop:Generator_RowClassName="SheetsRow" msprop:Generator_RowChangingName="SheetsRowChanging" msprop:Generator_RowEvArgName="SheetsRowChangeEvent" msprop:Generator_RowEvHandlerName="SheetsRowChangeEventHandler" msprop:Generator_TablePropName="Sheets" msprop:Generator_TableVarName="tableSheets" msprop:Generator_RowDeletingName="SheetsRowDeleting">
+        <xs:element name="Sheets" msprop:Generator_UserTableName="Sheets" msprop:Generator_RowDeletedName="SheetsRowDeleted" msprop:Generator_RowChangedName="SheetsRowChanged" msprop:Generator_RowClassName="SheetsRow" msprop:Generator_RowChangingName="SheetsRowChanging" msprop:Generator_RowEvArgName="SheetsRowChangeEvent" msprop:Generator_RowEvHandlerName="SheetsRowChangeEventHandler" msprop:Generator_TableClassName="SheetsDataTable" msprop:Generator_TableVarName="tableSheets" msprop:Generator_RowDeletingName="SheetsRowDeleting" msprop:Generator_TablePropName="Sheets">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="SheetID" msdata:ReadOnly="true" msdata:AutoIncrement="true" msprop:Generator_UserColumnName="SheetID" msprop:Generator_ColumnPropNameInRow="SheetID" msprop:Generator_ColumnVarNameInTable="columnSheetID" msprop:Generator_ColumnPropNameInTable="SheetIDColumn" type="xs:int" />
