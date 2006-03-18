@@ -25,9 +25,7 @@ namespace Denisenko.Cutting.CutOptima
 
 		private void DetailsListsForm_Load(object sender, EventArgs e)
 		{
-			// TODO: This line of code loads data into the 'dataSet.DetailsLists' table. You can move, or remove it, as needed.
 			this.detailsListsTableAdapter.Fill(this.dataSet.DetailsLists);
-
 		}
 
 		private void detailsListsDataGridView_DoubleClick(object sender, EventArgs e)
@@ -35,6 +33,11 @@ namespace Denisenko.Cutting.CutOptima
 			DataRowView dataRowView = (DataRowView)detailsListsDataGridView.CurrentRow.DataBoundItem;
 			DataSet.DetailsListsRow row = (DataSet.DetailsListsRow)dataRowView.Row;
 			Mediator.Instance.OpenListEditor(row.DetailsListID);
+		}
+
+		private void bindingNavigatorAddNewItem_Click(object sender, EventArgs e)
+		{
+			Mediator.Instance.AddDetailsList();
 		}
 	}
 }

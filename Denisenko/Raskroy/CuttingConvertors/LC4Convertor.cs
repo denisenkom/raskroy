@@ -65,6 +65,7 @@ namespace Denisenko.Cutting.Converting
 			{
 				case SectionType.Cut:
 					result.SectionType = LC4SectionType.Schnitt;
+					result.SomeInteger2 = 4;
 					break;
 				case SectionType.Element:
 					result.SectionType = LC4SectionType.Teil;
@@ -81,6 +82,7 @@ namespace Denisenko.Cutting.Converting
 						result.Size = input.Size + prevSection.Size;
 					if (nextSection != null && nextSection.SectionType == SectionType.Cut)
 						result.Size = input.Size + nextSection.Size;
+					result.SomeInteger2 = 4;
 					break;
 				case SectionType.Undefined:
 					result.SectionType = LC4SectionType.Anschnitt;
@@ -88,6 +90,7 @@ namespace Denisenko.Cutting.Converting
 						result.Size = input.Size + prevSection.Size;
 					if (nextSection != null && nextSection.SectionType == SectionType.Cut)
 						result.Size = input.Size + nextSection.Size;
+					result.SomeInteger2 = 4;
 					break;
 			}
 			return result;
@@ -101,7 +104,7 @@ namespace Denisenko.Cutting.Converting
 			foreach (CuttingScheme scheme in schemes)
 			{
 				LC4Cutting lc4Cutting = ConvertCuttingScheme(scheme);
-				lc4Cutting.Name = cuttingIndex.ToString();
+				lc4Cutting.Name = (cuttingIndex + 1).ToString("00000");
 				Int32 sheetIndex = m_sheets.IndexOf(scheme.Sheet);
 				if (sheetIndex == -1)
 				{
@@ -114,6 +117,17 @@ namespace Denisenko.Cutting.Converting
 					result.Sheets.Add(sheet);
 				}
 				lc4Cutting.SheetIndex = sheetIndex;
+
+				Statistics stat = scheme.CalcStatistics();
+				lc4Cutting.TotalSquare = (Double)scheme.Sheet.Width * (Double)scheme.Sheet.Height;
+				lc4Cutting.DustSquare = stat.DustSquare;
+				lc4Cutting.ScrapsSquare = stat.ScrapsSquare + stat.UndefinitesSquare;
+				lc4Cutting.ScrapPercent = (lc4Cutting.DustSquare + lc4Cutting.ScrapsSquare) / lc4Cutting.TotalSquare * 100.0;
+				lc4Cutting.DetailsCount = stat.DetailsCount;
+				lc4Cutting.DetailsSquare = stat.DetailsSquare;
+				lc4Cutting.RemainsCount = stat.RemainsCount;
+				lc4Cutting.RemainsSquare = stat.RemainsSquare;
+
 				result.Cuttings.Add(lc4Cutting);
 				cuttingIndex++;
 			}

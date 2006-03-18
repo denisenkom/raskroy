@@ -4,6 +4,10 @@
 
 #pragma once
 
+#define min(a, b) ((a) <= (b) ? (a) : (b))
+#define max(a, b) ((a) >= (b) ? (a) : (b))
 
 #include <vector>
 #include <cassert>
+#include <cmath>
+#include <memory.h>

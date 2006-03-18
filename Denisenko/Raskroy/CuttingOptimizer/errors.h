@@ -6,15 +6,15 @@
 namespace Denisenko {
 namespace Raskroy {
 
-class err_cannot_set_parts {
+class CannotSetPartsException {
 public:
-	Parts &sheets;
+	Parts *sheets;
 	Sizes *sizes;
-	Amounts &remains;
+	Amounts *remains;
 
-	err_cannot_set_parts(Parts &sheets,
+	CannotSetPartsException(Parts *sheets,
 		Sizes sizes[],
-		Amounts &remains)
+		Amounts *remains)
 		: sheets(sheets),
 			sizes(sizes),
 			remains(remains)

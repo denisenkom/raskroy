@@ -28,7 +28,13 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			components = new System.ComponentModel.Container();
+			this.SuspendLayout();
+			// 
+			// CuttingControl
+			// 
+			this.Resize += new System.EventHandler(this.CuttingControl_Resize);
+			this.ResumeLayout(false);
+
 		}
 
 		#endregion

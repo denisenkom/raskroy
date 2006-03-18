@@ -4,55 +4,6 @@
 namespace Denisenko {
 namespace Raskroy {
 
-void t_raskroy::set(int s,
-	unsigned kratnostj,
-	scalar cut,
-	t_details &details,
-	t_raskroy *premain,
-	t_raskroy *precurse)
-{
-	this->s = s;
-	this->kratnostj = kratnostj;
-	this->cut = cut;
-	this->details = details;
-	delete this->premain;
-	this->premain = premain ? new t_raskroy(*premain) : 0;
-	delete this->precurse;
-	this->precurse = precurse ? new t_raskroy(*precurse) : 0;
-}
-
-t_raskroy& t_raskroy::operator = (const t_raskroy &orig)
-{
-	delete premain;
-	delete precurse;
-
-	s = orig.s;
-	kratnostj = orig.kratnostj;
-	cut = orig.cut;
-	details = orig.details;
-	premain = orig.premain;
-	precurse = orig.precurse;
-
-	orig.premain = 0;
-	orig.precurse = 0;
-
-    return *this;
-}
-
-void t_raskroy::attachRemain(t_raskroy &remain) {
-	if (premain)
-		*premain = remain;
-	else
-		premain = new t_raskroy(remain);
-}
-
-void t_raskroy::attachRecurse(t_raskroy &recurse) {
-	if (precurse)
-		*precurse = recurse;
-	else
-		precurse = new t_raskroy(recurse);
-}
-
 OtherSize::OtherSize(scalar value, unsigned amount, Amounts &amounts, bool haveOffset, unsigned &offset)
 : Value(value)
 {
@@ -189,7 +140,8 @@ Amounts Amounts::operator * (unsigned n) const
 unsigned Amounts::operator / (const Amounts &a2) const
 {
 	assert(size() == a2.size());
-	unsigned mind;
+	assert(size() != 0);
+	unsigned mind = 0;
 	bool first = true;
 	const_iterator i1 = begin();
 	const_iterator i2 = a2.begin();

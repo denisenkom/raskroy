@@ -24,17 +24,43 @@ namespace Denisenko.Cutting.CutOptima
 
 		}
 
-		private void sheetsBindingNavigatorSaveItem_Click(object sender, EventArgs e)
+		private void EndEdit()
 		{
 			this.Validate();
 			this.sheetsBindingSource.EndEdit();
-			this.sheetsTableAdapter.Update(this.dataSet.Sheets);
-
 		}
 
-		private void sheetsDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+		private void Save()
 		{
+			this.sheetsTableAdapter.Update(this.dataSet.Sheets);
+		}
 
+		private void sheetsBindingNavigatorSaveItem_Click(object sender, EventArgs e)
+		{
+			EndEdit();
+			Save();
+		}
+
+		private void SheetsListForm_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			EndEdit();
+			if (dataSet.HasChanges())
+			{
+				DialogResult result = Mediator.Instance.AskUserToSaveChanges();
+				if (result == DialogResult.Yes)
+				{
+					Save();
+				}
+				else if (result == DialogResult.Cancel)
+				{
+					e.Cancel = true;
+				}
+			}
+		}
+
+		private void sheetsDataGridView_DataError(object sender, DataGridViewDataErrorEventArgs e)
+		{
+			Mediator.Instance.DataGridView_DataError(sender, e);
 		}
 	}
 }

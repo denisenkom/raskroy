@@ -51,8 +51,10 @@ private:
 		{
 			Section^ detailsLine = m_result->Cut(leftLine, GetDetailsLength(input.details), CuttingScheme::Rotate(cutType), bottomLine);
 			for(Int32 i = input.kratnostj; i > 0; i--) {
-				m_result->Cut(detailsLine, FromScaled(input.cut), cutType, detailsLine);
+				Section^ detailsRemain;
+				detailsLine = m_result->Cut(detailsLine, FromScaled(input.cut), cutType, detailsRemain);
 				AddDetails(input.details, detailsLine, CuttingScheme::Rotate(cutType));
+				detailsLine = detailsRemain;
 			}
 		}
 		else

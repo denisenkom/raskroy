@@ -213,7 +213,7 @@
 			this.sheetsDataGridView.Name = "sheetsDataGridView";
 			this.sheetsDataGridView.Size = new System.Drawing.Size(638, 373);
 			this.sheetsDataGridView.TabIndex = 1;
-			this.sheetsDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.sheetsDataGridView_CellContentClick);
+			this.sheetsDataGridView.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.sheetsDataGridView_DataError);
 			// 
 			// materialsBindingSource
 			// 
@@ -262,6 +262,7 @@
 			this.Controls.Add(this.sheetsBindingNavigator);
 			this.Name = "SheetsListForm";
 			this.Text = "Список листов";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SheetsListForm_FormClosing);
 			this.Load += new System.EventHandler(this.SheetsListForm_Load);
 			((System.ComponentModel.ISupportInitialize)(this.dataSet)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.sheetsBindingSource)).EndInit();

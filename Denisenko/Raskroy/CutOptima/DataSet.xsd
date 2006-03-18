@@ -711,14 +711,14 @@ SELECT CuttingParametersID, Name, CutterThickness, TopCutOff, LeftCutOff, RightC
         <xs:element name="PartProperties" msprop:Generator_UserTableName="PartProperties" msprop:Generator_RowDeletedName="PartPropertiesRowDeleted" msprop:Generator_RowChangedName="PartPropertiesRowChanged" msprop:Generator_RowClassName="PartPropertiesRow" msprop:Generator_RowChangingName="PartPropertiesRowChanging" msprop:Generator_RowEvArgName="PartPropertiesRowChangeEvent" msprop:Generator_RowEvHandlerName="PartPropertiesRowChangeEventHandler" msprop:Generator_TableClassName="PartPropertiesDataTable" msprop:Generator_TableVarName="tablePartProperties" msprop:Generator_RowDeletingName="PartPropertiesRowDeleting" msprop:Generator_TablePropName="PartProperties">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="PropertyID" msprop:Generator_UserColumnName="PropertyID" msprop:Generator_ColumnVarNameInTable="columnPropertyID" msprop:Generator_ColumnPropNameInRow="PropertyID" msprop:Generator_ColumnPropNameInTable="PropertyIDColumn">
+              <xs:element name="PropertyID" msprop:Generator_UserColumnName="PropertyID" msprop:Generator_ColumnPropNameInRow="PropertyID" msprop:Generator_ColumnVarNameInTable="columnPropertyID" msprop:Generator_ColumnPropNameInTable="PropertyIDColumn">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="30" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="Description" msprop:Generator_UserColumnName="Description" msprop:Generator_ColumnVarNameInTable="columnDescription" msprop:Generator_ColumnPropNameInRow="Description" msprop:Generator_ColumnPropNameInTable="DescriptionColumn" minOccurs="0">
+              <xs:element name="Description" msprop:Generator_UserColumnName="Description" msprop:Generator_ColumnPropNameInRow="Description" msprop:Generator_ColumnVarNameInTable="columnDescription" msprop:Generator_ColumnPropNameInTable="DescriptionColumn" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="1073741823" />
@@ -731,17 +731,17 @@ SELECT CuttingParametersID, Name, CutterThickness, TopCutOff, LeftCutOff, RightC
         <xs:element name="ReferenceParts" msprop:Generator_UserTableName="ReferenceParts" msprop:Generator_RowDeletedName="ReferencePartsRowDeleted" msprop:Generator_RowChangedName="ReferencePartsRowChanged" msprop:Generator_RowClassName="ReferencePartsRow" msprop:Generator_RowChangingName="ReferencePartsRowChanging" msprop:Generator_RowEvArgName="ReferencePartsRowChangeEvent" msprop:Generator_RowEvHandlerName="ReferencePartsRowChangeEventHandler" msprop:Generator_TableClassName="ReferencePartsDataTable" msprop:Generator_TableVarName="tableReferenceParts" msprop:Generator_RowDeletingName="ReferencePartsRowDeleting" msprop:Generator_TablePropName="ReferenceParts">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="ReferencePartID" msprop:Generator_UserColumnName="ReferencePartID" msprop:Generator_ColumnPropNameInRow="ReferencePartID" msprop:Generator_ColumnVarNameInTable="columnReferencePartID" msprop:Generator_ColumnPropNameInTable="ReferencePartIDColumn" type="xs:int" />
-              <xs:element name="Name" msprop:Generator_UserColumnName="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn">
+              <xs:element name="ReferencePartID" msprop:Generator_UserColumnName="ReferencePartID" msprop:Generator_ColumnVarNameInTable="columnReferencePartID" msprop:Generator_ColumnPropNameInRow="ReferencePartID" msprop:Generator_ColumnPropNameInTable="ReferencePartIDColumn" type="xs:int" />
+              <xs:element name="Name" msprop:Generator_UserColumnName="Name" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInTable="NameColumn">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="50" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="Length" msprop:Generator_UserColumnName="Length" msprop:Generator_ColumnVarNameInTable="columnLength" msprop:Generator_ColumnPropNameInRow="Length" msprop:Generator_ColumnPropNameInTable="LengthColumn" type="xs:decimal" />
-              <xs:element name="Width" msprop:Generator_UserColumnName="Width" msprop:Generator_ColumnVarNameInTable="columnWidth" msprop:Generator_ColumnPropNameInRow="Width" msprop:Generator_ColumnPropNameInTable="WidthColumn" type="xs:decimal" />
-              <xs:element name="Material" msprop:Generator_UserColumnName="Material" msprop:Generator_ColumnVarNameInTable="columnMaterial" msprop:Generator_ColumnPropNameInRow="Material" msprop:Generator_ColumnPropNameInTable="MaterialColumn" minOccurs="0">
+              <xs:element name="Length" msprop:Generator_UserColumnName="Length" msprop:Generator_ColumnPropNameInRow="Length" msprop:Generator_ColumnVarNameInTable="columnLength" msprop:Generator_ColumnPropNameInTable="LengthColumn" type="xs:decimal" />
+              <xs:element name="Width" msprop:Generator_UserColumnName="Width" msprop:Generator_ColumnPropNameInRow="Width" msprop:Generator_ColumnVarNameInTable="columnWidth" msprop:Generator_ColumnPropNameInTable="WidthColumn" type="xs:decimal" />
+              <xs:element name="Material" msprop:Generator_UserColumnName="Material" msprop:Generator_ColumnPropNameInRow="Material" msprop:Generator_ColumnVarNameInTable="columnMaterial" msprop:Generator_ColumnPropNameInTable="MaterialColumn" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="50" />
@@ -754,41 +754,41 @@ SELECT CuttingParametersID, Name, CutterThickness, TopCutOff, LeftCutOff, RightC
         <xs:element name="DetailsListsDetails" msprop:Generator_UserTableName="DetailsListsDetails" msprop:Generator_RowDeletedName="DetailsListsDetailsRowDeleted" msprop:Generator_RowChangedName="DetailsListsDetailsRowChanged" msprop:Generator_RowClassName="DetailsListsDetailsRow" msprop:Generator_RowChangingName="DetailsListsDetailsRowChanging" msprop:Generator_RowEvArgName="DetailsListsDetailsRowChangeEvent" msprop:Generator_RowEvHandlerName="DetailsListsDetailsRowChangeEventHandler" msprop:Generator_TableClassName="DetailsListsDetailsDataTable" msprop:Generator_TableVarName="tableDetailsListsDetails" msprop:Generator_RowDeletingName="DetailsListsDetailsRowDeleting" msprop:Generator_TablePropName="DetailsListsDetails">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="DetailsListsDetailID" msdata:AutoIncrement="true" msprop:Generator_UserColumnName="DetailsListsDetailID" msprop:Generator_ColumnVarNameInTable="columnDetailsListsDetailID" msprop:Generator_ColumnPropNameInRow="DetailsListsDetailID" msprop:Generator_ColumnPropNameInTable="DetailsListsDetailIDColumn" type="xs:int" />
-              <xs:element name="DetailsListID" msprop:Generator_UserColumnName="DetailsListID" msprop:Generator_ColumnVarNameInTable="columnDetailsListID" msprop:Generator_ColumnPropNameInRow="DetailsListID" msprop:Generator_ColumnPropNameInTable="DetailsListIDColumn" type="xs:int" />
-              <xs:element name="Name" msprop:Generator_UserColumnName="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn">
+              <xs:element name="DetailsListsDetailID" msdata:AutoIncrement="true" msprop:Generator_UserColumnName="DetailsListsDetailID" msprop:Generator_ColumnPropNameInRow="DetailsListsDetailID" msprop:Generator_ColumnVarNameInTable="columnDetailsListsDetailID" msprop:Generator_ColumnPropNameInTable="DetailsListsDetailIDColumn" type="xs:int" />
+              <xs:element name="DetailsListID" msprop:Generator_UserColumnName="DetailsListID" msprop:Generator_ColumnPropNameInRow="DetailsListID" msprop:Generator_ColumnVarNameInTable="columnDetailsListID" msprop:Generator_ColumnPropNameInTable="DetailsListIDColumn" type="xs:int" />
+              <xs:element name="Name" msprop:Generator_UserColumnName="Name" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInTable="NameColumn">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="50" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="Length" msprop:Generator_UserColumnName="Length" msprop:Generator_ColumnVarNameInTable="columnLength" msprop:Generator_ColumnPropNameInRow="Length" msprop:Generator_ColumnPropNameInTable="LengthColumn" type="xs:decimal" />
-              <xs:element name="Width" msprop:Generator_UserColumnName="Width" msprop:Generator_ColumnVarNameInTable="columnWidth" msprop:Generator_ColumnPropNameInRow="Width" msprop:Generator_ColumnPropNameInTable="WidthColumn" type="xs:decimal" />
-              <xs:element name="Amount" msprop:Generator_UserColumnName="Amount" msprop:Generator_ColumnVarNameInTable="columnAmount" msprop:Generator_ColumnPropNameInRow="Amount" msprop:Generator_ColumnPropNameInTable="AmountColumn" type="xs:int" />
-              <xs:element name="MaterialID" msprop:Generator_UserColumnName="MaterialID" msprop:Generator_ColumnVarNameInTable="columnMaterialID" msprop:Generator_ColumnPropNameInRow="MaterialID" msprop:Generator_ColumnPropNameInTable="MaterialIDColumn" type="xs:int" />
-              <xs:element name="LeftEdge" msprop:Generator_UserColumnName="LeftEdge" msprop:Generator_ColumnVarNameInTable="columnLeftEdge" msprop:Generator_ColumnPropNameInRow="LeftEdge" msprop:Generator_ColumnPropNameInTable="LeftEdgeColumn" minOccurs="0">
+              <xs:element name="Length" msdata:Caption="Длина" msprop:Generator_UserColumnName="Length" msprop:Generator_ColumnPropNameInRow="Length" msprop:Generator_ColumnVarNameInTable="columnLength" msprop:Generator_ColumnPropNameInTable="LengthColumn" type="xs:decimal" />
+              <xs:element name="Width" msdata:Caption="Ширина" msprop:Generator_UserColumnName="Width" msprop:Generator_ColumnPropNameInRow="Width" msprop:Generator_ColumnVarNameInTable="columnWidth" msprop:Generator_ColumnPropNameInTable="WidthColumn" type="xs:decimal" />
+              <xs:element name="Amount" msdata:Caption="Кол-во" msprop:Generator_UserColumnName="Amount" msprop:Generator_ColumnPropNameInRow="Amount" msprop:Generator_ColumnVarNameInTable="columnAmount" msprop:Generator_ColumnPropNameInTable="AmountColumn" type="xs:int" />
+              <xs:element name="MaterialID" msprop:Generator_UserColumnName="MaterialID" msprop:Generator_ColumnPropNameInRow="MaterialID" msprop:Generator_ColumnVarNameInTable="columnMaterialID" msprop:Generator_ColumnPropNameInTable="MaterialIDColumn" type="xs:int" />
+              <xs:element name="LeftEdge" msprop:Generator_UserColumnName="LeftEdge" msprop:Generator_ColumnPropNameInRow="LeftEdge" msprop:Generator_ColumnVarNameInTable="columnLeftEdge" msprop:Generator_ColumnPropNameInTable="LeftEdgeColumn" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="10" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="TopEdge" msprop:Generator_UserColumnName="TopEdge" msprop:Generator_ColumnVarNameInTable="columnTopEdge" msprop:Generator_ColumnPropNameInRow="TopEdge" msprop:Generator_ColumnPropNameInTable="TopEdgeColumn" minOccurs="0">
+              <xs:element name="TopEdge" msprop:Generator_UserColumnName="TopEdge" msprop:Generator_ColumnPropNameInRow="TopEdge" msprop:Generator_ColumnVarNameInTable="columnTopEdge" msprop:Generator_ColumnPropNameInTable="TopEdgeColumn" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="10" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="RightEdge" msprop:Generator_UserColumnName="RightEdge" msprop:Generator_ColumnVarNameInTable="columnRightEdge" msprop:Generator_ColumnPropNameInRow="RightEdge" msprop:Generator_ColumnPropNameInTable="RightEdgeColumn" minOccurs="0">
+              <xs:element name="RightEdge" msprop:Generator_UserColumnName="RightEdge" msprop:Generator_ColumnPropNameInRow="RightEdge" msprop:Generator_ColumnVarNameInTable="columnRightEdge" msprop:Generator_ColumnPropNameInTable="RightEdgeColumn" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="10" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="BottomEdge" msprop:Generator_UserColumnName="BottomEdge" msprop:Generator_ColumnVarNameInTable="columnBottomEdge" msprop:Generator_ColumnPropNameInRow="BottomEdge" msprop:Generator_ColumnPropNameInTable="BottomEdgeColumn" minOccurs="0">
+              <xs:element name="BottomEdge" msprop:Generator_UserColumnName="BottomEdge" msprop:Generator_ColumnPropNameInRow="BottomEdge" msprop:Generator_ColumnVarNameInTable="columnBottomEdge" msprop:Generator_ColumnPropNameInTable="BottomEdgeColumn" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="10" />
@@ -801,15 +801,15 @@ SELECT CuttingParametersID, Name, CutterThickness, TopCutOff, LeftCutOff, RightC
         <xs:element name="DetailsLists" msprop:Generator_UserTableName="DetailsLists" msprop:Generator_RowDeletedName="DetailsListsRowDeleted" msprop:Generator_RowChangedName="DetailsListsRowChanged" msprop:Generator_RowClassName="DetailsListsRow" msprop:Generator_RowChangingName="DetailsListsRowChanging" msprop:Generator_RowEvArgName="DetailsListsRowChangeEvent" msprop:Generator_RowEvHandlerName="DetailsListsRowChangeEventHandler" msprop:Generator_TableClassName="DetailsListsDataTable" msprop:Generator_TableVarName="tableDetailsLists" msprop:Generator_RowDeletingName="DetailsListsRowDeleting" msprop:Generator_TablePropName="DetailsLists">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="DetailsListID" msdata:ReadOnly="true" msdata:AutoIncrement="true" msprop:Generator_UserColumnName="DetailsListID" msprop:Generator_ColumnVarNameInTable="columnDetailsListID" msprop:Generator_ColumnPropNameInRow="DetailsListID" msprop:Generator_ColumnPropNameInTable="DetailsListIDColumn" type="xs:int" />
-              <xs:element name="OrderID" msprop:Generator_UserColumnName="OrderID" msprop:Generator_ColumnVarNameInTable="columnOrderID" msprop:Generator_ColumnPropNameInRow="OrderID" msprop:Generator_ColumnPropNameInTable="OrderIDColumn" minOccurs="0">
+              <xs:element name="DetailsListID" msdata:ReadOnly="true" msdata:AutoIncrement="true" msprop:Generator_UserColumnName="DetailsListID" msprop:Generator_ColumnPropNameInRow="DetailsListID" msprop:Generator_ColumnVarNameInTable="columnDetailsListID" msprop:Generator_ColumnPropNameInTable="DetailsListIDColumn" type="xs:int" />
+              <xs:element name="OrderID" msprop:Generator_UserColumnName="OrderID" msprop:Generator_ColumnPropNameInRow="OrderID" msprop:Generator_ColumnVarNameInTable="columnOrderID" msprop:Generator_ColumnPropNameInTable="OrderIDColumn" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="50" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="Remarks" msprop:Generator_UserColumnName="Remarks" msprop:Generator_ColumnVarNameInTable="columnRemarks" msprop:Generator_ColumnPropNameInRow="Remarks" msprop:Generator_ColumnPropNameInTable="RemarksColumn" minOccurs="0">
+              <xs:element name="Remarks" msprop:Generator_UserColumnName="Remarks" msprop:Generator_ColumnPropNameInRow="Remarks" msprop:Generator_ColumnVarNameInTable="columnRemarks" msprop:Generator_ColumnPropNameInTable="RemarksColumn" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="100" />
@@ -822,16 +822,16 @@ SELECT CuttingParametersID, Name, CutterThickness, TopCutOff, LeftCutOff, RightC
         <xs:element name="Materials" msprop:Generator_UserTableName="Materials" msprop:Generator_RowDeletedName="MaterialsRowDeleted" msprop:Generator_RowChangedName="MaterialsRowChanged" msprop:Generator_RowClassName="MaterialsRow" msprop:Generator_RowChangingName="MaterialsRowChanging" msprop:Generator_RowEvArgName="MaterialsRowChangeEvent" msprop:Generator_RowEvHandlerName="MaterialsRowChangeEventHandler" msprop:Generator_TableClassName="MaterialsDataTable" msprop:Generator_TableVarName="tableMaterials" msprop:Generator_RowDeletingName="MaterialsRowDeleting" msprop:Generator_TablePropName="Materials">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="MaterialID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="1" msprop:Generator_UserColumnName="MaterialID" msprop:Generator_ColumnVarNameInTable="columnMaterialID" msprop:Generator_ColumnPropNameInRow="MaterialID" msprop:Generator_ColumnPropNameInTable="MaterialIDColumn" type="xs:int" />
-              <xs:element name="Name" msprop:Generator_UserColumnName="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn">
+              <xs:element name="MaterialID" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="1" msprop:Generator_UserColumnName="MaterialID" msprop:Generator_ColumnPropNameInRow="MaterialID" msprop:Generator_ColumnVarNameInTable="columnMaterialID" msprop:Generator_ColumnPropNameInTable="MaterialIDColumn" type="xs:int" />
+              <xs:element name="Name" msprop:Generator_UserColumnName="Name" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInTable="NameColumn">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="50" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="HaveDirection" msprop:Generator_UserColumnName="HaveDirection" msprop:Generator_ColumnVarNameInTable="columnHaveDirection" msprop:Generator_ColumnPropNameInRow="HaveDirection" msprop:Generator_ColumnPropNameInTable="HaveDirectionColumn" type="xs:boolean" default="false" />
-              <xs:element name="Remarks" msprop:Generator_UserColumnName="Remarks" msprop:Generator_ColumnVarNameInTable="columnRemarks" msprop:Generator_ColumnPropNameInRow="Remarks" msprop:Generator_ColumnPropNameInTable="RemarksColumn" minOccurs="0">
+              <xs:element name="HaveDirection" msprop:Generator_UserColumnName="HaveDirection" msprop:Generator_ColumnPropNameInRow="HaveDirection" msprop:Generator_ColumnVarNameInTable="columnHaveDirection" msprop:Generator_ColumnPropNameInTable="HaveDirectionColumn" type="xs:boolean" default="false" />
+              <xs:element name="Remarks" msprop:Generator_UserColumnName="Remarks" msprop:Generator_ColumnPropNameInRow="Remarks" msprop:Generator_ColumnVarNameInTable="columnRemarks" msprop:Generator_ColumnPropNameInTable="RemarksColumn" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="2147483647" />
@@ -844,44 +844,44 @@ SELECT CuttingParametersID, Name, CutterThickness, TopCutOff, LeftCutOff, RightC
         <xs:element name="Sheets" msprop:Generator_UserTableName="Sheets" msprop:Generator_RowDeletedName="SheetsRowDeleted" msprop:Generator_RowChangedName="SheetsRowChanged" msprop:Generator_RowClassName="SheetsRow" msprop:Generator_RowChangingName="SheetsRowChanging" msprop:Generator_RowEvArgName="SheetsRowChangeEvent" msprop:Generator_RowEvHandlerName="SheetsRowChangeEventHandler" msprop:Generator_TableClassName="SheetsDataTable" msprop:Generator_TableVarName="tableSheets" msprop:Generator_RowDeletingName="SheetsRowDeleting" msprop:Generator_TablePropName="Sheets">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="SheetID" msdata:ReadOnly="true" msdata:AutoIncrement="true" msprop:Generator_UserColumnName="SheetID" msprop:Generator_ColumnPropNameInRow="SheetID" msprop:Generator_ColumnVarNameInTable="columnSheetID" msprop:Generator_ColumnPropNameInTable="SheetIDColumn" type="xs:int" />
-              <xs:element name="Name" msprop:Generator_UserColumnName="Name" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInTable="NameColumn" minOccurs="0">
+              <xs:element name="SheetID" msdata:ReadOnly="true" msdata:AutoIncrement="true" msprop:Generator_UserColumnName="SheetID" msprop:Generator_ColumnVarNameInTable="columnSheetID" msprop:Generator_ColumnPropNameInRow="SheetID" msprop:Generator_ColumnPropNameInTable="SheetIDColumn" type="xs:int" />
+              <xs:element name="Name" msprop:Generator_UserColumnName="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="50" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="Length" msprop:Generator_UserColumnName="Length" msprop:Generator_ColumnPropNameInRow="Length" msprop:Generator_ColumnVarNameInTable="columnLength" msprop:Generator_ColumnPropNameInTable="LengthColumn" type="xs:decimal" />
-              <xs:element name="Width" msprop:Generator_UserColumnName="Width" msprop:Generator_ColumnPropNameInRow="Width" msprop:Generator_ColumnVarNameInTable="columnWidth" msprop:Generator_ColumnPropNameInTable="WidthColumn" type="xs:decimal" />
-              <xs:element name="MaterialID" msprop:Generator_UserColumnName="MaterialID" msprop:Generator_ColumnPropNameInRow="MaterialID" msprop:Generator_ColumnVarNameInTable="columnMaterialID" msprop:Generator_ColumnPropNameInTable="MaterialIDColumn" type="xs:int" />
+              <xs:element name="Length" msprop:Generator_UserColumnName="Length" msprop:Generator_ColumnVarNameInTable="columnLength" msprop:Generator_ColumnPropNameInRow="Length" msprop:Generator_ColumnPropNameInTable="LengthColumn" type="xs:decimal" />
+              <xs:element name="Width" msprop:Generator_UserColumnName="Width" msprop:Generator_ColumnVarNameInTable="columnWidth" msprop:Generator_ColumnPropNameInRow="Width" msprop:Generator_ColumnPropNameInTable="WidthColumn" type="xs:decimal" />
+              <xs:element name="MaterialID" msprop:Generator_UserColumnName="MaterialID" msprop:Generator_ColumnVarNameInTable="columnMaterialID" msprop:Generator_ColumnPropNameInRow="MaterialID" msprop:Generator_ColumnPropNameInTable="MaterialIDColumn" type="xs:int" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
         <xs:element name="CuttingResults" msprop:Generator_UserTableName="CuttingResults" msprop:Generator_RowDeletedName="CuttingResultsRowDeleted" msprop:Generator_RowChangedName="CuttingResultsRowChanged" msprop:Generator_RowClassName="CuttingResultsRow" msprop:Generator_RowChangingName="CuttingResultsRowChanging" msprop:Generator_RowEvArgName="CuttingResultsRowChangeEvent" msprop:Generator_RowEvHandlerName="CuttingResultsRowChangeEventHandler" msprop:Generator_TableClassName="CuttingResultsDataTable" msprop:Generator_TableVarName="tableCuttingResults" msprop:Generator_RowDeletingName="CuttingResultsRowDeleting" msprop:Generator_TablePropName="CuttingResults">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="CuttingResultID" msdata:ReadOnly="true" msdata:AutoIncrement="true" msprop:Generator_UserColumnName="CuttingResultID" msprop:Generator_ColumnVarNameInTable="columnCuttingResultID" msprop:Generator_ColumnPropNameInRow="CuttingResultID" msprop:Generator_ColumnPropNameInTable="CuttingResultIDColumn" type="xs:int" />
-              <xs:element name="Data" msprop:Generator_UserColumnName="Data" msprop:Generator_ColumnVarNameInTable="columnData" msprop:Generator_ColumnPropNameInRow="Data" msprop:Generator_ColumnPropNameInTable="DataColumn" type="xs:base64Binary" minOccurs="0" />
+              <xs:element name="CuttingResultID" msdata:ReadOnly="true" msdata:AutoIncrement="true" msprop:Generator_UserColumnName="CuttingResultID" msprop:Generator_ColumnPropNameInRow="CuttingResultID" msprop:Generator_ColumnVarNameInTable="columnCuttingResultID" msprop:Generator_ColumnPropNameInTable="CuttingResultIDColumn" type="xs:int" />
+              <xs:element name="Data" msprop:Generator_UserColumnName="Data" msprop:Generator_ColumnPropNameInRow="Data" msprop:Generator_ColumnVarNameInTable="columnData" msprop:Generator_ColumnPropNameInTable="DataColumn" type="xs:base64Binary" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
         <xs:element name="CuttingParameters" msprop:Generator_UserTableName="CuttingParameters" msprop:Generator_RowDeletedName="CuttingParametersRowDeleted" msprop:Generator_RowChangedName="CuttingParametersRowChanged" msprop:Generator_RowClassName="CuttingParametersRow" msprop:Generator_RowChangingName="CuttingParametersRowChanging" msprop:Generator_RowEvArgName="CuttingParametersRowChangeEvent" msprop:Generator_RowEvHandlerName="CuttingParametersRowChangeEventHandler" msprop:Generator_TableClassName="CuttingParametersDataTable" msprop:Generator_TableVarName="tableCuttingParameters" msprop:Generator_RowDeletingName="CuttingParametersRowDeleting" msprop:Generator_TablePropName="CuttingParameters">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="CuttingParametersID" msdata:ReadOnly="true" msdata:AutoIncrement="true" msprop:Generator_UserColumnName="CuttingParametersID" msprop:Generator_ColumnPropNameInRow="CuttingParametersID" msprop:Generator_ColumnVarNameInTable="columnCuttingParametersID" msprop:Generator_ColumnPropNameInTable="CuttingParametersIDColumn" type="xs:int" />
-              <xs:element name="Name" msprop:Generator_UserColumnName="Name" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInTable="NameColumn">
+              <xs:element name="CuttingParametersID" msdata:ReadOnly="true" msdata:AutoIncrement="true" msprop:Generator_UserColumnName="CuttingParametersID" msprop:Generator_ColumnVarNameInTable="columnCuttingParametersID" msprop:Generator_ColumnPropNameInRow="CuttingParametersID" msprop:Generator_ColumnPropNameInTable="CuttingParametersIDColumn" type="xs:int" />
+              <xs:element name="Name" msprop:Generator_UserColumnName="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
                     <xs:maxLength value="50" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="CutterThickness" msprop:Generator_UserColumnName="CutterThickness" msprop:Generator_ColumnPropNameInRow="CutterThickness" msprop:Generator_ColumnVarNameInTable="columnCutterThickness" msprop:Generator_ColumnPropNameInTable="CutterThicknessColumn" type="xs:decimal" />
-              <xs:element name="TopCutOff" msprop:Generator_UserColumnName="TopCutOff" msprop:Generator_ColumnPropNameInRow="TopCutOff" msprop:Generator_ColumnVarNameInTable="columnTopCutOff" msprop:Generator_ColumnPropNameInTable="TopCutOffColumn" type="xs:decimal" />
-              <xs:element name="LeftCutOff" msprop:Generator_UserColumnName="LeftCutOff" msprop:Generator_ColumnPropNameInRow="LeftCutOff" msprop:Generator_ColumnVarNameInTable="columnLeftCutOff" msprop:Generator_ColumnPropNameInTable="LeftCutOffColumn" type="xs:decimal" />
-              <xs:element name="RightCutOff" msprop:Generator_UserColumnName="RightCutOff" msprop:Generator_ColumnPropNameInRow="RightCutOff" msprop:Generator_ColumnVarNameInTable="columnRightCutOff" msprop:Generator_ColumnPropNameInTable="RightCutOffColumn" type="xs:decimal" />
-              <xs:element name="BottomCutOff" msprop:Generator_UserColumnName="BottomCutOff" msprop:Generator_ColumnPropNameInRow="BottomCutOff" msprop:Generator_ColumnVarNameInTable="columnBottomCutOff" msprop:Generator_ColumnPropNameInTable="BottomCutOffColumn" type="xs:decimal" />
+              <xs:element name="CutterThickness" msprop:Generator_UserColumnName="CutterThickness" msprop:Generator_ColumnVarNameInTable="columnCutterThickness" msprop:Generator_ColumnPropNameInRow="CutterThickness" msprop:Generator_ColumnPropNameInTable="CutterThicknessColumn" type="xs:decimal" />
+              <xs:element name="TopCutOff" msprop:Generator_UserColumnName="TopCutOff" msprop:Generator_ColumnVarNameInTable="columnTopCutOff" msprop:Generator_ColumnPropNameInRow="TopCutOff" msprop:Generator_ColumnPropNameInTable="TopCutOffColumn" type="xs:decimal" />
+              <xs:element name="LeftCutOff" msprop:Generator_UserColumnName="LeftCutOff" msprop:Generator_ColumnVarNameInTable="columnLeftCutOff" msprop:Generator_ColumnPropNameInRow="LeftCutOff" msprop:Generator_ColumnPropNameInTable="LeftCutOffColumn" type="xs:decimal" />
+              <xs:element name="RightCutOff" msprop:Generator_UserColumnName="RightCutOff" msprop:Generator_ColumnVarNameInTable="columnRightCutOff" msprop:Generator_ColumnPropNameInRow="RightCutOff" msprop:Generator_ColumnPropNameInTable="RightCutOffColumn" type="xs:decimal" />
+              <xs:element name="BottomCutOff" msprop:Generator_UserColumnName="BottomCutOff" msprop:Generator_ColumnVarNameInTable="columnBottomCutOff" msprop:Generator_ColumnPropNameInRow="BottomCutOff" msprop:Generator_ColumnPropNameInTable="BottomCutOffColumn" type="xs:decimal" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

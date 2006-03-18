@@ -9,17 +9,14 @@ namespace Raskroy {
 typedef __int64 scalar;
 
 struct Rect {
-	union
-	{
-		scalar Size[2];
-		struct {
-			scalar Length;
-			scalar Width;
-		};
-	};
+	scalar Size[2];
+
 	Rect() {}
-	Rect(scalar length, scalar width) : Length(length), Width(width) {}
-	scalar Square() const {return Length * Width;}
+	Rect(scalar size0, scalar size1)
+	{
+		Size[0] = size0;
+		Size[1] = size1;
+	}
 };
 
 struct Part {
@@ -30,12 +27,12 @@ struct Part {
 	int Tag;
 
 	Part() {}
-	Part(scalar length, scalar width, bool rotate = false, unsigned amount = 0)
-		: Rect(length, width), Rotate(rotate), Amount(amount) {}
+	Part(scalar size0, scalar size1, bool rotate = false, unsigned amount = 0)
+		: Rect(size0, size1), Rotate(rotate), Amount(amount) {}
 
 	bool operator == (const Part& b) const
 	{
-		return Rect.Length == b.Rect.Length && Rect.Width == b.Rect.Width &&
+		return Rect.Size[0] == b.Rect.Size[0] && Rect.Size[1] == b.Rect.Size[1] &&
 			Rotate == b.Rotate;
 	}
 };	// 16+4+4+4+4=32B
@@ -43,14 +40,22 @@ struct Part {
 typedef std::list<Part> Parts;
 
 struct Stat {
-	scalar Opilki;
-	scalar UsefulRemain;
-	scalar UnusefulRemain;
+	double Opilki;
+	double UsefulRemain;
+	double UnusefulRemain;
 	unsigned UsefulNum;
 
-	Stat() {}
+	//Stat() {}
 
-	Stat(int zero) : Opilki(0), UsefulRemain(0), UnusefulRemain(0), UsefulNum(0) {}
+	void MakeZero()
+	{
+		Opilki = 0.0;
+		UsefulRemain = 0.0;
+		UnusefulRemain = 0.0;
+		UsefulNum = 0;
+	}
+
+	//Stat(int zero) : Opilki(0.0), UsefulRemain(0.0), UnusefulRemain(0.0), UsefulNum(0) {}
 
 	Stat& operator += (const Stat& x)
 	{
@@ -78,54 +83,37 @@ struct Stat {
 		//	return false;
 		return false;
 	}
-};
 
-struct t_raskroy {
-	struct t_detail {scalar size; unsigned num;};
-	typedef std::vector<t_detail> t_details;
-
-	unsigned s; // разрез проходит перпендикул€рно этой стороне
-	unsigned kratnostj;
-	scalar cut;
-	t_details details;
-
-	t_raskroy() : premain(0), precurse(0) {}
-	t_raskroy(const t_raskroy &orig)
-		: s(orig.s),
-		kratnostj(orig.kratnostj),
-		cut(orig.cut),
-		details(orig.details),
-		premain(orig.premain),
-		precurse(orig.precurse)
+	void AddScrap(const Rect& rect)
 	{
-		orig.premain = 0;
-		orig.precurse = 0;
+		double square = (double)rect.Size[0] * (double)rect.Size[1];
+		if(IsUseful(rect))
+		{
+			UsefulRemain += square;
+			UsefulNum += 1;
+		}
+		else
+		{
+			UnusefulRemain += square;
+		}
 	}
 
-	~t_raskroy() {
-		delete premain;
-		delete precurse;
+	static const scalar MIN_USEFUL_SIZE1 = 70;
+	static const scalar MIN_USEFUL_SIZE2 = 200-34;
+
+	static bool IsUseful(const Rect& rect)
+	{
+		return (rect.Size[0] >= MIN_USEFUL_SIZE1 && rect.Size[1] >= MIN_USEFUL_SIZE2)
+			|| (rect.Size[1] >= MIN_USEFUL_SIZE1 && rect.Size[0] >= MIN_USEFUL_SIZE2);
 	}
 
-	void set(int s, unsigned kratnostj, scalar cut, t_details &details, t_raskroy *premain, t_raskroy *precurse);
-	t_raskroy& operator = (const t_raskroy &orig);
-	void attachRemain(t_raskroy &remain);
-	void attachRecurse(t_raskroy &recurse);
-	t_raskroy * watchRemain(void) const {return premain;}
-	t_raskroy * watchRecurse(void) const {return precurse;}
-
-private:
-	mutable t_raskroy *premain;
-	mutable t_raskroy *precurse;
-};
-
-struct t_result {
-	t_raskroy raskroy;
-	Parts::iterator sheet;
-	Stat stat;
-	unsigned amount;
-
-	t_result(void) : amount(0) {}
+	bool IsEqual(const Stat& stat, double precise = 1000000.0) const
+	{
+		return (fabs(this->Opilki - stat.Opilki) < precise &&
+			fabs(this->UnusefulRemain - stat.UnusefulRemain) < precise &&
+			fabs(this->UsefulRemain - stat.UsefulRemain) < precise &&
+			this->UsefulNum == stat.UsefulNum);
+	}
 };
 
 class Amounts : public std::vector<unsigned> {

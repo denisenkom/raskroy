@@ -8,10 +8,11 @@ namespace ReingeneringProject
 {
 	class Program
 	{
-		static void Main(string[] args)
+		static LC4Parser parser = new LC4Parser();
+
+		static void Prog1()
 		{
-			LC4Parser parser = new LC4Parser();
-			LC4Document doc = parser.Load(@"..\..\export.LC4");
+			LC4Document doc = parser.Load(@"..\..\sokolov2.LC4");
 			parser.Save(@"..\..\1loadsave.lc4", FileMode.Create, doc); // pass
 			doc.Serialize(@"..\..\1loadsave.xml");
 
@@ -30,6 +31,20 @@ namespace ReingeneringProject
 			doc.Description = "Other name";
 			parser.Save(@"..\..\5otherGen.lc4", FileMode.Create, doc);
 			doc.Serialize(@"..\..\5otherGen.xml");
+		}
+
+		static void Prog2()
+		{
+			LC4Document doc = parser.Load(@"..\..\sokolov21.LC4");
+			doc.Description = "manually generated";
+			doc.Cuttings[0].Name = "00001";
+			parser.Save(@"..\..\SOKOLOV21.LC4", FileMode.Create, doc);
+			doc.Serialize(@"..\..\SOKOLOV21.xml");
+		}
+
+		static void Main(string[] args)
+		{
+			Prog2();
 		}
 	}
 }

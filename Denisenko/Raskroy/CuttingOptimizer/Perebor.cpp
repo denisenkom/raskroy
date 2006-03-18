@@ -20,7 +20,7 @@ scalar Perebor::Recursion(scalar i_size, Amounts &o_rashods)
 		bool first = true;
 		scalar size = i_size;
 		unsigned n = 0;
-		unsigned amount = m_remains[m_pOtherSize->Offset];
+		unsigned amount = (*m_remains)[m_pOtherSize->Offset];
 
 		while (n <= amount && size > m_sawThickness)
 		{
@@ -55,10 +55,10 @@ scalar Perebor::Recursion(scalar i_size, Amounts &o_rashods)
 	{
 		scalar fullSize = m_pOtherSize->Value + m_sawThickness;
 		unsigned n = unsigned((i_size + m_sawThickness) / fullSize);
-		unsigned amount = m_remains[m_pOtherSize->Offset];
+		unsigned amount = (*m_remains)[m_pOtherSize->Offset];
 		if (n > amount)
 			n = amount;
-		o_rashods.resize(m_remains.size());
+		o_rashods.resize(m_remains->size());
 		std::fill(o_rashods.begin(), o_rashods.end(), 0);
 		o_rashods[m_pOtherSize->Offset] = n;
 		// результат здесь может быть < 0 что нормально если последний пил больше чем
@@ -75,7 +75,7 @@ scalar Perebor::Recursion(scalar i_size, Amounts &o_rashods)
 //		[o] details - расположение деталей, на вход подаетс€ пустой контейнер
 //		[o] rashod - расход деталей
 // ¬озвращает true если хот€ бы одна деталь установлена
-bool Perebor::Make(const Size &size, scalar otherSize, t_raskroy::t_details &o_details, Amounts &o_rashods, scalar &o_remain, scalar &o_opilki)
+bool Perebor::Make(const Size &size, scalar otherSize, t_raskroy::t_details &o_details, Amounts &o_rashods, scalar &o_remain, double &o_opilki)
 {
 	if (otherSize < size.OtherSizes.Min->Value)
 		return false;
@@ -105,11 +105,11 @@ bool Perebor::Make(const Size &size, scalar otherSize, t_raskroy::t_details &o_d
 		}
 	}
 	// ¬ычисл€ем количество опилок
-	scalar opilki = size.Value * m_sawThickness * cuts;
+	double opilki = (double)size.Value * (double)m_sawThickness * (double)cuts;
 	// ≈сли последний пил проходит по кромке то уменьшить количество опилок
 	if (remain < 0)
 	{
-		opilki += size.Value * remain;
+		opilki += (double)size.Value * (double)remain;
 		remain = 0;
 	}
 	o_opilki = opilki;

@@ -39,6 +39,10 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XmlData.cs" />
+    <Compile Include="XmlMaterial.cs" />
+    <Compile Include="XmlPart.cs" />
+    <Compile Include="XmlSheet.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CuttingConvertors\CuttingConvertors.csproj">
@@ -57,6 +61,9 @@
       <Project>{83C5C11C-F1CA-4792-A4FF-810DCA49F20E}</Project>
       <Name>LC4Parser</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TestData.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

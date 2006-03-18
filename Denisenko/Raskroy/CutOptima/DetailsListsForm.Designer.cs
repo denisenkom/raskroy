@@ -46,9 +46,9 @@
 			this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.detailsListsBindingNavigatorSaveItem = new System.Windows.Forms.ToolStripButton();
 			this.detailsListsDataGridView = new System.Windows.Forms.DataGridView();
-			this.detailsListsTableAdapter = new Denisenko.Cutting.CutOptima.DataSetTableAdapters.DetailsListsTableAdapter();
 			this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+			this.detailsListsTableAdapter = new Denisenko.Cutting.CutOptima.DataSetTableAdapters.DetailsListsTableAdapter();
 			((System.ComponentModel.ISupportInitialize)(this.detailsListsBindingNavigator)).BeginInit();
 			this.detailsListsBindingNavigator.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.detailsListsBindingSource)).BeginInit();
@@ -58,7 +58,7 @@
 			// 
 			// detailsListsBindingNavigator
 			// 
-			this.detailsListsBindingNavigator.AddNewItem = this.bindingNavigatorAddNewItem;
+			this.detailsListsBindingNavigator.AddNewItem = null;
 			this.detailsListsBindingNavigator.BindingSource = this.detailsListsBindingSource;
 			this.detailsListsBindingNavigator.CountItem = this.bindingNavigatorCountItem;
 			this.detailsListsBindingNavigator.DeleteItem = this.bindingNavigatorDeleteItem;
@@ -94,6 +94,7 @@
 			this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
 			this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(23, 22);
 			this.bindingNavigatorAddNewItem.Text = "Add new";
+			this.bindingNavigatorAddNewItem.Click += new System.EventHandler(this.bindingNavigatorAddNewItem_Click);
 			// 
 			// detailsListsBindingSource
 			// 
@@ -204,10 +205,6 @@
 			this.detailsListsDataGridView.TabIndex = 1;
 			this.detailsListsDataGridView.DoubleClick += new System.EventHandler(this.detailsListsDataGridView_DoubleClick);
 			// 
-			// detailsListsTableAdapter
-			// 
-			this.detailsListsTableAdapter.ClearBeforeFill = true;
-			// 
 			// dataGridViewTextBoxColumn2
 			// 
 			this.dataGridViewTextBoxColumn2.DataPropertyName = "OrderID";
@@ -220,6 +217,10 @@
 			this.dataGridViewTextBoxColumn3.HeaderText = "Дополнительно";
 			this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
 			this.dataGridViewTextBoxColumn3.Width = 300;
+			// 
+			// detailsListsTableAdapter
+			// 
+			this.detailsListsTableAdapter.ClearBeforeFill = true;
 			// 
 			// DetailsListsForm
 			// 

@@ -1190,8 +1190,11 @@ namespace Denisenko.Cutting.CutOptima {
                 this.columnName.AllowDBNull = false;
                 this.columnName.MaxLength = 50;
                 this.columnLength.AllowDBNull = false;
+                this.columnLength.Caption = "Длина";
                 this.columnWidth.AllowDBNull = false;
+                this.columnWidth.Caption = "Ширина";
                 this.columnAmount.AllowDBNull = false;
+                this.columnAmount.Caption = "Кол-во";
                 this.columnMaterialID.AllowDBNull = false;
                 this.columnLeftEdge.MaxLength = 10;
                 this.columnTopEdge.MaxLength = 10;

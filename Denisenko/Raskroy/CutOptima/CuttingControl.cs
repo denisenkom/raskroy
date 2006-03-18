@@ -37,8 +37,9 @@ namespace Denisenko.Cutting.CutOptima
 		public CuttingControl()
 		{
 			m_sections = new List<Section>();
-			m_scale = 0.5f;
+			m_scale = 0.4f;
 			m_margin = 50.0f;
+			m_autoScale = true;
 			InitializeComponent();
 		}
 
@@ -47,8 +48,8 @@ namespace Denisenko.Cutting.CutOptima
 			pe.Graphics.FillRectangle(Brushes.DimGray, 0, 0, Width, Height);
 			if (m_cutting != null)
 			{
-				pe.Graphics.ScaleTransform(m_scale, m_scale);
 				pe.Graphics.TranslateTransform(m_margin, m_margin);
+				pe.Graphics.ScaleTransform(m_scale, m_scale);
 				pe.Graphics.FillRectangle(Brushes.Black, m_sheetRect.X + 20, m_sheetRect.Y + 20,
 					m_sheetRect.Width, m_sheetRect.Height);
 				pe.Graphics.FillRectangle(Brushes.Silver, m_sheetRect.X, m_sheetRect.Y,
@@ -154,6 +155,13 @@ namespace Denisenko.Cutting.CutOptima
 							m_sheetRect.Height = (Single)m_cutting.Height;
 						}
 						RecursiveLoadSections(m_cutting.RootSection.NestedSections, transpose);
+
+						if (m_autoScale)
+						{
+							float scalex = (this.Width - m_margin * 2) / m_sheetRect.Width;
+							float scaley = (this.Height - m_margin * 2) / m_sheetRect.Height;
+							m_scale = Math.Min(scalex, scaley);
+						}
 					}
 					else
 						ClearSections();
@@ -165,5 +173,17 @@ namespace Denisenko.Cutting.CutOptima
 		private CuttingScheme m_cutting;
 		private Single m_scale;
 		private Single m_margin;
+		private Boolean m_autoScale;
+
+		private void CuttingControl_Resize(object sender, EventArgs e)
+		{
+			if (m_autoScale)
+			{
+				float scalex = (this.Width - m_margin * 2) / m_sheetRect.Width;
+				float scaley = (this.Height - m_margin * 2) / m_sheetRect.Height;
+				m_scale = Math.Min(scalex, scaley);
+			}
+
+		}
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters;
@@ -43,6 +44,13 @@ namespace Denisenko.Cutting.CutOptima
 		public void OpenListEditor(Int32 listID)
 		{
 			DetailsListForm editor = new DetailsListForm(listID);
+			editor.MdiParent = MainForm.Instance;
+			editor.Show();
+		}
+
+		internal void AddDetailsList()
+		{
+			DetailsListForm editor = new DetailsListForm();
 			editor.MdiParent = MainForm.Instance;
 			editor.Show();
 		}
@@ -182,7 +190,7 @@ namespace Denisenko.Cutting.CutOptima
 			if (dialog.ShowDialog() == DialogResult.Cancel)
 				return;
 			lc4Document.InternalName = Path.GetFileNameWithoutExtension(dialog.FileName);
-			lc4Document.Description = "Создано в CutOptima";
+			lc4Document.Description = "manually generated";
 			parser.Save(dialog.FileName, FileMode.Create, lc4Document);
 		}
 
@@ -220,6 +228,27 @@ namespace Denisenko.Cutting.CutOptima
 		internal void Startup()
 		{
 			DBManager.Instance.Startup(MainForm.Instance);
+		}
+
+		internal DialogResult AskUserToSaveChanges()
+		{
+			return MessageBox.Show("Сохранить изменения?", "CutOptima", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Exclamation);
+		}
+
+		internal void DataGridView_DataError(object sender, DataGridViewDataErrorEventArgs e)
+		{
+			if (e.Exception != null && e.Exception is NoNullAllowedException && e.Context == DataGridViewDataErrorContexts.Commit)
+			{
+				MessageBox.Show(e.Exception.Message, null, MessageBoxButtons.OK, MessageBoxIcon.Error);
+				e.Cancel = true;
+				e.ThrowException = false;
+			}
+			else
+			{
+				MessageBox.Show(String.Format("Необработанное исключение: {0}", e.Exception), null, MessageBoxButtons.OK, MessageBoxIcon.Error);
+				e.Cancel = false;
+				e.ThrowException = false;
+			}
 		}
 	}
 }

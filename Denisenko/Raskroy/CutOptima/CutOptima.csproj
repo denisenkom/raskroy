@@ -121,12 +121,8 @@
     <Compile Include="DBSelectionForm.Designer.cs">
       <DependentUpon>DBSelectionForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="DetailsListControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="DetailsListControl.Designer.cs">
-      <DependentUpon>DetailsListControl.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Detail.cs" />
+    <Compile Include="DetailsList.cs" />
     <Compile Include="DetailsListForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -159,14 +155,12 @@
     <Compile Include="NewDatabaseForm.Designer.cs">
       <DependentUpon>NewDatabaseForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Part.cs" />
     <Compile Include="PartPropertiesForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="PartPropertiesForm.Designer.cs">
       <DependentUpon>PartPropertiesForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Parts.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProgressForm.cs">
       <SubType>Form</SubType>
@@ -175,6 +169,10 @@
       <DependentUpon>ProgressForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="CuttingControl.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>CuttingControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CuttingParametersForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>CuttingParametersForm.cs</DependentUpon>
@@ -202,10 +200,6 @@
     <EmbeddedResource Include="DBSelectionForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>DBSelectionForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DetailsListControl.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>DetailsListControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DetailsListForm.resx">
       <SubType>Designer</SubType>
@@ -278,6 +272,8 @@
     <None Include="CuttingWizard\DataSet.xss">
       <DependentUpon>DataSet.xsd</DependentUpon>
     </None>
+    <None Include="Properties\DataSources\Detail.datasource" />
+    <None Include="Properties\DataSources\DetailsList.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

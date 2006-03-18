@@ -58,6 +58,12 @@ void Raskroy::Begin(Parts &parts, const Parts &sheets)
 	m_sheets = sheets;
 }
 
+float Raskroy::GetPercentCompleted()
+{
+	float total = (float)(m_sheets.size() * (m_sizes[0].size() + m_sizes[1].size()));
+	return (float)m_perebor2d.CompletedCounter / total * 100.0f;
+}
+
 bool Raskroy::NextResult(t_result& out)
 {
 	// проверить остались ли детали
@@ -71,19 +77,21 @@ bool Raskroy::NextResult(t_result& out)
 	t_result bestResult;
 	Amounts bestRashod;
 	bool first = true;
+	m_perebor2d.ResetCompletedCounter();
 	for (Parts::iterator pSheet = m_sheets.begin(); pSheet != m_sheets.end(); pSheet++)
 	{
-		Stat stat(0);
+		Stat stat;
+		stat.MakeZero();
 		t_raskroy raskroy;
 		Amounts rashod;
 		if (!m_perebor2d.Optimize(pSheet->Rect, stat, 0, raskroy, rashod))
 			continue;
-		if (bestResult.stat < stat || first) {
+		if (bestResult.Statistics < stat || first) {
 			bestResult.amount = m_remains / rashod;
 			if (ControlRemains && bestResult.amount > pSheet->Amount)
 				continue; // недостаточно листов
 
-			bestResult.stat = stat;
+			bestResult.Statistics = stat;
 			bestResult.raskroy = raskroy;
 			bestResult.sheet = pSheet;
 			bestRashod = rashod;
@@ -91,14 +99,24 @@ bool Raskroy::NextResult(t_result& out)
 		}
 	}
 	if (first)
-		throw err_cannot_set_parts(m_sheets, m_sizes, m_remains);
+		throw CannotSetPartsException(&m_sheets, m_sizes, &m_remains);
 
 	m_remains -= bestRashod * bestResult.amount;
 	RemoveExostedSizes();
 	if (ControlRemains)
 		bestResult.sheet->Amount -= bestResult.amount;
+#ifdef _DEBUG
+	CheckResult(bestResult);
+#endif
 	out = bestResult;
 	return true;
+}
+
+void Raskroy::CheckResult(const t_result& result)
+{
+	Stat stat;
+	result.raskroy.CheckAndCalcStat(this->get_SawThickness(), result.sheet->Rect, &stat);
+	assert(result.Statistics.IsEqual(stat, 1000000.0));
 }
 
 } // namespace Denisenko

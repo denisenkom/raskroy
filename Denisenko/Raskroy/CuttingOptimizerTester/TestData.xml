@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<cuttingData>
+  <material name="пластик хамелеон" canRotate="false">
+    <sheet name="1" sizeA="1810" sizeB="2240" />
+    <part name="дверь"          sizeA="704" sizeB="405" amount="1" />
+    <part name="крышка ящ"      sizeA="169" sizeB="395" amount="4" />
+    <part name="дверь"          sizeA="704" sizeB="445" amount="3" />
+    <part name="фальшь-панель"  sizeA="704" sizeB="150" amount="1" />
+    <part name="дверь"          sizeA="704" sizeB="390" amount="2" />
+    <part name="дверь"          sizeA="779" sizeB="405" amount="2" />
+    <part name="дверь"          sizeA="385" sizeB="795" amount="2" />
+    <part name="дверь"          sizeA="385" sizeB="835" amount="2" />
+    <part name="дверь"          sizeA="779" sizeB="395" amount="2" />
+    <part name="бок стола"      sizeA="725" sizeB="515" amount="1" />
+    <part name="бок шкафа"      sizeA="795" sizeB="295" amount="1" />
+  </material>
+</cuttingData>

@@ -202,5 +202,46 @@ namespace Denisenko.Cutting
 		}
 
 		private Sheet m_sheet;
+
+		public Statistics CalcStatistics()
+		{
+			Statistics result = new Statistics();
+			RecursiveAddStatistics(ref result, this.RootSection);
+			return result;
+		}
+
+		private void RecursiveAddStatistics(ref Statistics statistics, Section section)
+		{
+			Double sectionSquare = (Double)section.Width * (Double)section.Height;
+			if (section.SectionType == SectionType.Cut)
+			{
+				statistics.DustSquare += sectionSquare;
+				statistics.CutsCount++;
+			}
+			else if(section.SectionType == SectionType.Element)
+			{
+				statistics.DetailsSquare += sectionSquare;
+				statistics.DetailsCount++;
+			}
+			else if (section.SectionType == SectionType.Remain)
+			{
+				statistics.RemainsSquare += sectionSquare;
+				statistics.RemainsCount++;
+			}
+			else if (section.SectionType == SectionType.Scrap)
+			{
+				statistics.ScrapsSquare += sectionSquare;
+				statistics.ScrapsCount++;
+			}
+			else if (section.SectionType == SectionType.Undefined)
+			{
+				statistics.UndefinitesSquare += sectionSquare;
+				statistics.UndefinitesCount++;
+			}
+			foreach(Section nested in section.NestedSections)
+			{
+				RecursiveAddStatistics(ref statistics, nested);
+			}
+		}
 	};
 }
