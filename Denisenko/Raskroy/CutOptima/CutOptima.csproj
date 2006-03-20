@@ -53,6 +53,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddDatabaseDialog.cs" />
+    <Compile Include="AddDatabaseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddDatabaseForm.Designer.cs">
+      <DependentUpon>AddDatabaseForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="CuttingControl.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -121,8 +128,6 @@
     <Compile Include="DBSelectionForm.Designer.cs">
       <DependentUpon>DBSelectionForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Detail.cs" />
-    <Compile Include="DetailsList.cs" />
     <Compile Include="DetailsListForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -155,12 +160,6 @@
     <Compile Include="NewDatabaseForm.Designer.cs">
       <DependentUpon>NewDatabaseForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="PartPropertiesForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="PartPropertiesForm.Designer.cs">
-      <DependentUpon>PartPropertiesForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="ProgressForm.cs">
       <SubType>Form</SubType>
@@ -169,6 +168,10 @@
       <DependentUpon>ProgressForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="AddDatabaseForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>AddDatabaseForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CuttingControl.resx">
       <SubType>Designer</SubType>
       <DependentUpon>CuttingControl.cs</DependentUpon>
@@ -224,10 +227,6 @@
     <EmbeddedResource Include="NewDatabaseForm.ru-RU.resx">
       <SubType>Designer</SubType>
       <DependentUpon>NewDatabaseForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PartPropertiesForm.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>PartPropertiesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ProgressForm.resx">
       <SubType>Designer</SubType>

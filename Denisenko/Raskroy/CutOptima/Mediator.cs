@@ -43,14 +43,14 @@ namespace Denisenko.Cutting.CutOptima
 
 		public void OpenListEditor(Int32 listID)
 		{
-			DetailsListForm editor = new DetailsListForm(listID);
+			DetailsListForm editor = new DetailsListForm(DetailsListOpenType.Open, listID);
 			editor.MdiParent = MainForm.Instance;
 			editor.Show();
 		}
 
 		internal void AddDetailsList()
 		{
-			DetailsListForm editor = new DetailsListForm();
+			DetailsListForm editor = new DetailsListForm(DetailsListOpenType.AddNew);
 			editor.MdiParent = MainForm.Instance;
 			editor.Show();
 		}
@@ -62,13 +62,6 @@ namespace Denisenko.Cutting.CutOptima
 
 		private ProgressForm _progressForm;
 		private OptimizingJob _job;
-
-		private delegate void UpdateProgressHandler(Int32 progress);
-
-		private void OnCuttingProgressUpdate(OptimizingJob job, Int32 progress)
-		{
-			_progressForm.BeginInvoke(new UpdateProgressHandler(_progressForm.UpdateProgress), progress);
-		}
 
 		private delegate void CloseFormHandler();
 
@@ -88,18 +81,17 @@ namespace Denisenko.Cutting.CutOptima
 			_job = new OptimizingJob();
 			_job.Load(Properties.Settings.Default.CutOptimaConnectionString,
 				new Int32[] { detailsIistID });
-			_progressForm = new ProgressForm();
+			_progressForm = new ProgressForm(_job);
 			_progressForm.StartPosition = FormStartPosition.CenterParent;
 			_progressForm.Pause += OnPause;
 			_progressForm.Resume += OnResume;
 			_progressForm.Cancel += OnCancel;
-			_job.ProgressUpdate += OnCuttingProgressUpdate;
 			_job.Finished += OnCuttingFinished;
 			_job.Error += OnCuttingError;
 			_job.AsyncExecute();
 
 			_progressForm.ShowDialog();
-			if(!_job.Canceled)
+			if (!_job.Canceled)
 				ShowCuttingResult(_job.Result);
 		}
 
@@ -209,12 +201,11 @@ namespace Denisenko.Cutting.CutOptima
 				_job = new OptimizingJob();
 				_job.Load(Properties.Settings.Default.CutOptimaConnectionString,
 					wizard.DetailsListsIDs, wizard.SheetsIDs);
-				_progressForm = new ProgressForm();
+				_progressForm = new ProgressForm(_job);
 				_progressForm.StartPosition = FormStartPosition.CenterParent;
 				_progressForm.Pause += OnPause;
 				_progressForm.Resume += OnResume;
 				_progressForm.Cancel += OnCancel;
-				_job.ProgressUpdate += OnCuttingProgressUpdate;
 				_job.Finished += OnCuttingFinished;
 				_job.Error += OnCuttingError;
 				_job.AsyncExecute();

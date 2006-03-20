@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -20,10 +21,11 @@ namespace Denisenko.Cutting.CutOptima
 
 		private void DBSelectionForm_Load(object sender, EventArgs e)
 		{
-			foreach(String db in _dialog.Databases)
+			databasesListBox.DataSource = _dialog.Databases;
+			/*foreach(String db in _dialog.Databases)
 			{
 				databasesListBox.Items.Add(db);
-			}
+			}*/
 			databasesListBox.SelectedIndex = _dialog.CurrentDB;
 		}
 
@@ -42,6 +44,32 @@ namespace Denisenko.Cutting.CutOptima
 			_dialog.CurrentDB = databasesListBox.SelectedIndex;
 			this.DialogResult = DialogResult.OK;
 			Close();
+		}
+
+		private void addButton_Click(object sender, EventArgs e)
+		{
+			_dialog.FireAddDatabase(e);
+		}
+
+		public void InvalidateDatabasesListView()
+		{
+			databasesListBox.Invalidate();
+		}
+
+		public StringCollection Databases
+		{
+			set 
+			{
+				databasesListBox.DataSource = value;
+			}
+		}
+
+		public Int32 CurrentDB
+		{
+			set
+			{
+				databasesListBox.SelectedIndex = value;
+			}
 		}
 	}
 }

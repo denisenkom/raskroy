@@ -5,7 +5,7 @@
     <Position X="7" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <FileName>CuttingControl.cs</FileName>
-      <HashCode>AACQAgAAACAAAiAABACACAACAAAAAAAAAAAgAAAAEAA=</HashCode>
+      <HashCode>AACQAgAAACAAAiAABQCACAACAAAABAAAAAAgAAAAEAA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="Denisenko.Cutting.CutOptima.CuttingParametersForm" Collapsed="true">
@@ -26,49 +26,42 @@
     <Position X="8.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <FileName>DataSet.cs</FileName>
-      <HashCode>gEgAAAAMAwUQgQNABAIAQAAAABgKUBgAYBAMAgEgBjI=</HashCode>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Denisenko.Cutting.CutOptima.DetailsListControl" Collapsed="true">
-    <Position X="10.5" Y="1.5" Width="1.5" />
-    <TypeIdentifier>
-      <FileName>DetailsListControl.cs</FileName>
-      <HashCode>AAAAAABAACAAAkAAAACAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>gEgAAAAIAwQAgQNABAAAQAAAAAgKUBgAIBAMAgEABDI=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="Denisenko.Cutting.CutOptima.DetailsListForm" Collapsed="true">
     <Position X="12.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <FileName>DetailsListForm.cs</FileName>
-      <HashCode>ASAQAAEAALAIAAIRCACEAHACQAQgYQAACABAAAABAA4=</HashCode>
+      <HashCode>ASCQAoEAEKAIAAIRCACEAHACQAQwZQAACBBAAAABAA4=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="Denisenko.Cutting.CutOptima.DetailsListsForm" Collapsed="true">
     <Position X="5.25" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <FileName>DetailsListsForm.cs</FileName>
-      <HashCode>AAAQAIAAgKAABAOAMACEICAyAAAAQAAACAAAAAAhAA4=</HashCode>
+      <HashCode>AAAQAIAAgKAABAOAMACEICAyAAAAQAACCAAAAAAhAA4=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="Denisenko.Cutting.CutOptima.MainForm" Collapsed="true">
     <Position X="10.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <FileName>MainForm.cs</FileName>
-      <HashCode>AgQAAAAAAKEIIQAAAESAGQACAYAICCALQECQAEAAAAE=</HashCode>
+      <HashCode>AgQAAAAAAKEIIQAAAESAGQACAYAICCALQECQAEAAAgE=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="Denisenko.Cutting.CutOptima.MaterialsForm" Collapsed="true">
     <Position X="12.25" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <FileName>MaterialsForm.cs</FileName>
-      <HashCode>AAAQQMAIgCAABBOQIACEIEASAAAAAAAAAAAAgAABEAY=</HashCode>
+      <HashCode>AAAQQMAIgCAABBOQIACEIEASAAAQAAEAAAAAgAABEAY=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="Denisenko.Cutting.CutOptima.Mediator" Collapsed="true">
     <Position X="5.25" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <FileName>Mediator.cs</FileName>
-      <HashCode>CAAAECIEAAAAMAggAIAAAAgABAAAJAAKQACAAHQAIAA=</HashCode>
+      <HashCode>CBAAECIEAAAAMAggAIQAAAgABAAAJAAKQACAAFQAIAA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="Denisenko.Cutting.CutOptima.NewDatabaseForm" Collapsed="true">
@@ -78,39 +71,18 @@
       <HashCode>BAACAAAAACQAABAAAACAAhgCAABQAAAABAAAABQQAAA=</HashCode>
     </TypeIdentifier>
   </Class>
-  <Class Name="Denisenko.Cutting.CutOptima.Part" Collapsed="true">
-    <Position X="10.5" Y="3.5" Width="1.5" />
-    <TypeIdentifier>
-      <FileName>Part.cs</FileName>
-      <HashCode>EAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAACAAA=</HashCode>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Denisenko.Cutting.CutOptima.PartPropertiesForm" Collapsed="true">
-    <Position X="12.25" Y="3.5" Width="1.5" />
-    <TypeIdentifier>
-      <FileName>PartPropertiesForm.cs</FileName>
-      <HashCode>AEAQAIgAgDAgBAOwIACEICASAAAAAAAAAAAAgBABAAI=</HashCode>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Denisenko.Cutting.CutOptima.Parts" Collapsed="true">
-    <Position X="5.25" Y="4.5" Width="1.5" />
-    <TypeIdentifier>
-      <FileName>Parts.cs</FileName>
-      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-    </TypeIdentifier>
-  </Class>
   <Class Name="Denisenko.Cutting.CutOptima.Program" Collapsed="true">
     <Position X="7" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <FileName>Program.cs</FileName>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAABAAAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="Denisenko.Cutting.CutOptima.ProgressForm" Collapsed="true">
     <Position X="8.75" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <FileName>ProgressForm.cs</FileName>
-      <HashCode>AAAiAAAQQCQAAAAAAACgAEACAAAAAgAAAAAQAAgAAAA=</HashCode>
+      <HashCode>AAAgAAAQRCQAAAAAAACwAEACAAAAAgAAAABQgAgAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="Denisenko.Cutting.CutOptima.PropertyType" Collapsed="true">
@@ -131,7 +103,7 @@
     <Position X="8.75" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <FileName>SheetsListForm.cs</FileName>
-      <HashCode>QAAQAIEAgCEIBAORIACEIEASAAAACAAAABCAAAABBAY=</HashCode>
+      <HashCode>QAAQAIUAgCEIBEORIACEIEASAAAQCAAAABCAAAABBAY=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="Denisenko.Cutting.CutOptima.CuttingWizard.BasePage" Collapsed="true">
@@ -195,18 +167,6 @@
       <HashCode>EAQAAGAAEAAAAAMAIAAAAAAAACEICAAAAAAAAAAABBA=</HashCode>
     </TypeIdentifier>
   </Class>
-  <Class Name="Denisenko.Cutting.CutOptima.DataSetTableAdapters.PartPropertiesTableAdapter" Collapsed="true">
-    <Position X="14" Y="3.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>EAQAAGAAEAAAAAMAIAAAAAAAACEICAAAAAAAAAAABBA=</HashCode>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Denisenko.Cutting.CutOptima.DataSetTableAdapters.ReferencePartsTableAdapter" Collapsed="true">
-    <Position X="14" Y="4.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>EAQAAGAAEAAAAAMAIAAAAAAAACEICAAAAAAAAAAABBA=</HashCode>
-    </TypeIdentifier>
-  </Class>
   <Class Name="Denisenko.Cutting.CutOptima.DataSetTableAdapters.DetailsListsDetailsTableAdapter" Collapsed="true">
     <Position X="14" Y="1.5" Width="1.5" />
     <TypeIdentifier>
@@ -231,12 +191,6 @@
       <HashCode>EAQAAGAAEAAAAAMAIAAAAAAAACEICAAAAAAAAAAABBA=</HashCode>
     </TypeIdentifier>
   </Class>
-  <Class Name="Denisenko.Cutting.CutOptima.DataSetTableAdapters.CuttingResultsTableAdapter" Collapsed="true">
-    <Position X="14" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>EAQAAGAAEAAAAAMAIAAAAAAAACEICAAAAAAAAAAABBA=</HashCode>
-    </TypeIdentifier>
-  </Class>
   <Class Name="Denisenko.Cutting.CutOptima.DataSetTableAdapters.CuttingParametersTableAdapter" Collapsed="true">
     <Position X="10.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
@@ -253,14 +207,14 @@
     <Position X="7" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <FileName>Settings.cs</FileName>
-      <HashCode>AAAAAAAAAAAAAAAEAAAAIAAAAAQBCAACAAAAAAAACAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAGAAAAIAAAAAQBCAACAAAAAAAACAA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Class Name="Denisenko.Cutting.CutOptima.DBManager">
-    <Position X="1" Y="3.75" Width="1.5" />
+    <Position X="0.5" Y="3.75" Width="2" />
     <TypeIdentifier>
       <FileName>DBManager.cs</FileName>
-      <HashCode>AAAEEAAAAAAAAAAAAAAAAAAEAAAAAAAAQAAAAAAAAAA=</HashCode>
+      <HashCode>AAAskAAAAAAAAAAAAAAAAAAAAAAAIAAQSAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="Instance" />
@@ -271,6 +225,34 @@
     <TypeIdentifier>
       <FileName>NewDatabaseDialog.cs</FileName>
       <HashCode>AAAAAAAAAAAAAAAAQAIAAAEggAAAAAAABCAAAgAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Denisenko.Cutting.CutOptima.DBSelectionDialog">
+    <Position X="0.75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>DBSelectionDialog.cs</FileName>
+      <HashCode>AAAAAAAEAEAEAAAQAAAAAAEAAAAABAABAAAgACAABgA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Denisenko.Cutting.CutOptima.DBSelectionForm">
+    <Position X="3.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>DBSelectionForm.cs</FileName>
+      <HashCode>AAACIAAAAGAAIAAAAACAAAgCAQAAEAAAoAAggAAAAgA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Denisenko.Cutting.CutOptima.AddDatabaseDialog">
+    <Position X="5.25" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>AddDatabaseDialog.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAQAIAAAEAgAAAAAAABCAAAgAABAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Denisenko.Cutting.CutOptima.AddDatabaseForm">
+    <Position X="7.25" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <FileName>AddDatabaseForm.cs</FileName>
+      <HashCode>AAACABAAACQAEBAAAACAQAgCAAJAEAAAABAAABYAAAA=</HashCode>
     </TypeIdentifier>
   </Class>
   <Delegate Name="Denisenko.Cutting.CutOptima.ProgressFormEventHandler" Collapsed="true">

@@ -8,50 +8,137 @@ using System.Windows.Forms;
 
 namespace Denisenko.Cutting.CutOptima
 {
+	public enum DetailsListOpenType
+	{
+		Open,
+		AddNew,
+	}
+
 	public partial class DetailsListForm : Form
 	{
 		private Int32 _detailsListID;
+		private DetailsListOpenType _openType;
 
-		public DetailsListForm(Int32 detailsListID)
+		public DetailsListForm(DetailsListOpenType openType)
 		{
+			_openType = openType;
+			_detailsListID = -1;
 			InitializeComponent();
-			_detailsListID = detailsListID;
 		}
 
-		private void detailsListsBindingNavigatorSaveItem_Click(object sender, EventArgs e)
+		public DetailsListForm(DetailsListOpenType openType, Int32 detailsListID)
 		{
-			this.Validate();
-			this.detailsListsBindingSource.EndEdit();
-			this.detailsListsDetailsBindingSource.EndEdit();
-			this.detailsListsTableAdapter.Update(this.dataSet.DetailsLists);
-			this.detailsListsDetailsTableAdapter.Update(this.dataSet.DetailsListsDetails);
+			_openType = openType;
+			_detailsListID = detailsListID;
+			InitializeComponent();
+		}
+
+		private void detailsListsBindingNavigatorSaveItem_Click(
+			object sender, EventArgs e)
+		{
+			EndEdit();
+			Save();
 		}
 
 		private void DetailsListForm_Load(object sender, EventArgs e)
 		{
-			// TODO: This line of code loads data into the 'dataSet.Materials' table. You can move, or remove it, as needed.
 			this.materialsTableAdapter.Fill(this.dataSet.Materials);
-			// TODO: This line of code loads data into the 'dataSet.DetailsListsDetails' table. You can move, or remove it, as needed.
-			this.detailsListsDetailsTableAdapter.FillBy(this.dataSet.DetailsListsDetails, _detailsListID);
-			// TODO: This line of code loads data into the 'dataSet.DetailsLists' table. You can move, or remove it, as needed.
-			this.detailsListsTableAdapter.FillBy(this.dataSet.DetailsLists, _detailsListID);
-			Text = "Список деталей - " + ((DataSet.DetailsListsRow)(dataSet.DetailsLists.Rows[0])).OrderID;
+			if (_openType == DetailsListOpenType.Open)
+			{
+				this.detailsListsTableAdapter.FillBy(this.dataSet.DetailsLists,
+					_detailsListID);
+
+				this.detailsListsDetailsTableAdapter.FillBy(
+					this.dataSet.DetailsListsDetails, _detailsListID);
+
+				Text = "Список деталей - " + ((DataSet.DetailsListsRow)
+					(dataSet.DetailsLists.Rows[0])).OrderID;
+			}
+			else if (_openType == DetailsListOpenType.AddNew)
+			{
+				this.detailsListsBindingSource.AddNew();
+				Text = "Новый список деталей";
+			}
 		}
 
 		private void optimizeButton_Click(object sender, EventArgs e)
 		{
+			EndEdit();
+			if (dataSet.HasChanges())
+			{
+				DialogResult result = MessageBox.Show(
+					"Прежде чем выполнять раскрой нужно сохранить изменения. " +
+					"Сохранить изменения и выполнить раскрой?", "CutOptima", MessageBoxButtons.YesNo,
+					MessageBoxIcon.Question);
+				if (result == DialogResult.Yes)
+				{
+					Save();
+				}
+				else if (result == DialogResult.No)
+				{
+					return;
+				}
+			}
 			Mediator.Instance.OptimizeDetailsList(_detailsListID);
 		}
 
-		private void detailsListsDetailsDataGridView_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+		private void detailsListsDetailsDataGridView_CellEndEdit(object sender,
+			DataGridViewCellEventArgs e)
 		{
 			// Последний введенный материал становится материалом по умолчанию
-			DataGridViewCell cell = detailsListsDetailsDataGridView[e.ColumnIndex, e.RowIndex];
-			DataGridViewColumn column = detailsListsDetailsDataGridView.Columns[e.ColumnIndex];
-			if (dataSet.DetailsListsDetails.Columns[column.DataPropertyName] == dataSet.DetailsListsDetails.MaterialIDColumn)
+			DataGridViewCell cell = detailsListsDetailsDataGridView
+				[e.ColumnIndex, e.RowIndex];
+			DataGridViewColumn column = detailsListsDetailsDataGridView.Columns
+				[e.ColumnIndex];
+
+			if (dataSet.DetailsListsDetails.Columns[column.DataPropertyName] ==
+				dataSet.DetailsListsDetails.MaterialIDColumn)
 			{
 				dataSet.DetailsListsDetails.MaterialIDColumn.DefaultValue = cell.Value;
 			}
+		}
+
+		private void detailsListsDetailsDataGridView_Enter(object sender, EventArgs e)
+		{
+			detailsListsBindingSource.EndEdit();
+		}
+
+		private void EndEdit()
+		{
+			Validate();
+			detailsListsBindingSource.EndEdit();
+			detailsListsDetailsBindingSource.EndEdit();
+		}
+
+		private void Save()
+		{
+			detailsListsTableAdapter.Update(dataSet.DetailsLists.Select("", "",
+				DataViewRowState.Added | DataViewRowState.ModifiedCurrent));
+			detailsListsDetailsTableAdapter.Update(dataSet.DetailsListsDetails);
+			detailsListsTableAdapter.Update(dataSet.DetailsLists.Select("", "",
+				DataViewRowState.Deleted));
+		}
+
+		private void DetailsListForm_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			EndEdit();
+			if (dataSet.HasChanges())
+			{
+				DialogResult result = Mediator.Instance.AskUserToSaveChanges();
+				if (result == DialogResult.Yes)
+				{
+					Save();
+				}
+				else if (result == DialogResult.Cancel)
+				{
+					e.Cancel = true;
+				}
+			}
+		}
+
+		private void detailsListsDetailsDataGridView_DataError(object sender, DataGridViewDataErrorEventArgs e)
+		{
+			Mediator.Instance.DataGridView_DataError(sender, e);
 		}
 	}
 }

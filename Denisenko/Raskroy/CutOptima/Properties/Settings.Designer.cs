@@ -47,24 +47,23 @@ namespace Denisenko.Cutting.CutOptima.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string DefaultCutOptimaConnectionString {
-            get {
-                return ((string)(this["DefaultCutOptimaConnectionString"]));
-            }
-            set {
-                this["DefaultCutOptimaConnectionString"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string CutOptimaConnectionString {
             get {
                 return ((string)(this["CutOptimaConnectionString"]));
             }
             set {
                 this["CutOptimaConnectionString"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=misha\\v2000;Initial Catalog=CutOptima;Integrated Security=True;Poolin" +
+            "g=False")]
+        public string DefaultCutOptimaConnectionString {
+            get {
+                return ((string)(this["DefaultCutOptimaConnectionString"]));
             }
         }
     }

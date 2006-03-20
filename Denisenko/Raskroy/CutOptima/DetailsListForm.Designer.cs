@@ -37,6 +37,8 @@
 			System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
 			this.detailsListsBindingNavigator = new System.Windows.Forms.BindingNavigator(this.components);
 			this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
+			this.detailsListsBindingSource = new System.Windows.Forms.BindingSource(this.components);
+			this.dataSet = new Denisenko.Cutting.CutOptima.DataSet();
 			this.bindingNavigatorDeleteItem = new System.Windows.Forms.ToolStripButton();
 			this.detailsListsBindingNavigatorSaveItem = new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -45,8 +47,7 @@
 			this.remarksTextBox = new System.Windows.Forms.TextBox();
 			this.detailsListsDetailsDataGridView = new System.Windows.Forms.DataGridView();
 			this.materialsBindingSource = new System.Windows.Forms.BindingSource(this.components);
-			this.dataSet = new Denisenko.Cutting.CutOptima.DataSet();
-			this.detailsListsBindingSource = new System.Windows.Forms.BindingSource(this.components);
+			this.detailsListsDetailsBindingSource = new System.Windows.Forms.BindingSource(this.components);
 			this.detailsListsTableAdapter = new Denisenko.Cutting.CutOptima.DataSetTableAdapters.DetailsListsTableAdapter();
 			this.detailsListsDetailsTableAdapter = new Denisenko.Cutting.CutOptima.DataSetTableAdapters.DetailsListsDetailsTableAdapter();
 			this.materialsTableAdapter = new Denisenko.Cutting.CutOptima.DataSetTableAdapters.MaterialsTableAdapter();
@@ -56,18 +57,15 @@
 			this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewComboBoxColumn();
 			this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.dataGridViewTextBoxColumn9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.dataGridViewTextBoxColumn10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.dataGridViewTextBoxColumn11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.detailsListsDetailsBindingSource = new System.Windows.Forms.BindingSource(this.components);
+			this.TopEdge = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			orderIDLabel = new System.Windows.Forms.Label();
 			remarksLabel = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.detailsListsBindingNavigator)).BeginInit();
 			this.detailsListsBindingNavigator.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.detailsListsBindingSource)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.dataSet)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.detailsListsDetailsDataGridView)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.materialsBindingSource)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.dataSet)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.detailsListsBindingSource)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.detailsListsDetailsBindingSource)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -120,6 +118,16 @@
 			this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
 			this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(23, 22);
 			this.bindingNavigatorAddNewItem.Text = "Add new";
+			// 
+			// detailsListsBindingSource
+			// 
+			this.detailsListsBindingSource.DataMember = "DetailsLists";
+			this.detailsListsBindingSource.DataSource = this.dataSet;
+			// 
+			// dataSet
+			// 
+			this.dataSet.DataSetName = "DataSet";
+			this.dataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
 			// 
 			// bindingNavigatorDeleteItem
 			// 
@@ -194,9 +202,7 @@
             this.dataGridViewTextBoxColumn6,
             this.dataGridViewTextBoxColumn7,
             this.dataGridViewTextBoxColumn8,
-            this.dataGridViewTextBoxColumn9,
-            this.dataGridViewTextBoxColumn10,
-            this.dataGridViewTextBoxColumn11});
+            this.TopEdge});
 			this.detailsListsDetailsDataGridView.DataSource = this.detailsListsDetailsBindingSource;
 			dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
 			dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
@@ -218,22 +224,19 @@
 			this.detailsListsDetailsDataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
 			this.detailsListsDetailsDataGridView.Size = new System.Drawing.Size(730, 248);
 			this.detailsListsDetailsDataGridView.TabIndex = 5;
+			this.detailsListsDetailsDataGridView.Enter += new System.EventHandler(this.detailsListsDetailsDataGridView_Enter);
 			this.detailsListsDetailsDataGridView.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.detailsListsDetailsDataGridView_CellEndEdit);
+			this.detailsListsDetailsDataGridView.DataError += new System.Windows.Forms.DataGridViewDataErrorEventHandler(this.detailsListsDetailsDataGridView_DataError);
 			// 
 			// materialsBindingSource
 			// 
 			this.materialsBindingSource.DataMember = "Materials";
 			this.materialsBindingSource.DataSource = this.dataSet;
 			// 
-			// dataSet
+			// detailsListsDetailsBindingSource
 			// 
-			this.dataSet.DataSetName = "DataSet";
-			this.dataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-			// 
-			// detailsListsBindingSource
-			// 
-			this.detailsListsBindingSource.DataMember = "DetailsLists";
-			this.detailsListsBindingSource.DataSource = this.dataSet;
+			this.detailsListsDetailsBindingSource.DataMember = "FK_DetailsListsDetails_DetailsLists";
+			this.detailsListsDetailsBindingSource.DataSource = this.detailsListsBindingSource;
 			// 
 			// detailsListsTableAdapter
 			// 
@@ -285,35 +288,15 @@
 			// dataGridViewTextBoxColumn8
 			// 
 			this.dataGridViewTextBoxColumn8.DataPropertyName = "LeftEdge";
-			this.dataGridViewTextBoxColumn8.HeaderText = "Л";
+			this.dataGridViewTextBoxColumn8.HeaderText = "Торцовка";
 			this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
-			this.dataGridViewTextBoxColumn8.Width = 30;
+			this.dataGridViewTextBoxColumn8.Width = 60;
 			// 
-			// dataGridViewTextBoxColumn9
+			// TopEdge
 			// 
-			this.dataGridViewTextBoxColumn9.DataPropertyName = "TopEdge";
-			this.dataGridViewTextBoxColumn9.HeaderText = "В";
-			this.dataGridViewTextBoxColumn9.Name = "dataGridViewTextBoxColumn9";
-			this.dataGridViewTextBoxColumn9.Width = 30;
-			// 
-			// dataGridViewTextBoxColumn10
-			// 
-			this.dataGridViewTextBoxColumn10.DataPropertyName = "RightEdge";
-			this.dataGridViewTextBoxColumn10.HeaderText = "П";
-			this.dataGridViewTextBoxColumn10.Name = "dataGridViewTextBoxColumn10";
-			this.dataGridViewTextBoxColumn10.Width = 30;
-			// 
-			// dataGridViewTextBoxColumn11
-			// 
-			this.dataGridViewTextBoxColumn11.DataPropertyName = "BottomEdge";
-			this.dataGridViewTextBoxColumn11.HeaderText = "Н";
-			this.dataGridViewTextBoxColumn11.Name = "dataGridViewTextBoxColumn11";
-			this.dataGridViewTextBoxColumn11.Width = 30;
-			// 
-			// detailsListsDetailsBindingSource
-			// 
-			this.detailsListsDetailsBindingSource.DataMember = "FK_DetailsListsDetails_DetailsLists";
-			this.detailsListsDetailsBindingSource.DataSource = this.detailsListsBindingSource;
+			this.TopEdge.DataPropertyName = "TopEdge";
+			this.TopEdge.HeaderText = "Комментарий";
+			this.TopEdge.Name = "TopEdge";
 			// 
 			// DetailsListForm
 			// 
@@ -328,14 +311,15 @@
 			this.Controls.Add(this.detailsListsBindingNavigator);
 			this.Name = "DetailsListForm";
 			this.Text = "Список деталей";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DetailsListForm_FormClosing);
 			this.Load += new System.EventHandler(this.DetailsListForm_Load);
 			((System.ComponentModel.ISupportInitialize)(this.detailsListsBindingNavigator)).EndInit();
 			this.detailsListsBindingNavigator.ResumeLayout(false);
 			this.detailsListsBindingNavigator.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.detailsListsBindingSource)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.dataSet)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.detailsListsDetailsDataGridView)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.materialsBindingSource)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.dataSet)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.detailsListsBindingSource)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.detailsListsDetailsBindingSource)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -358,16 +342,14 @@
 		private System.Windows.Forms.DataGridView detailsListsDetailsDataGridView;
 		private System.Windows.Forms.BindingSource materialsBindingSource;
 		private Denisenko.Cutting.CutOptima.DataSetTableAdapters.MaterialsTableAdapter materialsTableAdapter;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ToolStripButton optimizeButton;
 		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
 		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
 		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
 		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
 		private System.Windows.Forms.DataGridViewComboBoxColumn dataGridViewTextBoxColumn7;
 		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
-		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn9;
-		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn10;
-		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn11;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-		private System.Windows.Forms.ToolStripButton optimizeButton;
+		private System.Windows.Forms.DataGridViewTextBoxColumn TopEdge;
 	}
 }

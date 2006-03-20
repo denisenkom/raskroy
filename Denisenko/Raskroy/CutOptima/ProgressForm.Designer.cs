@@ -28,9 +28,11 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.progressBar = new System.Windows.Forms.ProgressBar();
 			this.cancelButton = new System.Windows.Forms.Button();
 			this.pauseResumeButton = new System.Windows.Forms.Button();
+			this.progressTimer = new System.Windows.Forms.Timer(this.components);
 			this.SuspendLayout();
 			// 
 			// progressBar
@@ -61,6 +63,10 @@
 			this.pauseResumeButton.UseVisualStyleBackColor = true;
 			this.pauseResumeButton.Click += new System.EventHandler(this.pauseResumeButton_Click);
 			// 
+			// progressTimer
+			// 
+			this.progressTimer.Tick += new System.EventHandler(this.progressTimer_Tick);
+			// 
 			// ProgressForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -71,6 +77,7 @@
 			this.Controls.Add(this.progressBar);
 			this.Name = "ProgressForm";
 			this.Text = "Выполняется оптимизация";
+			this.Load += new System.EventHandler(this.ProgressForm_Load);
 			this.ResumeLayout(false);
 
 		}
@@ -80,5 +87,6 @@
 		private System.Windows.Forms.ProgressBar progressBar;
 		private System.Windows.Forms.Button cancelButton;
 		private System.Windows.Forms.Button pauseResumeButton;
+		private System.Windows.Forms.Timer progressTimer;
 	}
 }

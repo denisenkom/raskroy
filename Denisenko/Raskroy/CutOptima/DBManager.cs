@@ -16,6 +16,7 @@ namespace Denisenko.Cutting.CutOptima
 	{
 		private static DBManager _instance;
 		private Form _owner;
+		private DBSelectionDialog _selectionDialog;
 	
 		public static DBManager Instance
 		{
@@ -110,34 +111,78 @@ namespace Denisenko.Cutting.CutOptima
 				}
 				form.Close();
 			}
+			AddDatabase(newDbDialog.Server, newDbDialog.Location);
+		}
 
+		private void SelectionDialog_OnAddDatabase(Object sender, EventArgs e)
+		{
+			/*
+			 * Можно использовать стандартное окно для формирования строки подключения
+			 * 
+			 * Сохранить полученную строку подключения в списке строк подключения
+			 * Отобразить новую строку подключения в окне выбора строк подключения
+			 */
+
+			// TODO: Change dialog caption from New Database to Locate Database
+			AddDatabaseDialog dialog = new AddDatabaseDialog();
+			dialog.Server = @".\SQLEXPRESS";
+			if (dialog.ShowDialog(_owner) != DialogResult.OK)
+			{
+				return;
+			}
+			SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+			builder.DataSource = dialog.Server;
+			builder.IntegratedSecurity = true;
+			builder.AsynchronousProcessing = true;
+			if(dialog.LocationType == LocationType.Path)
+			{
+				builder.AttachDBFilename = dialog.Location;
+			}
+			else if (dialog.LocationType == LocationType.Name)
+			{
+				builder.InitialCatalog = dialog.Location;
+			}
+
+			// checking connection
+			using (SqlConnection conn = new SqlConnection())
+			{
+				conn.ConnectionString = builder.ConnectionString;
+				conn.Open();
+			}
+
+			AddDatabase(dialog.Server, dialog.Location);
+		}
+
+		private void AddDatabase(String server, String location)
+		{
 			if (Settings.Default.Bases == null)
 			{
 				Settings.Default.Bases = new StringCollection();
 			}
-			Settings.Default.Bases.Add(String.Join("|",
-				new String[] { newDbDialog.Server, newDbDialog.Location }));
+			String baseInfo = String.Join("|", new String[] { server, location });
+			Settings.Default.Bases.Add(baseInfo);
 			Settings.Default.Save();
+			_selectionDialog.InvalidateDatabasesListView();
 		}
 
 		public void SelectDB(Form owner)
 		{
 			_owner = owner;
-			DBSelectionDialog selectionDialog = new DBSelectionDialog();
+			_selectionDialog = new DBSelectionDialog();
 			if (Settings.Default.Bases == null)
 			{
 				Settings.Default.Bases = new StringCollection();
 			}
-			selectionDialog.Databases = new String[Settings.Default.Bases.Count];
-			Settings.Default.Bases.CopyTo(selectionDialog.Databases, 0);
-			selectionDialog.OnNewDatabase += SelectionDialog_OnNewDatabase;
-			if (selectionDialog.ShowDialog(owner) != DialogResult.OK)
+			_selectionDialog.Databases = Settings.Default.Bases;
+			_selectionDialog.OnNewDatabase += SelectionDialog_OnNewDatabase;
+			_selectionDialog.OnAddDatabase += SelectionDialog_OnAddDatabase;
+			if (_selectionDialog.ShowDialog(owner) != DialogResult.OK)
 				return;
 			/*if(MessageBox.Show("Сделать выбранную базу базой по умолчанию?", "", MessageBoxButtons.YesNo)== DialogResult.Yes)
 			{
 			}*/
 			SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-			String[] parts = Settings.Default.Bases[selectionDialog.CurrentDB].Split(new Char[] { '|' });
+			String[] parts = Settings.Default.Bases[_selectionDialog.CurrentDB].Split(new Char[] { '|' });
 			builder.DataSource = parts[0];
 			if (parts[1][1] == ':' || parts[1][1] == '\\')
 			{
@@ -148,16 +193,18 @@ namespace Denisenko.Cutting.CutOptima
 				builder.InitialCatalog = parts[1];
 			}
 			builder.IntegratedSecurity = true;
-			Settings.Default.CutOptimaConnectionString =
-				Settings.Default.DefaultCutOptimaConnectionString = builder.ConnectionString;
+			Settings.Default["DefaultCutOptimaConnectionString"] =
+				Settings.Default.CutOptimaConnectionString = builder.ConnectionString;
 			Settings.Default.Save();
 		}
 
 		public void Startup(Form owner)
 		{
 			_owner = owner;
-			if (Settings.Default.DefaultCutOptimaConnectionString != "")
+			if (Settings.Default.CutOptimaConnectionString != "")
 			{
+				Settings.Default["DefaultCutOptimaConnectionString"] =
+					Settings.Default.CutOptimaConnectionString;
 				return;
 			}
 			SelectDB(owner);
