@@ -10,7 +10,6 @@ using Denisenko.Cutting.Optimizing.DataSetTableAdapters;
 namespace Denisenko.Cutting.Optimizing
 {
 	public delegate void OptimizingJobEventHandler(OptimizingJob sender);
-	public delegate void OptimizingJobProgressUpdateEventHandler(OptimizingJob sender, Int32 progress);
 	public delegate void OptimizingJobErrorEventHandler(OptimizingJob sender, Exception error);
 
 	public class OptimizingJob
@@ -19,6 +18,7 @@ namespace Denisenko.Cutting.Optimizing
 		private DataSet _dataSet;
 		private List<CuttingScheme> _schemes;
 		private Boolean _canceled = false;
+		private Optimizer _optimizer;
 
 		public OptimizingJob()
 		{
@@ -99,7 +99,7 @@ namespace Denisenko.Cutting.Optimizing
 		{
 			try
 			{
-				Optimizer optimizer = new Optimizer();
+				_optimizer = new Optimizer();
 				foreach (DataSet.MaterialsRow materialRow in _dataSet.Materials.Rows)
 				{
 					foreach (DataSet.DetailsListsDetailsRow row in materialRow.GetDetailsListsDetailsRows())
@@ -109,7 +109,7 @@ namespace Denisenko.Cutting.Optimizing
 						part.Width = row.Width;
 						part.Quantity = row.Amount;
 						part.CanRotate = !row.MaterialsRow.HaveDirection;
-						optimizer.Parts.Add(part);
+						_optimizer.Parts.Add(part);
 					}
 					foreach (DataSet.SheetsRow row in materialRow.GetSheetsRows())
 					{
@@ -119,20 +119,18 @@ namespace Denisenko.Cutting.Optimizing
 						// TODO: добавить в схему БД поле Толщина для листов
 						//sheet.Thickness = row.Thickness;
 						sheet.Thickness = 16M;
-						optimizer.Sheets.Add(sheet);
+						_optimizer.Sheets.Add(sheet);
 					}
-					FillOptimizer(optimizer);
-					while (optimizer.NextResult())
+					FillOptimizer(_optimizer);
+					while (_optimizer.NextResult())
 					{
-						optimizer.CurrentResult.Material = new Material(materialRow.MaterialID, materialRow.Name, !materialRow.HaveDirection);
-						_schemes.Add(optimizer.CurrentResult);
+						_optimizer.CurrentResult.Material = new Material(materialRow.MaterialID, materialRow.Name, !materialRow.HaveDirection);
+						_schemes.Add(_optimizer.CurrentResult);
 					}
-					optimizer.Parts.Clear();
-					optimizer.Sheets.Clear();
-					optimizer.Reset();
+					_optimizer.Parts.Clear();
+					_optimizer.Sheets.Clear();
+					_optimizer.Reset();
 				}
-				if (ProgressUpdate != null)
-					ProgressUpdate(this, 100);
 				if (Finished != null)
 					Finished(this);
 			}
@@ -179,8 +177,22 @@ namespace Denisenko.Cutting.Optimizing
 			}
 		}
 
+		public Single PercentCompleted
+		{
+			get
+			{
+				if (_optimizer != null)
+				{
+					return _optimizer.PercentCompleted;
+				}
+				else
+				{
+					return 0;
+				}
+			}
+		}
+
 		public event OptimizingJobEventHandler Finished;
 		public event OptimizingJobErrorEventHandler Error;
-		public event OptimizingJobProgressUpdateEventHandler ProgressUpdate;
 	}
 }

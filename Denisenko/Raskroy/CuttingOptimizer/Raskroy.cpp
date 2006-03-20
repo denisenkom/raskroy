@@ -61,7 +61,14 @@ void Raskroy::Begin(Parts &parts, const Parts &sheets)
 float Raskroy::GetPercentCompleted()
 {
 	float total = (float)(m_sheets.size() * (m_sizes[0].size() + m_sizes[1].size()));
-	return (float)m_perebor2d.CompletedCounter / total * 100.0f;
+	if(total == 0.0f)
+	{
+		return 100.0f;
+	}
+	else
+	{
+		return (float)m_perebor2d.CompletedCounter / total * 100.0f;
+	}
 }
 
 bool Raskroy::NextResult(t_result& out)
