@@ -9,8 +9,12 @@ using Denisenko.Cutting.Optimizing.DataSetTableAdapters;
 
 namespace Denisenko.Cutting.Optimizing
 {
-	public delegate void OptimizingJobEventHandler(OptimizingJob sender);
-	public delegate void OptimizingJobErrorEventHandler(OptimizingJob sender, Exception error);
+	public enum StatusType
+	{
+		Completed,
+		Error,
+		Canceled,
+	}
 
 	public class OptimizingJob
 	{
@@ -19,6 +23,18 @@ namespace Denisenko.Cutting.Optimizing
 		private List<CuttingScheme> _schemes;
 		private Boolean _canceled = false;
 		private Optimizer _optimizer;
+		private StatusType _status;
+		private CannotCutDetailsException _error;
+
+		public StatusType Status
+		{
+			get { return _status; }
+		}
+
+		public CannotCutDetailsException Error
+		{
+			get { return _error; }
+		}
 
 		public OptimizingJob()
 		{
@@ -121,7 +137,6 @@ namespace Denisenko.Cutting.Optimizing
 						sheet.Thickness = 16M;
 						_optimizer.Sheets.Add(sheet);
 					}
-					FillOptimizer(_optimizer);
 					while (_optimizer.NextResult())
 					{
 						_optimizer.CurrentResult.Material = new Material(materialRow.MaterialID, materialRow.Name, !materialRow.HaveDirection);
@@ -131,34 +146,29 @@ namespace Denisenko.Cutting.Optimizing
 					_optimizer.Sheets.Clear();
 					_optimizer.Reset();
 				}
-				if (Finished != null)
-					Finished(this);
+				_status = StatusType.Completed;
 			}
 			catch (CannotCutDetailsException ex)
 			{
-				if (Error != null)
-					Error(this, ex);
+				_status = StatusType.Error;
+				_error = ex;
 			}
 		}
 
-		private void FillOptimizer(Optimizer optimizer)
+		public void Join()
 		{
+			_worker.Join();
 		}
 
-		public void Pause()
+		public bool Join(int millisecondsTimeout)
 		{
-			_worker.Suspend();
-		}
-
-		public void Resume()
-		{
-			_worker.Resume();
+			return _worker.Join(millisecondsTimeout);
 		}
 
 		public void Cancel()
 		{
 			_worker.Abort();
-			_canceled = true;
+			_status = StatusType.Canceled;
 		}
 
 		public List<CuttingScheme> Result
@@ -166,14 +176,6 @@ namespace Denisenko.Cutting.Optimizing
 			get
 			{
 				return _schemes;
-			}
-		}
-
-		public Boolean Canceled
-		{
-			get
-			{
-				return _canceled;
 			}
 		}
 
@@ -191,8 +193,5 @@ namespace Denisenko.Cutting.Optimizing
 				}
 			}
 		}
-
-		public event OptimizingJobEventHandler Finished;
-		public event OptimizingJobErrorEventHandler Error;
 	}
 }
