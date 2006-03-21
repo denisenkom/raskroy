@@ -55,6 +55,7 @@
 			// 
 			// pauseResumeButton
 			// 
+			this.pauseResumeButton.Enabled = false;
 			this.pauseResumeButton.Location = new System.Drawing.Point(65, 82);
 			this.pauseResumeButton.Name = "pauseResumeButton";
 			this.pauseResumeButton.Size = new System.Drawing.Size(75, 23);

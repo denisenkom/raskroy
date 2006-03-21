@@ -65,17 +65,6 @@ namespace Denisenko.Cutting.CutOptima
 
 		private delegate void CloseFormHandler();
 
-		private void OnCuttingFinished(OptimizingJob job)
-		{
-			_progressForm.BeginInvoke(new CloseFormHandler(_progressForm.Close));
-		}
-
-		private void OnCuttingError(OptimizingJob job, Exception error)
-		{
-			MessageBox.Show(error.Message);
-			_progressForm.BeginInvoke(new CloseFormHandler(_progressForm.Close));
-		}
-
 		internal void OptimizeDetailsList(Int32 detailsIistID)
 		{
 			_job = new OptimizingJob();
@@ -83,16 +72,25 @@ namespace Denisenko.Cutting.CutOptima
 				new Int32[] { detailsIistID });
 			_progressForm = new ProgressForm(_job);
 			_progressForm.StartPosition = FormStartPosition.CenterParent;
-			_progressForm.Pause += OnPause;
-			_progressForm.Resume += OnResume;
 			_progressForm.Cancel += OnCancel;
-			_job.Finished += OnCuttingFinished;
-			_job.Error += OnCuttingError;
-			_job.AsyncExecute();
+			_progressForm.Show();
 
-			_progressForm.ShowDialog();
-			if (!_job.Canceled)
+			_job.AsyncExecute();
+			while (!_job.Join(100))
+			{
+				Application.DoEvents();
+			}
+
+			_progressForm.Close();
+
+			if (_job.Status == StatusType.Error)
+			{
+				MessageBox.Show(_job.Error.Message);
+			}
+			else if (_job.Status == StatusType.Completed)
+			{
 				ShowCuttingResult(_job.Result);
+			}
 		}
 
 		private void ShowCuttingResult(List<CuttingScheme> result)
@@ -101,16 +99,6 @@ namespace Denisenko.Cutting.CutOptima
 			form.MdiParent = MainForm.Instance;
 			form.DataSource = result;
 			form.Show();
-		}
-
-		private void OnPause(ProgressForm sender)
-		{
-			_job.Pause();
-		}
-
-		private void OnResume(ProgressForm sender)
-		{
-			_job.Resume();
 		}
 
 		private void OnCancel(ProgressForm sender)
@@ -203,16 +191,23 @@ namespace Denisenko.Cutting.CutOptima
 					wizard.DetailsListsIDs, wizard.SheetsIDs);
 				_progressForm = new ProgressForm(_job);
 				_progressForm.StartPosition = FormStartPosition.CenterParent;
-				_progressForm.Pause += OnPause;
-				_progressForm.Resume += OnResume;
 				_progressForm.Cancel += OnCancel;
-				_job.Finished += OnCuttingFinished;
-				_job.Error += OnCuttingError;
-				_job.AsyncExecute();
+				_progressForm.Show();
 
-				_progressForm.ShowDialog();
-				if (!_job.Canceled)
+				_job.AsyncExecute();
+				while (!_job.Join(100))
+				{
+					Application.DoEvents();
+				}
+
+				if (_job.Status == StatusType.Error)
+				{
+					MessageBox.Show(_job.Error.Message);					
+				}
+				else if (_job.Status == StatusType.Completed)
+				{
 					ShowCuttingResult(_job.Result);
+				}
 			}
 		}
 
