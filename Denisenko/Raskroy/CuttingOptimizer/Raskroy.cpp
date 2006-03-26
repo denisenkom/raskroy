@@ -82,7 +82,7 @@ bool Raskroy::NextResult(t_result& out)
 		return false; // детали кончились
 
 	t_result bestResult;
-	Amounts bestRashod;
+	Amounts bestRashod(m_remains.size());
 	bool first = true;
 	m_perebor2d.ResetCompletedCounter();
 	for (Parts::iterator pSheet = m_sheets.begin(); pSheet != m_sheets.end(); pSheet++)
@@ -90,7 +90,7 @@ bool Raskroy::NextResult(t_result& out)
 		Stat stat;
 		stat.MakeZero();
 		t_raskroy raskroy;
-		Amounts rashod;
+		Amounts rashod(m_remains.size());
 		if (!m_perebor2d.Optimize(pSheet->Rect, stat, 0, raskroy, rashod))
 			continue;
 		if (bestResult.Statistics < stat || first) {
