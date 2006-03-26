@@ -25,7 +25,7 @@ scalar Perebor::Recursion(scalar i_size, Amounts &o_rashods)
 		while (n <= amount && size > m_sawThickness)
 		{
 			scalar remain;
-			Amounts rashods;
+			Amounts rashods(m_remains->size());
 			m_pOtherSize++;
 			remain = Recursion(size, rashods);
 			m_pOtherSize--;
@@ -58,7 +58,7 @@ scalar Perebor::Recursion(scalar i_size, Amounts &o_rashods)
 		unsigned amount = (*m_remains)[m_pOtherSize->Offset];
 		if (n > amount)
 			n = amount;
-		o_rashods.resize(m_remains->size());
+		//o_rashods.resize(m_remains->size());
 		std::fill(o_rashods.begin(), o_rashods.end(), 0);
 		o_rashods[m_pOtherSize->Offset] = n;
 		// результат здесь может быть < 0 что нормально если последний пил больше чем
