@@ -105,8 +105,7 @@ Amounts& Amounts::operator *= (unsigned n)
 Amounts Amounts::operator - (const Amounts &a2) const
 {
 	assert(size() == a2.size());
-	Amounts res;
-	res.resize(size());
+	Amounts res(size());
 	const_iterator i1 = begin();
 	const_iterator i2 = a2.begin();
 	iterator ri = res.begin();
@@ -121,8 +120,7 @@ Amounts Amounts::operator * (unsigned n) const
 {
 	if (n == 1)
 		return *this;
-	Amounts res;
-	res.resize(size());
+	Amounts res(size());
 	if (n == 0)
 	{
 		std::fill(res.begin(), res.end(), 0);

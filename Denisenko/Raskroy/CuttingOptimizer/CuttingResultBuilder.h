@@ -80,9 +80,11 @@ private:
 	Decimal GetDetailsLength(const Raskroy::t_raskroy::t_details& details)
 	{
 		Decimal result;
-		for(UInt32 i = 0; i < details.size(); i++)
+		for(Raskroy::t_raskroy::t_details::const_iterator i = details.begin();
+			i != details.end(); i++)
 		{
-			result += FromScaled(details[i].size + ToScaled(m_parameters->CutterThickness)) * details[i].num;
+			result += FromScaled(i->size + ToScaled(m_parameters->CutterThickness)) *
+				i->num;
 		}
 		result -= m_parameters->CutterThickness;
 		return result;
@@ -91,11 +93,13 @@ private:
 	Section^ AddDetails(const Raskroy::t_raskroy::t_details& details, Section^ output, CutType cutType)
 	{
 		Section^ result = output;
-		for(UInt32 i = 0; i < details.size(); i++)
+		for(Raskroy::t_raskroy::t_details::const_iterator i = details.begin();
+			i != details.end(); i++)
 		{
-			for(Int32 j = details[i].num; j > 0; j--)
+			for(Int32 j = i->num; j > 0; j--)
 			{
-				Section^ partSection = m_result->Cut(result, FromScaled(details[i].size), cutType, result);
+				Section^ partSection = m_result->Cut(result, FromScaled(i->size),
+					cutType, result);
 				m_result->MarkAsPart(partSection);
 			}
 		}

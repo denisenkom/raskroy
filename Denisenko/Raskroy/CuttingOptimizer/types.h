@@ -126,6 +126,11 @@ public:
 	Amounts operator - (const Amounts &amounts) const;
 	Amounts operator + (const Amounts &b) const {Amounts res(*this); return (res += b);};
 
+	Amounts(size_t size)
+		: std::vector<unsigned>(size)
+	{
+	}
+
 	bool IsAllZeros() { for(const_iterator i = begin(); i != end(); i++) if(*i > 0) return false; return true; }
 };
 

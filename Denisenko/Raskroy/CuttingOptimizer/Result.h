@@ -8,7 +8,7 @@ namespace Raskroy {
 
 struct t_raskroy {
 	struct t_detail {scalar size; unsigned num;};
-	typedef std::vector<t_detail> t_details;
+	typedef std::list<t_detail> t_details;
 
 	unsigned s; // разрез проходит перпендикул€рно этой стороне
 	unsigned kratnostj;
