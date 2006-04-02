@@ -26,8 +26,8 @@ public:
 	CResultView()
 		: /*iresult(0),*/ m_Value(0)
 	{
-		result.sheet.Rect.Length = 2800;
-		result.sheet.Rect.Width = 1400;
+		result.sheet.Rect.Size[0] = 2800;
+		result.sheet.Rect.Size[1] = 1400;
 	}
 
 DECLARE_REGISTRY_RESOURCEID(IDR_RESULTVIEW)

@@ -5,6 +5,8 @@
 
 #include "resource.h"       // main symbols
 
+using namespace ATL;
+
 /////////////////////////////////////////////////////////////////////////////
 // CSheet
 class ATL_NO_VTABLE CSheet : 
@@ -12,12 +14,12 @@ class ATL_NO_VTABLE CSheet :
 	public CComCoClass<CSheet, &CLSID_Sheet>,
 	public IDispatchImpl<ISheet, &IID_ISheet, &LIBID_COMRASKROYLib>
 {
-	double length, width;
+	CComCurrency length, width;
 	long amount;
 	BOOL rotate;
 public:
 	CSheet()
-		: length(0), width(0), amount(0), rotate(FALSE)
+		: amount(0), rotate(FALSE)
 	{
 	}
 
@@ -40,10 +42,10 @@ public:
 	STDMETHOD(put_Rotate)(/*[in]*/ BOOL newVal);
 	STDMETHOD(get_Amount)(/*[out, retval]*/ long *pVal);
 	STDMETHOD(put_Amount)(/*[in]*/ long newVal);
-	STDMETHOD(get_Width)(/*[out, retval]*/ double *pVal);
-	STDMETHOD(put_Width)(/*[in]*/ double newVal);
-	STDMETHOD(get_Length)(/*[out, retval]*/ double *pVal);
-	STDMETHOD(put_Length)(/*[in]*/ double newVal);
+	STDMETHOD(get_Width)(/*[out, retval]*/ CURRENCY *pVal);
+	STDMETHOD(put_Width)(/*[in]*/ CURRENCY newVal);
+	STDMETHOD(get_Length)(/*[out, retval]*/ CURRENCY *pVal);
+	STDMETHOD(put_Length)(/*[in]*/ CURRENCY newVal);
 };
 
 #endif //__SHEET_H_

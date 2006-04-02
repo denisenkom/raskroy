@@ -15,6 +15,7 @@
 #endif
 #define _ATL_APARTMENT_THREADED
 
+#include <cmath>
 #include <cassert>
 #include <string>
 #include <sstream>
@@ -26,6 +27,7 @@
 extern CComModule _Module;
 #include <atlcom.h>
 #include <atlctl.h>
+#include <atlcur.h>
 
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
