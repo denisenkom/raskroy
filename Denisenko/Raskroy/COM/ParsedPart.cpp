@@ -40,14 +40,14 @@ STDMETHODIMP CParsedPart::put_Y(double newVal)
 STDMETHODIMP CParsedPart::get_Length(double *pVal)
 {
 	assert(pVal);
-	*pVal = rect.Length;
+	*pVal = rect.Size[0];
 
 	return S_OK;
 }
 
 STDMETHODIMP CParsedPart::put_Length(double newVal)
 {
-	rect.Length = newVal;
+	rect.Size[0] = newVal;
 
 	return S_OK;
 }
@@ -55,14 +55,14 @@ STDMETHODIMP CParsedPart::put_Length(double newVal)
 STDMETHODIMP CParsedPart::get_Width(double *pVal)
 {
 	assert(pVal);
-	*pVal = rect.Width;
+	*pVal = rect.Size[1];
 
 	return S_OK;
 }
 
 STDMETHODIMP CParsedPart::put_Width(double newVal)
 {
-	rect.Width = newVal;
+	rect.Size[1] = newVal;
 
 	return S_OK;
 }

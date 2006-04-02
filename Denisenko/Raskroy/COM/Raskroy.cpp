@@ -36,13 +36,13 @@ STDMETHODIMP CRaskroy::NextResult(IResult **pResult, BOOL *bRes)
 			*pResult = 0;
 		return S_OK;
 	}
-	catch (err_cannot_set_parts &ex)
+	catch (CannotSetPartsException &ex)
 	{
 		wstringstream ss;
 		ss << L"На листах:\n";
-		for (Parts::const_iterator pPart = ex.sheets.begin(); pPart != ex.sheets.end(); pPart++)
+		for (Parts::const_iterator pPart = ex.sheets->begin(); pPart != ex.sheets->end(); pPart++)
 		{
-			ss << pPart->Rect.Length << L'x' << pPart->Rect.Width << L' ';
+			ss << pPart->Rect.Size[0] << L'x' << pPart->Rect.Size[1] << L' ';
 		}
 		ss << L"\nнельзя расположить детали с длиной:\n";
 		for (Sizes::const_iterator pSize = ex.sizes[0].begin(); pSize != ex.sizes[0].end(); pSize++)

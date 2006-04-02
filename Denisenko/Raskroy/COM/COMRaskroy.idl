@@ -10,10 +10,10 @@ import "ocidl.idl";
 ]
 interface ISheet : IDispatch
 {
-	[propget, id(1), helpstring("property Length")] HRESULT Length([out, retval] double *pVal);
-	[propput, id(1), helpstring("property Length")] HRESULT Length([in] double newVal);
-	[propget, id(2), helpstring("property Width")] HRESULT Width([out, retval] double *pVal);
-	[propput, id(2), helpstring("property Width")] HRESULT Width([in] double newVal);
+	[propget, id(1), helpstring("property Length")] HRESULT Length([out, retval] CURRENCY *pVal);
+	[propput, id(1), helpstring("property Length")] HRESULT Length([in] CURRENCY newVal);
+	[propget, id(2), helpstring("property Width")] HRESULT Width([out, retval] CURRENCY *pVal);
+	[propput, id(2), helpstring("property Width")] HRESULT Width([in] CURRENCY newVal);
 	[propget, id(3), helpstring("property Amount")] HRESULT Amount([out, retval] long *pVal);
 	[propput, id(3), helpstring("property Amount")] HRESULT Amount([in] long newVal);
 	[propget, id(4), helpstring("property Rotate")] HRESULT Rotate([out, retval] BOOL *pVal);

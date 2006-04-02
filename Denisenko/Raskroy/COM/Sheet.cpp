@@ -7,28 +7,28 @@
 // CSheet
 
 
-STDMETHODIMP CSheet::get_Length(double *pVal)
+STDMETHODIMP CSheet::get_Length(CURRENCY *pVal)
 {
 	*pVal = length;
 
 	return S_OK;
 }
 
-STDMETHODIMP CSheet::put_Length(double newVal)
+STDMETHODIMP CSheet::put_Length(CURRENCY newVal)
 {
 	length = newVal;
 
 	return S_OK;
 }
 
-STDMETHODIMP CSheet::get_Width(double *pVal)
+STDMETHODIMP CSheet::get_Width(CURRENCY *pVal)
 {
 	*pVal = width;
 
 	return S_OK;
 }
 
-STDMETHODIMP CSheet::put_Width(double newVal)
+STDMETHODIMP CSheet::put_Width(CURRENCY newVal)
 {
 	width = newVal;
 
