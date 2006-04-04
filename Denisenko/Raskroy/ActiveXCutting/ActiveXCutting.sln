@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ActiveXCutting", "ActiveXCutting.vcproj", "{D45CBE9A-2968-4FAE-A1DC-F2539B785F89}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ActiveXCuttingPS", "ActiveXCuttingPS.vcproj", "{80A868E0-F0E2-409D-83A4-3DC664C915A2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D45CBE9A-2968-4FAE-A1DC-F2539B785F89} = {D45CBE9A-2968-4FAE-A1DC-F2539B785F89}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Consumer", "Consumer\Consumer.vcproj", "{55E10654-A207-4EE3-A509-D1C829909535}"
+EndProject
+Global
+	GlobalSection(SourceCodeControl) = preSolution
+		SccNumberOfProjects = 3
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = ActiveXCutting.vcproj
+		SccLocalPath1 = .
+		SccProjectUniqueName2 = ActiveXCuttingPS.vcproj
+		SccLocalPath2 = .
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D45CBE9A-2968-4FAE-A1DC-F2539B785F89}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D45CBE9A-2968-4FAE-A1DC-F2539B785F89}.Debug|Win32.Build.0 = Debug|Win32
+		{D45CBE9A-2968-4FAE-A1DC-F2539B785F89}.Release|Win32.ActiveCfg = Release|Win32
+		{D45CBE9A-2968-4FAE-A1DC-F2539B785F89}.Release|Win32.Build.0 = Release|Win32
+		{80A868E0-F0E2-409D-83A4-3DC664C915A2}.Debug|Win32.ActiveCfg = Debug|Win32
+		{80A868E0-F0E2-409D-83A4-3DC664C915A2}.Release|Win32.ActiveCfg = Release|Win32
+		{55E10654-A207-4EE3-A509-D1C829909535}.Debug|Win32.ActiveCfg = Debug|Win32
+		{55E10654-A207-4EE3-A509-D1C829909535}.Debug|Win32.Build.0 = Debug|Win32
+		{55E10654-A207-4EE3-A509-D1C829909535}.Release|Win32.ActiveCfg = Release|Win32
+		{55E10654-A207-4EE3-A509-D1C829909535}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

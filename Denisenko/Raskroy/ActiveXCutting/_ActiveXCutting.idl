@@ -1,0 +1,107 @@
+import "E:\Program Files\Microsoft Visual Studio 8\VC\PlatformSDK\include\prsht.idl";
+import "E:\Program Files\Microsoft Visual Studio 8\VC\PlatformSDK\include\mshtml.idl";
+import "e:\program files\microsoft visual studio 8\vc\platformsdk\include\dimm.idl";
+import "E:\Program Files\Microsoft Visual Studio 8\VC\PlatformSDK\include\mshtmhst.idl";
+import "e:\program files\microsoft visual studio 8\vc\platformsdk\include\docobj.idl";
+import "E:\Program Files\Microsoft Visual Studio 8\VC\PlatformSDK\include\exdisp.idl";
+import "E:\Program Files\Microsoft Visual Studio 8\VC\PlatformSDK\include\objsafe.idl";
+
+[
+	object,
+	uuid(8A0A905F-99D6-4617-82ED-A69AFE0230C0),
+	dual,
+	helpstring("ISheet Interface"),
+	pointer_default(unique)
+] 
+#line 24 "d:\\!mydata\\denisenko\\raskroy\\activexcutting\\sheet.h"
+interface ISheet : IDispatch {
+#line 26 "d:\\!mydata\\denisenko\\raskroy\\activexcutting\\sheet.h"
+	[propget,id(1),helpstring("property SizeA")] HRESULT  SizeA([out,retval] CY *pVal);
+	[propput,id(1),helpstring("property SizeA")] HRESULT  SizeA([in] CY newVal);
+	[propget,id(2),helpstring("property SizeB")] HRESULT  SizeB([out,retval] CY *pVal);
+	[propput,id(2),helpstring("property SizeB")] HRESULT  SizeB([in] CY newVal);
+};
+
+[
+	object,
+	uuid(979E8858-3D7B-4863-989E-64401B02B100),
+	dual,
+	helpstring("ISheets Interface"),
+	pointer_default(unique)
+] 
+#line 23 "d:\\!mydata\\denisenko\\raskroy\\activexcutting\\sheets.h"
+interface ISheets : IDispatch {
+#line 26 "d:\\!mydata\\denisenko\\raskroy\\activexcutting\\sheets.h"
+	[propget,id(-4)] HRESULT  _NewEnum([out,retval] IUnknown **ppUnk);
+#line 29 "d:\\!mydata\\denisenko\\raskroy\\activexcutting\\sheets.h"
+	[propget,id(0)] HRESULT  Item([in] long Index, [out,retval] IDispatch **pVal);
+#line 32 "d:\\!mydata\\denisenko\\raskroy\\activexcutting\\sheets.h"
+	[propget,id(1)] HRESULT  Count([out,retval] long *pVal);
+#line 35 "d:\\!mydata\\denisenko\\raskroy\\activexcutting\\sheets.h"
+	HRESULT  Add([in] IDispatch *sheet);
+};
+
+[
+	object,
+	uuid(AEEBC2B7-E906-4F56-AB9E-3800D3DE0C29),
+	dual,
+	helpstring("ICuttingOptimizer Interface"),
+	pointer_default(unique)
+] 
+#line 21 "d:\\!mydata\\denisenko\\raskroy\\activexcutting\\cuttingoptimizer.h"
+interface ICuttingOptimizer : IDispatch {
+#line 23 "d:\\!mydata\\denisenko\\raskroy\\activexcutting\\cuttingoptimizer.h"
+	HRESULT  Begin([in]IDispatch *sheets);
+};
+
+
+[ version(1.0), uuid(C8A15DB7-3875-4DC4-AA51-E7CA20743AB8), helpstring("ActiveXCutting 1.0 Type Library") ]
+library ActiveXCutting
+{
+	importlib("stdole2.tlb");
+	importlib("olepro32.dll");
+
+	[
+		version(1.0),
+		uuid(6260DA6D-9679-4CE4-B8A4-103B0C45DD36),
+		helpstring("Sheet Class")
+	] 
+#line 46 "d:\\!mydata\\denisenko\\raskroy\\activexcutting\\sheet.h"
+	coclass Sheet {
+		[default]	interface ISheet;
+	};
+
+	[
+		version(1.0),
+		uuid(4CF7DFFE-084B-4BEC-A8E1-EA8205F1F844),
+		helpstring("Sheets Class")
+	] 
+#line 112 "d:\\!mydata\\denisenko\\raskroy\\activexcutting\\sheets.h"
+	coclass Sheets {
+		[default]	interface ISheets;
+	};
+
+	[
+		uuid(B4C90F66-1B62-4D31-9B2C-3D5253EFA41A),
+		helpstring("_ICuttingOptimizerEvents Interface")
+	] 
+#line 34 "d:\\!mydata\\denisenko\\raskroy\\activexcutting\\cuttingoptimizer.h"
+	dispinterface _ICuttingOptimizerEvents {
+	properties:
+
+	methods:
+	};
+
+	[
+		version(1.0),
+		uuid(2A7AE3A2-DB4D-4E01-A5FE-2DF875F8C8D0),
+		helpstring("CuttingOptimizer Class")
+	] 
+#line 52 "d:\\!mydata\\denisenko\\raskroy\\activexcutting\\cuttingoptimizer.h"
+	coclass CuttingOptimizer {
+		[default]	interface ICuttingOptimizer;
+		[default, source]	interface _ICuttingOptimizerEvents;
+	};
+
+}
+
