@@ -21,8 +21,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="output\$(ConfigurationName)"
+			IntermediateDirectory="obj\$(ConfigurationName)"
 			ConfigurationType="2"
 			CharacterSet="1"
 			ManagedExtensions="1"
@@ -97,8 +97,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
-			IntermediateDirectory="$(ConfigurationName)"
+			OutputDirectory="output\$(ConfigurationName)"
+			IntermediateDirectory="obj\$(ConfigurationName)"
 			ConfigurationType="2"
 			CharacterSet="1"
 			ManagedExtensions="1"
@@ -200,20 +200,80 @@
 	</References>
 	<Files>
 		<Filter
-			Name="Source Files"
-			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			Name="src"
+			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx;h;hpp;hxx;hm;inl;inc;xsd;rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\AssemblyInfo.cpp"
+				RelativePath="src\app.ico"
 				>
 			</File>
 			<File
-				RelativePath=".\CuttingOptimizer.cpp"
+				RelativePath="src\app.rc"
 				>
 			</File>
 			<File
-				RelativePath=".\Stdafx.cpp"
+				RelativePath="src\AssemblyInfo.cpp"
+				>
+			</File>
+			<File
+				RelativePath="src\common.h"
+				>
+			</File>
+			<File
+				RelativePath="src\CuttingOptimizer.cpp"
+				>
+			</File>
+			<File
+				RelativePath="src\CuttingOptimizer.h"
+				>
+			</File>
+			<File
+				RelativePath="src\CuttingResultBuilder.h"
+				>
+			</File>
+			<File
+				RelativePath="src\errors.h"
+				>
+			</File>
+			<File
+				RelativePath="src\Perebor.cpp"
+				>
+			</File>
+			<File
+				RelativePath="src\Perebor.h"
+				>
+			</File>
+			<File
+				RelativePath="src\Perebor2d.cpp"
+				>
+			</File>
+			<File
+				RelativePath="src\Perebor2d.h"
+				>
+			</File>
+			<File
+				RelativePath="src\Raskroy.cpp"
+				>
+			</File>
+			<File
+				RelativePath="src\Raskroy.h"
+				>
+			</File>
+			<File
+				RelativePath="src\resource.h"
+				>
+			</File>
+			<File
+				RelativePath="src\Result.cpp"
+				>
+			</File>
+			<File
+				RelativePath="src\Result.h"
+				>
+			</File>
+			<File
+				RelativePath="src\Stdafx.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -232,94 +292,78 @@
 					/>
 				</FileConfiguration>
 			</File>
-		</Filter>
-		<Filter
-			Name="Header Files"
-			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
-			>
 			<File
-				RelativePath=".\CuttingOptimizer.h"
+				RelativePath="src\Stdafx.h"
 				>
 			</File>
 			<File
-				RelativePath=".\CuttingResultBuilder.h"
+				RelativePath="src\types.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\resource.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Stdafx.h"
+				RelativePath="src\types.h"
 				>
 			</File>
 		</Filter>
 		<Filter
-			Name="Resource Files"
-			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
-			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
+			Name="output"
 			>
-			<File
-				RelativePath=".\app.ico"
+			<Filter
+				Name="debug"
 				>
-			</File>
-			<File
-				RelativePath=".\app.rc"
+				<File
+					RelativePath=".\output\debug\CuttingOptimizer.dll"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\output\debug\CuttingOptimizer.pdb"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="release"
 				>
-			</File>
-		</Filter>
-		<Filter
-			Name="CppRaskroy"
-			>
-			<File
-				RelativePath=".\common.h"
-				>
-			</File>
-			<File
-				RelativePath=".\errors.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Perebor.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Perebor.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Perebor2d.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Perebor2d.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Raskroy.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Raskroy.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Result.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Result.h"
-				>
-			</File>
-			<File
-				RelativePath=".\types.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\types.h"
-				>
-			</File>
+				<File
+					RelativePath=".\output\release\CuttingOptimizer.dll"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\output\release\CuttingOptimizer.pdb"
+					>
+					<FileConfiguration
+						Name="Release|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCustomBuildTool"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
 		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"
