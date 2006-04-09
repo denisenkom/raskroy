@@ -92,6 +92,7 @@
 			this.Name = "DBSelectionForm";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Выберите базу";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DBSelectionForm_FormClosing);
 			this.Load += new System.EventHandler(this.DBSelectionForm_Load);
 			this.ResumeLayout(false);
 

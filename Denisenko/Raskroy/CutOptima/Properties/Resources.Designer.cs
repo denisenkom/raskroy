@@ -61,15 +61,25 @@ namespace Denisenko.Cutting.CutOptima.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to USE [master]
+        ///   Looks up a localized string similar to SET QUOTED_IDENTIFIER ON
         ///GO
-        ///CREATE DATABASE [CutOptima] ON  PRIMARY 
-        ///( NAME = N&apos;CutOptima&apos;, FILENAME = N&apos;E:\Program Files\Microsoft SQL Server\MSSQL$V2000\data\CutOptima.mdf&apos; , SIZE = 896KB , MAXSIZE = UNLIMITED, FILEGROWTH = 10%)
-        /// LOG ON 
-        ///( NAME = N&apos;CutOptima_log&apos;, FILENAME = N&apos;E:\Program Files\Microsoft SQL Server\MSSQL$V2000\data\CutOptima_log.LDF&apos; , SIZE = 768KB , MAXSIZE = UNLIMITED, FILEGROWTH = 10%)
-        /// COLLATE Cyrillic_General_CI_AS
+        ///
+        ///CREATE TABLE [dbo].[Materials](
+        ///	[MaterialID] [int] IDENTITY(1,1) NOT NULL,
+        ///	[Name] [nvarchar](50) COLLATE Cyrillic_General_CI_AS NOT NULL,
+        ///	[HaveDirection] [bit] NOT NULL,
+        ///	[Remarks] [text] COLLATE Cyrillic_General_CI_AS NULL,
+        /// CONSTRAINT [PK_Materials] PRIMARY KEY CLUSTERED 
+        ///(
+        ///	[MaterialID] ASC
+        ///)
+        ///)
+        ///
         ///GO
-        ///EXEC dbo.sp_dbcmptlevel @dbname=N&apos;CutOptima&apos;, @new_cmptlevel=80 -- SQL  [rest of string was truncated]&quot;;.
+        ///CREATE TABLE [dbo].[DetailsLists](
+        ///	[DetailsListID] [int] IDENTITY(1,1) NOT NULL,
+        ///	[OrderID] [nvarchar](50) COLLATE Cyrillic_General_CI_AS NULL,
+        ///	[Remarks] [nv [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string CreateDB {
             get {

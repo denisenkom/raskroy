@@ -6,6 +6,13 @@ using System.Text;
 
 namespace Denisenko.Cutting.CutOptima
 {
+	public class CheckConnectionEventArgs
+	{
+		public String ConnectionInfo;
+	}
+
+	public delegate void CheckConnectionEventHandler(Object sender, CheckConnectionEventArgs e);
+
 	class DBSelectionDialog
 	{
 		private StringCollection _databases;
@@ -60,6 +67,7 @@ namespace Denisenko.Cutting.CutOptima
 
 		public event EventHandler OnNewDatabase;
 		public event EventHandler OnAddDatabase;
+		public event CheckConnectionEventHandler OnCheckConnection;
 
 		internal void FireAddDatabase(EventArgs e)
 		{
@@ -72,6 +80,14 @@ namespace Denisenko.Cutting.CutOptima
 		public void InvalidateDatabasesListView()
 		{
 			_form.InvalidateDatabasesListView();
+		}
+
+		internal void FireCheckConnection(CheckConnectionEventArgs e)
+		{
+			if (OnCheckConnection != null)
+			{
+				OnCheckConnection(this, e);
+			}
 		}
 	}
 }

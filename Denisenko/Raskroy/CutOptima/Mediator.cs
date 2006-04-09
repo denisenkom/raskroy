@@ -195,7 +195,7 @@ namespace Denisenko.Cutting.CutOptima
 				_progressForm.Show();
 
 				_job.AsyncExecute();
-				while (!_job.Join(100))
+				while (!_job.Join(500))
 				{
 					Application.DoEvents();
 				}

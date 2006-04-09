@@ -153,6 +153,31 @@ namespace Denisenko.Cutting.CutOptima
 			AddDatabase(dialog.Server, dialog.Location);
 		}
 
+		private void SelectionDialog_OnCheckConnection(Object sender,
+			CheckConnectionEventArgs e)
+		{
+			SqlConnection conn = new SqlConnection();
+			conn.ConnectionString = BuildConnectionString(e.ConnectionInfo);
+			conn.Open(); // throws exception if cannot open connection
+		}
+
+		private String BuildConnectionString(String connectionInfo)
+		{
+			SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+			String[] parts = connectionInfo.Split(new Char[] { '|' });
+			builder.DataSource = parts[0];
+			if (parts[1][1] == ':' || parts[1][1] == '\\')
+			{
+				builder.AttachDBFilename = parts[1];
+			}
+			else
+			{
+				builder.InitialCatalog = parts[1];
+			}
+			builder.IntegratedSecurity = true;
+			return builder.ConnectionString;
+		}
+
 		private void AddDatabase(String server, String location)
 		{
 			if (Settings.Default.Bases == null)
@@ -176,25 +201,15 @@ namespace Denisenko.Cutting.CutOptima
 			_selectionDialog.Databases = Settings.Default.Bases;
 			_selectionDialog.OnNewDatabase += SelectionDialog_OnNewDatabase;
 			_selectionDialog.OnAddDatabase += SelectionDialog_OnAddDatabase;
+			_selectionDialog.OnCheckConnection += SelectionDialog_OnCheckConnection;
 			if (_selectionDialog.ShowDialog(owner) != DialogResult.OK)
 				return;
 			/*if(MessageBox.Show("Сделать выбранную базу базой по умолчанию?", "", MessageBoxButtons.YesNo)== DialogResult.Yes)
 			{
 			}*/
-			SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-			String[] parts = Settings.Default.Bases[_selectionDialog.CurrentDB].Split(new Char[] { '|' });
-			builder.DataSource = parts[0];
-			if (parts[1][1] == ':' || parts[1][1] == '\\')
-			{
-				builder.AttachDBFilename = parts[1];
-			}
-			else
-			{
-				builder.InitialCatalog = parts[1];
-			}
-			builder.IntegratedSecurity = true;
 			Settings.Default["DefaultCutOptimaConnectionString"] =
-				Settings.Default.CutOptimaConnectionString = builder.ConnectionString;
+				Settings.Default.CutOptimaConnectionString = BuildConnectionString(
+					Settings.Default.Bases[_selectionDialog.CurrentDB]);
 			Settings.Default.Save();
 		}
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Denisenko.Cutting.CutOptima
@@ -31,15 +32,24 @@ namespace Denisenko.Cutting.CutOptima
 			writer.WriteLine(args.ExceptionObject.ToString());
 			writer.WriteLine("END OF REPORT");
 			writer.WriteLine();
-			using (StreamWriter stream = new StreamWriter("unhandledException.txt", true,
-				Encoding.Unicode))
+			ThreadPool.QueueUserWorkItem(WriteUnhandledExcReportToServer, writer.ToString());
+		}
+
+		static void WriteUnhandledExcReportToServer(Object state)
+		{
+			try
 			{
-				stream.WriteLine(writer.ToString());
+				String report = (String)state;
+				using (StreamWriter stream =
+					new StreamWriter(
+						@"\\192.168.0.1\DeveloperPortal\CutOptima\unhandledException.txt",
+						true, Encoding.Unicode))
+				{
+					stream.WriteLine(report);
+				}
 			}
-			using (StreamWriter stream = new StreamWriter(@"\\192.168.0.1\DeveloperPortal\CutOptima\unhandledException.txt", true,
-				Encoding.Unicode))
+			catch
 			{
-				stream.WriteLine(writer.ToString());
 			}
 		}
 	}
