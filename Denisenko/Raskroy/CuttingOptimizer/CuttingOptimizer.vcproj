@@ -309,34 +309,6 @@
 			Name="output"
 			>
 			<Filter
-				Name="debug"
-				>
-				<File
-					RelativePath=".\output\debug\CuttingOptimizer.dll"
-					>
-					<FileConfiguration
-						Name="Release|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath=".\output\debug\CuttingOptimizer.pdb"
-					>
-					<FileConfiguration
-						Name="Release|Win32"
-						ExcludedFromBuild="true"
-						>
-						<Tool
-							Name="VCCustomBuildTool"
-						/>
-					</FileConfiguration>
-				</File>
-			</Filter>
-			<Filter
 				Name="release"
 				>
 				<File
