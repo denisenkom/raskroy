@@ -339,9 +339,22 @@
 		</Filter>
 		<Filter
 			Name="doc"
+			Filter="txt;doc;htm;html"
 			>
 			<File
 				RelativePath=".\doc\ReadMe.txt"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\doc\ПроектнаяДокументация.doc"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
