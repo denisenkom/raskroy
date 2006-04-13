@@ -110,7 +110,7 @@ void Parser::Parse(const t_result& result1, t_parsed_result& result2, scalar saw
 	assert(m_pOutResult);
 	m_pOutResult->parts.clear();
 	result2.amount = result1.amount;
-	result2.stat = result1.stat;
+	result2.stat = result1.Statistics;
 	result2.sheet = *result1.sheet;
 	scalar pos[2] = {0, 0};
 	Recursion(pos, result1.sheet->Rect, result1.raskroy);

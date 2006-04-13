@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Drawer.h"
 
+using namespace std;
+
 namespace Denisenko {
 namespace Raskroy {
 
@@ -88,8 +90,8 @@ void Drawer::ResetWnd(HWND hwnd)
 
 void Drawer::Draw(int width, int height, const t_parsed_parts& parts, const t_parsed_cuts& cuts, const Part& sheet)
 {
-    double scalex = width / sheet.Rect.Length;
-    double scaley = height / sheet.Rect.Width;
+	double scalex = width / (double)sheet.Rect.Size[0];
+    double scaley = height / (double)sheet.Rect.Size[1];
     double scale;
     if (scalex < scaley)
     	scale = scalex;
@@ -101,7 +103,8 @@ void Drawer::Draw(int width, int height, const t_parsed_parts& parts, const t_pa
 	// рисуем лист
 	hres = SelectObject(m_hdc, m_hhatchbrush);
 	assert(hres != NULL);
-	BOOL bres = Rectangle(m_hdc, 0, 0, int(sheet.Rect.Length * scale), int(sheet.Rect.Width * scale));
+	BOOL bres = Rectangle(m_hdc, 0, 0, int(sheet.Rect.Size[0] * scale),
+		int(sheet.Rect.Size[1] * scale));
     assert(bres != FALSE);
 
 	// рисуем детали
@@ -112,15 +115,13 @@ void Drawer::Draw(int width, int height, const t_parsed_parts& parts, const t_pa
     	RECT Rect;
         Rect.left = LONG(i->pos[0] * scale);
         Rect.top = LONG(i->pos[1] * scale);
-        Rect.right = LONG((i->pos[0] + i->rect.Length) * scale);
-        Rect.bottom = LONG((i->pos[1] + i->rect.Width) * scale);
+        Rect.right = LONG((i->pos[0] + i->rect.Size[0]) * scale);
+        Rect.bottom = LONG((i->pos[1] + i->rect.Size[1]) * scale);
 		bres = Rectangle(m_hdc, Rect.left, Rect.top, Rect.right, Rect.bottom);
     	assert(bres != FALSE);
-		int par2 = 0, par3 = 0;
-		std::string str(fcvt(i->rect.Length, 0, &par2, &par3));
-		str += "x";
-		str += fcvt(i->rect.Width, 0, &par2, &par3);
-		int ires = DrawText(m_hdc, str.c_str(), int(str.length()), &Rect, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
+		ostringstream ss;
+		ss << i->rect.Size[0] << "x" << i->rect.Size[1];
+		int ires = DrawTextA(m_hdc, ss.str().c_str(), ss.str().length(), &Rect, DT_SINGLELINE | DT_CENTER | DT_VCENTER);
 		assert(ires != 0);
     }}
 
