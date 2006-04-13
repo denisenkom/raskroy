@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "types.h"
+#include "result.h"
 
 namespace Denisenko {
 namespace Raskroy {

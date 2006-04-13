@@ -30,17 +30,17 @@ void test_perebor()
 	sz.OtherSizes.push_back(os);
 	sz.OtherSizes.SetMin();
 
-	Amounts rem;
-	rem.push_back(1);
-	rem.push_back(2);
-	rem.push_back(3);
+	Amounts rem(3);
+	rem[0] = 1;
+	rem[2] = 2;
+	rem[3] = 3;
 
-	Perebor p(rem, 4);
+	Perebor p(&rem, 4);
 	Stat stat;
 	t_raskroy::t_details det;
-	Amounts rash;
+	Amounts rash(3);
 	scalar size = 260+4*4;
-	scalar opilki;
+	double opilki;
 	scalar remain;
 	bool res = p.Make(sz, size, det, rash, remain, opilki);
 	if (res == true)
@@ -109,27 +109,27 @@ void test_gilotine()
 	p.push_back(Part(900, 605, true, 2));
 	p.push_back(Part(630, 600, true, 2));
 
-	//p.push_back(Part(480, 625, true, 5));
-	//p.push_back(Part(150, 395, true, 1));
+	p.push_back(Part(480, 625, true, 5));
+	p.push_back(Part(150, 395, true, 1));
 
-	//p.push_back(Part(480, 625, true, 6));
-	//p.push_back(Part(867, 70, true, 2));
+	p.push_back(Part(480, 625, true, 6));
+	p.push_back(Part(867, 70, true, 2));
 
-	//p.push_back(Part(480, 625, true, 5));
-	//p.push_back(Part(400, 565, true, 1));
+	p.push_back(Part(480, 625, true, 5));
+	p.push_back(Part(400, 565, true, 1));
 
-	//p.push_back(Part(590, 515, true, 1));
-	//p.push_back(Part(625, 515, true, 2));
-	//p.push_back(Part(640, 515, true, 2));
-	//p.push_back(Part(790, 290, true, 4));
-	//p.push_back(Part(480, 290, true, 2));
-	//p.push_back(Part(605, 290, true, 4));
-	//p.push_back(Part(790, 333, true, 1));
-	//p.push_back(Part(331, 274, true, 4));
+	p.push_back(Part(590, 515, true, 1));
+	p.push_back(Part(625, 515, true, 2));
+	p.push_back(Part(640, 515, true, 2));
+	p.push_back(Part(790, 290, true, 4));
+	p.push_back(Part(480, 290, true, 2));
+	p.push_back(Part(605, 290, true, 4));
+	p.push_back(Part(790, 333, true, 1));
+	p.push_back(Part(331, 274, true, 4));
 
-	//p.push_back(Part(625, 600, false, 1));
-	//p.push_back(Part(625, 769, false, 1));
-	//p.push_back(Part(625, 752, false, 1));
+	/*p.push_back(Part(625, 600, true, 1));
+	p.push_back(Part(625, 769, true, 1));
+	p.push_back(Part(625, 752, true, 1));*/
 	Parts s;
 
 
@@ -145,7 +145,7 @@ void test_gilotine()
 		Parser pr;
 		t_parsed_result pres;
 		pr.Parse(res, pres, g.get_SawThickness());
-		assert(pr.get_DetailsSummarySquare() == s.begin()->Rect.Square() - res.stat.Opilki - res.stat.UnusefulRemain - res.stat.UsefulRemain);
+		assert(pr.get_DetailsSummarySquare() == s.begin()->Rect.Size[0] * s.begin()->Rect.Size[1] - res.Statistics.Opilki - res.Statistics.UnusefulRemain - res.Statistics.UsefulRemain);
 		//stringstream fname;
 		//fname << "raskroy" << index++ << ".emf";
 		HDC hdcemf;
@@ -170,8 +170,149 @@ void test_gilotine()
 	}
 }
 
+void Chorometrage()
+{
+	Raskroy g;
+	Parts p;
+
+	p.push_back(Part(900, 605, true, 2));
+	p.push_back(Part(630, 600, true, 2));
+
+	p.push_back(Part(480, 625, true, 5));
+	p.push_back(Part(150, 395, true, 1));
+
+	p.push_back(Part(480, 625, true, 6));
+	p.push_back(Part(867, 70, true, 2));
+
+	p.push_back(Part(480, 625, true, 5));
+	p.push_back(Part(400, 565, true, 1));
+
+	p.push_back(Part(590, 515, true, 1));
+	p.push_back(Part(625, 515, true, 2));
+	p.push_back(Part(640, 515, true, 2));
+	p.push_back(Part(790, 290, true, 4));
+	p.push_back(Part(480, 290, true, 2));
+	p.push_back(Part(605, 290, true, 4));
+	p.push_back(Part(790, 333, true, 1));
+	p.push_back(Part(331, 274, true, 4));
+
+	Parts s;
+
+
+	s.push_back(Part(1810, 1210));
+	//s.push_back(Part(1000, 1000));
+	t_result res;
+	g.Begin(p, s);
+	//int index = 1;
+	while (g.NextResult(res))
+	{
+	}
+}
+
+void Chorometrage2()
+{
+	Raskroy g;
+	Parts p;
+
+	p.push_back(Part(900, 605, true, 2));
+	p.push_back(Part(630, 600, true, 2));
+
+	/*p.push_back(Part(480, 625, true, 5));
+	p.push_back(Part(150, 395, true, 1));
+
+	p.push_back(Part(480, 625, true, 6));
+	p.push_back(Part(867, 70, true, 2));
+
+	p.push_back(Part(480, 625, true, 5));
+	p.push_back(Part(400, 565, true, 1));
+
+	p.push_back(Part(590, 515, true, 1));
+	p.push_back(Part(625, 515, true, 2));
+	p.push_back(Part(640, 515, true, 2));
+	p.push_back(Part(790, 290, true, 4));
+	p.push_back(Part(480, 290, true, 2));
+	p.push_back(Part(605, 290, true, 4));
+	p.push_back(Part(790, 333, true, 1));
+	p.push_back(Part(331, 274, true, 4));
+
+	p.push_back(Part(625, 600, true, 1));
+	p.push_back(Part(625, 769, true, 1));
+	p.push_back(Part(625, 752, true, 1));*/
+	Parts s;
+
+
+	s.push_back(Part(1810, 1210));
+	//s.push_back(Part(1000, 1000));
+	t_result res;
+	g.Begin(p, s);
+	//int index = 1;
+	while (g.NextResult(res))
+	{
+	}
+}
+
+void RealKitchen()
+{
+	Raskroy g;
+	Parts p;
+
+	p.push_back(Part(810, 480, true, 1));
+	p.push_back(Part(950, 480, true, 1));
+	p.push_back(Part(790, 480, true, 1));
+	p.push_back(Part(883, 510, true, 1));
+	p.push_back(Part(705, 480, true, 7));
+	p.push_back(Part(705, 510, true, 1));
+	p.push_back(Part(480, 625, true, 5));
+	p.push_back(Part(720, 495, true, 1));
+	p.push_back(Part(790, 270, true, 1));
+	p.push_back(Part(790, 290, true, 8));
+	p.push_back(Part(790, 377, true, 1));
+	p.push_back(Part(790, 280, true, 1));
+	p.push_back(Part(377, 253, true, 1));
+	p.push_back(Part(767, 290, true, 3));
+	p.push_back(Part(580, 580, true, 4));
+	p.push_back(Part(807, 290, true, 3));
+	p.push_back(Part(767, 290, true, 2));
+
+	p.push_back(Part(265, 235, true, 1));
+	p.push_back(Part(765, 235, true, 2));
+	p.push_back(Part(383, 400, true, 1));
+	p.push_back(Part(915, 400, true, 1));
+	p.push_back(Part(318, 120, true, 8));
+	p.push_back(Part(395, 120, true, 8));
+	p.push_back(Part(777, 70, true, 2));
+	p.push_back(Part(917, 70, true, 2));
+	p.push_back(Part(757, 70, true, 2));
+	p.push_back(Part(867, 70, true, 2));
+	p.push_back(Part(767, 70, true, 2));
+	p.push_back(Part(758, 70, true, 3));
+	p.push_back(Part(510, 70, true, 1));
+	p.push_back(Part(563, 70, true, 1));
+	p.push_back(Part(807, 70, true, 1));
+
+	Parts s;
+
+
+	s.push_back(Part(1810, 1210));
+	//s.push_back(Part(1000, 1000));
+	t_result res;
+	g.Begin(p, s);
+	//int index = 1;
+	while (g.NextResult(res))
+	{
+	}
+}
+
 int main()
 {
-	test_gilotine();
+	for(int i = 0; i < 5; i++)
+	{
+		DWORD startTime = timeGetTime();
+		RealKitchen();
+		DWORD endTime = timeGetTime();
+		cout << "Time elapsed (msec): " << endTime - startTime << endl;
+	}
+	string x;
+	cin >> x;
 	return 0;
 }
