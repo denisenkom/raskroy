@@ -126,5 +126,79 @@ void Raskroy::CheckResult(const t_result& result)
 	assert(result.Statistics.IsEqual(stat, 1000000.0));
 }
 
+Parts SplitEqualParts(const Parts& parts)
+{
+	Parts result;
+	for(Parts::const_iterator i = parts.begin(); i != parts.end(); i++)
+	{
+		Parts::const_iterator j = result.find(*i);
+		if(j != result.end())
+		{
+			j->Amount += i->Amount;
+		}
+		else
+		{
+			result.push_back(*i);
+		}
+	}
+	return result;
+}
+
+double GetAverageSizeA(const Parts& parts)
+{
+	double result = 0.0;
+	for(Parts::const_iterator i = parts.begin(); i != parts.end(); i++)
+	{
+		result += t->Size[0];
+	}
+	result /= parts.size();
+	return result;
+}
+
+double GetAverageSizeB(const Parts& parts)
+{
+	double result = 0.0;
+	for(Parts::const_iterator i = parts.begin(); i != parts.end(); i++)
+	{
+		result += t->Size[1];
+	}
+	result /= parts.size();
+	return result;
+}
+
+int Combinations(int smallSet, int fullSet)
+{
+	if(smallSet > fullSet)
+	{
+		throw invalid_argument("Combinations: smallSet must be <= fullSet");
+	}
+	if(smallSet < 0 || fullSet < 0)
+	{
+		throw invalid_argument("Combinations: smallSet and fullSet must both be >= 0");
+	}
+
+	//            fullSet!
+	//---------------------------------
+	//smallSet! * (fullSet - smallSet)!
+
+	int maxD = max(smallSet, fullSet - smallSet);
+	int minD = min(smallSet, fullSet - smallSet);
+	__int64 numenator = 1;
+	for(int i = maxD + 1; i <= fullSet; i++)
+	{
+		numenator *= i;
+	}
+	__int64 denumenator = 1;
+	for(int i = 1; i <= minD; i++)
+	{
+		denumenator *= i;
+	}
+	return numenator / denumenator;
+}
+
+double GetEstimatedTime(const Parts& parts, const Sheet& sheet)
+{
+}
+
 } // namespace Denisenko
 } // namespace Raskroy
