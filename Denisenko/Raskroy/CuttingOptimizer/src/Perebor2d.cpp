@@ -154,7 +154,6 @@ bool Perebor2d::Recursion(Sizes::iterator begin, const Rect &rect, Stat &stat, i
 		/*stat1.useful_remain = 0;
 		stat1.unuseful_remain = 0;
 		stat1.useful_num = 0;*/
-		rashod1 = rashodPerebor;
 		for (int kratnostj = 1; kratnostj <= maxKratnostj; kratnostj++)
 		{
 			stat1.MakeZero();
@@ -163,6 +162,10 @@ bool Perebor2d::Recursion(Sizes::iterator begin, const Rect &rect, Stat &stat, i
 			{
 				rashod1 = rashodPerebor * kratnostj;
 				remainRect.Size[s] += m_perebor.get_SawThickness() + i->Value;
+			}
+			else if(kratnostj == 1)
+			{
+				rashod1 = rashodPerebor;
 			}
 			recurseRect.Size[s] -= reduce;
 			stat1.Opilki = opilki1 * (double)kratnostj + opilki2;
