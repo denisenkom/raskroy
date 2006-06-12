@@ -7,15 +7,6 @@ namespace Denisenko {
 namespace Raskroy {
 
 class Raskroy {
-	Amounts m_remains;
-	Perebor2d m_perebor2d;
-	Sizes m_sizes[2];
-	scalar m_minSize[2];
-	Parts m_sheets;
-
-	void RemoveExostedSizes(void);
-	void CheckResult(const t_result& result);
-
 public:
 	bool ControlRemains;
 	Raskroy(void)
@@ -30,7 +21,25 @@ public:
 
 	__declspec(property(get = GetPercentCompleted)) float PercentCompleted;
 	float GetPercentCompleted();
+
+private:
+	Amounts m_remains;
+	Perebor2d m_perebor2d;
+	Sizes m_sizes[2];
+	scalar m_minSize[2];
+	Parts m_sheets;
+	Parts m_inputParts;
+	Parts m_splitedParts;
+
+	void RemoveExostedSizes(void);
+	void CheckResult(const t_result& result);
 };
+
+Parts SplitEqualParts(const Parts& parts);
+double GetEstimatedTime(const Parts& parts, const Sheet& sheet);
+double GetAverageSizeA(const Parts& parts);
+double GetAverageSizeB(const Parts& parts);
+int Combinations(int smallSet, int fullSet);
 
 } // namespace Denisenko
 } // namespace Raskroy
