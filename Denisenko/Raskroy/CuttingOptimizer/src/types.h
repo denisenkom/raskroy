@@ -37,7 +37,32 @@ struct Part {
 	}
 };	// 16+4+4+4+4=32B
 
-typedef std::list<Part> Parts;
+class Parts : public std::vector<Part>
+{
+public:
+	std::vector<iterator> FindAll(scalar size0, scalar size1)
+	{
+		std::vector<iterator> result;
+		for(iterator i = begin(); i != end(); i++)
+		{
+			if(i->Rect.Size[0] == size0 && i->Rect.Size[1] == size1 ||
+				i->Rotate && i->Rect.Size[0] == size1 && i->Rect.Size[1] == size0)
+			{
+				result.push_back(i);
+			}
+		}
+		return result;
+	}
+
+	void Remove(const std::vector<iterator>& parts)
+	{
+		for(std::vector<iterator>::const_reverse_iterator i = parts.rbegin(); i != parts.rend(); i++)
+		{
+			erase(*i);
+		}
+	}
+private:
+};
 
 struct Stat {
 	double Opilki;

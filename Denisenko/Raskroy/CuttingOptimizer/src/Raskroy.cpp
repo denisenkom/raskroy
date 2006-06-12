@@ -2,15 +2,17 @@
 #include "errors.h"
 #include "Raskroy.h"
 
+using namespace std;
+
 namespace Denisenko {
 namespace Raskroy {
 
-void Raskroy::RemoveExostedSizes(void)
+/*void Raskroy::RemoveExostedSizes(void)
 {
 	for (unsigned s = 0; s <= 1; s++)
 	{
 		Sizes::iterator pSize = m_sizes[s].begin();
-		while (pSize != m_sizes[s].end())
+		while (pSize != m_sourceSizes[s].end())
 		{
 			OtherSizes::iterator pOtherSize = pSize->OtherSizes.begin();
 			while (pOtherSize != pSize->OtherSizes.end())
@@ -25,8 +27,8 @@ void Raskroy::RemoveExostedSizes(void)
 			}
 			if (pSize->OtherSizes.empty())
 			{
-				m_sizes[s].erase(pSize);
-				pSize = m_sizes[s].begin();
+				m_sourceSizes[s].erase(pSize);
+				pSize = m_sourceSizes[s].begin();
 			}
 			else
 			{
@@ -35,9 +37,76 @@ void Raskroy::RemoveExostedSizes(void)
 			}
 		}
 	}
+}*/
+
+void Raskroy::SubstractPartsAmounts(const Amounts& amounts)
+{
+	Amounts workingAmounts(amounts);
+	for(Sizes::iterator i = m_sizes[0].begin(); i != m_sizes[0].end(); i++)
+	{
+		for(OtherSizes::iterator j = i->OtherSizes.begin(); j != i->OtherSizes.end(); j++)
+		{
+			if(workingAmounts[j->Offset] != 0)
+			{
+				vector<Parts::iterator> parts = m_parts.FindAll(i->Value, j->Value);
+				unsigned pi = 0;
+				vector<Parts::iterator> partsToRemove;
+				while(workingAmounts[j->Offset] != 0)
+				{
+					unsigned substracting = min(workingAmounts[j->Offset], parts[pi]->Amount);
+					parts[pi]->Amount -= substracting;
+					if(parts[pi]->Amount == 0)
+					{
+						partsToRemove.push_back(parts[pi]);
+					}
+					workingAmounts[j->Offset] -= substracting;
+					pi++;
+				}
+				m_parts.Remove(partsToRemove);
+			}
+		}
+	}
 }
 
-void Raskroy::Begin(Parts &parts, const Parts &sheets)
+double Mean(const vector<double>& data)
+{
+	double sum = 0;
+	for(vector<double>::const_iterator i = data.begin(); i != data.end(); i++)
+	{
+		sum += *i;
+	}
+	return sum / (double)(data.size());
+}
+
+int Raskroy::CalcOptimalSizesCount(scalar sheetSize, const Sizes& sizes)
+{
+	vector<double> relSizes;
+	for(Sizes::const_iterator i = sizes.begin(); i != sizes.end(); i++)
+	{
+		relSizes.push_back((double)i->Value / (double)sheetSize);
+	}
+	double meanRelSize = Mean(relSizes);
+	double paramA = (1.0 - 0.3)*8.0;/*16.0;*/
+	return (int)(paramA / (1.0 - meanRelSize));
+}
+
+void Raskroy::BalanceWorkingSet(Rect sheetSize)
+{
+	Parts workingParts(m_parts);
+	for(;;)
+	{
+		MakeSizesAndRemainsList(workingParts);
+		if((int)m_sizes[0].size() + (int)m_sizes[1].size() <=
+			CalcOptimalSizesCount(sheetSize.Size[0], m_sizes[0]) + 
+			CalcOptimalSizesCount(sheetSize.Size[1], m_sizes[1]))
+		{
+			return;
+		}
+		workingParts.erase(workingParts.begin() + rand() % workingParts.size());
+	}
+}
+
+void Raskroy::MakeSizesAndRemainsList(Parts &parts)
 {
 	m_remains.clear();
 	for (int s = 0; s <= 1; s++)
@@ -47,14 +116,19 @@ void Raskroy::Begin(Parts &parts, const Parts &sheets)
 			m_sizes[s].AddPart(*pPart, s, m_remains);
 
 		// Сортировка размеров
-		std::sort(m_sizes[s].begin(), m_sizes[s].end());
+		sort(m_sizes[s].begin(), m_sizes[s].end());
 		for (Sizes::iterator pSize = m_sizes[s].begin(); pSize != m_sizes[s].end(); pSize++)
 		{
-			std::sort(pSize->OtherSizes.begin(), pSize->OtherSizes.end());
+			sort(pSize->OtherSizes.begin(), pSize->OtherSizes.end());
 			// установка указателя на минимальный размер
 			pSize->OtherSizes.SetMin();
 		}
 	}
+}
+
+void Raskroy::Begin(Parts &parts, const Parts &sheets)
+{
+	m_parts = parts;
 	m_sheets = sheets;
 }
 
@@ -74,12 +148,16 @@ float Raskroy::GetPercentCompleted()
 bool Raskroy::NextResult(t_result& out)
 {
 	// проверить остались ли детали
-	Amounts::const_iterator pRemain = m_remains.begin();
+	/*Amounts::const_iterator pRemain = m_remains.begin();
 	for (; pRemain != m_remains.end(); pRemain++)
 		if (*pRemain > 0)
 			break;
 	if (pRemain == m_remains.end())
-		return false; // детали кончились
+		return false; // детали кончились*/
+	if(m_parts.size() == 0)
+	{
+		return false;
+	}
 
 	t_result bestResult;
 	Amounts bestRashod(m_remains.size());
@@ -90,7 +168,11 @@ bool Raskroy::NextResult(t_result& out)
 		Stat stat;
 		stat.MakeZero();
 		t_raskroy raskroy;
+
+		BalanceWorkingSet(pSheet->Rect);
+
 		Amounts rashod(m_remains.size());
+
 		if (!m_perebor2d.Optimize(pSheet->Rect, stat, 0, raskroy, rashod))
 			continue;
 		if (bestResult.Statistics < stat || first) {
@@ -108,8 +190,9 @@ bool Raskroy::NextResult(t_result& out)
 	if (first)
 		throw CannotSetPartsException(&m_sheets, m_sizes, &m_remains);
 
-	m_remains -= bestRashod * bestResult.amount;
-	RemoveExostedSizes();
+	//m_remains -= bestRashod * bestResult.amount;
+	//RemoveExostedSizes();
+	SubstractPartsAmounts(bestRashod * bestResult.amount);
 	if (ControlRemains)
 		bestResult.sheet->Amount -= bestResult.amount;
 #ifdef _DEBUG
@@ -124,80 +207,6 @@ void Raskroy::CheckResult(const t_result& result)
 	Stat stat;
 	result.raskroy.CheckAndCalcStat(this->get_SawThickness(), result.sheet->Rect, &stat);
 	assert(result.Statistics.IsEqual(stat, 1000000.0));
-}
-
-Parts SplitEqualParts(const Parts& parts)
-{
-	Parts result;
-	for(Parts::const_iterator i = parts.begin(); i != parts.end(); i++)
-	{
-		Parts::const_iterator j = result.find(*i);
-		if(j != result.end())
-		{
-			j->Amount += i->Amount;
-		}
-		else
-		{
-			result.push_back(*i);
-		}
-	}
-	return result;
-}
-
-double GetAverageSizeA(const Parts& parts)
-{
-	double result = 0.0;
-	for(Parts::const_iterator i = parts.begin(); i != parts.end(); i++)
-	{
-		result += t->Size[0];
-	}
-	result /= parts.size();
-	return result;
-}
-
-double GetAverageSizeB(const Parts& parts)
-{
-	double result = 0.0;
-	for(Parts::const_iterator i = parts.begin(); i != parts.end(); i++)
-	{
-		result += t->Size[1];
-	}
-	result /= parts.size();
-	return result;
-}
-
-int Combinations(int smallSet, int fullSet)
-{
-	if(smallSet > fullSet)
-	{
-		throw invalid_argument("Combinations: smallSet must be <= fullSet");
-	}
-	if(smallSet < 0 || fullSet < 0)
-	{
-		throw invalid_argument("Combinations: smallSet and fullSet must both be >= 0");
-	}
-
-	//            fullSet!
-	//---------------------------------
-	//smallSet! * (fullSet - smallSet)!
-
-	int maxD = max(smallSet, fullSet - smallSet);
-	int minD = min(smallSet, fullSet - smallSet);
-	__int64 numenator = 1;
-	for(int i = maxD + 1; i <= fullSet; i++)
-	{
-		numenator *= i;
-	}
-	__int64 denumenator = 1;
-	for(int i = 1; i <= minD; i++)
-	{
-		denumenator *= i;
-	}
-	return numenator / denumenator;
-}
-
-double GetEstimatedTime(const Parts& parts, const Sheet& sheet)
-{
 }
 
 } // namespace Denisenko

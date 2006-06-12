@@ -6,7 +6,8 @@
 namespace Denisenko {
 namespace Raskroy {
 
-class Raskroy {
+class Raskroy
+{
 public:
 	bool ControlRemains;
 	Raskroy(void)
@@ -28,18 +29,15 @@ private:
 	Sizes m_sizes[2];
 	scalar m_minSize[2];
 	Parts m_sheets;
-	Parts m_inputParts;
-	Parts m_splitedParts;
+	Parts m_parts;
 
 	void RemoveExostedSizes(void);
+	void SubstractPartsAmounts(const Amounts& amounts);
 	void CheckResult(const t_result& result);
+	int CalcOptimalSizesCount(scalar sheetSize, const Sizes& sizes);
+	void MakeSizesAndRemainsList(Parts &parts);
+	void BalanceWorkingSet(Rect sheetSize);
 };
-
-Parts SplitEqualParts(const Parts& parts);
-double GetEstimatedTime(const Parts& parts, const Sheet& sheet);
-double GetAverageSizeA(const Parts& parts);
-double GetAverageSizeB(const Parts& parts);
-int Combinations(int smallSet, int fullSet);
 
 } // namespace Denisenko
 } // namespace Raskroy
