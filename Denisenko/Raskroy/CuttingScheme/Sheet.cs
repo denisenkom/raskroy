@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Denisenko.Cutting
 {
-	public class Sheet
+	public class Sheet : ICloneable
 	{
 		public Sheet()
 		{
@@ -17,5 +17,14 @@ namespace Denisenko.Cutting
 		private Decimal m_length;
 		private Decimal m_width;
 		private Decimal m_thickness;
-	}
+
+        #region ICloneable Members
+
+        public object Clone()
+        {
+            return MemberwiseClone();
+        }
+
+        #endregion
+    }
 }

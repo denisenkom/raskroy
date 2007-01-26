@@ -39,7 +39,7 @@ namespace Raskroy {
 	}
 }*/
 
-void Raskroy::SubstractPartsAmounts(const Amounts& amounts)
+/*void Raskroy::SubstractPartsAmounts(const Amounts& amounts)
 {
 	Amounts workingAmounts(amounts);
 	for(Sizes::iterator i = m_sizes[0].begin(); i != m_sizes[0].end(); i++)
@@ -66,7 +66,7 @@ void Raskroy::SubstractPartsAmounts(const Amounts& amounts)
 			}
 		}
 	}
-}
+}*/
 
 double Mean(const vector<double>& data)
 {
@@ -78,6 +78,7 @@ double Mean(const vector<double>& data)
 	return sum / (double)(data.size());
 }
 
+#if 0
 int Raskroy::CalcOptimalSizesCount(scalar sheetSize, const Sizes& sizes)
 {
 	vector<double> relSizes;
@@ -125,10 +126,11 @@ void Raskroy::MakeSizesAndRemainsList(Parts &parts)
 		}
 	}
 }
+#endif
 
 void Raskroy::Begin(Parts &parts, const Parts &sheets)
 {
-	m_parts = parts;
+//	m_parts = parts;
 	m_sheets = sheets;
 }
 
@@ -154,10 +156,10 @@ bool Raskroy::NextResult(t_result& out)
 			break;
 	if (pRemain == m_remains.end())
 		return false; // детали кончились*/
-	if(m_parts.size() == 0)
+/*	if(m_parts.size() == 0)
 	{
 		return false;
-	}
+	}*/
 
 	t_result bestResult;
 	Amounts bestRashod(m_remains.size());
@@ -169,7 +171,7 @@ bool Raskroy::NextResult(t_result& out)
 		stat.MakeZero();
 		t_raskroy raskroy;
 
-		BalanceWorkingSet(pSheet->Rect);
+		//BalanceWorkingSet(pSheet->Rect);
 
 		Amounts rashod(m_remains.size());
 
@@ -192,7 +194,7 @@ bool Raskroy::NextResult(t_result& out)
 
 	//m_remains -= bestRashod * bestResult.amount;
 	//RemoveExostedSizes();
-	SubstractPartsAmounts(bestRashod * bestResult.amount);
+	//SubstractPartsAmounts(bestRashod * bestResult.amount);
 	if (ControlRemains)
 		bestResult.sheet->Amount -= bestResult.amount;
 #ifdef _DEBUG

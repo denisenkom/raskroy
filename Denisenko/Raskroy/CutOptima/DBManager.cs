@@ -158,7 +158,14 @@ namespace Denisenko.Cutting.CutOptima
 		{
 			SqlConnection conn = new SqlConnection();
 			conn.ConnectionString = BuildConnectionString(e.ConnectionInfo);
-			conn.Open(); // throws exception if cannot open connection
+            try
+            {
+                conn.Open(); // throws exception if cannot open connection
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Ошибка соединения: " + ex.Message);
+            }
 		}
 
 		private String BuildConnectionString(String connectionInfo)

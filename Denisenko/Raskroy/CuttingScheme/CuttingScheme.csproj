@@ -45,6 +45,7 @@
     <Compile Include="Section.cs" />
     <Compile Include="Sheet.cs" />
     <Compile Include="Statistics.cs" />
+    <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

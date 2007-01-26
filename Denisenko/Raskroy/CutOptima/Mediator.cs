@@ -236,5 +236,25 @@ namespace Denisenko.Cutting.CutOptima
 				e.ThrowException = false;
 			}
 		}
-	}
+
+        internal void Stub()
+        {
+            CuttingResultForm form = new CuttingResultForm();
+            List<CuttingScheme> schemes = new List<CuttingScheme>();
+            CuttingScheme scheme = new CuttingScheme();
+            scheme.Height = 1200;
+            scheme.Width = 2100;
+            scheme.Material = new Material(1, "ЛДСП Белая", true);
+            scheme.Parameters = new ParametersCollection();
+            scheme.Parameters.CutterThickness = 4;
+            Section remain;
+            scheme.Cut(scheme.RootSection, 500, CutType.Vertical, out remain);
+            Section remain2;
+            scheme.Cut(remain, 550, CutType.Horizontal, out remain2);
+            schemes.Add((CuttingScheme)scheme.Clone());
+            form.DataSource = schemes;
+            form.MdiParent = MainForm.Instance;
+            form.Show();
+        }
+    }
 }

@@ -80,5 +80,37 @@ namespace Denisenko.Cutting.CutOptima
 		{
 			DBManager.Instance.SelectDB(this);
 		}
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Mediator.Instance.Stub();
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            CuttingResultForm editor = (this.ActiveMdiChild as CuttingResultForm);
+            if (editor != null)
+            {
+                editor.BeginAddDetail();
+            }
+        }
+
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            CuttingResultForm editor = (this.ActiveMdiChild as CuttingResultForm);
+            if (editor != null)
+            {
+                editor.Undo();
+            }
+        }
+
+        private void toolStripButton3_Click(object sender, EventArgs e)
+        {
+            CuttingResultForm editor = (this.ActiveMdiChild as CuttingResultForm);
+            if (editor != null)
+            {
+                editor.Redo();
+            }
+        }
 	}
 }

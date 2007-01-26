@@ -33,10 +33,11 @@ private:
 
 	void RemoveExostedSizes(void);
 	void CheckResult(const t_result& result);
+	//void SubstractPartsAmounts(const Amounts& amounts);
 };
 
 Parts SplitEqualParts(const Parts& parts);
-double GetEstimatedTime(const Parts& parts, const Sheet& sheet);
+//double GetEstimatedTime(const Parts& parts, const Sheet& sheet);
 double GetAverageSizeA(const Parts& parts);
 double GetAverageSizeB(const Parts& parts);
 int Combinations(int smallSet, int fullSet);

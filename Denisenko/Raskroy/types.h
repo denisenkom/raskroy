@@ -33,7 +33,7 @@ struct Part {
 	bool operator == (const Part& b) const
 	{
 		return(Rect.Size[0] == b.Rect.Size[0] && Rect.Size[1] == b.Rect.Size[1] ||
-			(Rotate || b.Rotate) && Rect.Size[1] == b.Rect.Size[0] && Rect.Size[0] == b.Rect.Size[1])
+			(Rotate || b.Rotate) && Rect.Size[1] == b.Rect.Size[0] && Rect.Size[0] == b.Rect.Size[1]);
 	}
 };	// 16+4+4+4+4=32B
 

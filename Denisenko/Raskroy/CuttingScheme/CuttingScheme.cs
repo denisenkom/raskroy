@@ -6,15 +6,51 @@ using System.Text;
 namespace Denisenko.Cutting
 {
 	[Serializable]
-	public class CuttingScheme
+	public class CuttingScheme : ICloneable
 	{
-		public Section Cut(Section section, Decimal size, CutType cutType, out Section remain)
+        public delegate void ChangeHandler(CuttingScheme sender);
+
+        public event ChangeHandler Change;
+
+        #region Undo redo support
+
+        const int MaxHistory = 64;
+        Section[] m_history = new Section[MaxHistory];
+        int m_historyBegin = 0;
+        int m_historyEnd = 0;
+        int m_historyCurrent = 0;
+
+        public void Undo()
+        {
+            if (m_historyCurrent > m_historyBegin)
+            {
+                m_historyCurrent--;
+                m_rootSection = m_history[m_historyCurrent];
+                NotifyViews();
+            }
+        }
+
+        public void Redo()
+        {
+            if (m_historyCurrent < m_historyEnd)
+            {
+                m_historyCurrent++;
+                m_rootSection = m_history[m_historyCurrent];
+                NotifyViews();
+            }
+        }
+
+        #endregion
+
+        public Section Cut(Section section, Decimal size, CutType cutType, out Section remain)
 		{
 			if(section.CutType != cutType)
 			{
 				section = CreateNestedSection(section, cutType);
 			}
-			return SplitSection(section, size, cutType, out remain);
+            Section result = SplitSection(section, size, cutType, out remain);
+            Changed();
+            return result;
 		}
 
 		public void MakeSureEdgeEven(ref Section section, CutType cutType)
@@ -42,7 +78,7 @@ namespace Denisenko.Cutting
 
 		public void MarkAsPart(Section section)
 		{
-			section.m_sectionType = SectionType.Element;
+            section.m_data.m_sectionType = SectionType.Element;
 		}
 
 		/*public void MarkAsRemain(Section section)
@@ -60,8 +96,25 @@ namespace Denisenko.Cutting
 
 		public CuttingScheme()
 		{
-			m_rootSection = new Section();
+			m_rootSection = new Section(this);
 		}
+
+        public CuttingScheme(CuttingScheme orig)
+        {
+            m_rootSection = new Section(orig.m_rootSection, null, this);
+            if (orig.m_parameters != null)
+            {
+                m_parameters = orig.m_parameters.Clone();
+            }
+            if (orig.m_material != null)
+            {
+                m_material = (Material)orig.m_material.Clone();
+            }
+            if (orig.m_sheet != null)
+            {
+                m_sheet = (Sheet)orig.m_sheet.Clone();
+            }
+        }
 
 		public  Section RootSection
 		{
@@ -101,89 +154,103 @@ namespace Denisenko.Cutting
 		{
 			Debug.Assert(cutType == section.CutType);
 
-			Section section1 = new Section();
-			Section cut = new Section();
-			remain = new Section();
-
-			section1.m_parent = cut.m_parent = remain.m_parent = section.m_parent;
-			section1.m_cutType = cut.m_cutType = remain.m_cutType = cutType;
-			section1.m_sectionType = remain.m_sectionType = SectionType.Undefined;
-			cut.m_sectionType = SectionType.Cut;
+            // создаём и инициализируем 3 новые подсекции, одна типа разрез и две свободные
+            // в случае если для остатка не остаётся места то будет создано лишь 2 секции
+			Section cut = new Section(this);
+			cut.m_parent = section.m_parent;
+            cut.m_data.m_cutType = cutType;
+            cut.m_data.m_sectionType = SectionType.Cut;
 			if(cutType == CutType.Horizontal)
 			{
-				if (size > section.m_height)
+                if (size > section.m_data.m_height)
 				{
 					throw new Exception("Section is too small");
 				}
-				section1.m_topEven = section.m_topEven;
-				section1.m_x = cut.m_x = remain.m_x = section.m_x;
-				section1.m_y = section.m_y;
-				section1.m_width = cut.m_width = remain.m_width = section.m_width;
-				section1.m_height = size;
-				section1.m_bottomEven = true;
-				cut.m_y = section.m_y + size;
-				cut.m_height = Math.Min(m_parameters.CutterThickness, section.m_height - size);
-				remain.m_topEven = true;
-				remain.m_bottomEven = section.m_bottomEven;
-				section1.m_leftEven = remain.m_leftEven = section.m_leftEven;
-				section1.m_rightEven = remain.m_rightEven = section.m_rightEven;
-				remain.m_y = section.m_y + size + m_parameters.CutterThickness;
-				remain.m_height = section.m_height - size - m_parameters.CutterThickness;
-				if (remain.m_height < Decimal.Zero)
-				{
-					remain = null;
-				}
+                cut.m_data.m_x = section.m_data.m_x;
+                cut.m_data.m_y = section.m_data.m_y + size;
+                cut.m_data.m_width = section.m_data.m_width;
+                cut.m_data.m_height = Math.Min(m_parameters.CutterThickness, section.m_data.m_height - size);
+                decimal remainHeight = section.m_data.m_height - size - m_parameters.CutterThickness;
+                if (remainHeight > decimal.Zero)
+                {
+                    remain = new Section(this);
+                    remain.m_data.m_topEven = true;
+                    remain.m_data.m_bottomEven = section.m_data.m_bottomEven;
+                    remain.m_data.m_leftEven = section.m_data.m_leftEven;
+                    remain.m_data.m_rightEven = section.m_data.m_rightEven;
+                    remain.m_data.m_x = section.m_data.m_x;
+                    remain.m_data.m_y = section.m_data.m_y + size + m_parameters.CutterThickness;
+                    remain.m_data.m_width = section.m_data.m_width;
+                    remain.m_data.m_height = remainHeight;
+                }
+                else
+                {
+                    remain = null;
+                }
+                section.m_data.m_bottomEven = true;
+                section.m_data.m_height = size;
 			}
 			else // Vertical
 			{
-				if (size > section.m_width)
+                if (size > section.m_data.m_width)
 				{
 					throw new Exception("Section is too small");
 				}
-				section1.m_x = section.m_x;
-				section1.m_y = cut.m_y = remain.m_y = section.m_y;
-				section1.m_height = cut.m_height = remain.m_height = section.m_height;
-				section1.m_width = size;
-				section1.m_rightEven = true;
-				section1.m_leftEven = section.m_leftEven;
-				cut.m_x = section.m_x + size;
-				cut.m_width = Math.Min(m_parameters.CutterThickness, section.m_width - size);
-				remain.m_leftEven = true;
-				remain.m_rightEven = section.m_rightEven;
-				section1.m_topEven = remain.m_topEven = section.m_topEven;
-				section1.m_bottomEven = remain.m_bottomEven = section.m_bottomEven;
-				remain.m_x = section.m_x + size + m_parameters.CutterThickness;
-				remain.m_width = section.m_width - size - m_parameters.CutterThickness;
-				if (remain.m_width < Decimal.Zero)
-				{
-					remain = null;
-				}
+                cut.m_data.m_x = section.m_data.m_x + size;
+                cut.m_data.m_y = section.m_data.m_y;
+                cut.m_data.m_width = Math.Min(m_parameters.CutterThickness, section.m_data.m_width - size);
+                cut.m_data.m_height = section.m_data.m_height;
+                decimal remainWidth = section.m_data.m_width - size - m_parameters.CutterThickness;
+                if (remainWidth > decimal.Zero)
+                {
+                    remain = new Section(this);
+                    remain.m_data.m_leftEven = true;
+                    remain.m_data.m_rightEven = section.m_data.m_rightEven;
+                    remain.m_data.m_topEven = section.m_data.m_topEven;
+                    remain.m_data.m_bottomEven = section.m_data.m_bottomEven;
+                    remain.m_data.m_x = section.m_data.m_x + size + m_parameters.CutterThickness;
+                    remain.m_data.m_y = section.m_data.m_y;
+                    remain.m_data.m_width = remainWidth;
+                    remain.m_data.m_height = section.m_data.m_height;
+                }
+                else
+                {
+                    remain = null;
+                }
+                section.m_data.m_rightEven = true;
+                section.m_data.m_width = size;
 			}
 
-			section.m_parent.NestedSections[section.m_parent.NestedSections.IndexOf(section)] = section1;
-			section.m_parent.NestedSections.Insert(section.m_parent.NestedSections.IndexOf(section1) + 1, cut);
+            // заменяем ту секцию, которую мы разрезали на новую, отрезанную секцию
+            // и вставляем 2 оставшиеся секции после неё в списоке подсекций родительской секции
+            section.m_parent.NestedSections.AddAfter(section.m_parent.NestedSections.Find(section), cut);
 			if (remain != null)
 			{
-				section.m_parent.NestedSections.Insert(section.m_parent.NestedSections.IndexOf(cut) + 1, remain);
+                remain.m_data.m_cutType = cutType;
+                remain.m_data.m_sectionType = SectionType.Free;
+                remain.m_parent = section.m_parent;
+                section.m_parent.NestedSections.AddAfter(section.m_parent.NestedSections.Find(cut), remain);
 			}
-			return section1;
+
+			return section;
 		}
 
 		private Section CreateNestedSection(Section section, CutType cutType)
 		{
-			Section result = new Section();
-			result.m_x = section.m_x;
-			result.m_y = section.m_y;
-			result.m_width = section.m_width;
-			result.m_height = section.m_height;
-			result.m_cutType = cutType;
+			Section result = new Section(this);
+            result.m_data.m_x = section.m_data.m_x;
+            result.m_data.m_y = section.m_data.m_y;
+            result.m_data.m_width = section.m_data.m_width;
+            result.m_data.m_height = section.m_data.m_height;
+            result.m_data.m_cutType = cutType;
 			result.m_parent = section;
-			result.m_topEven = section.m_topEven;
-			result.m_leftEven = section.m_leftEven;
-			result.m_bottomEven = section.m_bottomEven;
-			result.m_rightEven = section.m_rightEven;
-			section.m_sectionType = SectionType.NewLine;
-			section.NestedSections.Add(result);
+            result.m_data.m_topEven = section.m_data.m_topEven;
+            result.m_data.m_leftEven = section.m_data.m_leftEven;
+            result.m_data.m_bottomEven = section.m_data.m_bottomEven;
+            result.m_data.m_rightEven = section.m_data.m_rightEven;
+            result.m_data.m_sectionType = SectionType.Free;
+            section.m_data.m_sectionType = SectionType.NewLine;
+			section.NestedSections.AddLast(result);
 			return result;
 		}
 
@@ -233,7 +300,7 @@ namespace Denisenko.Cutting
 				statistics.ScrapsSquare += sectionSquare;
 				statistics.ScrapsCount++;
 			}
-			else if (section.SectionType == SectionType.Undefined)
+			else if (section.SectionType == SectionType.Free)
 			{
 				statistics.UndefinitesSquare += sectionSquare;
 				statistics.UndefinitesCount++;
@@ -243,5 +310,34 @@ namespace Denisenko.Cutting
 				RecursiveAddStatistics(ref statistics, nested);
 			}
 		}
-	};
+
+        internal void Changed()
+        {
+            NotifyViews();
+            m_historyCurrent = (m_historyCurrent + 1) % MaxHistory;
+            if (m_historyBegin == m_historyCurrent)
+            {
+                m_historyBegin = (m_historyBegin + 1) % MaxHistory;
+            }
+            m_historyEnd = m_historyCurrent;
+            m_history[m_historyCurrent] = new Section(m_rootSection, null, this);
+        }
+
+        private void NotifyViews()
+        {
+            if (Change != null)
+            {
+                Change.Invoke(this);
+            }
+        }
+
+        #region ICloneable Members
+
+        public object Clone()
+        {
+            return new CuttingScheme(this);
+        }
+
+        #endregion
+    };
 }

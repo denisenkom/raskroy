@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Denisenko.Cutting
 {
-	public class Material
+	public class Material : ICloneable
 	{
 		private Int32 m_materialID;
 		private String m_name;
@@ -27,5 +27,14 @@ namespace Denisenko.Cutting
 		public Int32 MaterialID { get { return m_materialID; } }
 		public String Name { get { return m_name; } }
 		public Boolean CanRotate { get { return m_canRotate; } }
-	}
+
+        #region ICloneable Members
+
+        public object Clone()
+        {
+            return MemberwiseClone();
+        }
+
+        #endregion
+    }
 }
