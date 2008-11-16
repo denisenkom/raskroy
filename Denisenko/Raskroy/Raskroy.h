@@ -28,8 +28,9 @@ private:
 	Sizes m_sizes[2];
 	scalar m_minSize[2];
 	Parts m_sheets;
-	Parts m_inputParts;
-	Parts m_splitedParts;
+	Parts m_parts;
+	//Parts m_inputParts;
+	//Parts m_splitedParts;
 
 	void RemoveExostedSizes(void);
 	void CheckResult(const t_result& result);

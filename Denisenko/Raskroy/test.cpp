@@ -278,7 +278,7 @@ void RealKitchen()
 	p.push_back(Part(765, 235, true, 2));
 	p.push_back(Part(383, 400, true, 1));
 	p.push_back(Part(915, 400, true, 1));
-	p.push_back(Part(318, 120, true, 8));
+	/*p.push_back(Part(318, 120, true, 8));
 	p.push_back(Part(395, 120, true, 8));
 	p.push_back(Part(777, 70, true, 2));
 	p.push_back(Part(917, 70, true, 2));
@@ -288,7 +288,7 @@ void RealKitchen()
 	p.push_back(Part(758, 70, true, 3));
 	p.push_back(Part(510, 70, true, 1));
 	p.push_back(Part(563, 70, true, 1));
-	p.push_back(Part(807, 70, true, 1));
+	p.push_back(Part(807, 70, true, 1));*/
 
 	Parts s;
 
@@ -312,7 +312,7 @@ int main()
 		DWORD endTime = timeGetTime();
 		cout << "Time elapsed (msec): " << endTime - startTime << endl;
 	}
-	string x;
-	cin >> x;
+	//string x;
+	//cin >> x;
 	return 0;
 }
