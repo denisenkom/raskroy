@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LC4Parser", "LC4Parser.csproj", "{83C5C11C-F1CA-4792-A4FF-810DCA49F20E}"
+EndProject
+Global
+	GlobalSection(SourceCodeControl) = preSolution
+		SccNumberOfProjects = 1
+		SccProjectUniqueName0 = LC4Parser.csproj
+		SccProjectName0 = \u0022$/Denisenko/Raskroy/LC4Parser\u0022,\u0020EHCAAAAA
+		SccLocalPath0 = .
+		SccProvider0 = MSSCCI:Microsoft\u0020Visual\u0020SourceSafe
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{83C5C11C-F1CA-4792-A4FF-810DCA49F20E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83C5C11C-F1CA-4792-A4FF-810DCA49F20E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83C5C11C-F1CA-4792-A4FF-810DCA49F20E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83C5C11C-F1CA-4792-A4FF-810DCA49F20E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
