@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using System.Runtime.Serialization.Formatters;
 using System.Runtime.Serialization.Formatters.Binary;
 
-using Denisenko.Cutting.CutOptima.DataSetTableAdapters;
+using Denisenko.Cutting.CutOptima.WizDataSetTableAdapters;
 
 namespace Denisenko.Cutting.CutOptima
 {
@@ -295,6 +295,7 @@ namespace Denisenko.Cutting.CutOptima
                     }
                     else
                     {
+                        _link.CurrentCutting.MakeUndoPoint(); // сделать снимок текущего состояния для возможности отката
                         decimal cutLength;
                         CutType cutType;
                         bool takeCutted;
@@ -351,6 +352,7 @@ namespace Denisenko.Cutting.CutOptima
                 decimal cut2Length;
                 bool takeCutted;
                 bool take2Cutted;
+                _link.CurrentCutting.MakeUndoPoint(); // сделать снимок текущего состояния для возможности отката
                 if (cutType == CutType.Horizontal)
                 {
                     if (_loY)
@@ -505,14 +507,14 @@ namespace Denisenko.Cutting.CutOptima
             _state = new AddingDetailState(this, _state);
         }
 
-        internal void Undo()
+        public void Undo()
         {
-            CurrentCutting.DataSource.Undo();
+            CurrentCutting.Undo();
         }
 
-        internal void Redo()
+        public void Redo()
         {
-            CurrentCutting.DataSource.Redo();
+            CurrentCutting.Redo();
         }
     }
 }

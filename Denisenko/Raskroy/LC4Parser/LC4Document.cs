@@ -7,39 +7,170 @@ using System.Xml.Serialization;
 
 namespace Denisenko.Cutting.LC4
 {
-	public class LC4Document
+	public class Job : ILC4Serializable
 	{
-		[XmlAttribute("internalName")]
-		public String InternalName;
+		[XmlAttribute("name")]
+		public String Name;
 
-		[XmlAttribute("description")]
-		public String Description;
+		[XmlAttribute("remarks")]
+		public String Remarks;
+
+        [XmlElement("details")]
+        private DetailsList m_details;
 
 		[XmlElement("sheet")]
-		public List<LC4Sheet> Sheets = new List<LC4Sheet>();
+		private SheetsList m_sheets;
+
+        [XmlElement("remains")]
+        private RemainsList m_remains;
 
 		[XmlElement("cutting")]
-		public List<LC4Cutting> Cuttings = new List<LC4Cutting>();
+        private PlansList m_plans;
 
-		[XmlAttribute("someInteger1")]
-		public Int32 SomeInteger1;
+        [XmlAttribute("titelTeileListe")]
+        public string TitelTeileListe;
 
-		[XmlAttribute("someInteger2")]
-		public Int32 SomeInteger2;
+        [XmlAttribute("titelPlattenListe")]
+        public string TitelPlattenListe;
+
+        [XmlElement("kantes")]
+        private KantesList m_kantes;
 
 		public void Serialize(String fileName)
 		{
 			using (XmlWriter textWriter = XmlWriter.Create(fileName))
 			{
-				XmlSerializer serializer = new XmlSerializer(typeof(LC4Document));
+				XmlSerializer serializer = new XmlSerializer(typeof(Job));
 				serializer.Serialize(textWriter, this);
 			}
 		}
 
-		public LC4Document()
+		public Job()
 		{
-			SomeInteger1 = 0;
-			SomeInteger2 = 0;
+            m_plans = null;
+            m_details = null;
+            m_sheets = null;
+            m_remains = null;
+            m_kantes = null;
 		}
-	}
+
+        public void SaveLC4(string fileName, bool overWrite)
+        {
+            using (FileStream stm = new FileStream(fileName, overWrite ? FileMode.Create : FileMode.CreateNew))
+            {
+                LC4Formatter fmtr = new LC4Formatter(stm, Encoding.Default);
+                fmtr.Write(this);
+            }
+        }
+
+        public static Job LoadLC4(string fileName)
+        {
+            using (FileStream stm = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                LC4Formatter fmtr = new LC4Formatter(stm, Encoding.Default);
+                Job doc;
+                fmtr.Read(out doc);
+                return doc;
+            }
+        }
+
+        #region ILC4Serializable Members
+
+        public void Read(LC4Formatter fmtr)
+        {
+            ushort version;
+            fmtr.Read(out version);
+            fmtr.Read(out Name);
+            fmtr.Read(out Remarks);
+            fmtr.Read(out m_details);
+            fmtr.Read(out m_sheets);
+            fmtr.Read(out m_remains);
+            fmtr.Read(out m_plans, this);
+            if (version >= 2)
+            {
+                fmtr.Read(out TitelTeileListe);
+                fmtr.Read(out TitelPlattenListe);
+            }
+            if (version >= 3)
+            {
+                fmtr.Read(out m_kantes);
+            }
+        }
+
+        public void Write(LC4Formatter fmtr)
+        {
+            fmtr.Write((ushort)3);
+            fmtr.Write(Name);
+            fmtr.Write(Remarks);
+            fmtr.Write(m_details);
+            fmtr.Write(m_sheets);
+            fmtr.Write(m_remains);
+            fmtr.Write(Plans, this);
+            fmtr.Write(TitelTeileListe);
+            fmtr.Write(TitelPlattenListe);
+            fmtr.Write(m_kantes);
+        }
+
+        #endregion
+
+        public PlansList Plans
+        {
+            get
+            {
+                if (m_plans == null)
+                {
+                    m_plans = new PlansList();
+                }
+                return m_plans;
+            }
+        }
+
+        public SheetsList Sheets
+        {
+            get
+            {
+                if (m_sheets == null)
+                {
+                    m_sheets = new SheetsList();
+                }
+                return m_sheets;
+            }
+        }
+
+        public DetailsList Details
+        {
+            get
+            {
+                if (m_details == null)
+                {
+                    m_details = new DetailsList();
+                }
+                return m_details;
+            }
+        }
+
+        public RemainsList Remains
+        {
+            get
+            {
+                if (m_remains == null)
+                {
+                    m_remains = new RemainsList();
+                }
+                return m_remains;
+            }
+        }
+
+        public KantesList Kantes
+        {
+            get
+            {
+                if (m_kantes == null)
+                {
+                    m_kantes = new KantesList();
+                }
+                return m_kantes;
+            }
+        }
+    }
 }

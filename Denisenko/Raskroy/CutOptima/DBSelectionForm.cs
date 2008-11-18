@@ -11,37 +11,35 @@ namespace Denisenko.Cutting.CutOptima
 {
 	internal partial class DBSelectionForm : Form
 	{
-		private DBSelectionDialog _dialog;
-		private bool _abortOk;
+		private bool m_abortOk;
+        private int m_currentDB;
 
-		public DBSelectionForm(DBSelectionDialog dialog)
+		public DBSelectionForm()
 		{
-			_abortOk = false;
-			_dialog = dialog;
+			m_abortOk = false;
 			InitializeComponent();
 		}
 
-		private void DBSelectionForm_Load(object sender, EventArgs e)
-		{
-			databasesListBox.DataSource = _dialog.Databases;
-			/*foreach(String db in _dialog.Databases)
-			{
-				databasesListBox.Items.Add(db);
-			}*/
-			databasesListBox.SelectedIndex = _dialog.CurrentDB;
-		}
+        public StringCollection Databases
+        {
+            get { return (StringCollection)databasesListBox.DataSource; }
+            set { databasesListBox.DataSource = value; }
+        }
+
+        public Int32 CurrentDB
+        {
+            get { return databasesListBox.SelectedIndex; }
+            set { m_currentDB = databasesListBox.SelectedIndex = value; }
+        }
 
 		private void okButton_Click(object sender, EventArgs e)
 		{
-			if (_dialog.CurrentDB != databasesListBox.SelectedIndex)
+			if (m_currentDB != databasesListBox.SelectedIndex)
 			{
-				CheckConnectionEventArgs eventArgs = new CheckConnectionEventArgs();
-				eventArgs.ConnectionInfo =
-					_dialog.Databases[databasesListBox.SelectedIndex];
 				try
 				{
-					_dialog.FireCheckConnection(eventArgs);
-					_dialog.CurrentDB = databasesListBox.SelectedIndex;
+                    DBManager.Instance.CmdCheckConnection(this, Databases[databasesListBox.SelectedIndex]);
+					m_currentDB = databasesListBox.SelectedIndex;
 				}
 				catch (Exception ex)
 				{
@@ -49,12 +47,12 @@ namespace Denisenko.Cutting.CutOptima
 						"Продолжить?", "Ошибка", MessageBoxButtons.YesNo,
 						MessageBoxIcon.Error) == DialogResult.Yes)
 					{
-						_dialog.CurrentDB = databasesListBox.SelectedIndex;
-						_abortOk = false;
+						m_currentDB = databasesListBox.SelectedIndex;
+						m_abortOk = false;
 					}
 					else
 					{
-						_abortOk = true;
+						m_abortOk = true;
 					}
 				}
 			}
@@ -62,13 +60,10 @@ namespace Denisenko.Cutting.CutOptima
 
 		private void databasesListBox_DoubleClick(object sender, EventArgs e)
 		{
-			CheckConnectionEventArgs eventArgs = new CheckConnectionEventArgs();
-			eventArgs.ConnectionInfo =
-				_dialog.Databases[databasesListBox.SelectedIndex];
 			try
 			{
-				_dialog.FireCheckConnection(eventArgs);
-				_dialog.CurrentDB = databasesListBox.SelectedIndex;
+                DBManager.Instance.CmdCheckConnection(this, Databases[databasesListBox.SelectedIndex]);
+				m_currentDB = databasesListBox.SelectedIndex;
 				this.DialogResult = DialogResult.OK;
 				Close();
 			}
@@ -82,7 +77,7 @@ namespace Denisenko.Cutting.CutOptima
 				}
 				else
 				{
-					_dialog.CurrentDB = databasesListBox.SelectedIndex;
+					m_currentDB = databasesListBox.SelectedIndex;
 					this.DialogResult = DialogResult.OK;
 					Close();
 					return;
@@ -90,41 +85,42 @@ namespace Denisenko.Cutting.CutOptima
 			}
 		}
 
+        private void buttonCancel_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
+        }
+
 		private void DBSelectionForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			e.Cancel = _abortOk;
-			_abortOk = false;
+			e.Cancel = m_abortOk;
+			m_abortOk = false;
 		}
 
 		private void newButton_Click(object sender, EventArgs e)
 		{
-			_dialog.FireNewDatabase(e);
-		}
+            DBManager.Instance.CmdNewDatabase(this);
+            UpdateDatabasesListBox();
+        }
 
 		private void addButton_Click(object sender, EventArgs e)
 		{
-			_dialog.FireAddDatabase(e);
-		}
+            WizardForm wiz = new WizardForm(new AddDbModePage());
+            wiz.ShowDialog(this);
+            //DBManager.Instance.CmdAddDatabase(this);
+            //UpdateDatabasesListBox();
+        }
 
-		public void InvalidateDatabasesListView()
-		{
-			databasesListBox.Invalidate();
-		}
+        private void buttonRemove_Click(object sender, EventArgs e)
+        {
+            DBManager.Instance.CmdRemoveDb(this, m_currentDB);
+            UpdateDatabasesListBox();
+        }
 
-		public StringCollection Databases
-		{
-			set 
-			{
-				databasesListBox.DataSource = value;
-			}
-		}
+        private void UpdateDatabasesListBox()
+        {
+            databasesListBox.DataSource = null;
+            databasesListBox.DataSource = Properties.Settings.Default.Bases;
+        }
+    }
 
-		public Int32 CurrentDB
-		{
-			set
-			{
-				databasesListBox.SelectedIndex = value;
-			}
-		}
-	}
 }

@@ -5,54 +5,155 @@ using System.Xml.Serialization;
 
 namespace Denisenko.Cutting.LC4
 {
-	public enum LC4SectionType {
-		Invalid0,
-		Invalid1,
-		Schnitt, // Schnitt - 2
-		Streifen, // Streifen - 3
-		Anschnitt, // Aunschnitt - 4
-		Invalid5,
-		Invalid6,
-		Invalid7,
-		Invalid8,
-		Invalid9,
-		Rest, // 10
-		Teil, // 11
-	}
+	public enum LaneType {
+		None = 0,
+        Plate = 1, // Platte
+		Cut = 2, // Schnitt
+		Lane = 3, // Streifen
+		Cutoff = 4, // Aunschnitt
+		Scrap = 5, // Abfall
+        StressElimination1 = 6, // Spannungsfreischnitt1
+        StressElimination2 = 7, // Spannungsfreischnitt2
+        StressElimination3 = 8, // Spannungsfreischnitt3
+        Pack = 9, // Verpackungsstreifen
+		Rest = 10, // 
+		Detail = 11, // Teil
+        ClearDetail = 12, // FertigTeil
+        RawDetail = 13, // RohTeil
+    }
 
-	public class LC4Section
+	public class Lane : List<Lane>, ILC4JobSerializable
 	{
-		[XmlAttribute("sectionType")]
-		public LC4SectionType SectionType;
+        [XmlAttribute("name")]
+        public string Name;
 
 		[XmlAttribute("copyString")]
-		public String CopyString;
+        public string Remarks;
 
-		[XmlAttribute("size")]
-		public Decimal Size;
+        [XmlAttribute("laneType")]
+        public LaneType LaneType;
 
-		[XmlAttribute("someInteger1")]
-		public Int32 SomeInteger1;
+        [XmlAttribute("size")]
+        public LC4Numeric Size;
 
-		[XmlAttribute("someInteger2")]
-		public Int32 SomeInteger2;
+		[XmlAttribute("copies")]
+		public int Copies;
 
-		[XmlAttribute("someInteger3")]
-		public Int32 SomeInteger3;
+		[XmlAttribute("sizeType")]
+        public SizeType SizeType;
 
-		[XmlAttribute("someInteger4")]
-		public Int32 SomeInteger4;
+        [XmlAttribute("isCopy")]
+        public bool IsCopy;
 
-		[XmlElement("section")]
-		public List<LC4Section> NestedSections = new List<LC4Section>();
+        [XmlElement("lagen")]
+        private LagenList m_lagen;
 
-		public LC4Section()
+        [XmlElement("zusatzSchnitte")]
+        private CutInfoList m_zusatzSchnitte;
+
+		public Lane()
 		{
-			SomeInteger1 = 1;
-			SomeInteger2 = 0; // may be 1, 4. Correlate with section type. For schnitt, anschnitt and rest = 4, for streifen and teil = 0
-			SomeInteger3 = 0;
-			SomeInteger4 = 0;
-			CopyString = "";
+            Name = string.Empty;
+            Remarks = string.Empty;
+            m_lagen = new LagenList();
+            m_zusatzSchnitte = new CutInfoList();
+            IsCopy = false;
+            Copies = 1;
 		}
-	}
+
+        protected void ReadLaneData(LC4Formatter fmtr, Job job)
+        {
+            ushort version;
+            fmtr.Read(out version);
+            fmtr.Read(out Name);
+            fmtr.Read(out Remarks);
+            fmtr.Read(out Size);
+            fmtr.Read(out Copies);
+            fmtr.Read(out LaneType);
+            fmtr.Read(out SizeType);
+            m_lagen.Read(fmtr, job);
+            fmtr.Read(out m_zusatzSchnitte);
+            LanesList lanesList;
+            fmtr.Read(out lanesList, job);
+            Clear();
+            foreach (Lane lane in lanesList)
+            {
+                Add(lane);
+            }
+            if (version >= 2)
+            {
+                fmtr.Read(out IsCopy);
+            }
+        }
+
+        protected void WriteLaneData(LC4Formatter fmtr, Job job)
+        {
+            fmtr.Write((ushort)2);
+            fmtr.Write(Name);
+            fmtr.Write(Remarks);
+            fmtr.Write(Size);
+            fmtr.Write(Copies);
+            fmtr.Write(LaneType);
+            fmtr.Write(SizeType);
+            m_lagen.Write(fmtr, job);
+            fmtr.Write(m_zusatzSchnitte);
+            fmtr.Write((LanesList)this, job);
+            fmtr.Write(IsCopy);
+        }
+
+        #region ILC4Serializable Members
+
+        public void Read(LC4Formatter fmtr, Job job)
+        {
+            ReadLaneData(fmtr, job);
+        }
+
+        public void Write(LC4Formatter fmtr, Job job)
+        {
+            WriteLaneData(fmtr, job);
+        }
+
+        #endregion
+
+        public static explicit operator LanesList(Lane rhs)
+        {
+            return new LanesList(rhs);
+        }
+
+        public LagenList Lagen
+        {
+            get { return m_lagen; }
+        }
+
+        public CutInfoList ZusatzSchnitte
+        {
+            get { return m_zusatzSchnitte; }
+        }
+    }
+
+    public class LanesList : List<Lane>, ILC4JobSerializable
+    {
+        public LanesList()
+        {
+        }
+
+        public LanesList(ICollection<Lane> lanes)
+            : base(lanes)
+        {
+        }
+
+        #region ILC4Serializable Members
+
+        public void Read(LC4Formatter fmtr, Job job)
+        {
+            fmtr.GenericCollRead<LanesList, Lane>(this, job);
+        }
+
+        public void Write(LC4Formatter fmtr, Job job)
+        {
+            fmtr.GenericCollWrite<LanesList, Lane>(this, job);
+        }
+
+        #endregion
+    }
 }

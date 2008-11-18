@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
@@ -12,71 +13,135 @@ using Denisenko.Cutting.CutOptima.Properties;
 
 namespace Denisenko.Cutting.CutOptima
 {
-	internal class DBManager
+    public enum LocationType
+    {
+        Path,
+        Name,
+    }
+
+    internal class DBManager
 	{
-		private static DBManager _instance;
-		private Form _owner;
-		private DBSelectionDialog _selectionDialog;
+		private static DBManager m_instance;
 	
 		public static DBManager Instance
 		{
 			get
 			{
-				if (_instance == null)
+				if (m_instance == null)
 				{
-					_instance = new DBManager();
+					m_instance = new DBManager();
 				}
-				return _instance;
+				return m_instance;
 			}
 		}
 
-		private void SelectionDialog_OnNewDatabase(Object sender, EventArgs e)
-		{
-			NewDatabaseDialog newDbDialog = new NewDatabaseDialog();
-			newDbDialog.Location = Path.GetFullPath("CutOptima.mdf");
-			newDbDialog.LocationType = LocationType.Path;
-			newDbDialog.Server = @".\SQLEXPRESS";
-			if (newDbDialog.ShowDialog(_owner) != DialogResult.OK)
-			{
-				return;
-			}
+        public void CmdRemoveDb(IWin32Window owner, int dbIndex)
+        {
+            if (MessageBox.Show(owner, "Убрать базу из списка? База не будет удалена физически.",
+                "Запрос", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
+            {
+                return;
+            }
+            Settings.Default.Bases.RemoveAt(dbIndex);
+            Settings.Default.Save();
+        }
 
-			Form form = new Form();
-			form.Owner = _owner;
-			form.StartPosition = FormStartPosition.CenterParent;
-			Label label = new Label();
-			label.Text = "Создается база";
-			form.Controls.Add(label);
-			form.Show();
+        private void UseDb(SqlConnection conn, string dbName)
+        {
+            using (SqlCommand cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = "USE [" + dbName + "]";
+                cmd.CommandType = CommandType.Text;
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        private void DetachDb(SqlConnection conn, string dbName)
+        {
+            using (SqlCommand cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = "sp_detach_db";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@dbname", dbName);
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+		public void CmdNewDatabase(IWin32Window owner)
+		{
+			NewDatabaseForm newDbDialog = new NewDatabaseForm();
+			if (newDbDialog.ShowDialog(owner) != DialogResult.OK)
+				return;
+
+            if (!CmdCheckDuplicates(owner, newDbDialog.Server, newDbDialog.LocationType,
+                newDbDialog.DbLocation))
+            {
+                return;
+            }
+
+            ProgressForm progressFrm = new ProgressForm(null);
+            progressFrm.Text = "Создается база";
+            progressFrm.Status = "Подключаемся к серверу";
+            progressFrm.Show(owner);
+            progressFrm.Update();
 
 			SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
 			builder.DataSource = newDbDialog.Server;
 			builder.IntegratedSecurity = true;
-			builder.AsynchronousProcessing = true;
-			using (SqlConnection connection = new SqlConnection(builder.ConnectionString))
+            SqlConnection connection = new SqlConnection(builder.ConnectionString);
+			SqlCommand cmd = connection.CreateCommand();
+            bool createOk = false;
+            bool dbCreated = false;
+            String dbName = "";
+            DialogResult dr;
+            try
 			{
-				connection.Open();
-				SqlCommand cmd = connection.CreateCommand();
+                while (true)
+                {
+
+                    try
+                    {
+                        connection.Open();
+                        break;
+                    }
+                    catch (SqlException ex)
+                    {
+                        dr = MessageBox.Show(owner, "Ошибка при подключении к серверу: " + ex.Message, null,
+                            MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                        switch (dr)
+                        {
+                            case DialogResult.Retry:
+                                continue;
+                            case DialogResult.Cancel:
+                                return;
+                            default:
+                                Debug.Fail("Invalid case: " + dr);
+                                return;
+                        }
+                    }
+                }
+                progressFrm.Progress = 10;
+                progressFrm.Status = "Создание базы";
+                progressFrm.Update();
 
 				// создание новой базы
 				//
-				String dbName = "";
 				if (newDbDialog.LocationType == LocationType.Name)
 				{
-					dbName = newDbDialog.Location;
+					dbName = newDbDialog.DbLocation;
 					cmd.CommandText = String.Format("CREATE DATABASE [{0}]", dbName);
 				}
 				else if (newDbDialog.LocationType == LocationType.Path)
 				{
-					dbName = Path.GetFileNameWithoutExtension(newDbDialog.Location);
+					dbName = Path.GetFileNameWithoutExtension(newDbDialog.DbLocation);
 					// TODO: Check for " [ ] symbols in dbName
 					String fileName = dbName;
 					// TODO: Check for ' symbol in fileName
-					String dbPath = Path.GetFullPath(newDbDialog.Location);
+					String dbPath = Path.GetFullPath(newDbDialog.DbLocation);
 					// TODO: Check for ' symbol in dbPath
-					String logName = Path.GetFileNameWithoutExtension(newDbDialog.Location) + "_log";
+					String logName = Path.GetFileNameWithoutExtension(newDbDialog.DbLocation) + "_log";
 					// TODO: Check for ' symbol in logName
-					String logPath = Path.GetDirectoryName(newDbDialog.Location) + '\\' +
+					String logPath = Path.GetDirectoryName(newDbDialog.DbLocation) + '\\' +
 						logName + ".LDF";
 					// TODO: Check for ' symbol in logPath
 					cmd.CommandText = String.Format("CREATE DATABASE [{0}] ON PRIMARY " +
@@ -85,36 +150,97 @@ namespace Denisenko.Cutting.CutOptima
 						"(NAME = N'{3}', FILENAME = N'{4}')", dbName, fileName, dbPath,
 						logName, logPath);
 				}
-				IAsyncResult async = cmd.BeginExecuteNonQuery();
-				while (!async.AsyncWaitHandle.WaitOne(500, true))
-				{
-					Application.DoEvents();
-				}
-				cmd.EndExecuteNonQuery(async);
+                while (true)
+                {
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                        break;
+                    }
+                    catch (SqlException ex)
+                    {
+                        dr = MessageBox.Show(owner, "Ошибка при создании базы данных: " + ex.Message, null,
+                            MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                        switch (dr)
+                        {
+                            case DialogResult.Retry:
+                                continue;
+                            case DialogResult.Cancel:
+                                return;
+                            default:
+                                Debug.Fail("Invalid case: " + dr);
+                                return;
+                        }
+                    }
+                }
+                dbCreated = true;
+                progressFrm.Progress = 50;
+                progressFrm.Update();
 
-				cmd.CommandText = String.Format("USE [{0}]", dbName);
-				cmd.ExecuteNonQuery();
+                try
+                {
+                    UseDb(connection, dbName);
+                }
+                catch (SqlException ex)
+                {
+                    MessageBox.Show(owner, "Ошибка при активации базы данных: " + ex.Message, null,
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                progressFrm.Progress = 55;
+                progressFrm.Update();
 
 				// выполнение пакета создания схемы
 				//
 				string[] statements = Properties.Resources.CreateDB.Split(new string[] { "GO" },
 					StringSplitOptions.RemoveEmptyEntries);
+                int delta = 45 / statements.Length;
 				foreach (string stmt in statements)
 				{
 					cmd.CommandText = stmt;
-					async = cmd.BeginExecuteNonQuery();
-					while (!async.AsyncWaitHandle.WaitOne(500, true))
-					{
-						Application.DoEvents();
-					}
-					cmd.EndExecuteNonQuery(async);
-				}
-				form.Close();
+                    try
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (SqlException ex)
+                    {
+                        MessageBox.Show(owner, "Ошибка при создании схемы базы данных: " + ex.Message, null,
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    progressFrm.Progress += delta;
+                    progressFrm.Update();
+                }
+                UseDb(connection, "master");
+                DetachDb(connection, dbName);
+                progressFrm.Progress = 100;
+                progressFrm.Update();
+                createOk = true;
 			}
-			AddDatabase(newDbDialog.Server, newDbDialog.Location);
+            finally
+            {
+                progressFrm.Close();
+                if (!createOk && dbCreated)
+                {
+                    cmd.CommandText = "USE master DROP DATABASE [" + dbName + "]";
+                }
+                connection.Close();
+            }
+			AddDatabase(newDbDialog.Server, newDbDialog.DbLocation);
+            MessageBox.Show(owner, "База данных успешно создана", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
-		private void SelectionDialog_OnAddDatabase(Object sender, EventArgs e)
+        public class MyWizard
+        {
+            public MyWizard(UserControl[] pages)
+            {
+                m_pages = pages;
+            }
+
+            UserControl[] m_pages;
+        }
+
+		public void CmdAddDatabase(IWin32Window owner)
 		{
 			/*
 			 * Можно использовать стандартное окно для формирования строки подключения
@@ -124,48 +250,54 @@ namespace Denisenko.Cutting.CutOptima
 			 */
 
 			// TODO: Change dialog caption from New Database to Locate Database
-			AddDatabaseDialog dialog = new AddDatabaseDialog();
-			dialog.Server = @".\SQLEXPRESS";
-			if (dialog.ShowDialog(_owner) != DialogResult.OK)
-			{
+            AddDatabaseForm dialog = new AddDatabaseForm();
+			if (dialog.ShowDialog(owner) != DialogResult.OK)
 				return;
-			}
-			SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-			builder.DataSource = dialog.Server;
-			builder.IntegratedSecurity = true;
-			builder.AsynchronousProcessing = true;
-			if(dialog.LocationType == LocationType.Path)
-			{
-				builder.AttachDBFilename = dialog.Location;
-			}
-			else if (dialog.LocationType == LocationType.Name)
-			{
-				builder.InitialCatalog = dialog.Location;
-			}
-
-			// checking connection
-			using (SqlConnection conn = new SqlConnection())
-			{
-				conn.ConnectionString = builder.ConnectionString;
-				conn.Open();
-			}
-
-			AddDatabase(dialog.Server, dialog.Location);
+			AddDatabase(dialog.Server, dialog.DbLocation);
 		}
 
-		private void SelectionDialog_OnCheckConnection(Object sender,
-			CheckConnectionEventArgs e)
-		{
-			SqlConnection conn = new SqlConnection();
-			conn.ConnectionString = BuildConnectionString(e.ConnectionInfo);
+        public bool CheckConnectionString(IWin32Window owner, string connStr)
+        {
+            SqlConnection conn = new SqlConnection();
+            conn.ConnectionString = connStr;
             try
             {
                 conn.Open(); // throws exception if cannot open connection
+                conn.Close();
+                return true;
             }
             catch (SqlException ex)
             {
-                MessageBox.Show("Ошибка соединения: " + ex.Message);
+                MessageBox.Show(owner, "Ошибка соединения: " + ex.Message, null,
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
+        }
+
+        public bool CmdCheckConnection(IWin32Window owner, String server, LocationType locType, String dbLocation)
+        {
+            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+            builder.DataSource = server;
+            builder.IntegratedSecurity = true;
+            builder.AsynchronousProcessing = true;
+            switch (locType)
+            {
+                case LocationType.Name:
+                    builder.InitialCatalog = dbLocation;
+                    break;
+                case LocationType.Path:
+                    builder.AttachDBFilename = dbLocation;
+                    break;
+                default:
+                    Debug.Fail("Invalid case: " + locType.ToString());
+                    break;
+            }
+            return CheckConnectionString(owner, builder.ToString());
+        }
+
+		public bool CmdCheckConnection(IWin32Window owner, String connectionInfo)
+		{
+            return CheckConnectionString(owner, BuildConnectionString(connectionInfo));
 		}
 
 		private String BuildConnectionString(String connectionInfo)
@@ -194,35 +326,29 @@ namespace Denisenko.Cutting.CutOptima
 			String baseInfo = String.Join("|", new String[] { server, location });
 			Settings.Default.Bases.Add(baseInfo);
 			Settings.Default.Save();
-			_selectionDialog.InvalidateDatabasesListView();
 		}
 
 		public void SelectDB(Form owner)
 		{
-			_owner = owner;
-			_selectionDialog = new DBSelectionDialog();
+            DBSelectionForm selectionDialog = new DBSelectionForm();
 			if (Settings.Default.Bases == null)
 			{
 				Settings.Default.Bases = new StringCollection();
 			}
-			_selectionDialog.Databases = Settings.Default.Bases;
-			_selectionDialog.OnNewDatabase += SelectionDialog_OnNewDatabase;
-			_selectionDialog.OnAddDatabase += SelectionDialog_OnAddDatabase;
-			_selectionDialog.OnCheckConnection += SelectionDialog_OnCheckConnection;
-			if (_selectionDialog.ShowDialog(owner) != DialogResult.OK)
+			selectionDialog.Databases = Settings.Default.Bases;
+			if (selectionDialog.ShowDialog(owner) != DialogResult.OK)
 				return;
 			/*if(MessageBox.Show("Сделать выбранную базу базой по умолчанию?", "", MessageBoxButtons.YesNo)== DialogResult.Yes)
 			{
 			}*/
 			Settings.Default["DefaultCutOptimaConnectionString"] =
 				Settings.Default.CutOptimaConnectionString = BuildConnectionString(
-					Settings.Default.Bases[_selectionDialog.CurrentDB]);
+					Settings.Default.Bases[selectionDialog.CurrentDB]);
 			Settings.Default.Save();
 		}
 
 		public void Startup(Form owner)
 		{
-			_owner = owner;
 			if (Settings.Default.CutOptimaConnectionString != "")
 			{
 				Settings.Default["DefaultCutOptimaConnectionString"] =
@@ -231,5 +357,19 @@ namespace Denisenko.Cutting.CutOptima
 			}
 			SelectDB(owner);
 		}
-	}
+
+        internal bool CmdCheckDuplicates(IWin32Window owner, string server, LocationType locationType, string location)
+        {
+            String baseInfo = String.Join("|", new String[] { server, location }).ToLower();
+            foreach (string conn in Settings.Default.Bases)
+            {
+                if (conn.ToLower() == baseInfo)
+                {
+                    MessageBox.Show(owner, "База с такими параметрами уже есть в списке", null, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
 }

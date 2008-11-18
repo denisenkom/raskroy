@@ -65,12 +65,24 @@ namespace Denisenko.Cutting.CutOptima
 
 		private delegate void CloseFormHandler();
 
+        private class ProgressSource : IProgressJob
+        {
+            private OptimizingJob _job;
+            public ProgressSource(OptimizingJob job) { _job = job; }
+        
+            public float PercentCompleted
+            {
+                get { return _job.PercentCompleted; }
+            }
+        }
+
 		internal void OptimizeDetailsList(Int32 detailsIistID)
 		{
+
 			_job = new OptimizingJob();
 			_job.Load(Properties.Settings.Default.CutOptimaConnectionString,
 				new Int32[] { detailsIistID });
-			_progressForm = new ProgressForm(_job);
+			_progressForm = new ProgressForm(new ProgressSource(_job));
 			_progressForm.StartPosition = FormStartPosition.CenterParent;
 			_progressForm.Cancel += OnCancel;
 			_progressForm.Show();
@@ -161,17 +173,16 @@ namespace Denisenko.Cutting.CutOptima
 		{
 			Denisenko.Cutting.Converting.LC4Convertor convertor = new Denisenko.Cutting.Converting.LC4Convertor();
 
-			LC4.LC4Document lc4Document = convertor.Convert(cuttings);
-			Denisenko.Cutting.LC4.LC4Parser parser = new Denisenko.Cutting.LC4.LC4Parser();
+			LC4.Job job = convertor.Convert(cuttings);
 			SaveFileDialog dialog = new SaveFileDialog();
 			dialog.AddExtension = true;
 			dialog.DefaultExt = "lc4";
 			dialog.Filter = "Файлы раскроя (*.lc4)|*.lc4|Все файлы (*.*)|*.*";
 			if (dialog.ShowDialog() == DialogResult.Cancel)
 				return;
-			lc4Document.InternalName = Path.GetFileNameWithoutExtension(dialog.FileName);
-			lc4Document.Description = "manually generated";
-			parser.Save(dialog.FileName, FileMode.Create, lc4Document);
+			job.Name = Path.GetFileNameWithoutExtension(dialog.FileName);
+			job.Remarks = "manually generated";
+            job.SaveLC4(dialog.FileName, true);
 		}
 
 		internal void OpenCuttingParametersCommand()
@@ -183,13 +194,13 @@ namespace Denisenko.Cutting.CutOptima
 
 		internal void CuttingCommand()
 		{
-			CuttingWizard.CuttingWizard wizard = new CuttingWizard.CuttingWizard();
+			CuttingWizard wizard = new CuttingWizard();
 			if (wizard.Execute(MainForm.Instance))
 			{
 				_job = new OptimizingJob();
 				_job.Load(Properties.Settings.Default.CutOptimaConnectionString,
 					wizard.DetailsListsIDs, wizard.SheetsIDs);
-				_progressForm = new ProgressForm(_job);
+				_progressForm = new ProgressForm(new ProgressSource(_job));
 				_progressForm.StartPosition = FormStartPosition.CenterParent;
 				_progressForm.Cancel += OnCancel;
 				_progressForm.Show();

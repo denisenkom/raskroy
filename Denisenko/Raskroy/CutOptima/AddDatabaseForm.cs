@@ -10,50 +10,88 @@ namespace Denisenko.Cutting.CutOptima
 {
 	public partial class AddDatabaseForm : Form
 	{
-		private AddDatabaseDialog _dialog;
+        private String _location;
+        private LocationType _locationType;
+        private String _server;
 
-		public AddDatabaseForm(AddDatabaseDialog dialog)
+        public AddDatabaseForm()
 		{
-			_dialog = dialog;
 			InitializeComponent();
+            serverTextBox.Text = @".\SQLEXPRESS";
+            catalogRadioButton.Checked = true;
 		}
 
 		private void browseButton_Click(object sender, EventArgs e)
 		{
-			if (openFileDialog.ShowDialog(this) == DialogResult.OK)
-			{
+            dbFileRadioButton.Checked = true;
+            if (openFileDialog.ShowDialog(this) == DialogResult.OK)
 				dbFileTextBox.Text = openFileDialog.FileName;
-			}
-		}
-
-		private void AddDatabaseForm_Load(object sender, EventArgs e)
-		{
-			serverTextBox.Text = _dialog.Server;
-			if (_dialog.LocationType == LocationType.Name)
-			{
-				catalogRadioButton.Checked = true;
-				catalogTextBox.Text = _dialog.Location;
-			}
-			else if (_dialog.LocationType == LocationType.Path)
-			{
-				dbFileRadioButton.Checked = true;
-				dbFileTextBox.Text = _dialog.Location;
-			}
-		}
+        }
 
 		private void okButton_Click(object sender, EventArgs e)
 		{
-			_dialog.Server = serverTextBox.Text;
+            if (catalogRadioButton.Checked && catalogTextBox.Text == "")
+            {
+                MessageBox.Show(this, "Нужно указать каталог",
+                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            if (dbFileRadioButton.Checked && dbFileTextBox.Text == "")
+            {
+                MessageBox.Show(this, "Нужно указать путь к БД",
+                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            LocationType locationType = catalogRadioButton.Checked ? LocationType.Name : LocationType.Path;
+            string location = catalogRadioButton.Checked ? catalogTextBox.Text : dbFileTextBox.Text;
+
+            if (!DBManager.Instance.CmdCheckDuplicates(this, serverTextBox.Text,
+                locationType, location))
+            {
+                return;
+            }
+            if (!DBManager.Instance.CmdCheckConnection(this, serverTextBox.Text,
+                locationType, location))
+            {
+                return;
+            }
+			_server = serverTextBox.Text;
 			if (catalogRadioButton.Checked)
 			{
-				_dialog.LocationType = LocationType.Name;
-				_dialog.Location = catalogTextBox.Text;
+				_locationType = LocationType.Name;
+				_location = catalogTextBox.Text;
 			}
 			else if (dbFileRadioButton.Checked)
 			{
-				_dialog.LocationType = LocationType.Path;
-				_dialog.Location = dbFileTextBox.Text;
+				_locationType = LocationType.Path;
+				_location = dbFileTextBox.Text;
 			}
+            DialogResult = DialogResult.OK;
 		}
-	}
+
+        private void catalogTextBox_Enter(object sender, EventArgs e)
+        {
+            catalogRadioButton.Checked = true;
+        }
+
+        private void dbFileTextBox_Enter(object sender, EventArgs e)
+        {
+            dbFileRadioButton.Checked = true;
+        }
+
+        public String DbLocation
+        {
+            get { return _location; }
+        }
+
+        public LocationType LocationType
+        {
+            get { return _locationType; }
+        }
+
+        public String Server
+        {
+            get { return _server; }
+        }
+    }
 }

@@ -310,5 +310,47 @@ namespace Denisenko.Cutting.CutOptima
 			}
 
 		}
+
+        #region Undo redo support
+
+        const int MaxHistory = 64;
+        CuttingScheme[] m_history = new CuttingScheme[MaxHistory];
+        int m_historyBegin = 0;
+        int m_historyEnd = 0;
+        int m_historyCurrent = 0;
+
+        public void Undo()
+        {
+            if (m_historyCurrent > m_historyBegin)
+            {
+                m_historyCurrent--;
+                m_cutting = m_history[m_historyCurrent];
+                SyncronizeSections();
+            }
+        }
+
+        public void Redo()
+        {
+            if (m_historyCurrent < m_historyEnd)
+            {
+                m_historyCurrent++;
+                m_cutting = m_history[m_historyCurrent];
+                SyncronizeSections();
+            }
+        }
+
+        public void MakeUndoPoint()
+        {
+            m_history[m_historyCurrent] = new CuttingScheme(m_cutting);
+            m_historyCurrent = (m_historyCurrent + 1) % MaxHistory;
+            if (m_historyBegin == m_historyCurrent)
+            {
+                m_historyBegin = (m_historyBegin + 1) % MaxHistory;
+            }
+            m_historyEnd = m_historyCurrent;
+            m_history[m_historyCurrent] = m_cutting;
+        }
+
+        #endregion
     }
 }

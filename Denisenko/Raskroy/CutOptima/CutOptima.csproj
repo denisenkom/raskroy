@@ -1,18 +1,28 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{F6351957-19CA-4158-8B33-E328C828A20F}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Denisenko.Cutting.CutOptima</RootNamespace>
     <AssemblyName>CutOptima</AssemblyName>
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
     <PublishUrl>http://localhost/CutOptima/</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
@@ -23,15 +33,16 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\build\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -44,6 +55,38 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -53,12 +96,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddDatabaseDialog.cs" />
     <Compile Include="AddDatabaseForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="AddDatabaseForm.Designer.cs">
       <DependentUpon>AddDatabaseForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AddDbModePage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AddDbModePage.Designer.cs">
+      <DependentUpon>AddDbModePage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AddDbNewPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AddDbNewPage.Designer.cs">
+      <DependentUpon>AddDbNewPage.cs</DependentUpon>
     </Compile>
     <Compile Include="CuttingControl.cs">
       <SubType>Component</SubType>
@@ -78,50 +132,45 @@
     <Compile Include="CuttingResultForm.Designer.cs">
       <DependentUpon>CuttingResultForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="CuttingWizard\BasePage.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="CuttingWizard\BasePage.Designer.cs">
-      <DependentUpon>BasePage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CuttingWizard\BaseWizardForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CuttingWizard\BaseWizardForm.Designer.cs">
-      <DependentUpon>BaseWizardForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CuttingWizard\CuttingWizard.cs" />
-    <Compile Include="CuttingWizard\DataSet.cs">
-      <DependentUpon>DataSet.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="CuttingWizard\DataSet.Designer.cs">
+    <Compile Include="DataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DataSet.xsd</DependentUpon>
     </Compile>
-    <Compile Include="CuttingWizard\Mediator.cs" />
-    <Compile Include="CuttingWizard\SelectDetailsPage.cs">
+    <Compile Include="WizardPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="CuttingWizard\SelectDetailsPage.Designer.cs">
+    <Compile Include="WizardPage.Designer.cs">
+      <DependentUpon>WizardPage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WizardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WizardForm.Designer.cs">
+      <DependentUpon>WizardForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CuttingWizard.cs" />
+    <Compile Include="WizDataSet.cs">
+      <DependentUpon>WizDataSet.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SelectDetailsPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SelectDetailsPage.Designer.cs">
       <DependentUpon>SelectDetailsPage.cs</DependentUpon>
     </Compile>
-    <Compile Include="CuttingWizard\SelectSheetsPage.cs">
+    <Compile Include="SelectSheetsPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="CuttingWizard\SelectSheetsPage.Designer.cs">
+    <Compile Include="SelectSheetsPage.Designer.cs">
       <DependentUpon>SelectSheetsPage.cs</DependentUpon>
     </Compile>
     <Compile Include="DataSet.cs">
       <DependentUpon>DataSet.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="DataSet.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>DataSet.xsd</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="DBManager.cs" />
-    <Compile Include="DBSelectionDialog.cs" />
     <Compile Include="DBSelectionForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -153,7 +202,6 @@
       <DependentUpon>MaterialsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Mediator.cs" />
-    <Compile Include="NewDatabaseDialog.cs" />
     <Compile Include="NewDatabaseForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -172,6 +220,12 @@
       <SubType>Designer</SubType>
       <DependentUpon>AddDatabaseForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AddDbModePage.resx">
+      <DependentUpon>AddDbModePage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AddDbNewPage.resx">
+      <DependentUpon>AddDbNewPage.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CuttingControl.resx">
       <SubType>Designer</SubType>
       <DependentUpon>CuttingControl.cs</DependentUpon>
@@ -184,19 +238,19 @@
       <SubType>Designer</SubType>
       <DependentUpon>CuttingResultForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CuttingWizard\BasePage.resx">
+    <EmbeddedResource Include="WizardPage.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>BasePage.cs</DependentUpon>
+      <DependentUpon>WizardPage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CuttingWizard\BaseWizardForm.resx">
+    <EmbeddedResource Include="WizardForm.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>BaseWizardForm.cs</DependentUpon>
+      <DependentUpon>WizardForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CuttingWizard\SelectDetailsPage.resx">
+    <EmbeddedResource Include="SelectDetailsPage.resx">
       <SubType>Designer</SubType>
       <DependentUpon>SelectDetailsPage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CuttingWizard\SelectSheetsPage.resx">
+    <EmbeddedResource Include="SelectSheetsPage.resx">
       <SubType>Designer</SubType>
       <DependentUpon>SelectSheetsPage.cs</DependentUpon>
     </EmbeddedResource>
@@ -249,6 +303,12 @@
     <None Include="app.config" />
     <None Include="ClassDiagram.cd" />
     <None Include="CreateDB.sql" />
+    <None Include="WizDataSet.xsc">
+      <DependentUpon>WizDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="WizDataSet.xss">
+      <DependentUpon>WizDataSet.xsd</DependentUpon>
+    </None>
     <None Include="DataSet.xsc">
       <DependentUpon>DataSet.xsd</DependentUpon>
     </None>
@@ -260,16 +320,10 @@
     <None Include="DataSet.xss">
       <DependentUpon>DataSet.xsd</DependentUpon>
     </None>
-    <None Include="CuttingWizard\DataSet.xsc">
-      <DependentUpon>DataSet.xsd</DependentUpon>
-    </None>
-    <None Include="CuttingWizard\DataSet.xsd">
+    <None Include="WizDataSet.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>DataSet.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="CuttingWizard\DataSet.xss">
-      <DependentUpon>DataSet.xsd</DependentUpon>
+      <LastGenOutput>WizDataSet.Designer.cs</LastGenOutput>
     </None>
     <None Include="Properties\DataSources\Detail.datasource" />
     <None Include="Properties\DataSources\DetailsList.datasource" />
@@ -290,6 +344,11 @@
     </Compile>
     <Compile Include="SheetsListForm.Designer.cs">
       <DependentUpon>SheetsListForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WizDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WizDataSet.xsd</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -315,13 +374,30 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="readme.htm" />
-  </ItemGroup>
-  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
       <Visible>False</Visible>
-      <ProductName>.NET Framework 2.0</ProductName>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
       <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Sql.Server.Express.1.0">
       <Visible>False</Visible>
@@ -330,7 +406,7 @@
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
       <Visible>False</Visible>
-      <ProductName>Windows Installer 3.1</ProductName>
+      <ProductName>Установщик Windows 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>

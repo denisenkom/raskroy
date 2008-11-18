@@ -25,6 +25,8 @@ namespace Denisenko.Cutting
 	[Serializable]
 	public class Section
 	{
+        public string Label;
+
 		public Decimal Size
 		{
 			get

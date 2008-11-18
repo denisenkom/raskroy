@@ -10,17 +10,26 @@ using Denisenko.Cutting.Optimizing;
 
 namespace Denisenko.Cutting.CutOptima
 {
+    public interface IProgressJob
+    {
+        float PercentCompleted
+        {
+            get;
+        }
+    }
+
 	public delegate void ProgressFormEventHandler(ProgressForm sender);
 
 	public partial class ProgressForm : Form
 	{
 		private Boolean _paused = false;
-		private OptimizingJob _optimizingJob;
+        private IProgressJob _job;
 
-		public ProgressForm(OptimizingJob optimizingJob)
+        public ProgressForm(IProgressJob job)
 		{
-			_optimizingJob = optimizingJob;
+            _job = job;
 			InitializeComponent();
+            progressTimer.Enabled = _job != null;
 		}
 
 		internal event ProgressFormEventHandler Pause;
@@ -51,12 +60,25 @@ namespace Denisenko.Cutting.CutOptima
 
 		private void progressTimer_Tick(object sender, EventArgs e)
 		{
-			progressBar.Value = (Int32)_optimizingJob.PercentCompleted;
+            if (_job != null)
+			    progressBar.Value = (Int32)_job.PercentCompleted;
 		}
 
 		private void ProgressForm_Load(object sender, EventArgs e)
 		{
 			progressTimer.Enabled = true;
 		}
+
+        public int Progress
+        {
+            set { progressBar.Value = value; }
+            get { return progressBar.Value; }
+        }
+
+        public string Status
+        {
+            set { labelStatus.Text = value; }
+            get { return labelStatus.Text; }
+        }
 	}
 }

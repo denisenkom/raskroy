@@ -8,39 +8,11 @@ namespace Denisenko.Cutting
 	[Serializable]
 	public class CuttingScheme : ICloneable
 	{
+        public int Repetitions;
+
         public delegate void ChangeHandler(CuttingScheme sender);
 
         public event ChangeHandler Change;
-
-        #region Undo redo support
-
-        const int MaxHistory = 64;
-        Section[] m_history = new Section[MaxHistory];
-        int m_historyBegin = 0;
-        int m_historyEnd = 0;
-        int m_historyCurrent = 0;
-
-        public void Undo()
-        {
-            if (m_historyCurrent > m_historyBegin)
-            {
-                m_historyCurrent--;
-                m_rootSection = m_history[m_historyCurrent];
-                NotifyViews();
-            }
-        }
-
-        public void Redo()
-        {
-            if (m_historyCurrent < m_historyEnd)
-            {
-                m_historyCurrent++;
-                m_rootSection = m_history[m_historyCurrent];
-                NotifyViews();
-            }
-        }
-
-        #endregion
 
         public Section Cut(Section section, Decimal size, CutType cutType, out Section remain)
 		{
@@ -55,10 +27,10 @@ namespace Denisenko.Cutting
 
 		public void MakeSureEdgeEven(ref Section section, CutType cutType)
 		{
-			if(cutType == CutType.Horizontal && !section.IsTopEven())
-				Cut(section, m_parameters.CutOffLeft - m_parameters.CutterThickness, cutType, out section);
-			else if(cutType == CutType.Vertical && !section.IsLeftEven())
-				Cut(section, m_parameters.CutOffLeft - m_parameters.CutterThickness, cutType, out section);
+            if (cutType == CutType.Horizontal && !section.IsTopEven())
+                Cut(section, m_parameters.CutOffLeft - m_parameters.CutterThickness, cutType, out section);
+            else if (cutType == CutType.Vertical && !section.IsLeftEven())
+                Cut(section, m_parameters.CutOffLeft - m_parameters.CutterThickness, cutType, out section);
 		}
 
 		/*public Section Cut(Decimal size, out Section remain)
@@ -314,13 +286,6 @@ namespace Denisenko.Cutting
         internal void Changed()
         {
             NotifyViews();
-            m_historyCurrent = (m_historyCurrent + 1) % MaxHistory;
-            if (m_historyBegin == m_historyCurrent)
-            {
-                m_historyBegin = (m_historyBegin + 1) % MaxHistory;
-            }
-            m_historyEnd = m_historyCurrent;
-            m_history[m_historyCurrent] = new Section(m_rootSection, null, this);
         }
 
         private void NotifyViews()

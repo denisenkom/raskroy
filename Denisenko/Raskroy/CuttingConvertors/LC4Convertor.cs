@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+ * Конвертация между внутренним форматом и форматом станка lc4
+ * 
+ * Проблемы:
+ * 1. Не сохраняется количество копий раскроев. Причина - неизвестный формат представления этого значения в lc4
+ */
+using System;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Text;
@@ -9,47 +15,27 @@ namespace Denisenko.Cutting.Converting
 {
 	public class LC4Convertor
 	{
-		private List<Sheet> m_sheets;
-
 		public LC4Convertor()
 		{
 		}
 
-		private LC4Cutting ConvertCuttingScheme(CuttingScheme cuttingResult)
-		{
-			LC4Cutting lc4Cutting = new LC4Cutting();
-			if (cuttingResult.RootSection.NestedSections[0].CutType == CutType.Horizontal)
-			{
-				lc4Cutting.Size1 = cuttingResult.Width;
-				lc4Cutting.Size2 = cuttingResult.Height;
-			}
-			else
-			{
-				lc4Cutting.Size1 = cuttingResult.Height;
-				lc4Cutting.Size2 = cuttingResult.Width;
-			}
-			AddSections(lc4Cutting.Sections, cuttingResult.RootSection.NestedSections);
-			// TODO: Assign statistics
-			return lc4Cutting;
-		}
-
-		private void AddSections(List<LC4Section> into, List<Section> sections)
+		private void AddSubLanes(Lane into, LinkedList<Section> sections)
 		{
 			Section prevSection;
 			Section nextSection;
-			for (Int32 i = 0; i < sections.Count; i++)
+			for (LinkedListNode<Section> node = sections.First; node != null; node = node.Next)
 			{
-				if(i > 0)
-					prevSection = sections[i - 1];
+				if(node != sections.First)
+					prevSection = node.Previous.Value;
 				else
 					prevSection = null;
-				if(i < sections.Count - 1)
-					nextSection = sections[i + 1];
+				if(node != sections.Last)
+					nextSection = node.Next.Value;
 				else
 					nextSection = null;
-				LC4Section lc4Section = ConvertSection(sections[i], prevSection, nextSection);
-				into.Add(lc4Section);
-				AddSections(lc4Section.NestedSections, sections[i].NestedSections);
+				Lane lane = ConvertSection(node.Value, prevSection, nextSection);
+				into.Add(lane);
+                AddSubLanes(lane, node.Value.NestedSections);
 			}
 		}
 
@@ -57,78 +43,113 @@ namespace Denisenko.Cutting.Converting
 		 * Предыдущая секция нужна в случае если конвертитуется обрезок, т.к.
 		 * его размер должен включать размер реза, который находится перед ним.
 		 */
-		private LC4Section ConvertSection(Section input, Section prevSection, Section nextSection)
+		private Lane ConvertSection(Section input, Section prevSection, Section nextSection)
 		{
-			LC4Section result = new LC4Section();
+			Lane result = new Lane();
 			result.Size = input.Size;
 			switch (input.SectionType)
 			{
 				case SectionType.Cut:
-					result.SectionType = LC4SectionType.Schnitt;
-					result.SomeInteger2 = 4;
-					break;
+					result.LaneType = LaneType.Cut;
+                    result.SizeType = SizeType.Automatic;
+                    break;
 				case SectionType.Element:
-					result.SectionType = LC4SectionType.Teil;
-					break;
+                    result.LaneType = LaneType.Detail;
+                    result.SizeType = SizeType.Changeable;
+                    result.Name = DetailNameFixer.Convert(Transliterator.Convert(input.Label));
+                    break;
 				case SectionType.NewLine:
-					result.SectionType = LC4SectionType.Streifen;
-					break;
+                    result.LaneType = LaneType.Lane;
+                    result.SizeType = SizeType.Changeable;
+                    break;
 				case SectionType.Remain:
-					result.SectionType = LC4SectionType.Rest;
-					break;
+                    result.LaneType = LaneType.Rest;
+                    result.SizeType = SizeType.Changeable;
+                    break;
 				case SectionType.Scrap:
-					result.SectionType = LC4SectionType.Anschnitt;
+                    result.LaneType = LaneType.Cutoff;
+                    result.SizeType = SizeType.Automatic;
 					if (prevSection != null && prevSection.SectionType == SectionType.Cut)
 						result.Size = input.Size + prevSection.Size;
 					if (nextSection != null && nextSection.SectionType == SectionType.Cut)
 						result.Size = input.Size + nextSection.Size;
-					result.SomeInteger2 = 4;
 					break;
-				case SectionType.Undefined:
-					result.SectionType = LC4SectionType.Anschnitt;
-					if (prevSection != null && prevSection.SectionType == SectionType.Cut)
+				case SectionType.Free:
+                    result.LaneType = LaneType.Cutoff;
+                    result.SizeType = SizeType.Automatic;
+                    if (prevSection != null && prevSection.SectionType == SectionType.Cut)
 						result.Size = input.Size + prevSection.Size;
 					if (nextSection != null && nextSection.SectionType == SectionType.Cut)
 						result.Size = input.Size + nextSection.Size;
-					result.SomeInteger2 = 4;
 					break;
 			}
 			return result;
 		}
 
-		public LC4Document Convert(List<CuttingScheme> schemes)
+		public Job Convert(List<CuttingScheme> schemes)
 		{
-			LC4Document result = new LC4Document();
+			Job result = new Job();
 			Int32 cuttingIndex = 0;
-			m_sheets = new List<Sheet>();
+            Dictionary<Sheet, LC4.Sheet> map = new Dictionary<Sheet, LC4.Sheet>();
 			foreach (CuttingScheme scheme in schemes)
 			{
-				LC4Cutting lc4Cutting = ConvertCuttingScheme(scheme);
-				lc4Cutting.Name = (cuttingIndex + 1).ToString("00000");
-				Int32 sheetIndex = m_sheets.IndexOf(scheme.Sheet);
-				if (sheetIndex == -1)
-				{
-					sheetIndex = m_sheets.Count;
-					m_sheets.Add(scheme.Sheet);
-					LC4Sheet sheet = new LC4Sheet();
-					sheet.Size1 = scheme.Sheet.Width;
-					sheet.Size2 = scheme.Sheet.Height;
-					sheet.Thickness = scheme.Sheet.Thickness;
-					result.Sheets.Add(sheet);
-				}
-				lc4Cutting.SheetIndex = sheetIndex;
+                Plan plan = new Plan();
+                plan.Name = (cuttingIndex + 1).ToString("00000");
+                plan.LaneType = LaneType.Plate;
+                plan.Size = scheme.Height; // поперечный размер
+                plan.Length = scheme.Width; // продольный размер
+                plan.SizeType = SizeType.Changeable;
+                plan.NurVonVorneAbarbeiten = true;
+                plan.TotalAmount = scheme.Repetitions;
 
-				Statistics stat = scheme.CalcStatistics();
-				lc4Cutting.TotalSquare = (Double)scheme.Sheet.Width * (Double)scheme.Sheet.Height;
-				lc4Cutting.DustSquare = stat.DustSquare;
-				lc4Cutting.ScrapsSquare = stat.ScrapsSquare + stat.UndefinitesSquare;
-				lc4Cutting.ScrapPercent = (lc4Cutting.DustSquare + lc4Cutting.ScrapsSquare) / lc4Cutting.TotalSquare * 100.0;
-				lc4Cutting.DetailsCount = stat.DetailsCount;
-				lc4Cutting.DetailsSquare = stat.DetailsSquare;
-				lc4Cutting.RemainsCount = stat.RemainsCount;
-				lc4Cutting.RemainsSquare = stat.RemainsSquare;
+                // создаём промежуточную полосу в случае когда первый рез является продольным
+                Lane rootLane;
+                if (scheme.RootSection.NestedSections.First.Value.CutType == CutType.Horizontal)
+                {
+                    rootLane = new Lane();
+                    rootLane.Size = scheme.Width;
+                    rootLane.LaneType = LaneType.Lane;
+                    rootLane.SizeType = SizeType.Fixed;
+                }
+                else
+                {
+                    rootLane = plan;
+                }
 
-				result.Cuttings.Add(lc4Cutting);
+                // указываем плиту на которой происходит раскрой
+                LC4.Sheet sheet;
+                Lage lage = new Lage();
+                if (!map.TryGetValue(scheme.Sheet, out sheet))
+                {
+                    sheet = new LC4.Sheet();
+                    // в scheme ширина и высота указывается относительно экрана
+                    sheet.Length = scheme.Sheet.Width;
+                    sheet.Width = scheme.Sheet.Height;
+                    sheet.Thickness = scheme.Sheet.Thickness;
+                    sheet.Amount = 0;
+                    map.Add(scheme.Sheet, sheet);
+                    result.Sheets.Add(sheet);
+                }
+                lage.Amount = scheme.Repetitions;
+                lage.BaseDetail = sheet;
+                sheet.Amount += scheme.Repetitions;
+                lage.Quality = "";
+                plan.Lagen.Add(lage);
+
+                // добавляем вложенные полосы
+                AddSubLanes(plan, scheme.RootSection.NestedSections);
+
+                Statistics stat = scheme.CalcStatistics();
+				plan.Information.TotalSquare = (double)scheme.Sheet.Width * (double)scheme.Sheet.Height;
+				plan.Information.DustSquare = stat.DustSquare;
+				plan.Information.ScrapsSquare = stat.ScrapsSquare + stat.UndefinitesSquare;
+				plan.Information.ScrapPercent = (plan.Information.DustSquare + plan.Information.ScrapsSquare) / plan.Information.TotalSquare * 100.0;
+				plan.Information.DetailsCount = stat.DetailsCount;
+				plan.Information.DetailsSquare = stat.DetailsSquare;
+				plan.Information.RemainsCount = stat.RemainsCount;
+				plan.Information.RemainsSquare = stat.RemainsSquare;
+
+				result.Plans.Add(plan);
 				cuttingIndex++;
 			}
 			return result;

@@ -11,13 +11,14 @@ namespace Denisenko.Cutting.CutOptima
 {
 	internal partial class NewDatabaseForm : Form
 	{
-		private NewDatabaseDialog _dialog;
+        private String _server;
+        private String _location;
+        private LocationType _locationType;
 
-		public NewDatabaseForm(NewDatabaseDialog dialog)
+		public NewDatabaseForm()
 		{
-			_dialog = dialog;
 			InitializeComponent();
-		}
+        }
 
 		private void browseButton_Click(object sender, EventArgs e)
 		{
@@ -32,38 +33,39 @@ namespace Denisenko.Cutting.CutOptima
 			dbPathTextBox.Enabled = dbPathRadioButton.Checked;
 			browseButton.Enabled = dbPathRadioButton.Checked;
 			dbNameTextBox.Enabled = dbNameRadioButton.Checked;
-		}
-
-		private void NewDatabaseDialog_Load(object sender, EventArgs e)
-		{
-			this.serverTextBox.Text = _dialog.Server;
-			if (_dialog.LocationType == LocationType.Name)
-			{
-				dbNameRadioButton.Checked = true;
-				dbNameTextBox.Text = _dialog.Location;
-				dbPathTextBox.Text = "";
-			}
-			else if(_dialog.LocationType == LocationType.Path)
-			{
-				dbPathRadioButton.Checked = true;
-				dbNameTextBox.Text = "";
-				saveFileDialog.FileName = dbPathTextBox.Text = _dialog.Location;
-			}
-		}
+        }
 
 		private void OKbutton_Click(object sender, EventArgs e)
 		{
-			_dialog.Server = serverTextBox.Text;
+			_server = serverTextBox.Text;
 			if (dbNameRadioButton.Checked)
 			{
-				_dialog.LocationType = LocationType.Name;
-				_dialog.Location = dbNameTextBox.Text;
+				_locationType = LocationType.Name;
+				_location = dbNameTextBox.Text;
 			}
 			else if (dbPathRadioButton.Checked)
 			{
-				_dialog.LocationType = LocationType.Path;
-				_dialog.Location = dbPathTextBox.Text;
+				_locationType = LocationType.Path;
+				_location = dbPathTextBox.Text;
 			}
 		}
+
+        public String Server
+        {
+            get { return _server; }
+            set { _server = value; }
+        }
+
+        public string DbLocation
+        {
+            get { return _location; }
+            set { _location = value; }
+        }
+
+        public LocationType LocationType
+        {
+            get { return _locationType; }
+            set { _locationType = value; }
+        }
 	}
 }
