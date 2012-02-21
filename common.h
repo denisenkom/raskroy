@@ -1,3 +1,9 @@
+#ifndef COMMON_H
+#define COMMON_H
+
+#include <iostream>
+#include <cassert>
+
 namespace raskroy {
 
 	struct t_min_part {
@@ -25,8 +31,8 @@ namespace raskroy {
 		t_raskroy(const t_raskroy &orig)
 			: s(orig.s), kratnostj(orig.kratnostj), cut(orig.cut), details(orig.details), premain(orig.premain), precurse(orig.precurse)
 		{
-			const_cast<t_raskroy*>(orig.premain) = 0;
-			const_cast<t_raskroy*>(orig.precurse) = 0;
+			const_cast<t_raskroy*&>(orig.premain) = 0;
+			const_cast<t_raskroy*&>(orig.precurse) = 0;
 		}
 
 		~t_raskroy() {
@@ -326,3 +332,5 @@ namespace raskroy {
 	}
 
 }
+
+#endif

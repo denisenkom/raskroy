@@ -1,37 +1,41 @@
+#include "perebor_2d.h"
+
+using namespace std;
+
 namespace raskroy {
 
-	inline perebor_2d::perebor_2d(t_sizes sizes[], scalar min_size[], t_amounts &remains, criteria &criteria)
+	Perebor2D::Perebor2D(t_sizes sizes[], scalar min_size[], t_amounts &remains, criteria &criteria)
 		: recursion_depth(0), max_recursion_depth(8), pcriteria(&criteria), pmonitor(&default_monitor),
 		sizes(sizes), minimum_size(min_size), remains(remains), perebor(remains, factory.saw_thickness)
 	{
 	}
 
-	inline void perebor_2d::set_monitor(monitor &monitor)
+	void Perebor2D::set_monitor(monitor &monitor)
 	{
 		pmonitor = &monitor;
 	}
 
-	inline void perebor_2d::set_factory(const t_factory &factory)
+	void Perebor2D::set_factory(const t_factory &factory)
 	{
 		this->factory = factory;
 		perebor.saw_thickness = factory.saw_thickness;
 	}
 
-	inline void perebor_2d::set_criteria(const criteria &criteria)
+	void Perebor2D::set_criteria(const criteria &criteria)
 	{
 		this->pcriteria = &criteria;
 	}
 
-	inline bool perebor_2d::make(const t_rect &rect, t_stat &stat, t_raskroy &raskroy, t_amounts &rashod)
+	bool Perebor2D::make(const t_rect &rect, t_stat &stat, t_raskroy &raskroy, t_amounts &rashod)
 	{
 #ifndef NDEBUG
 		char buf[256];
-		std::string str("perebor_2d::make(rect(");
+		std::string str("Perebor2D::make(rect(");
 		str += gcvt(rect.size[0], 5, buf);
 		str += ",";
 		str += gcvt(rect.size[1], 5, buf);
 		str += "))";
-		MessageBox(NULL, str.c_str(), 0, 0);
+		cout << str;
 #endif
 		return bylen_bywid(rect, stat, raskroy, rashod);
 	}
@@ -44,7 +48,7 @@ namespace raskroy {
 	//		[o] raskroy - раскрой листа
 	//		[o] rashod - расход деталей
 	//
-	bool perebor_2d::recursive(const t_rect &rect, t_stat &stat, unsigned s, t_raskroy &raskroy, t_amounts &rashod)
+	bool Perebor2D::recursive(const t_rect &rect, t_stat &stat, unsigned s, t_raskroy &raskroy, t_amounts &rashod)
 	{
 		if (rect.size[s] < minimum_size[s])
 			goto nothing;
@@ -147,7 +151,7 @@ namespace raskroy {
 	//		[o] raskroy - раскрой листа
 	//		[i/o] rashod - расход деталей
 	//
-	bool perebor_2d::bylen_bywid(const t_rect &rect, t_stat &stat, t_raskroy &raskroy, t_amounts &rashod)
+	bool Perebor2D::bylen_bywid(const t_rect &rect, t_stat &stat, t_raskroy &raskroy, t_amounts &rashod)
 	{
 		recursion_depth++;
 		if (recursion_depth > max_recursion_depth)

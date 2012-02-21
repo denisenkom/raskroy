@@ -18,7 +18,7 @@
 namespace raskroy {
 
 	class gilotine {
-		perebor_2d perebor_2d;
+		Perebor2D perebor_2d;
 
 		criteria default_criteria;
 		const criteria* pcriteria;

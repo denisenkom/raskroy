@@ -1,5 +1,5 @@
-//#include "types.hpp"
-//#include "raskroy.h"
+#include "raskroy.h"
+#include <algorithm>
 
 namespace raskroy {
 	class sizes_list_maker {
@@ -115,9 +115,6 @@ namespace raskroy {
 
 	inline bool gilotine::make_one_raskroy_result(t_result& res)
 	{
-#ifndef NDEBUG
-		MessageBox(NULL, "make_one_raskroy_result()", 0, 0);
-#endif
 		t_raskroy raskroy;
 		t_result best_result;
 		//best_result.torchevka = factory.
@@ -191,40 +188,40 @@ namespace raskroy {
 		return true;
 	}
 
-	/*inline*/ gilotine::gilotine(void)
+	gilotine::gilotine(void)
 		: pcriteria(&default_criteria), perebor_2d(sizes, minimum_size, remains, default_criteria)
 	{
 	}
 
-	inline void gilotine::set_factory(const t_factory &factory)
+	void gilotine::set_factory(const t_factory &factory)
 	{
 		perebor_2d.set_factory(factory);
 	}
 
-	inline void gilotine::set_recursion_max_depth(unsigned depth)
+	void gilotine::set_recursion_max_depth(unsigned depth)
 	{
 		perebor_2d.max_recursion_depth = depth;
 	}
 
-	inline void gilotine::set_criteria(const criteria &criteria)
+	void gilotine::set_criteria(const criteria &criteria)
 	{
 		assert(&criteria);
 		pcriteria = &criteria;
 		perebor_2d.set_criteria(criteria);
 	}
 
-	inline void gilotine::set_monitor(monitor &monitor)
+	void gilotine::set_monitor(monitor &monitor)
 	{
 		perebor_2d.set_monitor(monitor);
 	}
 
-	inline t_stat gilotine::get_common_stat(void)
+	t_stat gilotine::get_common_stat(void)
 	{
 		return common_stat;
 	}
 
 	// Raskroy start
-	inline bool gilotine::first(const t_parts& parts, const t_parts& sheets, t_result& res)
+	bool gilotine::first(const t_parts& parts, const t_parts& sheets, t_result& res)
 	{
 		assert(pcriteria);
 
@@ -236,12 +233,12 @@ namespace raskroy {
 			char buf[256];
 			str += gcvt(i->rect.size[0], 5, buf);
 			str += gcvt(i->rect.size[1], 5, buf);
-			str += ultoa(i->amount, buf, 10);
+			str += _ultoa(i->amount, buf, 10);
 			str += i->rotate ? "true" : "false";
 			str += ")";
 		}
 		str += "})";
-		MessageBox(NULL, str.c_str(), 0, 0);
+		std::cout << str;
 #endif
 
 		this->sheets = sheets;
@@ -266,7 +263,7 @@ namespace raskroy {
 		return make_one_raskroy_result(res);
 	}
 
-	inline bool gilotine::next(t_result& res)
+	bool gilotine::next(t_result& res)
 	{
 #ifndef NVERBOSE
 		//for (t_amounts::const_iterator i = remains.begin(); i != remains.end(); i++)

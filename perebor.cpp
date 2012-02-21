@@ -1,7 +1,7 @@
-
+#include "perebor.h"
 
 namespace raskroy {
-	perebor::perebor(t_amounts &remains, scalar saw_thickness)
+	Perebor::Perebor(t_amounts &remains, scalar saw_thickness)
 		: remains(remains), saw_thickness(saw_thickness)
 	{
 	}
@@ -10,7 +10,7 @@ namespace raskroy {
 	// Параметры:
 	//		[i] size - размер на котором нужно расположить детали
 	//		[o] rashod - количество расположенных деталей
-	scalar perebor::recursive(scalar size, t_amounts &rashod)
+	scalar Perebor::recursive(scalar size, t_amounts &rashod)
 	{
 		//if (i == perebor_other_sizes->end())
 		//	return size;
@@ -70,7 +70,7 @@ namespace raskroy {
 	//		[o] raskroy - расположение деталей
 	//		[o] rashod - расход деталей
 	// Возвращает true если хотя бы одна деталь установлена
-	inline bool perebor::make(const t_size &size, scalar other_size, t_stat &stat, t_raskroy &raskroy, t_amounts &rashod)
+	bool Perebor::make(const t_size &size, scalar other_size, t_stat &stat, t_raskroy &raskroy, t_amounts &rashod)
 	{
 		if (other_size < size.other_sizes.watchMin()->size)
 			return false;
