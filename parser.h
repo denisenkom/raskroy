@@ -2,6 +2,7 @@
 #define RASKROY_PARSER_H
 
 #include "types.hpp"
+#include "common.h"
 
 namespace raskroy {
 	typedef std::vector<t_parsed_part> t_parsed_parts;

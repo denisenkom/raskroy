@@ -2,6 +2,7 @@
 #define RASKROY_DRAWER_H_INCLUDER
 
 #include "parser.h"
+#include <windows.h>
 
 namespace raskroy {
 	class drawer {

@@ -1,4 +1,3 @@
-#include "types.hpp"
 #include "parser.h"
 
 namespace raskroy {
@@ -18,7 +17,6 @@ scalar parser::details(unsigned s, scalar pos[2], const t_rect &rect, const t_ra
 			//part.part = 
 			assert(poutresult);
 			poutresult->parts.push_back(part);
-			// нужно найти деталь
 			acc += i->size;
 			if (n < i->num-1)
 			{
