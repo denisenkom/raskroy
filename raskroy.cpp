@@ -1,7 +1,334 @@
 #include "raskroy.h"
 #include <algorithm>
 
+using namespace std;
+
 namespace raskroy {
+
+	Perebor::Perebor(t_amounts &remains, scalar saw_thickness)
+		: remains(remains), saw_thickness(saw_thickness)
+	{
+	}
+
+	// Рекурсивный перебор
+	// Параметры:
+	//		[i] size - размер на котором нужно расположить детали
+	//		[o] rashod - количество расположенных деталей
+	scalar Perebor::recursive(scalar size, t_amounts &rashod)
+	{
+		//if (i == perebor_other_sizes->end())
+		//	return size;
+		scalar register size1;
+		//t_amounts best_amounts(amounts.size());
+		unsigned n;
+		if (i != end)
+		{
+			n = 0;
+			scalar best = size;
+			size1 = size;
+			t_amounts rashod1;
+			rashod1.resize(rashod.size());
+			std::fill(rashod1.begin(), rashod1.end(), 0);
+			unsigned remain = i->num(remains);
+			while (size1 > saw_thickness && n < remain)
+			{
+				scalar remain;
+				//if (size1 < perebor_minimum_size - factory.saw_thickness)
+				//	remain = size1;
+				//else
+				//{
+					i++;
+					remain = recursive(size1, rashod1);
+					i--;
+				//}
+				if (remain < best)
+				{
+					best = remain;
+					//perebor_i->n = n;
+					std::copy(rashod1.begin(), rashod1.end(), rashod.begin());
+					i->make_rashod(rashod, n, remains);
+				}
+				n++;
+				size1 = size - (i->size + saw_thickness)*n;
+			}
+			//amounts = best_amounts;
+			return best;
+		}
+		else
+		{
+			n = unsigned((size + saw_thickness)/(i->size + saw_thickness));
+			unsigned remain = i->num(remains);
+			if (n > remain)
+				n = remain;
+			i->make_rashod(rashod, n, remains);
+			size1 = size - n*(i->size + saw_thickness);
+			return size1;
+		}
+	}
+
+	// Перебор деталей одного базисного размера на другом размере с контролем остатков
+	// Параметры:
+	//		[i] size - базисный размер
+	//		[i] other_size - перпендикулярный размер
+	//		[o] stat - статистика
+	//		[o] raskroy - расположение деталей
+	//		[o] rashod - расход деталей
+	// Возвращает true если хотя бы одна деталь установлена
+	bool Perebor::make(const t_size &size, scalar other_size, t_stat &stat, t_raskroy &raskroy, t_amounts &rashod)
+	{
+		if (other_size < size.other_sizes.watchMin()->size)
+			return false;
+
+		unsigned nums = 0;
+		i = size.other_sizes.begin();
+		end = size.other_sizes.end();
+		end--;
+		scalar remain = recursive(other_size, rashod);
+		if (remain < other_size)
+		{
+			for (i = size.other_sizes.begin(); i != size.other_sizes.end(); i++)
+			{
+				unsigned rashodi = i->num(rashod);
+				if (rashodi > 0)
+				{
+					t_raskroy::t_detail detail;
+					detail.size = i->size;
+					detail.num = rashodi;
+					raskroy.details.push_back(detail);
+					nums += rashodi;
+				}
+			}
+			stat.sum_cut_length = size.size*(nums);
+			stat.sum_remain = size.size*saw_thickness;
+			this->remain = remain;
+			return true;
+		}
+		else
+			return false;
+	}
+
+		Perebor2D::Perebor2D(t_sizes sizes[], scalar min_size[], t_amounts &remains, criteria &criteria)
+		: recursion_depth(0), max_recursion_depth(8), pcriteria(&criteria), pmonitor(&default_monitor),
+		sizes(sizes), minimum_size(min_size), remains(remains), perebor(remains, factory.saw_thickness)
+	{
+	}
+
+	void Perebor2D::set_monitor(monitor &monitor)
+	{
+		pmonitor = &monitor;
+	}
+
+	void Perebor2D::set_factory(const t_factory &factory)
+	{
+		this->factory = factory;
+		perebor.saw_thickness = factory.saw_thickness;
+	}
+
+	void Perebor2D::set_criteria(const criteria &criteria)
+	{
+		this->pcriteria = &criteria;
+	}
+
+	bool Perebor2D::make(const t_rect &rect, t_stat &stat, t_raskroy &raskroy, t_amounts &rashod)
+	{
+#ifndef NDEBUG
+		char buf[256];
+		std::string str("Perebor2D::make(rect(");
+		str += gcvt(rect.size[0], 5, buf);
+		str += ",";
+		str += gcvt(rect.size[1], 5, buf);
+		str += "))";
+		cout << str;
+#endif
+		return bylen_bywid(rect, stat, raskroy, rashod);
+	}
+
+	// Рекурсивный перебор всех делений листа по длине/ширине (s=0/1) с возможностью кратного расположения
+	// Параметры:
+	//		[i] list - размеры листа
+	//		[i/o] stat - статистика
+	//		[i] s - выбор направления раскроя по длине/ширине s=0/1
+	//		[o] raskroy - раскрой листа
+	//		[o] rashod - расход деталей
+	//
+	bool Perebor2D::recursive(const t_rect &rect, t_stat &stat, unsigned s, t_raskroy &raskroy, t_amounts &rashod)
+	{
+		if (rect.size[s] < minimum_size[s])
+			goto nothing;
+		{bool first = true;
+		t_stat best_stat;
+		t_amounts best_rashod;
+		t_amounts rashod1;
+		rashod1.resize(remains.size());
+		for (t_sizes::iterator i = sizes[s].begin(); i != sizes[s].end(); i++)
+		{
+			t_stat stat1;
+			if (i->size > rect.size[s])
+				continue;
+			else
+			{
+				t_raskroy raskroy1;
+				std::fill(rashod1.begin(), rashod1.end(), 0);
+				raskroy1.cut = i->size;
+				raskroy1.s = s;
+				stat1.sum_cut_length += rect.size[!s];
+				stat1.sum_remain += rect.size[!s]*factory.saw_thickness;
+
+				if (!perebor.make(*i, rect.size[!s], stat1, raskroy1, rashod1))
+					continue;
+
+				unsigned size_krat = (rect.size[s] + factory.saw_thickness)/(i->size + factory.saw_thickness);
+				unsigned kol_krat = remains/rashod1;
+				if (size_krat > kol_krat)
+					raskroy1.kratnostj = kol_krat;
+				else
+					raskroy1.kratnostj = size_krat;
+
+				assert(raskroy1.kratnostj);
+
+				if (raskroy1.kratnostj > 1)
+				{
+					rashod1 *= raskroy1.kratnostj;
+					stat1 *= raskroy1.kratnostj;
+				}
+
+				{
+					t_rect rect1;
+					rect1.size[s] = i->size*raskroy1.kratnostj;
+					rect1.size[!s] = perebor.remain;
+					t_raskroy remain_raskroy;
+					if (bylen_bywid(rect1, stat, remain_raskroy, rashod1))
+					{
+						raskroy1.attachRemain(remain_raskroy);
+					}
+				}
+
+				stat1 += stat;
+
+				if (!first && pcriteria->compare(&best_stat, &stat1))	// already bad
+					continue;
+			
+				if ((i->size + factory.saw_thickness)*raskroy1.kratnostj > rect.size[s] - minimum_size[s])
+				{
+					stat1.sum_remain += (rect.size[s] - (i->size + factory.saw_thickness)*raskroy1.kratnostj)*rect.size[!s];
+				}
+				else
+				{
+					t_rect rect2(rect);
+					rect2.size[s] = rect.size[s] - (i->size + factory.saw_thickness)*raskroy1.kratnostj;
+					t_raskroy recurse_raskroy;
+					if (bylen_bywid(rect2, stat1, recurse_raskroy, rashod1))
+					raskroy1.attachRecurse(recurse_raskroy);
+				}
+
+				if (first || pcriteria->compare(&stat1, &best_stat))
+				{
+					best_stat = stat1;
+					raskroy = raskroy1;
+					best_rashod = rashod1;
+					first = false;
+				}
+			}
+		}
+		if (!first)
+		{
+			stat = best_stat;
+			rashod = best_rashod;
+			return true;
+		}
+		else
+		{
+			goto nothing;
+		}
+		}
+	nothing:
+		stat.sum_remain += rect.size[0]*rect.size[1];
+		stat.remains_num++;
+		return false;
+	}
+
+	// Раскрой листа по длине и по ширине, возвращает лучший выриант
+	// Параметры:
+	//		[i] rect - размер листа
+	//		[i/o] stat - статистика
+	//		[o] raskroy - раскрой листа
+	//		[i/o] rashod - расход деталей
+	//
+	bool Perebor2D::bylen_bywid(const t_rect &rect, t_stat &stat, t_raskroy &raskroy, t_amounts &rashod)
+	{
+		recursion_depth++;
+		if (recursion_depth > max_recursion_depth)
+			goto nothing;
+
+		{
+		t_stat stat1(stat), stat2(stat);
+		t_amounts rashod1, rashod2;
+		t_raskroy raskroy1, raskroy2;
+
+		remains -= rashod;
+		if (recursion_depth == 1)
+		{
+			assert(pmonitor);
+			pmonitor->update_progress(0);
+		}
+		bool rb1 = recursive(rect, stat1, 0, raskroy1, rashod1);
+		bool rb2 = false;
+		if (rb1)
+		{
+			/*unsigned progress_increment = 100/(sheets_num*(1<<recursion_depth));
+			progress_base += progress_increment;
+			if (recursion_depth <= 6)	// для больших значений изменение прогресса < 1
+			{
+				assert(pmonitor);
+				pmonitor->update_progress(progress_base);
+			}*/
+			if (recursion_depth == 1)
+			{
+				assert(pmonitor);
+				pmonitor->update_progress(50);
+			}
+			rb2 = recursive(rect, stat2, 1, raskroy2, rashod2);
+			/*progress_base += progress_increment;
+			if (recursion_depth <= 7)
+			{
+				assert(pmonitor);
+				pmonitor->update_progress(progress_base);
+			}*/
+		}
+		if (recursion_depth == 1)
+		{
+			assert(pmonitor);
+			pmonitor->update_progress(100);
+		}
+		remains += rashod;
+		if (rb1 && rb2)
+		{
+			if (pcriteria->compare(&stat1, &stat2))
+			{
+				stat = stat1;
+				raskroy = raskroy1;
+				rashod += rashod1;
+			}
+			else
+			{
+				stat = stat2;
+				raskroy = raskroy2;
+				rashod += rashod2;
+			}
+			recursion_depth--;
+			return true;
+		}
+		else
+			goto nothing;
+		}
+
+	nothing:
+		stat.sum_remain += rect.size[0]*rect.size[1];
+		stat.remains_num++;
+		recursion_depth--;
+		return false;
+	}
+
 	class sizes_list_maker {
 		bool first;
 		t_sizes* sizes;
@@ -272,4 +599,113 @@ namespace raskroy {
 		assert(pcriteria/* && pmonitor*/);
 		return make_one_raskroy_result(res);
 	}
+
+
+scalar parser::details(unsigned s, scalar pos[2], const t_rect &rect, const t_raskroy::t_details &details)
+{
+	scalar acc = 0;
+	for (t_raskroy::t_details::const_iterator i = details.begin(); i != details.end(); i++)
+		for (unsigned n = 0; n < i->num; n++)
+		{
+			t_parsed_part part;
+			part.pos[s] = pos[s];
+			part.pos[!s] = pos[!s] + acc;
+			part.rect.size[s] = rect.size[s];
+			part.rect.size[!s] = i->size;
+
+			//part.part = 
+			assert(poutresult);
+			poutresult->parts.push_back(part);
+			acc += i->size;
+			if (n < i->num-1)
+			{
+				t_parsed_cut cut;
+				cut.pos[s] = pos[s];
+				cut.pos[!s] = pos[!s] + acc + half_saw_thickness;
+				cut.s = s;
+				cut.length = rect.size[s];
+				assert(poutresult);
+				poutresult->cuts.push_back(cut);
+				acc += saw_thickness;
+			}
+		}
+
+	return acc;
+}
+
+void parser::recursive(scalar pos[2], const t_rect &rect, const t_raskroy &raskroy)
+{
+	t_parsed_cut cut;
+	cut.s = !raskroy.s;
+	cut.length = rect.size[!raskroy.s];
+	cut.pos[!raskroy.s] = pos[!raskroy.s];
+	cut.pos[raskroy.s] = pos[raskroy.s] + raskroy.cut*raskroy.kratnostj + half_saw_thickness;
+	assert(poutresult);
+	poutresult->cuts.push_back(cut);
+	scalar remain=0;
+	scalar pos1[2];
+	//raskroy_api::scalar acc = 0;
+	pos1[0] = pos[0];
+	pos1[1] = pos[1];
+	for (unsigned k = 0; k < raskroy.kratnostj; k++)
+	{
+		t_rect rect1(rect);
+		rect1.size[raskroy.s] = raskroy.cut;
+		remain = details(raskroy.s, pos1, rect1, raskroy.details);
+		pos1[raskroy.s] += raskroy.cut + saw_thickness;
+
+		if (k < raskroy.kratnostj-1)
+		{
+			cut.s = !raskroy.s;
+			cut.length = remain;
+			cut.pos[!raskroy.s] = pos1[!raskroy.s];
+			cut.pos[raskroy.s] = pos1[raskroy.s] - half_saw_thickness;
+			assert(poutresult);
+			poutresult->cuts.push_back(cut);
+		}
+	}
+
+	cut.pos[raskroy.s] = pos[raskroy.s];
+	cut.pos[!raskroy.s] = pos[!raskroy.s] + remain + half_saw_thickness;
+	cut.s = raskroy.s;
+	cut.length = raskroy.cut*raskroy.kratnostj;
+	assert(poutresult);
+	poutresult->cuts.push_back(cut);
+
+	if (raskroy.watchRemain())
+	{
+		t_rect rect1;
+		rect1.size[raskroy.s] = raskroy.cut*raskroy.kratnostj;
+		rect1.size[!raskroy.s] = rect.size[!raskroy.s]-remain;
+		pos1[raskroy.s] = pos[raskroy.s];
+		pos1[!raskroy.s] = pos[!raskroy.s] + remain;
+		recursive(pos1, rect1, *raskroy.watchRemain());
+	}
+
+	if (raskroy.watchRecurse())
+	{
+		t_rect rect1(rect);
+		rect1.size[raskroy.s] = rect.size[raskroy.s] - (raskroy.cut+saw_thickness)*raskroy.kratnostj;
+		pos1[raskroy.s] = pos[raskroy.s] + (raskroy.cut+saw_thickness)*raskroy.kratnostj;
+		pos1[!raskroy.s] = pos[!raskroy.s];
+		recursive(pos1, rect1, *raskroy.watchRecurse());
+	}
+}
+
+void parser::parse(const t_result& result1, t_parsed_result& result2, scalar saw_thickness)
+{
+	this->saw_thickness = saw_thickness;
+	half_saw_thickness = saw_thickness/2;
+
+	poutresult = &result2;
+	assert(poutresult);
+	poutresult->cuts.clear();
+	assert(poutresult);
+	poutresult->parts.clear();
+	result2.amount = result1.amount;
+	result2.stat = result1.stat;
+	result2.sheet = *result1.sheet;
+	scalar pos[2] = {0, 0};
+	recursive(pos, result1.sheet->rect, result1.raskroy);
+}
 }
