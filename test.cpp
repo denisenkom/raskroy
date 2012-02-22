@@ -1,5 +1,5 @@
 #include <iostream>
-#include "raskroy.h"
+#include "guillotine.h"
 
 int main(void)
 {
@@ -21,7 +21,7 @@ int main(void)
 	factory.saw_thickness = 4;
 	
 	raskroy::criteria criteria;
-	raskroy::gilotine x;
+	raskroy::Guillotine x;
 	x.set_factory(factory);
 	x.set_criteria(criteria);
 	raskroy::t_result result;

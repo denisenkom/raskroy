@@ -1,4 +1,4 @@
-#include "raskroy.h"
+#include "guillotine.h"
 #include <algorithm>
 
 using namespace std;
@@ -411,7 +411,7 @@ namespace raskroy {
 		}*/
 	}
 
-	inline void gilotine::remove_exosted_sizes(void)
+	inline void Guillotine::remove_exosted_sizes(void)
 	{
 		for (unsigned s = 0; s <= 1; s++)
 		{
@@ -440,7 +440,7 @@ namespace raskroy {
 		}
 	}
 
-	inline bool gilotine::make_one_raskroy_result(t_result& res)
+	inline bool Guillotine::make_one_raskroy_result(t_result& res)
 	{
 		t_raskroy raskroy;
 		t_result best_result;
@@ -515,40 +515,40 @@ namespace raskroy {
 		return true;
 	}
 
-	gilotine::gilotine(void)
+	Guillotine::Guillotine(void)
 		: pcriteria(&default_criteria), perebor_2d(sizes, minimum_size, remains, default_criteria)
 	{
 	}
 
-	void gilotine::set_factory(const t_factory &factory)
+	void Guillotine::set_factory(const t_factory &factory)
 	{
 		perebor_2d.set_factory(factory);
 	}
 
-	void gilotine::set_recursion_max_depth(unsigned depth)
+	void Guillotine::set_recursion_max_depth(unsigned depth)
 	{
 		perebor_2d.max_recursion_depth = depth;
 	}
 
-	void gilotine::set_criteria(const criteria &criteria)
+	void Guillotine::set_criteria(const criteria &criteria)
 	{
 		assert(&criteria);
 		pcriteria = &criteria;
 		perebor_2d.set_criteria(criteria);
 	}
 
-	void gilotine::set_monitor(monitor &monitor)
+	void Guillotine::set_monitor(monitor &monitor)
 	{
 		perebor_2d.set_monitor(monitor);
 	}
 
-	t_stat gilotine::get_common_stat(void)
+	t_stat Guillotine::get_common_stat(void)
 	{
 		return common_stat;
 	}
 
 	// Raskroy start
-	bool gilotine::first(const t_parts& parts, const t_parts& sheets, t_result& res)
+	bool Guillotine::first(const t_parts& parts, const t_parts& sheets, t_result& res)
 	{
 		assert(pcriteria);
 
@@ -590,7 +590,7 @@ namespace raskroy {
 		return make_one_raskroy_result(res);
 	}
 
-	bool gilotine::next(t_result& res)
+	bool Guillotine::next(t_result& res)
 	{
 #ifndef NVERBOSE
 		//for (t_amounts::const_iterator i = remains.begin(); i != remains.end(); i++)

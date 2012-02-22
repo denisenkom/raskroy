@@ -590,7 +590,7 @@ public:
 		void parse(const t_result&, t_parsed_result&, scalar cut_thickness);
 	};
 	
-	class gilotine {
+	class Guillotine {
 		Perebor2D perebor_2d;
 
 		criteria default_criteria;
@@ -609,7 +609,7 @@ public:
 		bool make_one_raskroy_result(t_result&);
 
 	public:
-		gilotine(void);
+		Guillotine(void);
 
 		void set_factory(const t_factory&);
 		void set_recursion_max_depth(unsigned);
