@@ -2,10 +2,10 @@
 #define RASKROY_H_INCLUDED
 
 #include <list>
-#include <string>
 #include <vector>
 #include <memory>
 #include <assert.h>
+//#include <cassert>
 
 // TODO: Прикрутить монитор (показывает процент завершения каждого листа), исправить глюки.
 // TODO: Контроль остатков листов.
@@ -14,29 +14,19 @@
 namespace raskroy {
 
 	typedef float scalar;
-	typedef struct s_list {scalar size[2];} t_list;
-
-	typedef struct s_part {unsigned id; t_list list; bool rotate;
-		unsigned ammount; unsigned material_id;
-        bool operator==(const s_part&);
-        bool operator<(const s_part&);} t_part;
+	typedef struct {scalar size[2];} t_list;
+	typedef struct {unsigned id; t_list list; bool rotate;
+		unsigned ammount; unsigned material_id;} t_part;
 	typedef std::list<t_part> t_parts;
-
-	typedef struct s_material {unsigned id; t_parts parts; t_parts lists;
-    	bool operator==(const s_material&); bool operator<(const s_material&);} t_material;
+	typedef struct {unsigned id; t_parts parts; t_parts lists;} t_material;
 	typedef std::list<t_material> t_materials;
 
-    class runtime_error {
-    	std::string err;
-    public:
-    	runtime_error(std::string err)
-        	: err(err)
-        {
-        }
-    };
+	//typedef std::vector<unsigned n> t_other_sizes_result_list;
+	//typedef std::list<struct {unsigned size_i, unsigned s, t_other_sizes_result_list other_sizes}>
+	//typedef struct s_result {bool bylen; std::list<t_cut> cuts, std::list<s_result>} t_result;
 
 	struct t_raskroy {
-		struct t_detail {scalar size; unsigned num; bool operator==(const t_detail&); bool operator<(const t_detail&);};
+		struct t_detail {scalar size; unsigned num;};
 		typedef std::list<t_detail> t_details;
 
 		unsigned s, kratnostj;
@@ -58,7 +48,7 @@ namespace raskroy {
 			delete precurse;
 		}
 
-		t_raskroy& operator = (const t_raskroy &orig)
+		operator = (t_raskroy &orig)
 		{
 			delete premain;
 			delete precurse;
@@ -72,12 +62,7 @@ namespace raskroy {
 
 			orig.premain = 0;
 			orig.precurse = 0;
-
-            return *this;
 		}
-
-        bool operator==(const t_raskroy&);
-        bool operator<(const t_raskroy&);
 
 		void attachRemain(t_raskroy &remain) {
 			if (premain)
@@ -103,11 +88,11 @@ namespace raskroy {
 
 	private:
 		//t_result(const t_result &orig) {}
-		mutable t_raskroy *premain;
-		mutable t_raskroy *precurse;
+		t_raskroy *premain;
+		t_raskroy *precurse;
 	};
 
-	typedef struct s_factory {scalar saw_thickness; bool operator==(const s_factory&);} t_factory;
+	typedef struct {scalar saw_thickness;} t_factory;
 	struct t_stat {
 		scalar sum_cut_length;
 		scalar sum_remain;
@@ -131,9 +116,6 @@ namespace raskroy {
 			return *this;
 		}
 
-        bool operator==(const t_stat&);
-        bool operator<(const t_stat&);
-
 		void clear(void) {
 			sum_cut_length = 0;
 			sum_remain = 0;
@@ -153,7 +135,7 @@ namespace raskroy {
 
 		virtual ~criteria(void) {}
 	};
-
+	
 	struct t_result {
 		t_raskroy raskroy;
 		t_part list;
@@ -169,26 +151,12 @@ namespace raskroy {
 			: raskroy(orig.raskroy), list(orig.list), ammount(orig.ammount)
 		{
 		}
-
-        t_result& operator=(const t_result& cpy)
-        {
-        	raskroy = cpy.raskroy;
-            list = cpy.list;
-            stat = cpy.stat;
-            ammount = cpy.ammount;
-            return *this;
-        }
-
-        bool operator == (const t_result&);
-        bool operator < (const t_result&);
 	};
 
 	typedef std::list<t_result> t_results_list;
 
 	struct t_results : public t_results_list {
 		scalar cut_thickness;
-        bool operator==(const t_results&);
-        bool operator<(const t_results&);
 		//scalar torchevka;
 	};
 
@@ -201,8 +169,6 @@ namespace raskroy {
 			unsigned operator / (const t_ammounts&) const;
 			t_ammounts operator * (unsigned n) const;
 			t_ammounts operator - (const t_ammounts &ammounts) const;
-            bool operator==(const t_ammounts&);
-            bool operator<(const t_ammounts&);
 		};
 
 		class t_other_size
@@ -213,8 +179,6 @@ namespace raskroy {
 			t_parts parts;
 			t_other_size(void);
 			void add_part(const t_part &part);
-            bool operator==(const t_other_size&);
-            bool operator<(const t_other_size&);
 		};
 
 		class t_other_sizes : public std::vector<t_other_size>
@@ -225,24 +189,20 @@ namespace raskroy {
 			void add_other_size(unsigned s, const t_part &part);
 			void prepare(void);
 			const_iterator watchMin(void) const;
-            bool operator==(const t_other_sizes&);
-            bool operator<(const t_other_sizes&);
 		};
 
-		struct t_size {scalar size; t_other_sizes other_sizes;bool operator==(const t_size&);bool operator<(const t_size&);};
+		struct t_size {scalar size; t_other_sizes other_sizes;};
 		class t_sizes : public std::vector<t_size> {
 		public:
 			iterator find(scalar size);
 			void add_size(unsigned s, const t_part &part);
-            bool operator==(const t_sizes&);
-            bool operator<(const t_sizes&);
 		};
 
 		t_ammounts remains;
 		scalar perebor_remain;
 		t_other_sizes::const_iterator perebor_i;
 		t_other_sizes::const_iterator perebor_end;
-		scalar recursive_perebor(scalar size, t_ammounts &rashod);
+		scalar recursive_perebor(scalar size, t_ammounts &rashod);		
 		bool perebor(const t_size &size, scalar other_size, t_stat &stat, t_raskroy &raskroy, t_ammounts &rashod);
 		bool recursive(const t_list &list, t_stat &stat, unsigned s, t_raskroy &raskroy, t_ammounts &rashod);
 		bool bylen_bywid(const t_list &list, t_stat &stat, t_raskroy &raskroy, t_ammounts &rashod);
@@ -572,7 +532,7 @@ namespace raskroy {
 
 				if (!first && pcriteria->compare(best_stat, stat1))	// already bad
 					continue;
-
+			
 				if ((i->size + factory.saw_thickness)*raskroy1.kratnostj > list.size[s] - minimum_size[s])
 				{
 					stat1.sum_remain += (list.size[s] - (i->size + factory.saw_thickness)*raskroy1.kratnostj)*list.size[!s];
@@ -682,11 +642,11 @@ namespace raskroy {
 		{
 			t_parts::iterator i = parts.begin();
 			t_material mtrl;
-			mtrl.id = (*i).material_id;
+			mtrl.id = i->material_id;
 			//t_parts::iterator j = parts.begin();
 			while (i != parts.end())
 			{
-				if ((*i).material_id == mtrl.id)
+				if (i->material_id == mtrl.id)
 				{
 					mtrl.parts.push_back(*i);
 					parts.erase(i);
@@ -699,7 +659,7 @@ namespace raskroy {
 			t_parts::iterator j = lists.begin();
 			while (j != lists.end())
 			{
-				if ((*j).material_id == mtrl.id)
+				if (j->material_id == mtrl.id)
 				{
 					mtrl.lists.push_back(*j);
 					lists.erase(j);
@@ -736,8 +696,8 @@ namespace raskroy {
 
 	void gilotine::make_sizes_lists_for_material(const t_material &material)
 	{
-		sizes[0].resize(0);
-		sizes[1].resize(0);
+		sizes[0].clear();
+		sizes[1].clear();
 
 		for (unsigned s = 0; s <= 1; s++)
 		{
@@ -745,11 +705,11 @@ namespace raskroy {
 			for (t_parts::const_iterator parti = material.parts.begin(); parti != material.parts.end(); parti++)
 			{
 				add_part_to_sizes_list(s, *parti);
-				if ((*parti).rotate/* || material.rotate*/)
+				if (parti->rotate/* || material.rotate*/)
 				{
 					t_part rotpart(*parti);
-					rotpart.list.size[0] = (*parti).list.size[1];
-					rotpart.list.size[1] = (*parti).list.size[0];
+					rotpart.list.size[0] = parti->list.size[1];
+					rotpart.list.size[1] = parti->list.size[0];
 					add_part_to_sizes_list(s, rotpart);
 				}
 			}
@@ -815,10 +775,10 @@ namespace raskroy {
 		this->factory = factory;
 		this->pcriteria = &criteria;
 		make_materials_list(parts, lists);
-		results.resize(0);
+		results.clear();
 		results.cut_thickness = factory.saw_thickness;
 		statistic.clear();
-		for (t_materials::const_iterator mi = materials.begin(); !(mi.operator == (materials.end())); mi++)
+		for (t_materials::const_iterator mi = materials.begin(); mi != materials.end(); mi++)
 		{
 			make_sizes_lists_for_material(*mi);
 			t_raskroy raskroy;
@@ -836,12 +796,12 @@ namespace raskroy {
 
 				contine_raskroy:
 				bool first = true;
-				for (t_parts::const_iterator li = (*mi).lists.begin(); li != (*mi).lists.end(); li++)
+				for (t_parts::const_iterator li = mi->lists.begin(); li != mi->lists.end(); li++)
 				{
 					t_stat stat;
 					stat.clear();
 					std::fill(rashod.begin(), rashod.end(), 0);
-					if (bylen_bywid((*li).list, stat, raskroy, rashod))
+					if (bylen_bywid(li->list, stat, raskroy, rashod))
 						if (first || pcriteria->compare(stat, best_result.stat))
 						{
 							first = false;
@@ -856,7 +816,7 @@ namespace raskroy {
 						}
 				}
 				if (first)
-					throw runtime_error("Нельзя расположить детали.");
+					throw std::exception("Нельзя расположить детали.");
 				else
 					results.push_back(best_result);
 				remains -= rashod*best_result.ammount;
@@ -865,10 +825,6 @@ namespace raskroy {
 			}
 		}
 	}
-
-#if 0
-#endif
-
 }
 
 #endif	// RASKROY_H_INCLUDED
