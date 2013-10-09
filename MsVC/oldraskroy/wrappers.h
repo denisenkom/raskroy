@@ -9,7 +9,7 @@ namespace raskroy_api {
 	public:
 		LPCTSTR lpLibFileName;
 
-		CRaskroyLibrary(void) : hLib(NULL), lpLibFileName("oldraskroy.lib"), pRaskroyCreate(0), pDrawerCreate(0) {}
+		CRaskroyLibrary(void) : hLib(NULL), lpLibFileName("oldraskroy.dll"), pRaskroyCreate(0), pDrawerCreate(0) {}
 		~CRaskroyLibrary(void) {if (hLib) assert(FreeLibrary(hLib));}
 	private:
 		HINSTANCE hLib;

@@ -15,33 +15,8 @@
 #define OLDRASKROY_H_INCLUDED
 
 #include <objbase.h>
-#include ".\common.h"
 
 namespace raskroy_api {
-
-	struct t_result {
-		HLOCAL parts;	// 4B
-		HLOCAL cuts;	// 4B
-		unsigned amount;		// 4B
-		unsigned force_8b_alignment;	// 4B
-
-		raskroy::t_part sheet;	// 24B
-		raskroy::t_stat stat;	// 24B
-
-		t_result()
-			: parts(0), cuts(0)
-		{
-		}
-
-		/*t_result(raskroy::t_parsed_part* parts, unsigned parts_num,
-			raskroy::t_parsed_cut* cuts, unsigned cuts_num,
-			const raskroy::t_part& sheet, const raskroy::t_stat& stat,
-			unsigned amount)
-			: parts(parts), parts_num(parts_num), cuts(cuts), cuts_num(cuts_num),
-				sheet(sheet), stat(stat), amount(amount)
-		{
-		}*/
-	};	// 8+8+32+24+4+4=70B*/
 
 	#define E_CANNOTSETPARTS	MAKE_HRESULT(SEVERITY_ERROR, 0, 10)
 
@@ -66,14 +41,12 @@ namespace raskroy_api {
 	class IRaskroy1 : public IUnknown {
 	public:
 		STDMETHOD(SetRecursionDepth)(long) = 0;
-		//STDMETHOD(GetRecursionDepth)(unsigned char*) = 0;
 		STDMETHOD(SetFactory)(const raskroy::t_factory* pfactory) = 0;
 		STDMETHOD(SetCriteria)(const raskroy::criteria* pcriteria) = 0;
 		STDMETHOD(SetMonitor)(raskroy::monitor* pmonitor) = 0;
 		STDMETHOD(First)(const raskroy::t_part* parts, WORD parts_num,
 			const raskroy::t_part* sheets, WORD sheets_num, IResult1** ppResult, bool* pReturn) = 0;
 		STDMETHOD(Next)(IResult1** ppResult, bool* pReturn) = 0;
-		//STDMETHOD(GetErrorStr)(TCHAR* buf, ULONG bufsize) = 0;
 	};
 
 	OLDRASKROY_API HRESULT __stdcall RaskroyCreate(IRaskroy1**);
