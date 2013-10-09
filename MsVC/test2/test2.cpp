@@ -251,7 +251,7 @@ void test4(t_parts &parts, t_parts &sheets)
 
 int main(int argc, char* argv[])
 {
-	raskroy_api::library.lpLibFileName = "c:\\gilotine\\msvc\\oldraskroy\\release\\oldraskroy.dll";
+	raskroy_api::library.lpLibFileName = "oldraskroy.dll";
 	try
 	{
 		raskroy_api::Raskroy1 Raskroy;
