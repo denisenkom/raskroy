@@ -7,7 +7,7 @@ namespace raskroy {
 
 	struct t_rect {
 		scalar size[2];
-        bool operator==(t_rect& b) {return size[0]==b.size[0] && size[1]==b.size[1]}
+        bool operator==(t_rect& b) {return size[0]==b.size[0] && size[1]==b.size[1];}
 	};
 
 	struct err_part_invalid {
@@ -81,8 +81,8 @@ namespace raskroy {
 	struct t_factory {
 		scalar saw_thickness;
 		scalar max_cut_length;
-		t_factory(void) {}
-		t_factory(scalar saw_thickness, scalar max_cut_length)
+
+		t_factory(scalar saw_thickness=4, scalar max_cut_length=3000)
 			: saw_thickness(saw_thickness), max_cut_length(max_cut_length)
 		{
 		}
