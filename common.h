@@ -1,3 +1,6 @@
+#include <iostream>
+
+
 namespace raskroy {
 
 	struct t_min_part {
