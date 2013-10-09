@@ -8,3 +8,6 @@
 *.vcxproj.user
 *.plg
 *.ncb
+Debug
+Release
+ipch
