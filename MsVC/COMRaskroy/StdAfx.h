@@ -11,7 +11,7 @@
 
 #define STRICT
 #ifndef _WIN32_WINNT
-#define _WIN32_WINNT 0x0400
+#define _WIN32_WINNT 0x0403
 #endif
 #define _ATL_APARTMENT_THREADED
 
@@ -25,8 +25,8 @@ extern CComModule _Module;
 //#include <deque>
 #include <algorithm>
 
-#include "c:\gilotine\raskroy.h"
-#include "c:\gilotine\drawer.h"
+#include "..\..\raskroy.h"
+#include "..\..\drawer.h"
 
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
