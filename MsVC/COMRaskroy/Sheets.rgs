@@ -1,0 +1,26 @@
+HKCR
+{
+	COMRaskroy.Sheets.1 = s 'Sheets Class'
+	{
+		CLSID = s '{CCAAFCDD-889A-4B76-97A0-8DED964E2A0D}'
+	}
+	COMRaskroy.Sheets = s 'Sheets Class'
+	{
+		CLSID = s '{CCAAFCDD-889A-4B76-97A0-8DED964E2A0D}'
+		CurVer = s 'COMRaskroy.Sheets.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {CCAAFCDD-889A-4B76-97A0-8DED964E2A0D} = s 'Sheets Class'
+		{
+			ProgID = s 'COMRaskroy.Sheets.1'
+			VersionIndependentProgID = s 'COMRaskroy.Sheets'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			'TypeLib' = s '{40443BA8-6056-4700-8665-6C9A43730A98}'
+		}
+	}
+}

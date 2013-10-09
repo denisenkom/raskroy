@@ -1,0 +1,34 @@
+HKCR
+{
+	COMRaskroy.ResultView.1 = s 'ResultView Class'
+	{
+		CLSID = s '{7B1770F2-69EB-4420-B6D1-666619866CDA}'
+	}
+	COMRaskroy.ResultView = s 'ResultView Class'
+	{
+		CLSID = s '{7B1770F2-69EB-4420-B6D1-666619866CDA}'
+		CurVer = s 'COMRaskroy.ResultView.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {7B1770F2-69EB-4420-B6D1-666619866CDA} = s 'ResultView Class'
+		{
+			ProgID = s 'COMRaskroy.ResultView.1'
+			VersionIndependentProgID = s 'COMRaskroy.ResultView'
+			ForceRemove 'Programmable'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			ForceRemove 'Control'
+			ForceRemove 'Insertable'
+			ForceRemove 'ToolboxBitmap32' = s '%MODULE%, 106'
+			'MiscStatus' = s '0'
+			{
+			    '1' = s '131473'
+			}
+			'TypeLib' = s '{40443BA8-6056-4700-8665-6C9A43730A98}'
+			'Version' = s '1.0'
+		}
+	}
+}

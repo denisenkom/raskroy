@@ -1,0 +1,23 @@
+HKCR
+{
+	COMRaskroy.Result.1 = s 'Result Class'
+	{
+		CLSID = s '{82158893-1A25-4BF2-8964-455215D48D07}'
+	}
+	COMRaskroy.Result = s 'Result Class'
+	{
+		CLSID = s '{82158893-1A25-4BF2-8964-455215D48D07}'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {82158893-1A25-4BF2-8964-455215D48D07} = s 'Result Class'
+		{
+			ProgID = s 'COMRaskroy.Result.1'
+			VersionIndependentProgID = s 'COMRaskroy.Result'
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'both'
+			}
+		}
+	}
+}
