@@ -101,7 +101,18 @@ namespace raskroy_api {
 		void SetRecursionDepth(long Depth) {assert(pRaskroy); HRESULT hRes; if (FAILED(hRes=pRaskroy->SetRecursionDepth(Depth))) throw raskroy_error("SetRecursionDepth", hRes);}
 	    void SetFactory(raskroy::t_factory &factory) {assert(pRaskroy); HRESULT hRes; if (FAILED(hRes=pRaskroy->SetFactory(&factory))) throw raskroy_error("SetFactory", hRes);}
 		void SetMonitor(raskroy::monitor &monitor) {assert(pRaskroy); HRESULT hRes; if (FAILED(hRes=pRaskroy->SetMonitor(&monitor))) throw raskroy_error("SetMonitor", hRes);}
-	    bool First(const std::vector<raskroy::t_part> &Parts, const std::vector<raskroy::t_part> &Sheets, Result1 &Result)  {assert(pRaskroy); HRESULT hRes; bool Ret; IResult1* pResult; if (FAILED(hRes = pRaskroy->First(Parts.begin(), Parts.size(), Sheets.begin(), Sheets.size(), &pResult, &Ret))) throw raskroy_error("Next", hRes); Result1 OldResult(Result.reset(pResult)); return Ret;}
+
+	    bool First(const std::vector<raskroy::t_part> &Parts, const std::vector<raskroy::t_part> &Sheets, Result1 &Result)
+		{
+			assert(pRaskroy);
+			HRESULT hRes;
+			bool Ret;
+			IResult1* pResult;
+			if (FAILED(hRes = pRaskroy->First(&*Parts.begin(), Parts.size(), &*Sheets.begin(), Sheets.size(), &pResult, &Ret)))
+				throw raskroy_error("Next", hRes); Result1 OldResult(Result.reset(pResult));
+			return Ret;
+		}
+
 		bool Next(Result1& Result) {assert(pRaskroy); HRESULT hRes; bool Ret; IResult1* pResult; if (FAILED(hRes = pRaskroy->Next(&pResult, &Ret))) throw raskroy_error("Next", hRes); Result1 OldResult(Result.reset(pResult)); return Ret;}
 	};
 
