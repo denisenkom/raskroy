@@ -4,15 +4,15 @@
 #include "Raskroy.h"
 #include "convertors.h"
 
-#include "c:\gilotine\types.hpp"
-#include "c:\gilotine\raskroy.h"
-#include "c:\gilotine\raskroy.cpp"
-#include "c:\gilotine\perebor_2d.cpp"
-#include "c:\gilotine\perebor.cpp"
-#include "c:\gilotine\parser.h"
-#include "c:\gilotine\drawer.h"
-#include "c:\gilotine\parser.cpp"
-#include "c:\gilotine\drawer.cpp"
+#include "..\..\types.hpp"
+#include "..\..\raskroy.h"
+#include "..\..\raskroy.cpp"
+#include "..\..\perebor_2d.cpp"
+#include "..\..\perebor.cpp"
+#include "..\..\parser.h"
+#include "..\..\drawer.h"
+#include "..\..\parser.cpp"
+#include "..\..\drawer.cpp"
 
 /////////////////////////////////////////////////////////////////////////////
 // CRaskroy
