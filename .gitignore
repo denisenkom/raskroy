@@ -2,3 +2,9 @@
 *.~h
 *.o
 *.aps
+*.sdf
+*.opensdf
+*.suo
+*.vcxproj.user
+*.plg
+*.ncb
