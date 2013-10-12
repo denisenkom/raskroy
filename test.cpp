@@ -19,16 +19,16 @@ void test_perebor()
 	OtherSize os;
 	os.Offset = 0;
 	os.Value = 100;
-	sz.OtherSizes.push_back(os);
+	sz.other_sizes.push_back(os);
 
 	os.Offset = 2;
 	os.Value = 200;
-	sz.OtherSizes.push_back(os);
+	sz.other_sizes.push_back(os);
 
 	os.Offset = 1;
 	os.Value = 30;
-	sz.OtherSizes.push_back(os);
-	sz.OtherSizes.SetMin();
+	sz.other_sizes.push_back(os);
+	sz.other_sizes.SetMin();
 
 	Amounts rem(3);
 	rem[0] = 1;
@@ -63,7 +63,7 @@ void display_sizes(Sizes sizes[])
 		{
 			const Size &size = *i;
 			cout << size.Value << ": ";
-			for (OtherSizes::const_iterator j = size.OtherSizes.begin(); j != size.OtherSizes.end(); j++)
+			for (OtherSizes::const_iterator j = size.other_sizes.begin(); j != size.other_sizes.end(); j++)
 				cout << j->Value << " ";
 			cout << endl;
 		}
@@ -145,7 +145,7 @@ void test_gilotine()
 		Parser pr;
 		t_parsed_result pres;
 		pr.Parse(res, pres, g.get_SawThickness());
-		assert(pr.get_DetailsSummarySquare() == s.begin()->Rect.Size[0] * s.begin()->Rect.Size[1] - res.Statistics.Opilki - res.Statistics.UnusefulRemain - res.Statistics.UsefulRemain);
+		assert(pr.get_DetailsSummarySquare() == s.begin()->rect.Size[0] * s.begin()->rect.Size[1] - res.Statistics.Opilki - res.Statistics.UnusefulRemain - res.Statistics.UsefulRemain);
 		//stringstream fname;
 		//fname << "raskroy" << index++ << ".emf";
 		HDC hdcemf;
