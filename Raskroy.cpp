@@ -67,7 +67,7 @@ float Raskroy::GetPercentCompleted()
 	}
 	else
 	{
-		return (float)m_perebor2d.CompletedCounter / total * 100.0f;
+		return (float)m_perebor2d.GetCompletedCounter() / total * 100.0f;
 	}
 }
 

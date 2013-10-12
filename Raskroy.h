@@ -19,7 +19,6 @@ public:
 	void Begin(Parts &parts, const Parts &sheets);
 	bool NextResult(t_result &res);
 
-	__declspec(property(get = GetPercentCompleted)) float PercentCompleted;
 	float GetPercentCompleted();
 
 private:
