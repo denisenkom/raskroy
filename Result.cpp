@@ -57,7 +57,7 @@ void t_raskroy::CheckAndCalcStat(scalar cutThickness, const Rect& rect, Stat* ou
 {
 	Stat stat;
 	stat.MakeZero();
-	stat.Opilki += (double)rect.Size[!s] * (double)min(cutThickness, rect.Size[s] - (cut + cutThickness) * kratnostj + cutThickness);
+	stat.Opilki += (double)rect.Size[!s] * (double)std::min(cutThickness, rect.Size[s] - (cut + cutThickness) * kratnostj + cutThickness);
 	scalar detailsWithCutsLength = 0;
 	unsigned cuts = 0;
 	for(t_details::const_iterator i = details.begin(); i != details.end(); i++)
@@ -65,14 +65,14 @@ void t_raskroy::CheckAndCalcStat(scalar cutThickness, const Rect& rect, Stat* ou
 		detailsWithCutsLength += (i->size + cutThickness) * i->num;
 		cuts += i->num;
 	}
-	stat.Opilki += ((cut + cutThickness) * kratnostj - cutThickness) * min(cutThickness, rect.Size[!s] - detailsWithCutsLength + cutThickness);
+	stat.Opilki += ((cut + cutThickness) * kratnostj - cutThickness) * std::min(cutThickness, rect.Size[!s] - detailsWithCutsLength + cutThickness);
 	stat.Opilki += (detailsWithCutsLength - cutThickness) * cutThickness * (kratnostj - 1);
 	stat.Opilki += cut * cutThickness * (cuts - 1) * kratnostj;
 
 	Stat remainStat;
 	Rect remainRect;
-	remainRect.Size[s] = max((cut + cutThickness) * kratnostj - cutThickness, 0);
-	remainRect.Size[!s] = max(rect.Size[!s] - detailsWithCutsLength, 0);
+	remainRect.Size[s] = std::max<scalar>((cut + cutThickness) * kratnostj - cutThickness, 0);
+	remainRect.Size[!s] = std::max<scalar>(rect.Size[!s] - detailsWithCutsLength, 0);
 	if(premain != 0)
 	{
 		premain->CheckAndCalcStat(cutThickness, remainRect, &remainStat);
@@ -85,7 +85,7 @@ void t_raskroy::CheckAndCalcStat(scalar cutThickness, const Rect& rect, Stat* ou
 	stat += remainStat;
 	Stat recurseStat;
 	Rect recurseRect;
-	recurseRect.Size[s] = max(rect.Size[s] - (cut + cutThickness) * kratnostj, 0);
+	recurseRect.Size[s] = std::max<scalar>(rect.Size[s] - (cut + cutThickness) * kratnostj, 0);
 	recurseRect.Size[!s] = rect.Size[!s];
 	if(precurse != 0)
 	{
