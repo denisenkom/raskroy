@@ -3,9 +3,9 @@
 
 #include "stdafx.h"
 #include <iostream>
-#include "raskroy.h"
-#include "parser.h"
-#include "drawer.h"
+#include "Raskroy.h"
+#include "Parser.h"
+#include "Drawer.h"
 
 using namespace Denisenko::Raskroy;
 using namespace std;
