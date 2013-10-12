@@ -236,6 +236,8 @@ bool Perebor2d::Recursion(Sizes::iterator begin, const Rect &rect, Stat &stat, i
 				first = false;
 			}
 		}
+		if (!first)
+			break;
 	}
 	// Если был результат
 	if (!first)
