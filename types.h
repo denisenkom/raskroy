@@ -6,6 +6,9 @@
 namespace Denisenko {
 namespace Raskroy {
 
+#if _MSC_VER
+	typedef __int64 int64_t;
+#endif
 typedef int64_t scalar;
 
 struct Rect {
