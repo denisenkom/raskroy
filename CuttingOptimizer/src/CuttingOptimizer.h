@@ -43,7 +43,7 @@ namespace Optimizing {
 		property List<Sheet^>^ Sheets { List<Sheet^>^ get() { return m_sheets; } }
 		property ParametersCollection^ Parameters { ParametersCollection^ get() { return m_parameters; } }
 		property CuttingScheme^ CurrentResult { CuttingScheme^ get() { return m_result; } }
-		property Single PercentCompleted { Single get() { return m_raskroy->PercentCompleted; } } // thread safe
+		property Single PercentCompleted { Single get() { return m_raskroy->GetPercentCompleted(); } } // thread safe
 
 		void Reset()
 		{
@@ -99,8 +99,8 @@ namespace Optimizing {
 			for(Int32 i = 0; i < Parts->Count; i++)
 			{
 				Denisenko::Raskroy::Part part;
-				part.Rect.Size[0] = ToScaled(Parts[i]->Length);
-				part.Rect.Size[1] = ToScaled(Parts[i]->Width);
+				part.rect.Size[0] = ToScaled(Parts[i]->Length);
+				part.rect.Size[1] = ToScaled(Parts[i]->Width);
 				part.Rotate = Parts[i]->CanRotate;
 				part.Amount = Parts[i]->Quantity;
 				part.Tag = i;
@@ -115,8 +115,8 @@ namespace Optimizing {
 			for(Int32 i = 0; i < Sheets->Count; i++)
 			{
 				Denisenko::Raskroy::Part sheet;
-				sheet.Rect.Size[0] = ToScaled(Sheets[i]->Width - Parameters->CutOffLeft - Parameters->CutOffRight);
-				sheet.Rect.Size[1] = ToScaled(Sheets[i]->Height - Parameters->CutOffTop - Parameters->CutOffBottom);
+				sheet.rect.Size[0] = ToScaled(Sheets[i]->Width - Parameters->CutOffLeft - Parameters->CutOffRight);
+				sheet.rect.Size[1] = ToScaled(Sheets[i]->Height - Parameters->CutOffTop - Parameters->CutOffBottom);
 				sheet.Tag = i;
 				result.push_back(sheet);
 			}
