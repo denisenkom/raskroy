@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C++ Express 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "guillotine", "guillotine.vcxproj", "{5961E628-B5A4-4A05-A31E-6B035E5A8FCD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5961E628-B5A4-4A05-A31E-6B035E5A8FCD}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5961E628-B5A4-4A05-A31E-6B035E5A8FCD}.Debug|Win32.Build.0 = Debug|Win32
+		{5961E628-B5A4-4A05-A31E-6B035E5A8FCD}.Release|Win32.ActiveCfg = Release|Win32
+		{5961E628-B5A4-4A05-A31E-6B035E5A8FCD}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
