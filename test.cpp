@@ -43,16 +43,13 @@ TEST(OriginalTests, test_perebor)
 	scalar size = 260+4*4;
 	double opilki;
 	scalar remain;
-	bool res = p.Make(sz, size, det, rash, remain, opilki);
-	if (res == true)
-	{
-		cout << "On size " << size << " was allocated:" << endl;
-		for (t_raskroy::t_details::const_iterator i = det.begin(); i != det.end(); i++)
-		{
-			cout << i->size << ":" << i->num << endl;
-		}
-		cout << "The remain is:" << remain << endl;
-	}
+	EXPECT_TRUE(p.Make(sz, size, det, rash, remain, opilki));
+	EXPECT_EQ(3 * 100 * 4, opilki);
+	Amounts expected_use(3);
+	expected_use[1] = 2;
+	expected_use[2] = 1;
+	EXPECT_EQ(expected_use, rash);
+	EXPECT_EQ(4, remain);
 }
 
 void display_sizes(Sizes sizes[])
