@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="windows-1251"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="CuttingOptimizer"
 	ProjectGUID="{E3D1B48A-C56C-4C17-A001-DB8C9AB9221C}"
 	RootNamespace="CuttingOptimizer"
@@ -42,6 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories=".."
 				PreprocessorDefinitions="WIN32;_DEBUG"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
@@ -117,6 +118,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				FavorSizeOrSpeed="1"
+				AdditionalIncludeDirectories=".."
 				PreprocessorDefinitions="WIN32;NDEBUG"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="false"
@@ -211,6 +213,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\common.h"
+				>
+			</File>
+			<File
 				RelativePath="src\CuttingOptimizer.cpp"
 				>
 			</File>
@@ -223,31 +229,39 @@
 				>
 			</File>
 			<File
-				RelativePath="src\errors.h"
+				RelativePath="..\errors.h"
 				>
 			</File>
 			<File
-				RelativePath="src\Perebor.cpp"
+				RelativePath="..\Parser.cpp"
 				>
 			</File>
 			<File
-				RelativePath="src\Perebor.h"
+				RelativePath="..\Parser.h"
 				>
 			</File>
 			<File
-				RelativePath="src\Perebor2d.cpp"
+				RelativePath="..\Perebor.cpp"
 				>
 			</File>
 			<File
-				RelativePath="src\Perebor2d.h"
+				RelativePath="..\Perebor.h"
 				>
 			</File>
 			<File
-				RelativePath="src\Raskroy.cpp"
+				RelativePath="..\Perebor2d.cpp"
 				>
 			</File>
 			<File
-				RelativePath="src\Raskroy.h"
+				RelativePath="..\Perebor2d.h"
+				>
+			</File>
+			<File
+				RelativePath="..\Raskroy.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\Raskroy.h"
 				>
 			</File>
 			<File
@@ -255,11 +269,11 @@
 				>
 			</File>
 			<File
-				RelativePath="src\Result.cpp"
+				RelativePath="..\Result.cpp"
 				>
 			</File>
 			<File
-				RelativePath="src\Result.h"
+				RelativePath="..\Result.h"
 				>
 			</File>
 			<File
@@ -287,11 +301,11 @@
 				>
 			</File>
 			<File
-				RelativePath="src\types.cpp"
+				RelativePath="..\types.cpp"
 				>
 			</File>
 			<File
-				RelativePath="src\types.h"
+				RelativePath="..\types.h"
 				>
 			</File>
 		</Filter>
