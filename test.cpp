@@ -6,7 +6,6 @@
 #include <gtest/gtest.h>
 #include "Raskroy.h"
 #include "Parser.h"
-#include "Drawer.h"
 
 using namespace Denisenko::Raskroy;
 using namespace std;
@@ -146,8 +145,8 @@ TEST(OriginalTests, test_gilotine)
 		assert(pr.get_DetailsSummarySquare() == s.begin()->rect.Size[0] * s.begin()->rect.Size[1] - res.Statistics.Opilki - res.Statistics.UnusefulRemain - res.Statistics.UsefulRemain);
 		//stringstream fname;
 		//fname << "raskroy" << index++ << ".emf";
-		HDC hdcemf;
-		hdcemf = ::CreateEnhMetaFile(NULL, /*fname.str().c_str()*/NULL, NULL, 0);
+		/*HDC hdcemf;
+		hdcemf = ::CreateEnhMetaFile(NULL, NULL, NULL, 0);
 		assert(hdcemf);
 		Drawer d(hdcemf);
 		int horzsize = ::GetDeviceCaps(hdcemf, HORZSIZE);
@@ -164,7 +163,7 @@ TEST(OriginalTests, test_gilotine)
 		bres2 = CloseClipboard();
 		assert(bres2);
 		bres2 = DeleteEnhMetaFile(hemf);
-		assert(bres2);
+		assert(bres2);*/
 	}
 }
 

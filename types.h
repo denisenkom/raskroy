@@ -6,7 +6,7 @@
 namespace Denisenko {
 namespace Raskroy {
 
-typedef __int64 scalar;
+typedef int64_t scalar;
 
 struct Rect {
 	scalar Size[2];
