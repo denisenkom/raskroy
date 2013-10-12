@@ -113,7 +113,7 @@ void Parser::Parse(const t_result& result1, t_parsed_result& result2, scalar saw
 	result2.stat = result1.Statistics;
 	result2.sheet = *result1.sheet;
 	scalar pos[2] = {0, 0};
-	Recursion(pos, result1.sheet->Rect, result1.raskroy);
+	Recursion(pos, result1.sheet->rect, result1.raskroy);
 }
 
 } // namespace Denisenko

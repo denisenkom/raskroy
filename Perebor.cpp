@@ -77,12 +77,12 @@ scalar Perebor::Recursion(scalar i_size, Amounts &o_rashods)
 // ¬озвращает true если хот€ бы одна деталь установлена
 bool Perebor::Make(const Size &size, scalar otherSize, t_raskroy::t_details &o_details, Amounts &o_rashods, scalar &o_remain, double &o_opilki)
 {
-	if (otherSize < size.OtherSizes.Min->Value)
+	if (otherSize < size.other_sizes.Min->Value)
 		return false;
 
 	// настройка переменных дл€ рекурсии
-	m_pOtherSize = size.OtherSizes.begin();
-	m_pEndOtherSize = size.OtherSizes.end();
+	m_pOtherSize = size.other_sizes.begin();
+	m_pEndOtherSize = size.other_sizes.end();
 	m_pEndOtherSize--;
 	// рекурсивный подбор дл€ размеров [i..end]
 	scalar remain = Recursion(otherSize, o_rashods);
@@ -92,7 +92,7 @@ bool Perebor::Make(const Size &size, scalar otherSize, t_raskroy::t_details &o_d
 	assert(!o_rashods.IsAllZeros());
 
 	unsigned cuts = 0;// количество пилов
-	for (OtherSizes::const_iterator pOtherSize = size.OtherSizes.begin(); pOtherSize != size.OtherSizes.end(); pOtherSize++)
+	for (OtherSizes::const_iterator pOtherSize = size.other_sizes.begin(); pOtherSize != size.other_sizes.end(); pOtherSize++)
 	{
 		unsigned rashod = o_rashods[pOtherSize->Offset];
 		if (rashod > 0)

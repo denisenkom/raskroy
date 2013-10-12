@@ -90,8 +90,8 @@ void Drawer::ResetWnd(HWND hwnd)
 
 void Drawer::Draw(int width, int height, const t_parsed_parts& parts, const t_parsed_cuts& cuts, const Part& sheet)
 {
-	double scalex = width / (double)sheet.Rect.Size[0];
-    double scaley = height / (double)sheet.Rect.Size[1];
+	double scalex = width / (double)sheet.rect.Size[0];
+    double scaley = height / (double)sheet.rect.Size[1];
     double scale;
     if (scalex < scaley)
     	scale = scalex;
@@ -103,8 +103,8 @@ void Drawer::Draw(int width, int height, const t_parsed_parts& parts, const t_pa
 	// рисуем лист
 	hres = SelectObject(m_hdc, m_hhatchbrush);
 	assert(hres != NULL);
-	BOOL bres = Rectangle(m_hdc, 0, 0, int(sheet.Rect.Size[0] * scale),
-		int(sheet.Rect.Size[1] * scale));
+	BOOL bres = Rectangle(m_hdc, 0, 0, int(sheet.rect.Size[0] * scale),
+		int(sheet.rect.Size[1] * scale));
     assert(bres != FALSE);
 
 	// рисуем детали

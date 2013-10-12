@@ -20,7 +20,7 @@ struct Rect {
 };
 
 struct Part {
-	Rect Rect;
+	Rect rect;
 	bool Rotate;
 	unsigned Amount;
 	unsigned AmountOffset;
@@ -28,12 +28,12 @@ struct Part {
 
 	Part() {}
 	Part(scalar size0, scalar size1, bool rotate = false, unsigned amount = 0)
-		: Rect(size0, size1), Rotate(rotate), Amount(amount) {}
+		: rect(size0, size1), Rotate(rotate), Amount(amount) {}
 
 	bool operator == (const Part& b) const
 	{
-		return(Rect.Size[0] == b.Rect.Size[0] && Rect.Size[1] == b.Rect.Size[1] ||
-			(Rotate || b.Rotate) && Rect.Size[1] == b.Rect.Size[0] && Rect.Size[0] == b.Rect.Size[1]);
+		return(rect.Size[0] == b.rect.Size[0] && rect.Size[1] == b.rect.Size[1] ||
+			(Rotate || b.Rotate) && rect.Size[1] == b.rect.Size[0] && rect.Size[0] == b.rect.Size[1]);
 	}
 };	// 16+4+4+4+4=32B
 
@@ -156,7 +156,7 @@ public:
 
 struct Size {
 	scalar Value;
-	OtherSizes OtherSizes;
+	OtherSizes other_sizes;
 	bool operator < (const Size& b) const {return Value < b.Value;}
 };
 

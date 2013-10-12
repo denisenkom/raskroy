@@ -12,25 +12,25 @@ void Raskroy::RemoveExostedSizes(void)
 		Sizes::iterator pSize = m_sizes[s].begin();
 		while (pSize != m_sizes[s].end())
 		{
-			OtherSizes::iterator pOtherSize = pSize->OtherSizes.begin();
-			while (pOtherSize != pSize->OtherSizes.end())
+			OtherSizes::iterator pOtherSize = pSize->other_sizes.begin();
+			while (pOtherSize != pSize->other_sizes.end())
 			{
 				if (m_remains[pOtherSize->Offset] == 0)
 				{
-					pSize->OtherSizes.erase(pOtherSize);
-					pOtherSize = pSize->OtherSizes.begin();
+					pSize->other_sizes.erase(pOtherSize);
+					pOtherSize = pSize->other_sizes.begin();
 				}
 				else
 					pOtherSize++;
 			}
-			if (pSize->OtherSizes.empty())
+			if (pSize->other_sizes.empty())
 			{
 				m_sizes[s].erase(pSize);
 				pSize = m_sizes[s].begin();
 			}
 			else
 			{
-				pSize->OtherSizes.SetMin();
+				pSize->other_sizes.SetMin();
 				pSize++;
 			}
 		}
@@ -50,9 +50,9 @@ void Raskroy::Begin(Parts &parts, const Parts &sheets)
 		std::sort(m_sizes[s].begin(), m_sizes[s].end());
 		for (Sizes::iterator pSize = m_sizes[s].begin(); pSize != m_sizes[s].end(); pSize++)
 		{
-			std::sort(pSize->OtherSizes.begin(), pSize->OtherSizes.end());
+			std::sort(pSize->other_sizes.begin(), pSize->other_sizes.end());
 			// установка указателя на минимальный размер
-			pSize->OtherSizes.SetMin();
+			pSize->other_sizes.SetMin();
 		}
 	}
 	m_sheets = sheets;
@@ -91,7 +91,7 @@ bool Raskroy::NextResult(t_result& out)
 		stat.MakeZero();
 		t_raskroy raskroy;
 		Amounts rashod(m_remains.size());
-		if (!m_perebor2d.Optimize(pSheet->Rect, stat, 0, raskroy, rashod))
+		if (!m_perebor2d.Optimize(pSheet->rect, stat, 0, raskroy, rashod))
 			continue;
 		if (bestResult.Statistics < stat || first) {
 			bestResult.amount = m_remains / rashod;
@@ -122,7 +122,7 @@ bool Raskroy::NextResult(t_result& out)
 void Raskroy::CheckResult(const t_result& result)
 {
 	Stat stat;
-	result.raskroy.CheckAndCalcStat(this->get_SawThickness(), result.sheet->Rect, &stat);
+	result.raskroy.CheckAndCalcStat(this->get_SawThickness(), result.sheet->rect, &stat);
 	assert(result.Statistics.IsEqual(stat, 1000000.0));
 }
 

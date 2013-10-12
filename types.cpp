@@ -48,14 +48,14 @@ void Sizes::AddSize(scalar size, scalar otherSize, unsigned amount, Amounts &amo
 	{
 		Size newSize;
 		newSize.Value = size;
-		newSize.OtherSizes.push_back(OtherSize(otherSize, amount, amounts, haveOffset, offset));
+		newSize.other_sizes.push_back(OtherSize(otherSize, amount, amounts, haveOffset, offset));
 		push_back(newSize);
 	}
 	else
 	{
-		OtherSizes::iterator pOtherSize = pSize->OtherSizes.Find(otherSize);
-		if (pOtherSize == pSize->OtherSizes.end())
-			pSize->OtherSizes.push_back(OtherSize(otherSize, amount, amounts, haveOffset, offset));
+		OtherSizes::iterator pOtherSize = pSize->other_sizes.Find(otherSize);
+		if (pOtherSize == pSize->other_sizes.end())
+			pSize->other_sizes.push_back(OtherSize(otherSize, amount, amounts, haveOffset, offset));
 		else
 			amounts[pOtherSize->Offset] += amount;
 	}
@@ -63,9 +63,9 @@ void Sizes::AddSize(scalar size, scalar otherSize, unsigned amount, Amounts &amo
 
 void Sizes::AddPart(Part &part, unsigned s, Amounts &amounts)
 {
-	AddSize(part.Rect.Size[s], part.Rect.Size[!s], part.Amount, amounts, s == 1, part.AmountOffset);
-	if (part.Rotate && part.Rect.Size[s] != part.Rect.Size[!s])
-		AddSize(part.Rect.Size[!s], part.Rect.Size[s], part.Amount, amounts, true, part.AmountOffset);
+	AddSize(part.rect.Size[s], part.rect.Size[!s], part.Amount, amounts, s == 1, part.AmountOffset);
+	if (part.Rotate && part.rect.Size[s] != part.rect.Size[!s])
+		AddSize(part.rect.Size[!s], part.rect.Size[s], part.Amount, amounts, true, part.AmountOffset);
 }
 
 Amounts& Amounts::operator += (const Amounts &amounts)
