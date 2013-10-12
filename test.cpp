@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include <iostream>
+#include <gtest/gtest.h>
 #include "Raskroy.h"
 #include "Parser.h"
 #include "Drawer.h"
@@ -10,7 +11,7 @@
 using namespace Denisenko::Raskroy;
 using namespace std;
 
-void test_perebor()
+TEST(OriginalTests, test_perebor)
 {
 	// testing perebor
 	Size sz;
@@ -32,8 +33,8 @@ void test_perebor()
 
 	Amounts rem(3);
 	rem[0] = 1;
-	rem[2] = 2;
-	rem[3] = 3;
+	rem[1] = 2;
+	rem[2] = 3;
 
 	Perebor p(&rem, 4);
 	Stat stat;
@@ -101,7 +102,7 @@ void print_raskroy(int level, const t_raskroy &ras)
 	cout << spaces << "} end\n";
 }
 
-void test_gilotine()
+TEST(OriginalTests, test_gilotine)
 {
 	Raskroy g;
 	Parts p;
@@ -170,7 +171,7 @@ void test_gilotine()
 	}
 }
 
-void Chorometrage()
+TEST(OriginalTests, Chorometrage)
 {
 	Raskroy g;
 	Parts p;
@@ -209,7 +210,7 @@ void Chorometrage()
 	}
 }
 
-void Chorometrage2()
+TEST(OriginalTests, Chorometrage2)
 {
 	Raskroy g;
 	Parts p;
@@ -251,7 +252,7 @@ void Chorometrage2()
 	}
 }
 
-void RealKitchen()
+TEST(OriginalTests, RealKitchen)
 {
 	Raskroy g;
 	Parts p;
@@ -303,16 +304,7 @@ void RealKitchen()
 	}
 }
 
-int main()
-{
-	for(int i = 0; i < 5; i++)
-	{
-		DWORD startTime = timeGetTime();
-		RealKitchen();
-		DWORD endTime = timeGetTime();
-		cout << "Time elapsed (msec): " << endTime - startTime << endl;
-	}
-	//string x;
-	//cin >> x;
-	return 0;
+int main(int argc, char **argv) {
+  ::testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
 }
