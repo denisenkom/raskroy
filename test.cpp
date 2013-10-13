@@ -167,6 +167,35 @@ TEST(OriginalTests, test_gilotine)
 	}
 }
 
+
+TEST(OriginalTests, test_gilotine2)
+{
+    Raskroy g;
+    Parts p;
+
+    p.push_back(Part(9, 6, true, 1));
+    p.push_back(Part(3, 3, true, 3));
+
+    Parts s;
+    g.put_SawThickness(1);
+    s.push_back(Part(11, 11));
+    t_result res;
+    g.Begin(p, s);
+    int num = 0;
+    while (g.NextResult(res))
+    {
+        Parser pr;
+        t_parsed_result pres;
+        pr.Parse(res, pres, g.get_SawThickness());
+        ASSERT_EQ(pr.get_DetailsSummarySquare(),
+            s.begin()->rect.Size[0] * s.begin()->rect.Size[1] - res.Statistics.Opilki - res.Statistics.UnusefulRemain - res.Statistics.UsefulRemain);
+        num++;
+    }
+    ASSERT_EQ(1, num) << "Should produce single result";
+    ASSERT_LE(6, res.Statistics.UnusefulRemain + res.Statistics.UsefulRemain);
+}
+
+
 TEST(OriginalTests, Chorometrage)
 {
 	Raskroy g;
