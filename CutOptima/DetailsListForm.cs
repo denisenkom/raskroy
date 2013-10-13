@@ -140,5 +140,50 @@ namespace Denisenko.Cutting.CutOptima
 		{
 			Mediator.Instance.DataGridView_DataError(sender, e);
 		}
+
+        private void detailsListsDetailsDataGridView_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.C)
+            {
+                DataObject d = detailsListsDetailsDataGridView.GetClipboardContent();
+                Clipboard.SetDataObject(d);
+                e.Handled = true;
+            }
+            else if (e.Control && e.KeyCode == Keys.V)
+            {
+                string s = Clipboard.GetText();
+                string[] lines = s.Split('\n');
+                int row = detailsListsDetailsDataGridView.CurrentCell.RowIndex;
+                int col = detailsListsDetailsDataGridView.CurrentCell.ColumnIndex;
+                foreach (string line in lines)
+                {
+                    try
+                    {
+                        if (row >= detailsListsDetailsDataGridView.RowCount)
+                        {
+                            break;
+                        }
+                        string[] cells = line.Split('\t');
+                        for (int i = 0; i < cells.GetLength(0); ++i)
+                        {
+                            if (col + i < this.detailsListsDetailsDataGridView.ColumnCount)
+                            {
+                                detailsListsDetailsDataGridView[col + i, row].Value = Convert.ChangeType(cells[i], detailsListsDetailsDataGridView[col + i, row].ValueType);
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        row++;
+                        detailsListsDetailsBindingSource.AddNew();
+                    }
+                    catch (Exception)
+                    {
+                        break;
+                    }
+                }
+            }
+        }
 	}
 }
