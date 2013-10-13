@@ -28,7 +28,7 @@ namespace Denisenko.Cutting.CutOptima
             {
                 m_detailsListsIDs = new Int32[m_detailsPage.DetailsList.Rows.Count];
                 Int32 i = 0;
-                foreach (DataSet.DetailsListsRow row in m_detailsPage.DetailsList.Rows)
+                foreach (WizDataSet.WizDetailsListsRow row in m_detailsPage.DetailsList.Rows)
                 {
                     m_detailsListsIDs[i] = row.DetailsListID;
                     i++;
@@ -36,7 +36,7 @@ namespace Denisenko.Cutting.CutOptima
 
                 m_sheetsIDs = new Int32[m_sheetsPage.SheetsList.Rows.Count];
                 i = 0;
-                foreach (DataSet.SheetsRow row in m_sheetsPage.SheetsList.Rows)
+                foreach (WizDataSet.WizSheetsRow row in m_sheetsPage.SheetsList.Rows)
                 {
                     m_sheetsIDs[i] = row.SheetID;
                     i++;
