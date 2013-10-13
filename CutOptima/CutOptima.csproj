@@ -88,6 +88,10 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CuttingOptimizer, Version=1.0.1.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CuttingOptimizer\output\debug\CuttingOptimizer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -136,6 +140,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="ExistingDatabaseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExistingDatabaseForm.Designer.cs">
+      <DependentUpon>ExistingDatabaseForm.cs</DependentUpon>
     </Compile>
     <Compile Include="WizardPage.cs">
       <SubType>UserControl</SubType>
@@ -237,6 +247,9 @@
     <EmbeddedResource Include="CuttingResultForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>CuttingResultForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExistingDatabaseForm.resx">
+      <DependentUpon>ExistingDatabaseForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WizardPage.resx">
       <SubType>Designer</SubType>
@@ -355,10 +368,6 @@
     <ProjectReference Include="..\CuttingConvertors\CuttingConvertors.csproj">
       <Project>{F0A96F25-13FA-450C-8A08-14F7868B5570}</Project>
       <Name>CuttingConvertors</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CuttingOptimizer\CuttingOptimizer.vcproj">
-      <Project>{E3D1B48A-C56C-4C17-A001-DB8C9AB9221C}</Project>
-      <Name>CuttingOptimizer</Name>
     </ProjectReference>
     <ProjectReference Include="..\CuttingOptimizing\CuttingOptimizing.csproj">
       <Project>{74F40B10-CA86-4DD8-887C-7F7AFC6013B5}</Project>

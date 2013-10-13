@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
@@ -104,10 +105,18 @@ namespace Denisenko.Cutting.CutOptima
 
 		private void addButton_Click(object sender, EventArgs e)
 		{
-            WizardForm wiz = new WizardForm(new AddDbModePage());
-            wiz.ShowDialog(this);
-            //DBManager.Instance.CmdAddDatabase(this);
-            //UpdateDatabasesListBox();
+            ExistingDatabaseForm form = new ExistingDatabaseForm();
+            if (form.ShowDialog(this) == DialogResult.OK)
+            {
+                SqlConnectionStringBuilder bldr = new SqlConnectionStringBuilder();
+                bldr.DataSource = form.textBoxServer.Text;
+                bldr.InitialCatalog = form.textBoxDatabase.Text;
+                bldr.IntegratedSecurity = true;
+                bldr.ConnectTimeout = 5;
+                DBManager.Instance.AddDatabase(form.textBoxServer.Text, form.textBoxDatabase.Text);
+                //Properties.Settings.Default.Bases.Add(bldr.ToString());
+                UpdateDatabasesListBox();
+            }
         }
 
         private void buttonRemove_Click(object sender, EventArgs e)

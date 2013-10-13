@@ -317,7 +317,7 @@ namespace Denisenko.Cutting.CutOptima
 			return builder.ConnectionString;
 		}
 
-		private void AddDatabase(String server, String location)
+		public void AddDatabase(String server, String location)
 		{
 			if (Settings.Default.Bases == null)
 			{
