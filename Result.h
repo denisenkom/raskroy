@@ -57,6 +57,9 @@ public:
 	t_result(void) : amount(0) {}
 };
 
+// new preferred name for type
+typedef t_result Result;
+
 } // namespace Denisenko
 } // namespace Raskroy
 

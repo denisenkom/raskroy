@@ -32,6 +32,10 @@ struct t_parsed_result
 	unsigned amount;
 };
 
+// new preferred name for class
+typedef t_parsed_result ParsedResult;
+
+
 class Parser
 {
 	t_parsed_result *m_pOutResult;
