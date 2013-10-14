@@ -2,6 +2,9 @@
 #define TypesH
 
 #include <list>
+#include <math.h>
+#include <stdlib.h>
+#include <vector>
 
 namespace Denisenko {
 namespace Raskroy {
