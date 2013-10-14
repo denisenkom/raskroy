@@ -196,6 +196,36 @@ TEST(OriginalTests, test_gilotine2)
 }
 
 
+TEST(OriginalTests, test_skiny_details)
+{
+    Raskroy g;
+    Parts p;
+
+    p.push_back(Part(9, 1, true, 1));
+    p.push_back(Part(5, 5, true, 2));
+
+    Parts s;
+    g.put_SawThickness(0);
+    Part sheet = Part(10, 6);
+    s.push_back(sheet);
+    g.Begin(p, s);
+    Result res;
+    int num = 0;
+    while (g.NextResult(res))
+    {
+        Parser pr;
+        ParsedResult pres;
+        pr.Parse(res, pres, 0);
+        Stat stat = res.Statistics;
+        double remains = stat.Opilki + stat.UnusefulRemain + stat.UsefulRemain;
+        ASSERT_EQ(pr.get_DetailsSummarySquare(),
+                  sheet.rect.Size[0] * sheet.rect.Size[1] - remains);
+        num++;
+    }
+    ASSERT_EQ(1, num) << "Should produce single result";
+}
+
+
 TEST(OriginalTests, Chorometrage)
 {
 	Raskroy g;
