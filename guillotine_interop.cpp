@@ -102,13 +102,13 @@ Layout * _make_raskroy_layout(t_raskroy * raskroy,
                               Sheet sheet);
 
 
-Layout * _make_details_layout(t_raskroy * raskroy,
+void _make_details_layout(Layout * detail_layout,
+                              t_raskroy * raskroy,
                               scalar cut_size,
                               Sheet sheet) {
     cout << "in make_details_layout" << endl;
     cout << " raskroy->s: " << raskroy->s << endl;
     cout << " cut_size: " << cut_size << endl;
-    auto_ptr<Layout> detail_layout(new Layout);
     detail_layout->along = raskroy->s;
     cout << "detail_layout->along: " << detail_layout->along << endl;
     vector<LayoutElement> elements;
@@ -131,7 +131,7 @@ Layout * _make_details_layout(t_raskroy * raskroy,
             }
         }
     }
-    if (remain >= 0) {
+    if (remain > 0) {
         LayoutElement remain_el;
         remain_el.size = remain;
         if (raskroy->watchRemain()) {
@@ -149,7 +149,6 @@ Layout * _make_details_layout(t_raskroy * raskroy,
     }
     detail_layout->elements = _vector_to_array(elements);
     detail_layout->num_elements = elements.size();
-    return detail_layout.release();
 }
 
 
@@ -161,44 +160,52 @@ Layout * _make_raskroy_layout(t_raskroy * raskroy,
     cout << " raskroy->s: " << raskroy->s << endl;
     cout << " cut_size: " << cut_size << endl;
     auto_ptr<Layout> layout(new Layout);
-    layout->along = raskroy->s;
-    cout << "layout->along: " << layout->along << endl;
-    scalar remain = sheet.size[!layout->along];
-    cout << "remain: " << remain << endl;
-    vector<LayoutElement> elements;
-    for (t_raskroy * r = raskroy;
-            r; r = r->watchRecurse()) {
-        cout << "raskroy iteration" << endl;
-        cout << "r: " << r << endl;
-        cout << "r->s: " << r->s << endl;
-        if (r->details.size()) {
-            LayoutElement element;
-            element.type = ELEM_SUBLAYOUT;
-            element.size = r->cut;
-            Sheet subsheet = sheet;
-            subsheet.size[!layout->along] = element.size;
-            cout << "calling make_details_layout" << endl;
-            element.layout = _make_details_layout(r,
-                                                  cut_size,
-                                                  subsheet);
-            elements.push_back(element);
-            remain -= element.size;
-            if (remain > 0) {
-                LayoutElement cut_el;
-                cut_el.type = ELEM_CUT;
-                cut_el.size = min(remain, cut_size);
+    if (raskroy->watchRecurse()) {
+        layout->along = raskroy->s;
+        cout << "layout->along: " << layout->along << endl;
+        scalar remain = sheet.size[!layout->along];
+        cout << "remain: " << remain << endl;
+        vector<LayoutElement> elements;
+        for (t_raskroy * r = raskroy;
+                r; r = r->watchRecurse()) {
+            cout << "raskroy iteration" << endl;
+            cout << "r: " << r << endl;
+            cout << "r->s: " << r->s << endl;
+            if (r->details.size()) {
+                LayoutElement element;
+                element.type = ELEM_SUBLAYOUT;
+                element.size = r->cut;
+                Sheet subsheet = sheet;
+                subsheet.size[!layout->along] = element.size;
+                cout << "calling make_details_layout" << endl;
+                auto_ptr<Layout> detail_layout(new Layout);
+                _make_details_layout(layout.get(),
+                                     r,
+                                     cut_size,
+                                     subsheet);
+                element.layout = detail_layout.release();
                 elements.push_back(element);
+                remain -= element.size;
+                if (remain > 0) {
+                    LayoutElement cut_el;
+                    cut_el.type = ELEM_CUT;
+                    cut_el.size = min(remain, cut_size);
+                    elements.push_back(element);
+                }
             }
         }
+        if (remain > 0) {
+            LayoutElement remain_el;
+            remain_el.type = ELEM_REMAIN;
+            remain_el.size = remain;
+            elements.push_back(remain_el);
+        }
+        layout->elements = _vector_to_array(elements);
+        layout->num_elements = elements.size();
     }
-    if (remain >= 0) {
-        LayoutElement remain_el;
-        remain_el.type = ELEM_REMAIN;
-        remain_el.size = remain;
-        elements.push_back(remain_el);
+    else {
+        _make_details_layout(layout.get(), raskroy, cut_size, sheet);
     }
-    layout->elements = _vector_to_array(elements);
-    layout->num_elements = elements.size();
     cout << "returning" << endl;
     return layout.release();
 }
@@ -247,9 +254,9 @@ extern "C" int layout2d(
         cout << "&outer_result.raskroy: " << &outer_result.raskroy << endl;
         cout << "cut_size: " << cut_size << endl;
         cout << "sheet: " << sheet.size[0] << 'x' << sheet.size[1] << endl;
-        _make_raskroy_layout(&outer_result.raskroy,
-                             cut_size,
-                             sheet);
+        *res = _make_raskroy_layout(&outer_result.raskroy,
+                                    cut_size,
+                                    sheet);
     }
     return ret;
 }
