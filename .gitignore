@@ -28,3 +28,8 @@ COMRaskroy.h
 COMRaskroy_i.c
 COMRaskroy_p.c
 dlldata.c
+.*.swp
+CMakeCache.txt
+CMakeFiles
+*.pyc
+*.so
