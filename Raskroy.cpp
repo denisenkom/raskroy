@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include <functional>
 #include "errors.h"
 #include "Raskroy.h"
 
