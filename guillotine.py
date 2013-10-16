@@ -1,8 +1,12 @@
 import ctypes
 import os
+import platform
 
-path = os.path.abspath(os.path.join(os.path.dirname(__name__), "libguillotine_interop.so"))
-lib = ctypes.cdll.LoadLibrary(path)
+if platform.system() == "Windows":
+    lib = ctypes.cdll.guillotine_interop
+else:
+    path = os.path.abspath(os.path.join(os.path.dirname(__name__), "libguillotine_interop.so"))
+    lib = ctypes.cdll.LoadLibrary(path)
 _scalar = ctypes.c_longlong
 
 ELEM_REMAIN = 0
@@ -66,16 +70,11 @@ def layout2d(rects, sheet, cut_size=0):
         conv_rects[i].size[1] = rect["size"][1]
         conv_rects[i].amount = rect.get("amount", 1)
         conv_rects[i].can_rotate = rect.get("can_rotate", False)
-    conv_sheet = _Sheet()
-    conv_sheet.x = sheet[0]
-    conv_sheet.y = sheet[1]
     playout = ctypes.POINTER(_Layout)()
-    print ctypes.sizeof(conv_sheet)
-    print ctypes.sizeof(conv_rects)
-    #lib.test(ctypes.byref(conv_rects[0]), ctypes.c_uint(len(rects)), conv_sheet)
     ret = lib.layout2d(ctypes.byref(conv_rects[0]),
                        ctypes.c_uint(len(conv_rects)),
-                       conv_sheet,
+                       _scalar(sheet[0]),
+                       _scalar(sheet[1]),
                        _scalar(cut_size),
                        ctypes.byref(playout),
                        )

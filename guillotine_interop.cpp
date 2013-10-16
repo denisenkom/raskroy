@@ -225,13 +225,24 @@ Layout * _make_raskroy_layout(t_raskroy * raskroy,
 //}
 
 
-extern "C" int layout2d(
+#ifdef _MSC_VER
+#define DLLEXPORT __declspec(dllexport)
+#else
+#define DLLEXPORT
+#endif
+
+
+extern "C" int DLLEXPORT layout2d(
     LayoutRect * layout_rects,
     unsigned int num,
-    Sheet sheet,
+    scalar sheet_x,
+    scalar sheet_y,
     scalar cut_size,
     Layout ** res)
 {
+    Sheet sheet;
+    sheet.size[0] = sheet_x;
+    sheet.size[1] = sheet_y;
     Parts parts;
     for (unsigned int i = 0; i <= num; i++)
     {
@@ -262,7 +273,7 @@ extern "C" int layout2d(
 }
 
 
-extern "C" void free_layout(Layout * layout)
+extern "C" void DLLEXPORT free_layout(Layout * layout)
 {
     delete layout;
 }
