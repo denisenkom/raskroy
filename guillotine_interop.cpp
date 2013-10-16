@@ -253,6 +253,7 @@ extern "C" int DLLEXPORT layout2d(
     Parts sheets;
     sheets.push_back(Part(sheet.size[0], sheet.size[1]));
     Raskroy raskroy;
+    raskroy.put_SawThickness(cut_size);
     raskroy.Begin(parts, sheets);
     Result outer_result;
     LayoutElement cut_el;
