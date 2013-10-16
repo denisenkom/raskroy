@@ -90,13 +90,6 @@ LayoutElement * _vector_to_array(const vector<LayoutElement> & elements) {
 
 
 // forward declaration
-Layout * _test(t_raskroy * raskroy,
-                              scalar cut_size,
-                              Sheet sheet)
-{
-    return 0;
-}
-
 Layout * _make_raskroy_layout(t_raskroy * raskroy,
                               scalar cut_size,
                               Sheet sheet);
@@ -108,6 +101,7 @@ void _make_details_layout(Layout * detail_layout,
                               Sheet sheet) {
     cout << "in make_details_layout" << endl;
     cout << " raskroy->s: " << raskroy->s << endl;
+    cout << " raskroy->cut: " << raskroy->cut << endl;
     cout << " cut_size: " << cut_size << endl;
     detail_layout->along = raskroy->s;
     cout << "detail_layout->along: " << detail_layout->along << endl;
@@ -157,7 +151,11 @@ Layout * _make_raskroy_layout(t_raskroy * raskroy,
                               Sheet sheet) {
     cout << "in make_raskroy_layout" << endl;
     cout << " raskroy: " << raskroy << endl;
-    cout << " raskroy->s: " << raskroy->s << endl;
+    cout << "  s: " << raskroy->s << endl;
+    cout << "  cut: " << raskroy->cut << endl;
+    cout << "  details num: " << raskroy->details.size() << endl;
+    cout << "  recurse: " << raskroy->watchRecurse() << endl;
+    cout << "  remain: " << raskroy->watchRemain() << endl;
     cout << " cut_size: " << cut_size << endl;
     auto_ptr<Layout> layout(new Layout);
     if (raskroy->watchRecurse()) {
