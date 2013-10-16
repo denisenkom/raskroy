@@ -244,7 +244,7 @@ extern "C" int DLLEXPORT layout2d(
     sheet.size[0] = sheet_x;
     sheet.size[1] = sheet_y;
     Parts parts;
-    for (unsigned int i = 0; i <= num; i++)
+    for (unsigned int i = 0; i < num; i++)
     {
         LayoutRect * rect = &layout_rects[i];
         parts.push_back(Part(rect->size[0], rect->size[1],
