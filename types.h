@@ -149,6 +149,7 @@ public:
 	OtherSize(void) {};
 	OtherSize(scalar value, unsigned amount, Amounts &amounts, bool haveOffset, unsigned &offset);
 	bool operator < (const OtherSize& b) const {return Value < b.Value;}
+	bool operator >= (const OtherSize& b) const {return Value >= b.Value;}
 };
 
 class OtherSizes : public std::vector<OtherSize>
@@ -164,6 +165,7 @@ struct Size {
 	scalar Value;
 	OtherSizes other_sizes;
 	bool operator < (const Size& b) const {return Value < b.Value;}
+	bool operator >= (const Size& b) const {return Value >= b.Value;}
 };
 
 class Sizes : public std::vector<Size> {

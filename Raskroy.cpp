@@ -46,11 +46,12 @@ void Raskroy::Begin(Parts &parts, const Parts &sheets)
 		for (Parts::iterator pPart = parts.begin(); pPart != parts.end(); pPart++)
 			m_sizes[s].AddPart(*pPart, s, m_remains);
 
-		// Сортировка размеров
-		std::sort(m_sizes[s].begin(), m_sizes[s].end());
+        // order from big to small
+        std::sort(m_sizes[s].begin(), m_sizes[s].end(), std::greater_equal<Size>());
 		for (Sizes::iterator pSize = m_sizes[s].begin(); pSize != m_sizes[s].end(); pSize++)
 		{
-			std::sort(pSize->other_sizes.begin(), pSize->other_sizes.end());
+            std::sort(pSize->other_sizes.begin(), pSize->other_sizes.end(),
+                      std::greater_equal<OtherSize>());
 			// установка указателя на минимальный размер
 			pSize->other_sizes.SetMin();
 		}
