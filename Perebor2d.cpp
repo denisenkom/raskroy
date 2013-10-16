@@ -55,6 +55,91 @@ inline bool Perebor2d::Optimize(const Rect &rect, Stat &stat, int s, t_raskroy &
 	return false;
 }
 
+
+bool Perebor2d::new_optimize(const Rect &rect, Stat &stat, int s, t_raskroy &raskroy, Amounts &rashod)
+{
+    // choose best (biggest) size to start with
+    const Size * best_by_s = 0;
+    const Size * best_by_not_s = 0;
+    // get biggest size that fits by s
+    for (Sizes::const_iterator sizei = m_sizes[s].begin();
+         sizei != m_sizes[s].end(); sizei++)
+    {
+        if (sizei->Value <= rect.Size[s]) {
+            best_by_s = &*sizei;
+            break;
+        }
+    }
+    // get biggest size that fits by !s
+    for (Sizes::const_iterator sizei = m_sizes[!s].begin();
+         sizei != m_sizes[!s].end(); sizei++)
+    {
+        if (sizei->Value <= rect.Size[!s]) {
+            best_by_not_s = &*sizei;
+            break;
+        }
+    }
+    int best_s;
+    const Size * best_size;
+    if (!best_by_s || !best_by_not_s) {
+        return false;
+    } else if (best_by_s && best_by_not_s) {
+        // if both axises match, choose best of them
+        // best is the one with biggest usage ratio to sheet
+        // a/b > c/d is the same as a*d > c*b
+        if (best_by_s->Value * rect.Size[!s] >= best_by_not_s->Value * rect.Size[s]) {
+            best_s = s;
+            best_size = best_by_s;
+        } else {
+            best_s = !s;
+            best_size = best_by_not_s;
+        }
+    } else if (best_by_s) {
+        best_s = s;
+        best_size = best_by_s;
+    } else {
+        best_s = !s;
+        best_size = best_by_not_s;
+    }
+
+    // do 1D bin packing optimization
+	double opilki;
+	Amounts rashodPerebor(rashod.size());
+	scalar remain;
+    t_raskroy::t_details details;
+	if (!m_perebor.Make(*best_size, rect.Size[!best_s], details, rashodPerebor, remain, opilki))
+		return false;
+
+    scalar saw_size = m_perebor.get_SawThickness();
+    Rect parts_block;
+    parts_block.Size[best_s] = best_size->Value;
+    parts_block.Size[!best_s] = rect.Size[!best_s] - remain - saw_size;
+    scalar remain_bottom_height = rect.Size[1] - parts_block.Size[1] - saw_size;
+    scalar remain_right_width = rect.Size[0] - parts_block[0] - saw_size;
+
+    // choose "best" main cut direction, along 0 or 1 axis
+    // best is the one that produce remaining rect with biggest square
+    // consider cut along x (0) axis
+    double remain_x_bottom = double(rect.Size[0]) * double(remain_bottom_height);
+    double remain_x_right =  double(remain_right_width) * double(parts_block.Size[1]);
+    double max_remain_x = std::max(remain_x_bottom, remain_x_right);
+    // consider cut along y (1) axis
+    double remain_y_bottom = double(parts_block.Size[0]) * double(remain_bottom_height);
+    double remain_y_right = double(remain_right_width) * double(rect.Size[1]);
+    double max_remain_y = std::max(remain_y_bottom, remain_y_right);
+    if (max_remain_x >= max_remain_y) {
+        // best main cut is along x axis
+        Rect remain_bottom(rect.Size[0], remain_bottom_height);
+        Rect remain_right(remain_right_width, rect.Size[1]);
+        Stat bottom_stat;
+        t_raskroy bottom_layout;
+        Amounts bottom_consume(rashod.size());
+        if (Optimize(remain_bottom, bottom_stat, 0, bottom_layout, bottom_consume)) {
+        }
+    }
+}
+
+
 class NestingCounterGuard
 {
 public:
