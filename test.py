@@ -15,3 +15,17 @@ class TestCase(unittest.TestCase):
         #    {"along": 0, "elements": [{"type": 2, "rect": rect, "size": 5},
         #                              {"type": 2, "rect": rect, "size": 5}]},
         #    layout2d([rect], (10, 10)))
+
+    def test_skinny_detail(self):
+        # +-+---------+
+        # + +    2    +
+        # + +         +
+        # +1+---------+
+        # + +    2    +
+        # + +         +
+        # + +---------+
+        # +-+---------+
+        rect1 = {"size": (1, 10)}
+        rect2 = {"size": (9, 4), "num": 2}
+        res = layout2d([rect1, rect2], (10, 10))
+        print res
