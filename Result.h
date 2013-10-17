@@ -1,6 +1,7 @@
 #ifndef ResultH
 #define ResultH
 
+#include <memory>
 #include "types.h"
 
 namespace Denisenko {
