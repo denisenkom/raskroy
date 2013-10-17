@@ -115,6 +115,7 @@ void LayoutElementBuilder::_convert(LayoutElement & out) {
 
 
 void LayoutBuilder::simplify() {
+    // collapse trivial sublayouts
     bool simplify_more = true;
     while (simplify_more) {
         simplify_more = false;
@@ -128,11 +129,30 @@ void LayoutBuilder::simplify() {
         }
     }
 
+    // simplify all sub-layouts recursively
     for (std::list<LayoutElementBuilder>::iterator i = elements.begin();
          i != elements.end(); i++)
     {
         if (i->type == ELEM_SUBLAYOUT)
             i->layout->simplify();
+    }
+
+    // merge sublayouts with the same direction as current layout
+    simplify_more = true;
+    while (simplify_more) {
+        for (std::list<LayoutElementBuilder>::iterator i = elements.begin();
+             i != elements.end(); i++)
+        {
+            simplify_more = false;
+            if (i->type == ELEM_SUBLAYOUT && i->layout->axis == axis) {
+                LayoutBuilder * sublayout = i->layout;
+                elements.splice(i, sublayout->elements);
+                elements.erase(i);
+                delete sublayout;
+                simplify_more = true;
+                break;
+            }
+        }
     }
 }
 

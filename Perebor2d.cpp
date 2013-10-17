@@ -172,38 +172,32 @@ bool Perebor2d::new_optimize(const Rect &rect, LayoutBuilder &layout, Amounts &c
     std::auto_ptr<LayoutBuilder> pparts_layout(new LayoutBuilder);
     pparts_layout->axis = best_parts_axis;
     _parts_layout_fill(*pparts_layout, best_parts_axis, parts_block, details, saw_size);
-    if (parts_block.Size[x_axis] < remain_x) {
-        top_layout->append_sublayout(pparts_layout, parts_block.Size[x_axis]);
-        assert(parts_block.Size[x_axis] <= remain_x);
-        remain_x -= parts_block.Size[x_axis];
+    top_layout->append_sublayout(pparts_layout, parts_block.Size[x_axis]);
+    assert(parts_block.Size[x_axis] <= remain_x);
+    remain_x -= parts_block.Size[x_axis];
 
+    if (remain_x > 0) {
+        // vertical cut separating parts block and right remain
+        scalar cut_size = std::min(saw_size, remain_x);
+        top_layout->append_cut(cut_size);
+        remain_x -= cut_size;
+
+        // sublayout for right remain
         if (remain_x > 0) {
-            // vertical cut separating parts block and right remain
-            scalar cut_size = std::min(saw_size, remain_x);
-            top_layout->append_cut(cut_size);
-            remain_x -= cut_size;
-
-            // sublayout for right remain
-            if (remain_x > 0) {
-                Rect remain_right(remain_x, parts_block.Size[y_axis]);
-                std::auto_ptr<LayoutBuilder> pright_layout(new LayoutBuilder);
-                if (new_optimize(remain_right, *pright_layout, consume)) {
-                    top_layout->append_sublayout(pright_layout, remain_x);
-                } else {
-                    top_layout->append_remain(remain_x);
-                }
+            Rect remain_right(remain_x, parts_block.Size[y_axis]);
+            std::auto_ptr<LayoutBuilder> pright_layout(new LayoutBuilder);
+            if (new_optimize(remain_right, *pright_layout, consume)) {
+                top_layout->append_sublayout(pright_layout, remain_x);
+            } else {
+                top_layout->append_remain(remain_x);
             }
         }
-
-        // adding top sub-layout to resulting layout
-        layout.append_sublayout(top_layout, parts_block.Size[y_axis]);
-        remain_y -= parts_block.Size[y_axis];
-        assert(remain_y >= 0);
-    } else {
-        // optimize top sub-layout
-        layout.append_sublayout(pparts_layout, parts_block.Size[y_axis]);
-        remain_y -= parts_block.Size[y_axis];
     }
+
+    // adding top sub-layout to resulting layout
+    layout.append_sublayout(top_layout, parts_block.Size[y_axis]);
+    remain_y -= parts_block.Size[y_axis];
+    assert(remain_y >= 0);
 
     // horizontal cut separating top and bottom remain
     if (remain_y > 0) {
