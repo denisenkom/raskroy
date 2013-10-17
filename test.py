@@ -3,6 +3,7 @@ from guillotine import layout2d
 
 class TestCase(unittest.TestCase):
     def test_simple(self):
+        self.maxDiff = None
         rect = {"size": (10, 10)}
         res = layout2d([rect], (10, 10))
         self.assertIn(res["along"], (0, 1))
@@ -15,6 +16,7 @@ class TestCase(unittest.TestCase):
                 {"along": 1, "elements": [{"type": 2, "rect": rect, "size": 10}]},
                 res)
 
+        # two identical rectangles along x axis
         rect = {"size": (5, 10), "amount": 2}
         self.assertDictEqual(
             {"along": 0, "elements": [{"type": 2, "rect": rect, "size": 5},
@@ -34,4 +36,18 @@ class TestCase(unittest.TestCase):
         rect1 = {"size": (1, 10)}
         rect2 = {"size": (9, 4), "num": 2}
         res = layout2d([rect1, rect2], (10, 10))
-        print res
+        self.maxDiff = None
+        self.assertDictEqual(
+            {"along": 0, "elements": [
+                {"type": 2, "rect": rect1, "size": 1},
+                {"type": 1, "size": 0},
+                {"type": 3, "layout": {
+                    "along": 1, "elements": [
+                        {"type": 2, "rect": rect2, "size": 4},
+                        {"type": 1, "size": 0},
+                        {"type": 2, "rect": rect2, "size": 4},
+                        {"type": 1, "size": 0},
+                        {"type": 0, "size": 2},
+                        ]
+                    }, "size": 9}]},
+            res)

@@ -64,8 +64,9 @@ void _parts_layout_fill(LayoutBuilder & layout, int axis, const Rect & rect, con
         LayoutElementBuilder part_el;
         part_el.type = ELEM_RECT;
         part_el.size = parti->size;
-        // TODO: set rect index
-        // part_el.rect_index = ;
+        // TODO: implement the case when there are many parts
+        // on the other_size
+        part_el.rect_index = parti->other_size->parts.back()->Tag;
         for (unsigned int i = 0; i < parti->num; i++) {
             assert(remain >= parti->size);
             layout.elements.push_back(part_el);

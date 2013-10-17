@@ -8,7 +8,12 @@ namespace Denisenko {
 namespace Raskroy {
 
 struct t_raskroy {
-	struct t_detail {scalar size; unsigned num;};
+    struct t_detail {
+        scalar size;
+        unsigned num;
+        const OtherSize * other_size;
+    };
+
 	typedef std::vector<t_detail> t_details;
 
 	unsigned s; // разрез проходит перпендикул€рно этой стороне

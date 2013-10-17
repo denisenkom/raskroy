@@ -145,6 +145,7 @@ class OtherSize
 public:
 	scalar Value;
 	unsigned Offset;
+    std::list<Part*> parts;
 
 	OtherSize(void) {};
 	OtherSize(scalar value, unsigned amount, Amounts &amounts, bool haveOffset, unsigned &offset);
@@ -169,10 +170,11 @@ struct Size {
 };
 
 class Sizes : public std::vector<Size> {
-	iterator Find(scalar size);
-	void AddSize(scalar s, scalar otherSize, unsigned amount, Amounts &amounts, bool haveOffset, unsigned &offset);
+    iterator Find(scalar size);
+    void AddSize(scalar s, scalar otherSize, unsigned amount, Amounts &amounts,
+                bool haveOffset, unsigned &offset, Part * part);
 public:
-	void AddPart(Part &part, unsigned s, Amounts &amounts);
+    void AddPart(Part &part, unsigned s, Amounts &amounts);
 };
 
 } // namespace Denisenko

@@ -227,8 +227,10 @@ extern "C" int DLLEXPORT new_layout2d(
     for (unsigned int i = 0; i < num; i++)
     {
         LayoutRect * rect = &layout_rects[i];
-        parts.push_back(Part(rect->size[0], rect->size[1],
-                             rect->can_rotate, rect->amount));
+        Part part(rect->size[0], rect->size[1],
+                  rect->can_rotate, rect->amount);
+        part.Tag = (int)i;
+        parts.push_back(part);
     }
     Raskroy raskroy;
     LayoutBuilder layout_builder;
