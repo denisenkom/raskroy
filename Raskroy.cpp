@@ -73,6 +73,28 @@ float Raskroy::GetPercentCompleted()
 	}
 }
 
+bool Raskroy::new_optimize(Rect sheet, Parts & parts, scalar cut_size, LayoutBuilder & layout) {
+    put_SawThickness(cut_size);
+	m_remains.clear();
+	for (int s = 0; s <= 1; s++)
+	{
+		m_sizes[s].clear();
+		for (Parts::iterator pPart = parts.begin(); pPart != parts.end(); pPart++)
+			m_sizes[s].AddPart(*pPart, s, m_remains);
+
+        // order from big to small
+        std::sort(m_sizes[s].begin(), m_sizes[s].end(), std::greater_equal<Size>());
+		for (Sizes::iterator pSize = m_sizes[s].begin(); pSize != m_sizes[s].end(); pSize++)
+		{
+            std::sort(pSize->other_sizes.begin(), pSize->other_sizes.end(),
+                      std::greater_equal<OtherSize>());
+			pSize->other_sizes.SetMin();
+		}
+	}
+    Amounts consume(m_remains.size());
+	return m_perebor2d.new_optimize(sheet, layout, consume);
+}
+
 bool Raskroy::NextResult(t_result& out)
 {
 	// проверить остались ли детали

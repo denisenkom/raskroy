@@ -18,6 +18,7 @@ public:
 	scalar get_SawThickness(void) throw () {return m_perebor2d.get_SawThickness();}
 	void Begin(Parts &parts, const Parts &sheets);
 	bool NextResult(t_result &res);
+    bool new_optimize(Rect sheet, Parts & parts, scalar cut_size, LayoutBuilder & layout);
 
 	float GetPercentCompleted();
 

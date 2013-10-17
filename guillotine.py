@@ -42,7 +42,7 @@ class _LayoutElement(ctypes.Structure):
 
 
 _Layout._fields_ = [("along", ctypes.c_int),
-                    ("num_elements", ctypes.c_int),
+                    ("num_elements", ctypes.c_size_t),
                     ("elements", ctypes.POINTER(_LayoutElement))]
 
 
@@ -71,7 +71,7 @@ def layout2d(rects, sheet, cut_size=0):
         conv_rects[i].amount = rect.get("amount", 1)
         conv_rects[i].can_rotate = rect.get("can_rotate", False)
     playout = ctypes.POINTER(_Layout)()
-    ret = lib.layout2d(ctypes.byref(conv_rects[0]),
+    ret = lib.new_layout2d(ctypes.byref(conv_rects[0]),
                        ctypes.c_uint(len(conv_rects)),
                        _scalar(sheet[0]),
                        _scalar(sheet[1]),

@@ -29,6 +29,7 @@ public:
 	void put_SawThickness(scalar x) throw () {m_perebor.put_SawThickness(x);}
 	scalar get_SawThickness(void) throw () {return m_perebor.get_SawThickness();}
 	bool Optimize(const Rect&, Stat&, int s, t_raskroy&, Amounts &rashod);
+    bool new_optimize(const Rect &rect, LayoutBuilder &layout, Amounts &consume);
 	void ResetCompletedCounter() { m_completedCounter = 0; }
 	int GetCompletedCounter() { return m_completedCounter; }
 };
