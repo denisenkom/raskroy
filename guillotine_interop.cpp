@@ -237,6 +237,7 @@ extern "C" int DLLEXPORT new_layout2d(
     int ret = raskroy.new_optimize(sheet, parts, cut_size, layout_builder) ? 1 : 0;
     if (ret) {
         auto_ptr<Layout> layout(new Layout);
+        layout_builder.simplify();
         layout_builder.to_layout(*layout);
         *res = layout.release();
     }

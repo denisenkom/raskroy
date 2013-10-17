@@ -191,7 +191,6 @@ struct LayoutBuilder {
     }
 
     void to_layout(Layout & out) {
-        simplify();
         out.clear();
         out.along = axis;
         out.num_elements = elements.size();

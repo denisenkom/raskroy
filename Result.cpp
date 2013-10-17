@@ -115,12 +115,24 @@ void LayoutElementBuilder::_convert(LayoutElement & out) {
 
 
 void LayoutBuilder::simplify() {
-    if (elements.size() == 1 && elements.back().type == ELEM_SUBLAYOUT) {
-        LayoutBuilder * sublayout = elements.back().layout;
-        axis = sublayout->axis;
-        elements.swap(sublayout->elements);
-        sublayout->elements.clear();
-        delete sublayout;
+    bool simplify_more = true;
+    while (simplify_more) {
+        simplify_more = false;
+        if (elements.size() == 1 && elements.back().type == ELEM_SUBLAYOUT) {
+            LayoutBuilder * sublayout = elements.back().layout;
+            axis = sublayout->axis;
+            elements.swap(sublayout->elements);
+            sublayout->elements.clear();
+            delete sublayout;
+            simplify_more = true;
+        }
+    }
+
+    for (std::list<LayoutElementBuilder>::iterator i = elements.begin();
+         i != elements.end(); i++)
+    {
+        if (i->type == ELEM_SUBLAYOUT)
+            i->layout->simplify();
     }
 }
 
