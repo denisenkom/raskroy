@@ -36,6 +36,26 @@ class TestCase(unittest.TestCase):
                                       ]},
             layout2d([rect], (12, 10)))
 
+    def test_rectangle_with_remains(self):
+        self.maxDiff = None
+        rect = {"size": (5, 10), "amount": 2}
+        det_layout = {"along": 0, "elements": [{"type": 2, "rect": rect, "size": 5},
+                                               {"type": 1, "size": 0},
+                                               {"type": 2, "rect": rect, "size": 5},
+                                               ]}
+        left_layout = {"along": 1, "elements": [
+            {"type": 3, "size": 10, "layout": det_layout},
+            {"type": 1, "size": 0},
+            {"type": 0, "size": 1}]}
+        self.assertDictEqual(
+            {"along": 0, "elements": [
+                {"type": 3, "size": 10, "layout": left_layout},
+                {"type": 1, "size": 0},
+                {"type": 0, "size": 2}
+                ]
+                },
+            layout2d([rect], (12, 11)))
+
     def test_skinny_detail(self):
         # +-+---------+
         # + +    2    +
