@@ -113,5 +113,16 @@ void LayoutElementBuilder::_convert(LayoutElement & out) {
     }
 }
 
+
+void LayoutBuilder::simplify() {
+    if (elements.size() == 1 && elements.back().type == ELEM_SUBLAYOUT) {
+        LayoutBuilder * sublayout = elements.back().layout;
+        axis = sublayout->axis;
+        elements.swap(sublayout->elements);
+        sublayout->elements.clear();
+        delete sublayout;
+    }
+}
+
 } // Raskroy
 } // Denisenko

@@ -143,6 +143,8 @@ struct LayoutBuilder {
 
     LayoutBuilder() : axis(0) {}
 
+    void simplify();
+
     void append_sublayout(std::auto_ptr<LayoutBuilder> sublayout, scalar size) {
         if (sublayout->axis == axis) {
             elements.splice(elements.end(), sublayout->elements);
@@ -184,6 +186,7 @@ struct LayoutBuilder {
     }
 
     void to_layout(Layout & out) {
+        simplify();
         out.clear();
         out.along = axis;
         out.num_elements = elements.size();
@@ -195,6 +198,7 @@ struct LayoutBuilder {
             pel->_convert(out.elements[i]);
         }
     }
+
 };
 
 
