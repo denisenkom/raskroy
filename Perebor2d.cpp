@@ -171,9 +171,9 @@ bool Perebor2d::new_optimize(const Rect &rect, LayoutBuilder &layout, Amounts &c
     std::auto_ptr<LayoutBuilder> pparts_layout(new LayoutBuilder);
     pparts_layout->axis = best_parts_axis;
     _parts_layout_fill(*pparts_layout, best_parts_axis, parts_block, details, saw_size);
-    if (parts_block.Size[x_axis] > remain_x) {
+    if (parts_block.Size[x_axis] < remain_x) {
         top_layout->append_sublayout(pparts_layout, parts_block.Size[x_axis]);
-        assert(parts_block.Size[x_axis] > remain_x);
+        assert(parts_block.Size[x_axis] <= remain_x);
         remain_x -= parts_block.Size[x_axis];
 
         if (remain_x > 0) {
