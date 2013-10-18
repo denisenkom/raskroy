@@ -83,3 +83,12 @@ class TestCase(unittest.TestCase):
                         ]
                     }, "size": 9}]},
             res)
+
+    #def test_duplicate_details(self):
+    #    rect1 = {"size": (4, 10), "name": "rect1"}
+    #    rect2 = {"size": (4, 10), "name": "rect2"}
+    #    self.assertDictEqual(
+    #        {"along": 0, "elements": [{"type": 2, "rect": rect1, "size": 4},
+    #                                  {"type": 1, "size": 0},
+    #                                  {"type": 2, "rect": rect2, "size": 4}]},
+    #        layout2d([rect1, rect2], (8, 10)))
