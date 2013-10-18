@@ -129,9 +129,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CuttingOptimizer\CuttingOptimizer.vcproj">
-      <Project>{E3D1B48A-C56C-4C17-A001-DB8C9AB9221C}</Project>
-      <Name>CuttingOptimizer</Name>
+    <ProjectReference Include="..\CuttingOptimizer2\CuttingOptimizer2.csproj">
+      <Project>{BD3720B1-18C0-4325-82A5-4CFF57ADB88E}</Project>
+      <Name>CuttingOptimizer2</Name>
     </ProjectReference>
     <ProjectReference Include="..\CuttingScheme\CuttingScheme.csproj">
       <Project>{64E4F13E-4F2E-4E6D-91AB-E3DF9502E0D4}</Project>
