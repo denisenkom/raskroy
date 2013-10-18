@@ -41,31 +41,39 @@ Sizes::iterator Sizes::Find(scalar size)
 	return end();
 }
 
-void Sizes::AddSize(scalar size, scalar otherSize, unsigned amount, Amounts &amounts, bool haveOffset, unsigned &offset)
+void Sizes::AddSize(scalar size, scalar otherSize, unsigned amount,
+                    Amounts &amounts, bool haveOffset, unsigned &offset,
+                    Part * part)
 {
-	iterator pSize = Find(size);
-	if (pSize == end())
-	{
-		Size newSize;
-		newSize.Value = size;
-		newSize.other_sizes.push_back(OtherSize(otherSize, amount, amounts, haveOffset, offset));
-		push_back(newSize);
-	}
-	else
-	{
-		OtherSizes::iterator pOtherSize = pSize->other_sizes.Find(otherSize);
-		if (pOtherSize == pSize->other_sizes.end())
-			pSize->other_sizes.push_back(OtherSize(otherSize, amount, amounts, haveOffset, offset));
-		else
-			amounts[pOtherSize->Offset] += amount;
-	}
+    iterator pSize = Find(size);
+    if (pSize == end())
+    {
+        Size newSize;
+        newSize.Value = size;
+        OtherSize other_size(otherSize, amount, amounts, haveOffset, offset);
+        other_size.parts.push_back(part);
+        newSize.other_sizes.push_back(other_size);
+        push_back(newSize);
+    }
+    else
+    {
+        OtherSizes::iterator pOtherSize = pSize->other_sizes.Find(otherSize);
+        if (pOtherSize == pSize->other_sizes.end()) {
+            OtherSize other_size(otherSize, amount, amounts, haveOffset, offset);
+            other_size.parts.push_back(part);
+            pSize->other_sizes.push_back(other_size);
+        } else {
+            amounts[pOtherSize->Offset] += amount;
+            pOtherSize->parts.push_back(part);
+        }
+    }
 }
 
 void Sizes::AddPart(Part &part, unsigned s, Amounts &amounts)
 {
-	AddSize(part.rect.Size[s], part.rect.Size[!s], part.Amount, amounts, s == 1, part.AmountOffset);
+	AddSize(part.rect.Size[s], part.rect.Size[!s], part.Amount, amounts, s == 1, part.AmountOffset, &part);
 	if (part.Rotate && part.rect.Size[s] != part.rect.Size[!s])
-		AddSize(part.rect.Size[!s], part.rect.Size[s], part.Amount, amounts, true, part.AmountOffset);
+		AddSize(part.rect.Size[!s], part.rect.Size[s], part.Amount, amounts, true, part.AmountOffset, &part);
 }
 
 Amounts& Amounts::operator += (const Amounts &amounts)

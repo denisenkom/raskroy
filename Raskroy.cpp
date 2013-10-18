@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include <functional>
 #include "errors.h"
 #include "Raskroy.h"
 
@@ -46,11 +47,12 @@ void Raskroy::Begin(Parts &parts, const Parts &sheets)
 		for (Parts::iterator pPart = parts.begin(); pPart != parts.end(); pPart++)
 			m_sizes[s].AddPart(*pPart, s, m_remains);
 
-		// Сортировка размеров
-		std::sort(m_sizes[s].begin(), m_sizes[s].end());
+        // order from big to small
+        std::sort(m_sizes[s].begin(), m_sizes[s].end(), std::greater_equal<Size>());
 		for (Sizes::iterator pSize = m_sizes[s].begin(); pSize != m_sizes[s].end(); pSize++)
 		{
-			std::sort(pSize->other_sizes.begin(), pSize->other_sizes.end());
+            std::sort(pSize->other_sizes.begin(), pSize->other_sizes.end(),
+                      std::greater_equal<OtherSize>());
 			// установка указателя на минимальный размер
 			pSize->other_sizes.SetMin();
 		}
@@ -69,6 +71,35 @@ float Raskroy::GetPercentCompleted()
 	{
 		return (float)m_perebor2d.GetCompletedCounter() / total * 100.0f;
 	}
+}
+
+bool Raskroy::new_optimize(Rect sheet, Parts & parts, scalar cut_size, LayoutBuilder & layout) {
+    put_SawThickness(cut_size);
+	m_remains.clear();
+	for (int s = 0; s <= 1; s++)
+	{
+		m_sizes[s].clear();
+		for (Parts::iterator pPart = parts.begin(); pPart != parts.end(); pPart++)
+			m_sizes[s].AddPart(*pPart, s, m_remains);
+
+        // order from big to small
+        std::sort(m_sizes[s].begin(), m_sizes[s].end(), std::greater_equal<Size>());
+		for (Sizes::iterator pSize = m_sizes[s].begin(); pSize != m_sizes[s].end(); pSize++)
+		{
+            std::sort(pSize->other_sizes.begin(), pSize->other_sizes.end(),
+                      std::greater_equal<OtherSize>());
+			pSize->other_sizes.SetMin();
+		}
+	}
+    Amounts consume(m_remains.size());
+	bool ret = m_perebor2d.new_optimize(sheet, layout, consume);
+    if (ret) {
+        for (int i = 0; i < consume.size(); i++) {
+            assert(parts[i].AmountOffset == i);
+            parts[i].Amount -= consume[i];
+        }
+    }
+    return ret;
 }
 
 bool Raskroy::NextResult(t_result& out)

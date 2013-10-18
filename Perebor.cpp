@@ -99,6 +99,7 @@ bool Perebor::Make(const Size &size, scalar otherSize, t_raskroy::t_details &o_d
 		{
 			t_raskroy::t_detail detail;
 			detail.size = pOtherSize->Value;
+            detail.other_size = &*pOtherSize;
 			detail.num = rashod;
 			o_details.push_back(detail);
 			cuts += rashod;	// количество пилов

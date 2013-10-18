@@ -100,5 +100,61 @@ void t_raskroy::CheckAndCalcStat(scalar cutThickness, const Rect& rect, Stat* ou
 	*outStat = stat;
 }
 
+
+void LayoutElementBuilder::_convert(LayoutElement & out) {
+    out.type = type;
+    out.size = size;
+    if (type == ELEM_SUBLAYOUT) {
+        std::auto_ptr<Layout> out_sublayout(new Layout);
+        layout->to_layout(*out_sublayout);
+        out.layout = out_sublayout.release();
+    } else if (type == ELEM_RECT) {
+        out.rect_index = rect_index;
+    }
+}
+
+
+void LayoutBuilder::simplify() {
+    // collapse trivial sublayouts
+    bool simplify_more = true;
+    while (simplify_more) {
+        simplify_more = false;
+        if (elements.size() == 1 && elements.back().type == ELEM_SUBLAYOUT) {
+            LayoutBuilder * sublayout = elements.back().layout;
+            axis = sublayout->axis;
+            elements.swap(sublayout->elements);
+            sublayout->elements.clear();
+            delete sublayout;
+            simplify_more = true;
+        }
+    }
+
+    // simplify all sub-layouts recursively
+    for (std::list<LayoutElementBuilder>::iterator i = elements.begin();
+         i != elements.end(); i++)
+    {
+        if (i->type == ELEM_SUBLAYOUT)
+            i->layout->simplify();
+    }
+
+    // merge sublayouts with the same direction as current layout
+    simplify_more = true;
+    while (simplify_more) {
+        for (std::list<LayoutElementBuilder>::iterator i = elements.begin();
+             i != elements.end(); i++)
+        {
+            simplify_more = false;
+            if (i->type == ELEM_SUBLAYOUT && i->layout->axis == axis) {
+                LayoutBuilder * sublayout = i->layout;
+                elements.splice(i, sublayout->elements);
+                elements.erase(i);
+                delete sublayout;
+                simplify_more = true;
+                break;
+            }
+        }
+    }
+}
+
 } // Raskroy
 } // Denisenko

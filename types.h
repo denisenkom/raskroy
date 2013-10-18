@@ -43,7 +43,7 @@ struct Part {
 	}
 };	// 16+4+4+4+4=32B
 
-typedef std::list<Part> Parts;
+typedef std::vector<Part> Parts;
 
 struct Stat {
 	double Opilki;
@@ -145,10 +145,12 @@ class OtherSize
 public:
 	scalar Value;
 	unsigned Offset;
+    std::list<Part*> parts;
 
 	OtherSize(void) {};
 	OtherSize(scalar value, unsigned amount, Amounts &amounts, bool haveOffset, unsigned &offset);
 	bool operator < (const OtherSize& b) const {return Value < b.Value;}
+	bool operator >= (const OtherSize& b) const {return Value >= b.Value;}
 };
 
 class OtherSizes : public std::vector<OtherSize>
@@ -164,13 +166,15 @@ struct Size {
 	scalar Value;
 	OtherSizes other_sizes;
 	bool operator < (const Size& b) const {return Value < b.Value;}
+	bool operator >= (const Size& b) const {return Value >= b.Value;}
 };
 
 class Sizes : public std::vector<Size> {
-	iterator Find(scalar size);
-	void AddSize(scalar s, scalar otherSize, unsigned amount, Amounts &amounts, bool haveOffset, unsigned &offset);
+    iterator Find(scalar size);
+    void AddSize(scalar s, scalar otherSize, unsigned amount, Amounts &amounts,
+                bool haveOffset, unsigned &offset, Part * part);
 public:
-	void AddPart(Part &part, unsigned s, Amounts &amounts);
+    void AddPart(Part &part, unsigned s, Amounts &amounts);
 };
 
 } // namespace Denisenko

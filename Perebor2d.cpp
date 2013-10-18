@@ -55,6 +55,171 @@ inline bool Perebor2d::Optimize(const Rect &rect, Stat &stat, int s, t_raskroy &
 	return false;
 }
 
+
+void _parts_layout_fill(LayoutBuilder & layout, int axis, const Rect & rect, const t_raskroy::t_details & details, scalar saw_size) {
+    scalar remain = rect.Size[axis];
+    for (t_raskroy::t_details::const_iterator parti = details.begin();
+            parti != details.end(); parti++)
+    {
+        LayoutElementBuilder part_el;
+        part_el.type = ELEM_RECT;
+        part_el.size = parti->size;
+        // TODO: implement the case when there are many parts
+        // on the other_size
+        part_el.rect_index = parti->other_size->parts.back()->Tag;
+        for (unsigned int i = 0; i < parti->num; i++) {
+            assert(remain >= parti->size);
+            layout.elements.push_back(part_el);
+            remain -= parti->size;
+
+            // adding cut element
+            if (remain > 0) {
+                scalar cut_size = std::min(saw_size, remain);
+                layout.append_cut(cut_size);
+                remain -= cut_size;
+            }
+        }
+    }
+}
+
+
+bool Perebor2d::new_optimize(const Rect &rect, LayoutBuilder &layout, Amounts &consume)
+{
+    // choose best (biggest) size to start with
+    const Size * best_by[2] = {0};
+    for (int i = 0; i <= 1; i++) {
+        // get biggest size that fits by i axis
+        for (Sizes::const_iterator sizei = m_sizes[i].begin();
+             sizei != m_sizes[i].end(); sizei++)
+        {
+            if (sizei->Value <= rect.Size[i]) {
+                best_by[i] = &*sizei;
+                break;
+            }
+        }
+    }
+    int best_parts_axis;
+    const Size * best_size;
+    if (!best_by[0] || !best_by[1]) {
+        return false;
+    } else if (best_by[0] && best_by[1]) {
+        // if both axises match, choose best of them
+        // best is the one with biggest usage ratio to sheet
+        if (double(best_by[0]->Value) / double(rect.Size[0]) >= double(best_by[1]->Value) / double(rect.Size[1])) {
+            best_parts_axis = 1;
+            best_size = best_by[0];
+        } else {
+            best_parts_axis = 0;
+            best_size = best_by[1];
+        }
+    } else if (best_by[0]) {
+        best_parts_axis = 1;
+        best_size = best_by[0];
+    } else {
+        best_parts_axis = 0;
+        best_size = best_by[1];
+    }
+
+    // do 1D bin packing optimization
+	double cut;
+	Amounts rashodPerebor(consume.size());
+	scalar remain;
+    t_raskroy::t_details details;
+	if (!m_perebor.Make(*best_size, rect.Size[best_parts_axis], details, rashodPerebor, remain, cut))
+		return false;
+
+    scalar saw_size = m_perebor.get_SawThickness();
+    Rect parts_block;
+    parts_block.Size[!best_parts_axis] = best_size->Value;
+    parts_block.Size[best_parts_axis] = rect.Size[best_parts_axis] - remain - saw_size;
+    scalar remain_bottom_height = rect.Size[1] - parts_block.Size[1] - saw_size;
+    scalar remain_right_width = rect.Size[0] - parts_block.Size[0] - saw_size;
+
+    // choose "best" main cut direction, along 0 or 1 axis
+    // best is the one that produce remaining rect with biggest square
+    // consider cut along x (0) axis
+    double remain_x_bottom = double(rect.Size[0]) * double(remain_bottom_height);
+    double remain_x_right =  double(remain_right_width) * double(parts_block.Size[1]);
+    double max_remain_x = std::max(remain_x_bottom, remain_x_right);
+    // consider cut along y (1) axis
+    double remain_y_bottom = double(parts_block.Size[0]) * double(remain_bottom_height);
+    double remain_y_right = double(remain_right_width) * double(rect.Size[1]);
+    double max_remain_y = std::max(remain_y_bottom, remain_y_right);
+    int x_axis;
+    if (max_remain_x >= max_remain_y) {
+        // do layout along Y axis, main cut along X axis
+        x_axis = 0;
+    } else {
+        // do layout along X axis, main cut along Y axis
+        // transpose coordinates
+        x_axis = 1;
+    }
+
+    // comments below assumes axis = 1, if axis = 0 comments are true
+    // if you transpose coordinates
+
+    // best main cut is along x axis
+    int y_axis = !x_axis;
+    layout.axis = y_axis;
+    scalar remain_x = rect.Size[x_axis];
+    scalar remain_y = rect.Size[y_axis];
+
+    // horizontal sub-layout for top part containing details
+    std::auto_ptr<LayoutBuilder> top_layout(new LayoutBuilder);
+    top_layout->axis = x_axis;
+
+    // parts sub-sub-layout
+    std::auto_ptr<LayoutBuilder> pparts_layout(new LayoutBuilder);
+    pparts_layout->axis = best_parts_axis;
+    _parts_layout_fill(*pparts_layout, best_parts_axis, parts_block, details, saw_size);
+    top_layout->append_sublayout(pparts_layout, parts_block.Size[x_axis]);
+    assert(parts_block.Size[x_axis] <= remain_x);
+    remain_x -= parts_block.Size[x_axis];
+
+    if (remain_x > 0) {
+        // vertical cut separating parts block and right remain
+        scalar cut_size = std::min(saw_size, remain_x);
+        top_layout->append_cut(cut_size);
+        remain_x -= cut_size;
+
+        if (remain_x > 0) {
+            // sublayout for right remain
+            Rect remain_right(remain_x, parts_block.Size[y_axis]);
+            std::auto_ptr<LayoutBuilder> pright_layout(new LayoutBuilder);
+            if (new_optimize(remain_right, *pright_layout, consume)) {
+                top_layout->append_sublayout(pright_layout, remain_x);
+            } else {
+                top_layout->append_remain(remain_x);
+            }
+        }
+    }
+
+    // adding top sub-layout to resulting layout
+    layout.append_sublayout(top_layout, parts_block.Size[y_axis]);
+    remain_y -= parts_block.Size[y_axis];
+    assert(remain_y >= 0);
+
+    if (remain_y > 0) {
+        // horizontal cut separating top and bottom remain
+        scalar cut_size = std::min(saw_size, remain_y);
+        layout.append_cut(cut_size);
+        remain_y -= cut_size;
+
+        if (remain_y > 0) {
+            // create layout for bottom part
+            std::auto_ptr<LayoutBuilder> pbottom_layout(new LayoutBuilder);
+            Rect remain_bottom(rect.Size[x_axis], remain_y);
+            if (new_optimize(remain_bottom, *pbottom_layout, consume)) {
+                layout.append_sublayout(pbottom_layout, remain_y);
+            } else {
+                layout.append_remain(remain_y);
+            }
+        }
+    }
+    return true;
+}
+
+
 class NestingCounterGuard
 {
 public:

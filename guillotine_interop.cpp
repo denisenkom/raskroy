@@ -23,63 +23,6 @@ struct Sheet
 };
 
 
-// Type of the element
-enum {
-    ELEM_REMAIN = 0,
-    ELEM_CUT = 1,
-    ELEM_RECT = 2,  // a layed-out rectangle
-    ELEM_SUBLAYOUT = 3,
-};
-
-
-struct LayoutElement
-{
-    scalar size;  // size of the element along layout axis
-    int type;  // rect, remain, cut or sub-layout
-    union {
-        int rect_index;  // if type = ELEM_RECT this contains index of
-                         // the rect from layout_rects
-        struct Layout * layout;  // if type == ELEM_SUBLAYOUT this
-                                 // is the pointer to sub-layout
-    };
-    LayoutElement() : type(ELEM_REMAIN), layout(0) {}
-};
-
-
-enum {ALONG_X = 0, ALONG_Y = 1};
-
-
-struct Layout
-{
-    int along;  // elements are located along: 0 - X, 1 - Y
-    int num_elements;
-    LayoutElement * elements;  // rects, cuts, remains and sub-layouts
-
-    Layout() : num_elements(0), elements(0) {}
-
-    Layout(int along, int num_elements) :
-        along(along),
-        num_elements(num_elements),
-        elements(new LayoutElement[num_elements])
-    {
-    }
-
-    void _free() {
-        for (int i = 0; i < num_elements; i++) {
-            if (elements[i].type == ELEM_SUBLAYOUT)
-                elements[i].layout->_free();
-        }
-        delete [] elements;
-        elements = 0;
-        num_elements = 0;
-    }
-
-    ~Layout() {
-        _free();
-    }
-};
-
-
 LayoutElement * _vector_to_array(const vector<LayoutElement> & elements) {
     LayoutElement * array = new LayoutElement[elements.size()];
     for (size_t i = 0; i < elements.size(); i++) {
@@ -90,13 +33,6 @@ LayoutElement * _vector_to_array(const vector<LayoutElement> & elements) {
 
 
 // forward declaration
-Layout * _test(t_raskroy * raskroy,
-                              scalar cut_size,
-                              Sheet sheet)
-{
-    return 0;
-}
-
 Layout * _make_raskroy_layout(t_raskroy * raskroy,
                               scalar cut_size,
                               Sheet sheet);
@@ -108,6 +44,7 @@ void _make_details_layout(Layout * detail_layout,
                               Sheet sheet) {
     cout << "in make_details_layout" << endl;
     cout << " raskroy->s: " << raskroy->s << endl;
+    cout << " raskroy->cut: " << raskroy->cut << endl;
     cout << " cut_size: " << cut_size << endl;
     detail_layout->along = raskroy->s;
     cout << "detail_layout->along: " << detail_layout->along << endl;
@@ -157,7 +94,11 @@ Layout * _make_raskroy_layout(t_raskroy * raskroy,
                               Sheet sheet) {
     cout << "in make_raskroy_layout" << endl;
     cout << " raskroy: " << raskroy << endl;
-    cout << " raskroy->s: " << raskroy->s << endl;
+    cout << "  s: " << raskroy->s << endl;
+    cout << "  cut: " << raskroy->cut << endl;
+    cout << "  details num: " << raskroy->details.size() << endl;
+    cout << "  recurse: " << raskroy->watchRecurse() << endl;
+    cout << "  remain: " << raskroy->watchRemain() << endl;
     cout << " cut_size: " << cut_size << endl;
     auto_ptr<Layout> layout(new Layout);
     if (raskroy->watchRecurse()) {
@@ -244,7 +185,7 @@ extern "C" int DLLEXPORT layout2d(
     sheet.size[0] = sheet_x;
     sheet.size[1] = sheet_y;
     Parts parts;
-    for (unsigned int i = 0; i <= num; i++)
+    for (unsigned int i = 0; i < num; i++)
     {
         LayoutRect * rect = &layout_rects[i];
         parts.push_back(Part(rect->size[0], rect->size[1],
@@ -253,11 +194,9 @@ extern "C" int DLLEXPORT layout2d(
     Parts sheets;
     sheets.push_back(Part(sheet.size[0], sheet.size[1]));
     Raskroy raskroy;
+    raskroy.put_SawThickness(cut_size);
     raskroy.Begin(parts, sheets);
     Result outer_result;
-    LayoutElement cut_el;
-    cut_el.type = ELEM_CUT;
-    cut_el.size = cut_size;
     int ret = raskroy.NextResult(outer_result) ? 1 : 0;
     if (ret) {
         cout << "ret:" << ret << endl;
@@ -268,6 +207,43 @@ extern "C" int DLLEXPORT layout2d(
         *res = _make_raskroy_layout(&outer_result.raskroy,
                                     cut_size,
                                     sheet);
+    }
+    return ret;
+}
+
+
+extern "C" int DLLEXPORT new_layout2d(
+    LayoutRect * layout_rects,
+    unsigned int num,
+    scalar sheet_x,
+    scalar sheet_y,
+    scalar cut_size,
+    Layout ** res)
+{
+    Rect sheet;
+    sheet.Size[0] = sheet_x;
+    sheet.Size[1] = sheet_y;
+    Parts parts;
+    for (unsigned int i = 0; i < num; i++)
+    {
+        LayoutRect * rect = &layout_rects[i];
+        Part part(rect->size[0], rect->size[1],
+                  rect->can_rotate, rect->amount);
+        part.Tag = (int)i;
+        parts.push_back(part);
+    }
+    Raskroy raskroy;
+    LayoutBuilder layout_builder;
+    int ret = raskroy.new_optimize(sheet, parts, cut_size, layout_builder) ? 1 : 0;
+    if (ret) {
+        auto_ptr<Layout> layout(new Layout);
+        layout_builder.simplify();
+        layout_builder.to_layout(*layout);
+        *res = layout.release();
+        // report back new amounts
+        for (int i = 0; i < parts.size(); i++) {
+            layout_rects[i].amount = parts[i].Amount;
+        }
     }
     return ret;
 }
