@@ -168,7 +168,7 @@ bool Perebor2d::new_optimize(const Rect &rect, LayoutBuilder &layout, Amounts &c
     std::auto_ptr<LayoutBuilder> top_layout(new LayoutBuilder);
     top_layout->axis = x_axis;
 
-    // vertical parts sub-sub-layout
+    // parts sub-sub-layout
     std::auto_ptr<LayoutBuilder> pparts_layout(new LayoutBuilder);
     pparts_layout->axis = best_parts_axis;
     _parts_layout_fill(*pparts_layout, best_parts_axis, parts_block, details, saw_size);
@@ -182,8 +182,8 @@ bool Perebor2d::new_optimize(const Rect &rect, LayoutBuilder &layout, Amounts &c
         top_layout->append_cut(cut_size);
         remain_x -= cut_size;
 
-        // sublayout for right remain
         if (remain_x > 0) {
+            // sublayout for right remain
             Rect remain_right(remain_x, parts_block.Size[y_axis]);
             std::auto_ptr<LayoutBuilder> pright_layout(new LayoutBuilder);
             if (new_optimize(remain_right, *pright_layout, consume)) {
@@ -199,20 +199,21 @@ bool Perebor2d::new_optimize(const Rect &rect, LayoutBuilder &layout, Amounts &c
     remain_y -= parts_block.Size[y_axis];
     assert(remain_y >= 0);
 
-    // horizontal cut separating top and bottom remain
     if (remain_y > 0) {
+        // horizontal cut separating top and bottom remain
         scalar cut_size = std::min(saw_size, remain_y);
         layout.append_cut(cut_size);
         remain_y -= cut_size;
-    }
-    if (remain_y > 0) {
-        // create layout for bottom part
-        std::auto_ptr<LayoutBuilder> pbottom_layout(new LayoutBuilder);
-        Rect remain_bottom(rect.Size[x_axis], remain_y);
-        if (new_optimize(remain_bottom, *pbottom_layout, consume)) {
-            layout.append_sublayout(pbottom_layout, remain_y);
-        } else {
-            layout.append_remain(remain_y);
+
+        if (remain_y > 0) {
+            // create layout for bottom part
+            std::auto_ptr<LayoutBuilder> pbottom_layout(new LayoutBuilder);
+            Rect remain_bottom(rect.Size[x_axis], remain_y);
+            if (new_optimize(remain_bottom, *pbottom_layout, consume)) {
+                layout.append_sublayout(pbottom_layout, remain_y);
+            } else {
+                layout.append_remain(remain_y);
+            }
         }
     }
     return true;
