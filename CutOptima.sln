@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CuttingScheme", "CuttingSch
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing", "Testing\Testing.csproj", "{AEA7FED9-B0AF-402E-88E2-5B53C15ED7D1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CuttingOptimizer2", "CuttingOptimizer2\CuttingOptimizer2.csproj", "{BD3720B1-18C0-4325-82A5-4CFF57ADB88E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -104,6 +106,16 @@ Global
 		{AEA7FED9-B0AF-402E-88E2-5B53C15ED7D1}.Release|x64.Build.0 = Release|x64
 		{AEA7FED9-B0AF-402E-88E2-5B53C15ED7D1}.Release|x86.ActiveCfg = Release|x86
 		{AEA7FED9-B0AF-402E-88E2-5B53C15ED7D1}.Release|x86.Build.0 = Release|x86
+		{BD3720B1-18C0-4325-82A5-4CFF57ADB88E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD3720B1-18C0-4325-82A5-4CFF57ADB88E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD3720B1-18C0-4325-82A5-4CFF57ADB88E}.Debug|x64.ActiveCfg = Debug|x64
+		{BD3720B1-18C0-4325-82A5-4CFF57ADB88E}.Debug|x64.Build.0 = Debug|x64
+		{BD3720B1-18C0-4325-82A5-4CFF57ADB88E}.Debug|x86.ActiveCfg = Debug|x86
+		{BD3720B1-18C0-4325-82A5-4CFF57ADB88E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD3720B1-18C0-4325-82A5-4CFF57ADB88E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD3720B1-18C0-4325-82A5-4CFF57ADB88E}.Release|x64.ActiveCfg = Release|x64
+		{BD3720B1-18C0-4325-82A5-4CFF57ADB88E}.Release|x64.Build.0 = Release|x64
+		{BD3720B1-18C0-4325-82A5-4CFF57ADB88E}.Release|x86.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
