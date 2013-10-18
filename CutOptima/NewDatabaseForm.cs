@@ -67,5 +67,17 @@ namespace Denisenko.Cutting.CutOptima
             get { return _locationType; }
             set { _locationType = value; }
         }
+
+        private void sql_auth_cb_CheckedChanged(object sender, EventArgs e)
+        {
+            username_tb.Enabled = true;
+            password_tb.Enabled = true;
+        }
+
+        private void windows_auth_cb_CheckedChanged(object sender, EventArgs e)
+        {
+            username_tb.Enabled = false;
+            password_tb.Enabled = false;
+        }
 	}
 }

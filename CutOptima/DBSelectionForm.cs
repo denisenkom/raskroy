@@ -109,11 +109,16 @@ namespace Denisenko.Cutting.CutOptima
             if (form.ShowDialog(this) == DialogResult.OK)
             {
                 SqlConnectionStringBuilder bldr = new SqlConnectionStringBuilder();
-                bldr.DataSource = form.textBoxServer.Text;
-                bldr.InitialCatalog = form.textBoxDatabase.Text;
-                bldr.IntegratedSecurity = true;
+                bldr.DataSource = form.serverTextBox.Text;
+                bldr.InitialCatalog = form.dbNameTextBox.Text;
+                bldr.IntegratedSecurity = form.windows_auth_cb.Checked;
+                if (form.sql_auth_cb.Checked)
+                {
+                    bldr.UserID = form.username_tb.Text;
+                    bldr.Password = form.password_tb.Text;
+                }
                 bldr.ConnectTimeout = 5;
-                DBManager.Instance.AddDatabase(form.textBoxServer.Text, form.textBoxDatabase.Text);
+                DBManager.Instance.AddDatabase(bldr.ConnectionString);
                 //Properties.Settings.Default.Bases.Add(bldr.ToString());
                 UpdateDatabasesListBox();
             }

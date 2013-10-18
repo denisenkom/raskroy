@@ -39,10 +39,9 @@
             // newButton
             // 
             this.newButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.newButton.Location = new System.Drawing.Point(237, 284);
-            this.newButton.Margin = new System.Windows.Forms.Padding(4);
+            this.newButton.Location = new System.Drawing.Point(178, 231);
             this.newButton.Name = "newButton";
-            this.newButton.Size = new System.Drawing.Size(100, 28);
+            this.newButton.Size = new System.Drawing.Size(75, 23);
             this.newButton.TabIndex = 2;
             this.newButton.Text = "Новая...";
             this.newButton.UseVisualStyleBackColor = true;
@@ -52,10 +51,9 @@
             // 
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.okButton.Location = new System.Drawing.Point(345, 284);
-            this.okButton.Margin = new System.Windows.Forms.Padding(4);
+            this.okButton.Location = new System.Drawing.Point(259, 231);
             this.okButton.Name = "okButton";
-            this.okButton.Size = new System.Drawing.Size(100, 28);
+            this.okButton.Size = new System.Drawing.Size(75, 23);
             this.okButton.TabIndex = 3;
             this.okButton.Text = "ОК";
             this.okButton.UseVisualStyleBackColor = true;
@@ -67,21 +65,19 @@
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.databasesListBox.FormattingEnabled = true;
-            this.databasesListBox.ItemHeight = 16;
-            this.databasesListBox.Location = new System.Drawing.Point(16, 15);
-            this.databasesListBox.Margin = new System.Windows.Forms.Padding(4);
+            this.databasesListBox.Location = new System.Drawing.Point(12, 12);
             this.databasesListBox.Name = "databasesListBox";
-            this.databasesListBox.Size = new System.Drawing.Size(531, 244);
+            this.databasesListBox.Size = new System.Drawing.Size(399, 199);
             this.databasesListBox.TabIndex = 0;
             this.databasesListBox.DoubleClick += new System.EventHandler(this.databasesListBox_DoubleClick);
             // 
             // addButton
             // 
+            this.addButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.addButton.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.addButton.Location = new System.Drawing.Point(129, 284);
-            this.addButton.Margin = new System.Windows.Forms.Padding(4);
+            this.addButton.Location = new System.Drawing.Point(97, 231);
             this.addButton.Name = "addButton";
-            this.addButton.Size = new System.Drawing.Size(100, 28);
+            this.addButton.Size = new System.Drawing.Size(75, 23);
             this.addButton.TabIndex = 1;
             this.addButton.Text = "Добавить...";
             this.addButton.UseVisualStyleBackColor = true;
@@ -89,10 +85,12 @@
             // 
             // buttonCancel
             // 
+            this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(452, 284);
+            this.buttonCancel.Location = new System.Drawing.Point(339, 231);
+            this.buttonCancel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.buttonCancel.Name = "buttonCancel";
-            this.buttonCancel.Size = new System.Drawing.Size(100, 28);
+            this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 4;
             this.buttonCancel.Text = "Отмена";
             this.buttonCancel.UseVisualStyleBackColor = true;
@@ -100,9 +98,11 @@
             // 
             // buttonRemove
             // 
-            this.buttonRemove.Location = new System.Drawing.Point(22, 284);
+            this.buttonRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonRemove.Location = new System.Drawing.Point(16, 231);
+            this.buttonRemove.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.buttonRemove.Name = "buttonRemove";
-            this.buttonRemove.Size = new System.Drawing.Size(100, 28);
+            this.buttonRemove.Size = new System.Drawing.Size(75, 23);
             this.buttonRemove.TabIndex = 5;
             this.buttonRemove.Text = "Убрать";
             this.buttonRemove.UseVisualStyleBackColor = true;
@@ -111,17 +111,16 @@
             // DBSelectionForm
             // 
             this.AcceptButton = this.okButton;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(564, 327);
+            this.ClientSize = new System.Drawing.Size(423, 266);
             this.Controls.Add(this.buttonRemove);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.addButton);
             this.Controls.Add(this.okButton);
             this.Controls.Add(this.newButton);
             this.Controls.Add(this.databasesListBox);
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "DBSelectionForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Выберите базу";

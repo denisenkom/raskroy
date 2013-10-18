@@ -67,14 +67,19 @@ namespace Denisenko.Cutting.CutOptima
             }
         }
 
+        NewDatabaseForm _new_db_dialog;
+
 		public void CmdNewDatabase(IWin32Window owner)
 		{
-			NewDatabaseForm newDbDialog = new NewDatabaseForm();
-			if (newDbDialog.ShowDialog(owner) != DialogResult.OK)
+            if (_new_db_dialog == null)
+            {
+                _new_db_dialog = new NewDatabaseForm();
+            }
+            if (_new_db_dialog.ShowDialog(owner) != DialogResult.OK)
 				return;
 
-            if (!CmdCheckDuplicates(owner, newDbDialog.Server, newDbDialog.LocationType,
-                newDbDialog.DbLocation))
+            if (!CmdCheckDuplicates(owner, _new_db_dialog.Server, _new_db_dialog.LocationType,
+                _new_db_dialog.DbLocation))
             {
                 return;
             }
@@ -86,8 +91,10 @@ namespace Denisenko.Cutting.CutOptima
             progressFrm.Update();
 
 			SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-			builder.DataSource = newDbDialog.Server;
-			builder.IntegratedSecurity = true;
+            builder.DataSource = _new_db_dialog.Server;
+            builder.IntegratedSecurity = _new_db_dialog.windows_auth_cb.Checked;
+            builder.UserID = _new_db_dialog.username_tb.Text;
+            builder.Password = _new_db_dialog.password_tb.Text;
             SqlConnection connection = new SqlConnection(builder.ConnectionString);
 			SqlCommand cmd = connection.CreateCommand();
             bool createOk = false;
@@ -126,22 +133,22 @@ namespace Denisenko.Cutting.CutOptima
 
 				// создание новой базы
 				//
-				if (newDbDialog.LocationType == LocationType.Name)
+                if (_new_db_dialog.LocationType == LocationType.Name)
 				{
-					dbName = newDbDialog.DbLocation;
+                    dbName = _new_db_dialog.DbLocation;
 					cmd.CommandText = String.Format("CREATE DATABASE [{0}]", dbName);
 				}
-				else if (newDbDialog.LocationType == LocationType.Path)
+                else if (_new_db_dialog.LocationType == LocationType.Path)
 				{
-					dbName = Path.GetFileNameWithoutExtension(newDbDialog.DbLocation);
+                    dbName = Path.GetFileNameWithoutExtension(_new_db_dialog.DbLocation);
 					// TODO: Check for " [ ] symbols in dbName
 					String fileName = dbName;
 					// TODO: Check for ' symbol in fileName
-					String dbPath = Path.GetFullPath(newDbDialog.DbLocation);
+                    String dbPath = Path.GetFullPath(_new_db_dialog.DbLocation);
 					// TODO: Check for ' symbol in dbPath
-					String logName = Path.GetFileNameWithoutExtension(newDbDialog.DbLocation) + "_log";
+                    String logName = Path.GetFileNameWithoutExtension(_new_db_dialog.DbLocation) + "_log";
 					// TODO: Check for ' symbol in logName
-					String logPath = Path.GetDirectoryName(newDbDialog.DbLocation) + '\\' +
+                    String logPath = Path.GetDirectoryName(_new_db_dialog.DbLocation) + '\\' +
 						logName + ".LDF";
 					// TODO: Check for ' symbol in logPath
 					cmd.CommandText = String.Format("CREATE DATABASE [{0}] ON PRIMARY " +
@@ -226,7 +233,16 @@ namespace Denisenko.Cutting.CutOptima
                 }
                 connection.Close();
             }
-			AddDatabase(newDbDialog.Server, newDbDialog.DbLocation);
+            builder = new SqlConnectionStringBuilder();
+            builder.DataSource = _new_db_dialog.Server;
+            builder.IntegratedSecurity = _new_db_dialog.windows_auth_cb.Checked;
+            builder.UserID = _new_db_dialog.username_tb.Text;
+            builder.Password = _new_db_dialog.password_tb.Text;
+            if (_new_db_dialog.LocationType == LocationType.Name)
+                builder.InitialCatalog = _new_db_dialog.DbLocation;
+            else
+                builder.AttachDBFilename = _new_db_dialog.DbLocation;
+            AddDatabase(builder.ConnectionString);
             MessageBox.Show(owner, "База данных успешно создана", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
@@ -253,7 +269,10 @@ namespace Denisenko.Cutting.CutOptima
             AddDatabaseForm dialog = new AddDatabaseForm();
 			if (dialog.ShowDialog(owner) != DialogResult.OK)
 				return;
-			AddDatabase(dialog.Server, dialog.DbLocation);
+            var builder = new SqlConnectionStringBuilder();
+            builder.DataSource = dialog.Server;
+            builder.InitialCatalog = dialog.DbLocation;
+			AddDatabase(builder.ConnectionString);
 		}
 
         public bool CheckConnectionString(IWin32Window owner, string connStr)
@@ -295,36 +314,18 @@ namespace Denisenko.Cutting.CutOptima
             return CheckConnectionString(owner, builder.ToString());
         }
 
-		public bool CmdCheckConnection(IWin32Window owner, String connectionInfo)
+		public bool CmdCheckConnection(IWin32Window owner, String connection_string)
 		{
-            return CheckConnectionString(owner, BuildConnectionString(connectionInfo));
+            return CheckConnectionString(owner, connection_string);
 		}
 
-		private String BuildConnectionString(String connectionInfo)
-		{
-			SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
-			String[] parts = connectionInfo.Split(new Char[] { '|' });
-			builder.DataSource = parts[0];
-			if (parts[1][1] == ':' || parts[1][1] == '\\')
-			{
-				builder.AttachDBFilename = parts[1];
-			}
-			else
-			{
-				builder.InitialCatalog = parts[1];
-			}
-			builder.IntegratedSecurity = true;
-			return builder.ConnectionString;
-		}
-
-		public void AddDatabase(String server, String location)
+		public void AddDatabase(String connection_string)
 		{
 			if (Settings.Default.Bases == null)
 			{
 				Settings.Default.Bases = new StringCollection();
 			}
-			String baseInfo = String.Join("|", new String[] { server, location });
-			Settings.Default.Bases.Add(baseInfo);
+			Settings.Default.Bases.Add(connection_string);
 			Settings.Default.Save();
 		}
 
@@ -342,8 +343,7 @@ namespace Denisenko.Cutting.CutOptima
 			{
 			}*/
 			Settings.Default["DefaultCutOptimaConnectionString"] =
-				Settings.Default.CutOptimaConnectionString = BuildConnectionString(
-					Settings.Default.Bases[selectionDialog.CurrentDB]);
+				Settings.Default.CutOptimaConnectionString = Settings.Default.Bases[selectionDialog.CurrentDB];
 			Settings.Default.Save();
 		}
 
