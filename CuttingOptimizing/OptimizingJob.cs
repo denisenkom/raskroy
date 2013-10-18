@@ -115,9 +115,9 @@ namespace Denisenko.Cutting.Optimizing
 		{
 			try
 			{
-				_optimizer = new Optimizer();
 				foreach (DataSet.MaterialsRow materialRow in _dataSet.Materials.Rows)
 				{
+                    _optimizer = new Optimizer();
 					foreach (DataSet.DetailsListsDetailsRow row in materialRow.GetDetailsListsDetailsRows())
 					{
 						Part part = new Part();
@@ -142,9 +142,6 @@ namespace Denisenko.Cutting.Optimizing
 						_optimizer.CurrentResult.Material = new Material(materialRow.MaterialID, materialRow.Name, !materialRow.HaveDirection);
 						_schemes.Add(_optimizer.CurrentResult);
 					}
-					_optimizer.Parts.Clear();
-					_optimizer.Sheets.Clear();
-					_optimizer.Reset();
 				}
 				_status = StatusType.Completed;
 			}
