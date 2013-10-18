@@ -201,7 +201,7 @@ bool Perebor2d::new_optimize(const Rect &rect, LayoutBuilder &layout, Amounts &c
 
     // horizontal cut separating top and bottom remain
     if (remain_y > 0) {
-        scalar cut_size = std::min(saw_size, remain);
+        scalar cut_size = std::min(saw_size, remain_y);
         layout.append_cut(cut_size);
         remain_y -= cut_size;
     }
