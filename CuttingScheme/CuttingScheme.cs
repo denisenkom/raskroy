@@ -304,5 +304,10 @@ namespace Denisenko.Cutting
         }
 
         #endregion
+
+        public bool BetterThan(CuttingScheme best_result)
+        {
+            throw new NotImplementedException();
+        }
     };
 }
