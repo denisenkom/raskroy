@@ -43,7 +43,7 @@ struct Part {
 	}
 };	// 16+4+4+4+4=32B
 
-typedef std::list<Part> Parts;
+typedef std::vector<Part> Parts;
 
 struct Stat {
 	double Opilki;

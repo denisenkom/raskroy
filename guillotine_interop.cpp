@@ -240,6 +240,10 @@ extern "C" int DLLEXPORT new_layout2d(
         layout_builder.simplify();
         layout_builder.to_layout(*layout);
         *res = layout.release();
+        // report back new amounts
+        for (int i = 0; i < parts.size(); i++) {
+            layout_rects[i].amount = parts[i].Amount;
+        }
     }
     return ret;
 }
