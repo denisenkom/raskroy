@@ -92,7 +92,7 @@ bool Raskroy::new_optimize(Rect sheet, Parts & parts, scalar cut_size, LayoutBui
 		}
 	}
     Amounts consume(m_remains.size());
-	bool ret = m_perebor2d.new_optimize(sheet, layout, consume);
+	bool ret = m_perebor2d.new_optimize(sheet, layout);
     return ret;
 }
 
