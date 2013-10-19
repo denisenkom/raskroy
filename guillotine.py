@@ -80,6 +80,8 @@ def layout2d(rects, sheet, cut_size=0):
                        )
     try:
         if ret:
+            for i, rect in enumerate(rects):
+                rect["amount"] = conv_rects[i].amount
             return _conv_layout(playout.contents, rects)
         else:
             return None

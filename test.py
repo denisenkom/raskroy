@@ -7,6 +7,7 @@ class TestCase(unittest.TestCase):
         rect = {"size": (10, 10)}
         res = layout2d([rect], (10, 10))
         self.assertIn(res["along"], (0, 1))
+        self.assertEqual(0, rect["amount"])
         if res["along"] == 0:
             self.assertDictEqual(
                 {"along": 0, "elements": [{"type": 2, "rect": rect, "size": 10}]},
@@ -35,6 +36,7 @@ class TestCase(unittest.TestCase):
                                       {"type": 0, "size": 2},
                                       ]},
             layout2d([rect], (12, 10)))
+        self.assertEqual(0, rect["amount"])
 
     def test_rectangle_with_remains(self):
         self.maxDiff = None
@@ -55,6 +57,7 @@ class TestCase(unittest.TestCase):
                 ]
                 },
             layout2d([rect], (12, 11)))
+        self.assertEqual(0, rect["amount"])
 
     def test_skinny_detail(self):
         # +-+---------+
@@ -83,6 +86,8 @@ class TestCase(unittest.TestCase):
                         ]
                     }, "size": 9}]},
             res)
+        self.assertEqual(0, rect1["amount"])
+        self.assertEqual(0, rect2["amount"])
 
     def test_consumption_bug(self):
         rect1 = {"size": (1, 10)}
@@ -101,11 +106,15 @@ class TestCase(unittest.TestCase):
                     ]
                 }, "size": 9}]},
             res)
+        self.assertEqual(0, rect1["amount"])
+        self.assertEqual(0, rect2["amount"])
 
     def test_rects_with_one_same_size(self):
         rect1 = {"size": (2, 4)}
         rect2 = {"size": (3, 4)}
         res = layout2d([rect1, rect2], (5, 4))
+        self.assertEqual(0, rect1["amount"])
+        self.assertEqual(0, rect2["amount"])
 
     def test_duplicate_details(self):
        rect1 = {"size": (4, 10), "name": "rect1"}
@@ -115,3 +124,5 @@ class TestCase(unittest.TestCase):
                                      {"type": 1, "size": 0},
                                      {"type": 2, "rect": rect2, "size": 4}]},
            layout2d([rect1, rect2], (8, 10)))
+       self.assertEqual(0, rect1["amount"])
+       self.assertEqual(0, rect2["amount"])
