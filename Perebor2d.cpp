@@ -83,7 +83,7 @@ void _parts_layout_fill(LayoutBuilder & layout, int axis, const Rect & rect, con
 }
 
 
-bool Perebor2d::new_optimize(const Rect &rect, LayoutBuilder &layout, Amounts &consume)
+bool Perebor2d::new_optimize(const Rect &rect, LayoutBuilder &layout)
 {
     // choose best (biggest) size to start with
     const Size * best_by[2] = {0};
@@ -122,11 +122,13 @@ bool Perebor2d::new_optimize(const Rect &rect, LayoutBuilder &layout, Amounts &c
 
     // do 1D bin packing optimization
 	double cut;
-	Amounts rashodPerebor(consume.size());
+	Amounts rashodPerebor(m_remains->size());
 	scalar remain;
     t_raskroy::t_details details;
 	if (!m_perebor.Make(*best_size, rect.Size[best_parts_axis], details, rashodPerebor, remain, cut))
 		return false;
+
+    *m_remains -= rashodPerebor;
 
     scalar saw_size = m_perebor.get_SawThickness();
     Rect parts_block;
@@ -186,7 +188,7 @@ bool Perebor2d::new_optimize(const Rect &rect, LayoutBuilder &layout, Amounts &c
             // sublayout for right remain
             Rect remain_right(remain_x, parts_block.Size[y_axis]);
             std::auto_ptr<LayoutBuilder> pright_layout(new LayoutBuilder);
-            if (new_optimize(remain_right, *pright_layout, consume)) {
+            if (new_optimize(remain_right, *pright_layout)) {
                 top_layout->append_sublayout(pright_layout, remain_x);
             } else {
                 top_layout->append_remain(remain_x);
@@ -209,7 +211,7 @@ bool Perebor2d::new_optimize(const Rect &rect, LayoutBuilder &layout, Amounts &c
             // create layout for bottom part
             std::auto_ptr<LayoutBuilder> pbottom_layout(new LayoutBuilder);
             Rect remain_bottom(rect.Size[x_axis], remain_y);
-            if (new_optimize(remain_bottom, *pbottom_layout, consume)) {
+            if (new_optimize(remain_bottom, *pbottom_layout)) {
                 layout.append_sublayout(pbottom_layout, remain_y);
             } else {
                 layout.append_remain(remain_y);

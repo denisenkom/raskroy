@@ -84,6 +84,24 @@ class TestCase(unittest.TestCase):
                     }, "size": 9}]},
             res)
 
+    def test_consumption_bug(self):
+        rect1 = {"size": (1, 10)}
+        rect2 = {"size": (9, 4)}
+        res = layout2d([rect1, rect2], (10, 10))
+        self.maxDiff = None
+        self.assertDictEqual(
+            {"along": 0, "elements": [
+                {"type": 2, "rect": rect1, "size": 1},
+                {"type": 1, "size": 0},
+                {"type": 3, "layout": {
+                    "along": 1, "elements": [
+                    {"type": 2, "rect": rect2, "size": 4},
+                    {"type": 1, "size": 0},
+                    {"type": 0, "size": 6},
+                    ]
+                }, "size": 9}]},
+            res)
+
     def test_rects_with_one_same_size(self):
         rect1 = {"size": (2, 4)}
         rect2 = {"size": (3, 4)}
