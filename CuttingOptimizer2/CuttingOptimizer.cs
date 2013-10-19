@@ -50,7 +50,7 @@ namespace Denisenko.Cutting.Optimizing {
     {
         [DllImport("guillotine_interop.dll")]
         unsafe public static extern Int32 new_layout2d(
-            [MarshalAs(UnmanagedType.LPArray, SizeParamIndex=1)]_LayoutRect[] rects, UInt32 num,
+            _LayoutRect* rects, UInt32 num,
             Scalar sheet_x, Scalar sheet_y, Scalar cut_size,
             _Layout ** result);
 
@@ -67,9 +67,11 @@ namespace Denisenko.Cutting.Optimizing {
 	        return decimal.ToInt64(value * 1000);
         }
 
-	    unsafe public static CuttingScheme ConvertLayout(_Layout * layout)
+	    unsafe public static CuttingScheme ConvertLayout(_Layout * layout, ParametersCollection parameters, Sheet sheet)
 	    {
 		    CuttingScheme result = new CuttingScheme();
+            result.Sheet = sheet;
+            result.Parameters = parameters;
 		    CuttingResultBuilder builder = new CuttingResultBuilder();
 		    builder.LoadSections(layout, result);
 		    return result;
@@ -109,42 +111,48 @@ namespace Denisenko.Cutting.Optimizing {
 
         public CuttingScheme Layout2d(List<Part> parts, Sheet sheet, Decimal cut_size)
         {
-            var rects = new _LayoutRect[parts.Count];
-            for (var i = 0; i < parts.Count; i++) {
-                rects[i].amount = (uint)parts[i].Quantity;
-                rects[i].can_rotate = parts[i].CanRotate ? 1 : 0;
-                rects[i].size_x = _GuillotineApi.ToScaled(parts[i].Length);
-                rects[i].size_y = _GuillotineApi.ToScaled(parts[i].Width);
-            }
-            unsafe 
+            unsafe
             {
-                _Layout * layout;
-                var ret =_GuillotineApi.new_layout2d(rects, (uint)rects.Length,
-                    _GuillotineApi.ToScaled(sheet.Width), _GuillotineApi.ToScaled(sheet.Height),
-                    _GuillotineApi.ToScaled(cut_size), &layout);
-
+                var rects = (_LayoutRect*)Marshal.AllocHGlobal(Marshal.SizeOf(typeof(_LayoutRect)) * parts.Count);
                 try
                 {
-                    if (ret == 0)
+                    for (var i = 0; i < parts.Count; i++)
                     {
-                        return null;
+                        rects[i].amount = (uint)parts[i].Quantity;
+                        rects[i].can_rotate = parts[i].CanRotate ? 1 : 0;
+                        rects[i].size_x = _GuillotineApi.ToScaled(parts[i].Length);
+                        rects[i].size_y = _GuillotineApi.ToScaled(parts[i].Width);
                     }
-                    else
+                    _Layout* layout;
+                    var ret = _GuillotineApi.new_layout2d(rects, (uint)parts.Count,
+                        _GuillotineApi.ToScaled(sheet.Width - Parameters.CutOffLeft - Parameters.CutOffRight),
+                        _GuillotineApi.ToScaled(sheet.Height - Parameters.CutOffTop - Parameters.CutOffBottom),
+                        _GuillotineApi.ToScaled(cut_size), &layout);
+
+                    try
                     {
-                        var scheme = _GuillotineApi.ConvertLayout(layout);
-                        scheme.Sheet = sheet;
-                        // TODO:
-		                //scheme.Parameters = parameters;
-                        for (var i = 0; i < parts.Count; i++)
+                        if (ret == 0)
                         {
-                            parts[i].Quantity = (int)rects[i].amount;
+                            return null;
                         }
-                        return scheme;
+                        else
+                        {
+                            var scheme = _GuillotineApi.ConvertLayout(layout, m_parameters, sheet);
+                            for (var i = 0; i < parts.Count; i++)
+                            {
+                                parts[i].Quantity = (int)rects[i].amount;
+                            }
+                            return scheme;
+                        }
+                    }
+                    finally
+                    {
+                        _GuillotineApi.free_layout(layout);
                     }
                 }
                 finally
                 {
-                    _GuillotineApi.free_layout(layout);
+                    Marshal.FreeHGlobal((IntPtr)rects);
                 }
             }
         }
