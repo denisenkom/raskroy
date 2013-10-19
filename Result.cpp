@@ -109,7 +109,16 @@ void LayoutElementBuilder::_convert(LayoutElement & out) {
         layout->to_layout(*out_sublayout);
         out.layout = out_sublayout.release();
     } else if (type == ELEM_RECT) {
-        out.rect_index = rect_index;
+        bool found = false;
+        for (auto i = part->parts.begin(); i != part->parts.end(); i++) {
+            if ((*i)->Amount > 0) {
+                (*i)->Amount -= 1;
+                out.rect_index = (*i)->Tag;
+                found = true;
+                break;
+            }
+        }
+        assert(found);
     }
 }
 

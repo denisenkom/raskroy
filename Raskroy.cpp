@@ -93,12 +93,6 @@ bool Raskroy::new_optimize(Rect sheet, Parts & parts, scalar cut_size, LayoutBui
 	}
     Amounts consume(m_remains.size());
 	bool ret = m_perebor2d.new_optimize(sheet, layout, consume);
-    if (ret) {
-        for (int i = 0; i < consume.size(); i++) {
-            assert(parts[i].AmountOffset == i);
-            parts[i].Amount -= consume[i];
-        }
-    }
     return ret;
 }
 

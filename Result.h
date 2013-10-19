@@ -131,8 +131,7 @@ struct LayoutElementBuilder
     scalar size;  // size of the element along layout axis
     LayoutElementType type;  // rect, remain, cut or sub-layout
     union {
-        int rect_index;  // if type = ELEM_RECT this contains index of
-                         // the rect from layout_rects
+        const OtherSize * part;
         struct LayoutBuilder * layout;  // if type == ELEM_SUBLAYOUT this
                                  // is the pointer to sub-layout
     };
