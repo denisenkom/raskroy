@@ -58,7 +58,7 @@ inline bool Perebor2d::Optimize(const Rect &rect, Stat &stat, int s, t_raskroy &
 
 void _parts_layout_fill(LayoutBuilder & layout, int axis, const Rect & rect, const t_raskroy::t_details & details, scalar saw_size) {
     scalar remain = rect.Size[axis];
-    for (t_raskroy::t_details::const_iterator parti = details.begin();
+    for (auto parti = details.begin();
             parti != details.end(); parti++)
     {
         LayoutElementBuilder part_el;
@@ -67,7 +67,7 @@ void _parts_layout_fill(LayoutBuilder & layout, int axis, const Rect & rect, con
         // TODO: implement the case when there are many parts
         // on the other_size
         part_el.part = parti->other_size;
-        for (unsigned int i = 0; i < parti->num; i++) {
+        for (auto i = 0; i < parti->num; i++) {
             assert(remain >= parti->size);
             layout.elements.push_back(part_el);
             remain -= parti->size;
@@ -89,7 +89,7 @@ bool Perebor2d::new_optimize(const Rect &rect, LayoutBuilder &layout)
     const Size * best_by[2] = {0};
     for (int i = 0; i <= 1; i++) {
         // get biggest size that fits by i axis
-        for (Sizes::const_iterator sizei = m_sizes[i].begin();
+        for (auto sizei = m_sizes[i].begin();
              sizei != m_sizes[i].end(); sizei++)
         {
             if (sizei->Value <= rect.Size[i]) {
@@ -167,11 +167,11 @@ bool Perebor2d::new_optimize(const Rect &rect, LayoutBuilder &layout)
     scalar remain_y = rect.Size[y_axis];
 
     // horizontal sub-layout for top part containing details
-    std::auto_ptr<LayoutBuilder> top_layout(new LayoutBuilder);
+    std::unique_ptr<LayoutBuilder> top_layout(new LayoutBuilder);
     top_layout->axis = x_axis;
 
     // parts sub-sub-layout
-    std::auto_ptr<LayoutBuilder> pparts_layout(new LayoutBuilder);
+    std::unique_ptr<LayoutBuilder> pparts_layout(new LayoutBuilder);
     pparts_layout->axis = best_parts_axis;
     _parts_layout_fill(*pparts_layout, best_parts_axis, parts_block, details, saw_size);
     top_layout->append_sublayout(pparts_layout, parts_block.Size[x_axis]);
@@ -180,14 +180,14 @@ bool Perebor2d::new_optimize(const Rect &rect, LayoutBuilder &layout)
 
     if (remain_x > 0) {
         // vertical cut separating parts block and right remain
-        scalar cut_size = std::min(saw_size, remain_x);
+        auto cut_size = std::min(saw_size, remain_x);
         top_layout->append_cut(cut_size);
         remain_x -= cut_size;
 
         if (remain_x > 0) {
             // sublayout for right remain
             Rect remain_right(remain_x, parts_block.Size[y_axis]);
-            std::auto_ptr<LayoutBuilder> pright_layout(new LayoutBuilder);
+            std::unique_ptr<LayoutBuilder> pright_layout(new LayoutBuilder);
             if (new_optimize(remain_right, *pright_layout)) {
                 top_layout->append_sublayout(pright_layout, remain_x);
             } else {
@@ -203,13 +203,13 @@ bool Perebor2d::new_optimize(const Rect &rect, LayoutBuilder &layout)
 
     if (remain_y > 0) {
         // horizontal cut separating top and bottom remain
-        scalar cut_size = std::min(saw_size, remain_y);
+        auto cut_size = std::min(saw_size, remain_y);
         layout.append_cut(cut_size);
         remain_y -= cut_size;
 
         if (remain_y > 0) {
             // create layout for bottom part
-            std::auto_ptr<LayoutBuilder> pbottom_layout(new LayoutBuilder);
+            std::unique_ptr<LayoutBuilder> pbottom_layout(new LayoutBuilder);
             Rect remain_bottom(rect.Size[x_axis], remain_y);
             if (new_optimize(remain_bottom, *pbottom_layout)) {
                 layout.append_sublayout(pbottom_layout, remain_y);
