@@ -1,6 +1,8 @@
 cmake_minimum_required (VERSION 2.6)
 
-list( APPEND CMAKE_CXX_FLAGS "-std=c++0x ${CMAKE_CXX_FLAGS}")
+if(CMAKE_COMPILER_IS_GNUCXX)
+    list( APPEND CMAKE_CXX_FLAGS "-std=c++0x ${CMAKE_CXX_FLAGS}")
+endif()
 
 project (raskroy_test)
 
