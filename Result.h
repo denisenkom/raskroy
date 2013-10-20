@@ -177,7 +177,7 @@ struct LayoutBuilder {
     }
 
     void _free() {
-        for (std::list<LayoutElementBuilder>::iterator i = elements.begin();
+        for (auto i = elements.begin();
              i != elements.end(); i++)
         {
             if (i->type == ELEM_SUBLAYOUT)
@@ -194,8 +194,8 @@ struct LayoutBuilder {
         out.along = axis;
         out.num_elements = elements.size();
         out.elements = new LayoutElement[out.num_elements];
-        int i = 0;
-        for (std::list<LayoutElementBuilder>::iterator pel = elements.begin();
+        auto i = 0;
+        for (auto pel = elements.begin();
              pel != elements.end(); pel++, i++)
         {
             pel->_convert(out.elements[i]);
