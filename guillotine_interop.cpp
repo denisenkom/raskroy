@@ -188,7 +188,7 @@ extern "C" int DLLEXPORT layout2d(
     {
         auto rect = &layout_rects[i];
         parts.push_back(Part(rect->size[0], rect->size[1],
-                             rect->can_rotate, rect->amount));
+                             rect->can_rotate != 0, rect->amount));
     }
     Parts sheets;
     sheets.push_back(Part(sheet.size[0], sheet.size[1]));
@@ -227,7 +227,7 @@ extern "C" int DLLEXPORT new_layout2d(
     {
         auto rect = &layout_rects[i];
         Part part(rect->size[0], rect->size[1],
-                  rect->can_rotate, rect->amount);
+                  rect->can_rotate != 0, rect->amount);
         part.Tag = (int)i;
         parts.push_back(part);
     }
