@@ -67,7 +67,7 @@ void _parts_layout_fill(LayoutBuilder & layout, int axis, const Rect & rect, con
         // TODO: implement the case when there are many parts
         // on the other_size
         part_el.part = parti->other_size;
-        for (auto i = 0; i < parti->num; i++) {
+        for (auto i = 0u; i < parti->num; i++) {
             assert(remain >= parti->size);
             layout.elements.push_back(part_el);
             remain -= parti->size;
