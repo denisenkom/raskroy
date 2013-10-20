@@ -149,7 +149,7 @@ struct LayoutBuilder {
 
     void simplify();
 
-    void append_sublayout(std::auto_ptr<LayoutBuilder> sublayout, scalar size) {
+    void append_sublayout(std::unique_ptr<LayoutBuilder> sublayout, scalar size) {
         if (sublayout->axis == axis) {
             elements.splice(elements.end(), sublayout->elements);
         }

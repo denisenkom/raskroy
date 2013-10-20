@@ -100,7 +100,7 @@ Layout * _make_raskroy_layout(t_raskroy * raskroy,
     cout << "  recurse: " << raskroy->watchRecurse() << endl;
     cout << "  remain: " << raskroy->watchRemain() << endl;
     cout << " cut_size: " << cut_size << endl;
-    auto_ptr<Layout> layout(new Layout);
+    unique_ptr<Layout> layout(new Layout);
     if (raskroy->watchRecurse()) {
         layout->along = raskroy->s;
         cout << "layout->along: " << layout->along << endl;
@@ -119,7 +119,7 @@ Layout * _make_raskroy_layout(t_raskroy * raskroy,
                 Sheet subsheet = sheet;
                 subsheet.size[!layout->along] = element.size;
                 cout << "calling make_details_layout" << endl;
-                auto_ptr<Layout> detail_layout(new Layout);
+                unique_ptr<Layout> detail_layout(new Layout);
                 _make_details_layout(layout.get(),
                                      r,
                                      cut_size,
@@ -236,7 +236,7 @@ extern "C" int DLLEXPORT new_layout2d(
     LayoutBuilder layout_builder;
     int ret = raskroy.new_optimize(sheet, parts, cut_size, layout_builder) ? 1 : 0;
     if (ret) {
-        auto_ptr<Layout> layout(new Layout);
+        unique_ptr<Layout> layout(new Layout);
         layout_builder.simplify();
         layout_builder.to_layout(*layout);
         *res = layout.release();

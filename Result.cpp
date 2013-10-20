@@ -105,7 +105,7 @@ void LayoutElementBuilder::_convert(LayoutElement & out) {
     out.type = type;
     out.size = size;
     if (type == ELEM_SUBLAYOUT) {
-        std::auto_ptr<Layout> out_sublayout(new Layout);
+        std::unique_ptr<Layout> out_sublayout(new Layout);
         layout->to_layout(*out_sublayout);
         out.layout = out_sublayout.release();
     } else if (type == ELEM_RECT) {

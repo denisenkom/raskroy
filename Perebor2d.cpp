@@ -174,7 +174,7 @@ bool Perebor2d::new_optimize(const Rect &rect, LayoutBuilder &layout)
     std::unique_ptr<LayoutBuilder> pparts_layout(new LayoutBuilder);
     pparts_layout->axis = best_parts_axis;
     _parts_layout_fill(*pparts_layout, best_parts_axis, parts_block, details, saw_size);
-    top_layout->append_sublayout(pparts_layout, parts_block.Size[x_axis]);
+    top_layout->append_sublayout(std::move(pparts_layout), parts_block.Size[x_axis]);
     assert(parts_block.Size[x_axis] <= remain_x);
     remain_x -= parts_block.Size[x_axis];
 
@@ -189,7 +189,7 @@ bool Perebor2d::new_optimize(const Rect &rect, LayoutBuilder &layout)
             Rect remain_right(remain_x, parts_block.Size[y_axis]);
             std::unique_ptr<LayoutBuilder> pright_layout(new LayoutBuilder);
             if (new_optimize(remain_right, *pright_layout)) {
-                top_layout->append_sublayout(pright_layout, remain_x);
+                top_layout->append_sublayout(std::move(pright_layout), remain_x);
             } else {
                 top_layout->append_remain(remain_x);
             }
@@ -197,7 +197,7 @@ bool Perebor2d::new_optimize(const Rect &rect, LayoutBuilder &layout)
     }
 
     // adding top sub-layout to resulting layout
-    layout.append_sublayout(top_layout, parts_block.Size[y_axis]);
+    layout.append_sublayout(std::move(top_layout), parts_block.Size[y_axis]);
     remain_y -= parts_block.Size[y_axis];
     assert(remain_y >= 0);
 
@@ -212,7 +212,7 @@ bool Perebor2d::new_optimize(const Rect &rect, LayoutBuilder &layout)
             std::unique_ptr<LayoutBuilder> pbottom_layout(new LayoutBuilder);
             Rect remain_bottom(rect.Size[x_axis], remain_y);
             if (new_optimize(remain_bottom, *pbottom_layout)) {
-                layout.append_sublayout(pbottom_layout, remain_y);
+                layout.append_sublayout(std::move(pbottom_layout), remain_y);
             } else {
                 layout.append_remain(remain_y);
             }
