@@ -24,8 +24,8 @@ struct Sheet
 
 
 LayoutElement * _vector_to_array(const vector<LayoutElement> & elements) {
-    LayoutElement * array = new LayoutElement[elements.size()];
-    for (size_t i = 0; i < elements.size(); i++) {
+    auto array = new LayoutElement[elements.size()];
+    for (auto i = 0; i < elements.size(); i++) {
         array[i] = elements[i];
     }
     return array;
@@ -51,7 +51,7 @@ void _make_details_layout(Layout * detail_layout,
     vector<LayoutElement> elements;
     scalar remain = sheet.size[!raskroy->s];
     cout << "remain: " << remain << endl;
-    for (t_raskroy::t_details::const_iterator detail = raskroy->details.begin();
+    for (auto detail = raskroy->details.begin();
             detail != raskroy->details.end(); detail++) {
         for (unsigned i = 0; i < detail->num; i++) {
             LayoutElement element;
@@ -73,7 +73,7 @@ void _make_details_layout(Layout * detail_layout,
         remain_el.size = remain;
         if (raskroy->watchRemain()) {
             remain_el.type = ELEM_SUBLAYOUT;
-            Sheet subsheet = sheet;
+            auto subsheet = sheet;
             subsheet.size[raskroy->s] = remain;
             remain_el.layout = _make_raskroy_layout(raskroy->watchRemain(),
                                                     cut_size,
@@ -100,15 +100,14 @@ Layout * _make_raskroy_layout(t_raskroy * raskroy,
     cout << "  recurse: " << raskroy->watchRecurse() << endl;
     cout << "  remain: " << raskroy->watchRemain() << endl;
     cout << " cut_size: " << cut_size << endl;
-    auto_ptr<Layout> layout(new Layout);
+    unique_ptr<Layout> layout(new Layout);
     if (raskroy->watchRecurse()) {
         layout->along = raskroy->s;
         cout << "layout->along: " << layout->along << endl;
-        scalar remain = sheet.size[!layout->along];
+        auto remain = sheet.size[!layout->along];
         cout << "remain: " << remain << endl;
         vector<LayoutElement> elements;
-        for (t_raskroy * r = raskroy;
-                r; r = r->watchRecurse()) {
+        for (auto r = raskroy; r; r = r->watchRecurse()) {
             cout << "raskroy iteration" << endl;
             cout << "r: " << r << endl;
             cout << "r->s: " << r->s << endl;
@@ -116,10 +115,10 @@ Layout * _make_raskroy_layout(t_raskroy * raskroy,
                 LayoutElement element;
                 element.type = ELEM_SUBLAYOUT;
                 element.size = r->cut;
-                Sheet subsheet = sheet;
+                auto subsheet = sheet;
                 subsheet.size[!layout->along] = element.size;
                 cout << "calling make_details_layout" << endl;
-                auto_ptr<Layout> detail_layout(new Layout);
+                unique_ptr<Layout> detail_layout(new Layout);
                 _make_details_layout(layout.get(),
                                      r,
                                      cut_size,
@@ -187,7 +186,7 @@ extern "C" int DLLEXPORT layout2d(
     Parts parts;
     for (unsigned int i = 0; i < num; i++)
     {
-        LayoutRect * rect = &layout_rects[i];
+        auto rect = &layout_rects[i];
         parts.push_back(Part(rect->size[0], rect->size[1],
                              rect->can_rotate, rect->amount));
     }
@@ -226,7 +225,7 @@ extern "C" int DLLEXPORT new_layout2d(
     Parts parts;
     for (unsigned int i = 0; i < num; i++)
     {
-        LayoutRect * rect = &layout_rects[i];
+        auto rect = &layout_rects[i];
         Part part(rect->size[0], rect->size[1],
                   rect->can_rotate, rect->amount);
         part.Tag = (int)i;
@@ -236,7 +235,7 @@ extern "C" int DLLEXPORT new_layout2d(
     LayoutBuilder layout_builder;
     int ret = raskroy.new_optimize(sheet, parts, cut_size, layout_builder) ? 1 : 0;
     if (ret) {
-        auto_ptr<Layout> layout(new Layout);
+        unique_ptr<Layout> layout(new Layout);
         layout_builder.simplify();
         layout_builder.to_layout(*layout);
         *res = layout.release();

@@ -105,7 +105,7 @@ void LayoutElementBuilder::_convert(LayoutElement & out) {
     out.type = type;
     out.size = size;
     if (type == ELEM_SUBLAYOUT) {
-        std::auto_ptr<Layout> out_sublayout(new Layout);
+        std::unique_ptr<Layout> out_sublayout(new Layout);
         layout->to_layout(*out_sublayout);
         out.layout = out_sublayout.release();
     } else if (type == ELEM_RECT) {
@@ -129,7 +129,7 @@ void LayoutBuilder::simplify() {
     while (simplify_more) {
         simplify_more = false;
         if (elements.size() == 1 && elements.back().type == ELEM_SUBLAYOUT) {
-            LayoutBuilder * sublayout = elements.back().layout;
+            auto sublayout = elements.back().layout;
             axis = sublayout->axis;
             elements.swap(sublayout->elements);
             sublayout->elements.clear();
@@ -139,8 +139,7 @@ void LayoutBuilder::simplify() {
     }
 
     // simplify all sub-layouts recursively
-    for (std::list<LayoutElementBuilder>::iterator i = elements.begin();
-         i != elements.end(); i++)
+    for (auto i = elements.begin(); i != elements.end(); i++)
     {
         if (i->type == ELEM_SUBLAYOUT)
             i->layout->simplify();
@@ -149,12 +148,11 @@ void LayoutBuilder::simplify() {
     // merge sublayouts with the same direction as current layout
     simplify_more = true;
     while (simplify_more) {
-        for (std::list<LayoutElementBuilder>::iterator i = elements.begin();
-             i != elements.end(); i++)
+        for (auto i = elements.begin(); i != elements.end(); i++)
         {
             simplify_more = false;
             if (i->type == ELEM_SUBLAYOUT && i->layout->axis == axis) {
-                LayoutBuilder * sublayout = i->layout;
+                auto sublayout = i->layout;
                 elements.splice(i, sublayout->elements);
                 elements.erase(i);
                 delete sublayout;

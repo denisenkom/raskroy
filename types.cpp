@@ -18,7 +18,7 @@ OtherSize::OtherSize(scalar value, unsigned amount, Amounts &amounts, bool haveO
 
 OtherSizes::iterator OtherSizes::Find(scalar size)
 {
-	for (iterator otherSize = begin(); otherSize != end(); otherSize++)
+	for (auto otherSize = begin(); otherSize != end(); otherSize++)
 		if (otherSize->Value == size)
 			return otherSize;
 	return end();
@@ -26,8 +26,8 @@ OtherSizes::iterator OtherSizes::Find(scalar size)
 
 void OtherSizes::SetMin(void)
 {
-	iterator min = begin();
-	for (iterator otherSize = begin(); otherSize != end(); otherSize++)
+	auto min = begin();
+	for (auto otherSize = begin(); otherSize != end(); otherSize++)
 		if (otherSize->Value < min->Value)
 			min = otherSize;
 	Min = min;
@@ -35,7 +35,7 @@ void OtherSizes::SetMin(void)
 
 Sizes::iterator Sizes::Find(scalar size)
 {
-	for (iterator pSize = begin(); pSize != end(); pSize++)
+	for (auto pSize = begin(); pSize != end(); pSize++)
 		if (pSize->Value == size)
 			return pSize;
 	return end();
@@ -45,7 +45,7 @@ void Sizes::AddSize(scalar size, scalar otherSize, unsigned amount,
                     Amounts &amounts, bool haveOffset, unsigned &offset,
                     Part * part)
 {
-    iterator pSize = Find(size);
+    auto pSize = Find(size);
     if (pSize == end())
     {
         Size newSize;
@@ -57,7 +57,7 @@ void Sizes::AddSize(scalar size, scalar otherSize, unsigned amount,
     }
     else
     {
-        OtherSizes::iterator pOtherSize = pSize->other_sizes.Find(otherSize);
+        auto pOtherSize = pSize->other_sizes.Find(otherSize);
         if (pOtherSize == pSize->other_sizes.end()) {
             OtherSize other_size(otherSize, amount, amounts, haveOffset, offset);
             other_size.parts.push_back(part);
@@ -79,8 +79,8 @@ void Sizes::AddPart(Part &part, unsigned s, Amounts &amounts)
 Amounts& Amounts::operator += (const Amounts &amounts)
 {
 	assert(size() == amounts.size());
-	iterator i1 = begin();
-	const_iterator i2 = amounts.begin();
+	auto i1 = begin();
+	auto i2 = amounts.begin();
 	for (; i1 != end(); i1++, i2++)
 		*i1 += *i2;
 	return *this;
@@ -89,8 +89,8 @@ Amounts& Amounts::operator += (const Amounts &amounts)
 Amounts& Amounts::operator -= (const Amounts &amounts)
 {
 	assert(size() == amounts.size());
-	iterator i1 = begin();
-	const_iterator i2 = amounts.begin();
+	auto i1 = begin();
+	auto i2 = amounts.begin();
 	for (; i1 != end(); i1++, i2++)
 		*i1 -= *i2;
 	return *this;
@@ -105,7 +105,7 @@ Amounts& Amounts::operator *= (unsigned n)
 		std::fill(begin(), end(), 0);
 		return *this;
 	}
-	for (iterator i = begin(); i != end(); i++)
+	for (auto i = begin(); i != end(); i++)
 		(*i) *= n;
 	return *this;
 }
@@ -113,10 +113,10 @@ Amounts& Amounts::operator *= (unsigned n)
 Amounts Amounts::operator - (const Amounts &a2) const
 {
 	assert(size() == a2.size());
-	Amounts res(size());
-	const_iterator i1 = begin();
-	const_iterator i2 = a2.begin();
-	iterator ri = res.begin();
+	auto res = Amounts(size());
+	auto i1 = begin();
+	auto i2 = a2.begin();
+	auto ri = res.begin();
 	for (; i1 != end(); i1++, i2++, ri++)
 	{
 		(*ri) = (*i1) - (*i2);
@@ -128,14 +128,14 @@ Amounts Amounts::operator * (unsigned n) const
 {
 	if (n == 1)
 		return *this;
-	Amounts res(size());
+	auto res = Amounts(size());
 	if (n == 0)
 	{
 		std::fill(res.begin(), res.end(), 0);
 		return res;
 	}
-	const_iterator i = begin();
-	iterator ri = res.begin();
+	auto i = begin();
+	auto ri = res.begin();
 	for (; i != end(); i++, ri++)
 	{
 		(*ri) = (*i) * n;
@@ -147,16 +147,16 @@ unsigned Amounts::operator / (const Amounts &a2) const
 {
 	assert(size() == a2.size());
 	assert(size() != 0);
-	unsigned mind = 0;
-	bool first = true;
-	const_iterator i1 = begin();
-	const_iterator i2 = a2.begin();
+	auto mind = 0u;
+	auto first = true;
+	auto i1 = begin();
+	auto i2 = a2.begin();
 	for (; i1 != end(); i1++, i2++)
 	{
 		if (*i2 == 0)
 			continue;
 
-		unsigned d = (*i1)/(*i2);
+		auto d = (*i1)/(*i2);
 		if (d == 0)
 			return 0;
 		if (first || d < mind)
