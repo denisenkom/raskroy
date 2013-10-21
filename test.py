@@ -148,3 +148,31 @@ class TestCase(unittest.TestCase):
                              res)
         self.assertEqual(0, rect1["amount"])
         self.assertEqual(1, rect2["amount"])
+
+    def test_transposed_sublayout(self):
+        rect1 = {"size": (3, 9)}
+        rect2 = {"size": (7, 5), "amount": 2}
+        rect3 = {"size": (2, 2)}
+        res = layout2d([rect1, rect2, rect3], (10, 11))
+        self.assertEqual(0, rect1["amount"])
+        self.assertEqual(0, rect2["amount"])
+        self.assertEqual(0, rect3["amount"])
+        self.maxDiff = None
+        left_bottom_layout = {
+            "along": 0, "elements": [{"type": 2, "rect": rect3, "size": 2},
+                                     {"type": 1, "size": 0},
+                                     {"type": 0, "size": 1}]}
+        left_layout = {"along": 1, "elements": [{"type": 2, "rect": rect1, "size": 9},
+                                                {"type": 1, "size": 0},
+                                                {"type": 3, "layout": left_bottom_layout, "size": 2}]}
+        right_layout = {
+            "along": 1, "elements": [{"type": 2, "rect": rect2, "size": 5},
+                                     {"type": 1, "size": 0},
+                                     {"type": 2, "rect": rect2, "size": 5},
+                                     {"type": 1, "size": 0},
+                                     {"type": 0, "size": 1}]}
+        self.assertDictEqual(
+            {"along": 0, "elements": [{"type": 3, "layout": left_layout, "size": 3},
+                                      {"type": 1, "size": 0},
+                                      {"type": 3, "layout": right_layout, "size": 7}]},
+            res)

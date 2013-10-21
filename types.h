@@ -23,6 +23,10 @@ struct Rect {
 		Size[0] = size0;
 		Size[1] = size1;
 	}
+
+    bool operator==(const Rect & rhs) const {
+        return Size[0] == rhs.Size[0] && Size[1] == rhs.Size[1];
+    }
 };
 
 struct Part {

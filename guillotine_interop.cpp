@@ -237,6 +237,7 @@ extern "C" int DLLEXPORT new_layout2d(
     if (ret) {
         unique_ptr<Layout> layout(new Layout);
         layout_builder.simplify();
+        layout_builder.check();
         layout_builder.to_layout(*layout);
         *res = layout.release();
         // report back new amounts

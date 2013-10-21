@@ -101,7 +101,7 @@ void t_raskroy::CheckAndCalcStat(scalar cutThickness, const Rect& rect, Stat* ou
 }
 
 
-void LayoutElementBuilder::_convert(LayoutElement & out) {
+void LayoutElementBuilder::_convert(LayoutElement & out) const {
     out.type = type;
     out.size = size;
     if (type == ELEM_SUBLAYOUT) {
@@ -123,18 +123,72 @@ void LayoutElementBuilder::_convert(LayoutElement & out) {
 }
 
 
+void LayoutBuilder::begin_appending() {
+    assert(elements.size() == 0);  // should be called before appending
+    remain = rect.Size[axis];
+}
+
+
+void LayoutBuilder::append_part(const OtherSize * other_size, scalar size) {
+        LayoutElementBuilder part_el;
+        part_el.type = ELEM_RECT;
+        part_el.size = size;
+        // TODO: implement the case when there are many parts
+        // on the other_size
+        part_el.rect = rect;
+        part_el.rect.Size[axis] = size;
+        part_el.part = other_size;
+        elements.push_back(part_el);
+        remain -= size;
+}
+
+
 void LayoutBuilder::simplify() {
     // collapse trivial sublayouts
     bool simplify_more = true;
     while (simplify_more) {
         simplify_more = false;
-        if (elements.size() == 1 && elements.back().type == ELEM_SUBLAYOUT) {
-            auto sublayout = elements.back().layout;
-            axis = sublayout->axis;
-            elements.swap(sublayout->elements);
-            sublayout->elements.clear();
-            delete sublayout;
-            simplify_more = true;
+        if (elements.size() == 1) {
+            if (elements.back().type == ELEM_SUBLAYOUT) {
+                auto sublayout = elements.back().layout;
+                axis = sublayout->axis;
+                elements.swap(sublayout->elements);
+                sublayout->elements.clear();
+                delete sublayout;
+                simplify_more = true;
+            }
+            else {
+
+            }
+        }
+        else {
+            for (auto i = elements.begin(); i != elements.end(); i++)
+            {
+                simplify_more = false;
+                if (i->type == ELEM_SUBLAYOUT && i->layout->axis == axis) {
+                    // merge sublayouts with the same direction as current layout
+                    auto sublayout = i->layout;
+                    elements.splice(i, sublayout->elements);
+                    elements.erase(i);
+                    delete sublayout;
+                    simplify_more = true;
+                    break;
+                }
+                else if (i->type == ELEM_SUBLAYOUT && i->layout->elements.size() == 1) {
+                    // collapse unnecessary sub-layouts
+                    auto el = &*i->layout->elements.begin();
+                    i->type = el->type;
+                    i->size = el->rect.Size[axis];
+                    i->rect = el->rect;
+                    i->part = el->part;
+                    auto del_layout = i->layout;
+                    i->layout = el->layout;
+                    el->layout = nullptr;
+                    delete del_layout;
+                    simplify_more = true;
+                    break;
+                }
+            }
         }
     }
 
@@ -144,23 +198,21 @@ void LayoutBuilder::simplify() {
         if (i->type == ELEM_SUBLAYOUT)
             i->layout->simplify();
     }
+}
 
-    // merge sublayouts with the same direction as current layout
-    simplify_more = true;
-    while (simplify_more) {
-        for (auto i = elements.begin(); i != elements.end(); i++)
-        {
-            simplify_more = false;
-            if (i->type == ELEM_SUBLAYOUT && i->layout->axis == axis) {
-                auto sublayout = i->layout;
-                elements.splice(i, sublayout->elements);
-                elements.erase(i);
-                delete sublayout;
-                simplify_more = true;
-                break;
-            }
+
+void LayoutBuilder::check() const {
+    scalar size = 0;
+    for (auto i = elements.begin(); i != elements.end(); i++) {
+        size += i->size;
+        if (i->type == ELEM_SUBLAYOUT) {
+            auto subrect = rect;
+            subrect.Size[axis] = i->size;
+            assert(subrect == i->layout->rect);
+            i->layout->check();
         }
     }
+    assert(size == rect.Size[axis]);
 }
 
 } // Raskroy

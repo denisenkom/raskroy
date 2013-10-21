@@ -61,22 +61,15 @@ void _parts_layout_fill(LayoutBuilder & layout, int axis, const Rect & rect, con
     for (auto parti = details.begin();
             parti != details.end(); parti++)
     {
-        LayoutElementBuilder part_el;
-        part_el.type = ELEM_RECT;
-        part_el.size = parti->size;
         // TODO: implement the case when there are many parts
         // on the other_size
-        part_el.part = parti->other_size;
         for (auto i = 0u; i < parti->num; i++) {
-            assert(remain >= parti->size);
-            layout.elements.push_back(part_el);
-            remain -= parti->size;
+            layout.append_part(parti->other_size, parti->size);
 
             // adding cut element
-            if (remain > 0) {
-                scalar cut_size = std::min(saw_size, remain);
+            if (layout.remain > 0) {
+                auto cut_size = std::min(saw_size, layout.remain);
                 layout.append_cut(cut_size);
-                remain -= cut_size;
             }
         }
     }
@@ -93,8 +86,22 @@ bool Perebor2d::new_optimize(const Rect &rect, LayoutBuilder &layout)
              sizei != m_sizes[i].end(); sizei++)
         {
             if (sizei->Value <= rect.Size[i]) {
-                best_by[i] = &*sizei;
-                break;
+                // make shure that there is a rectangle
+                // that fits along other axis
+                auto fits = false;
+                for (auto osi = sizei->other_sizes.begin();
+                     osi != sizei->other_sizes.end(); osi++)
+                {
+                    auto rem = (*m_remains)[osi->Offset];
+                    if (osi->Value <= rect.Size[!i] && rem > 0) {
+                        fits = true;
+                        break;
+                    }
+                }
+                if (fits) {
+                    best_by[i] = &*sizei;
+                    break;
+                }
             }
         }
     }
@@ -163,16 +170,23 @@ bool Perebor2d::new_optimize(const Rect &rect, LayoutBuilder &layout)
     // best main cut is along x axis
     int y_axis = !x_axis;
     layout.axis = y_axis;
+    layout.rect = rect;
+    layout.begin_appending();
     scalar remain_x = rect.Size[x_axis];
     scalar remain_y = rect.Size[y_axis];
 
     // horizontal sub-layout for top part containing details
     std::unique_ptr<LayoutBuilder> top_layout(new LayoutBuilder);
     top_layout->axis = x_axis;
+    top_layout->rect = rect;
+    top_layout->begin_appending();
+    top_layout->rect.Size[y_axis] = parts_block.Size[y_axis];
 
     // parts sub-sub-layout
     std::unique_ptr<LayoutBuilder> pparts_layout(new LayoutBuilder);
     pparts_layout->axis = best_parts_axis;
+    pparts_layout->rect = parts_block;
+    pparts_layout->begin_appending();
     _parts_layout_fill(*pparts_layout, best_parts_axis, parts_block, details, saw_size);
     top_layout->append_sublayout(std::move(pparts_layout), parts_block.Size[x_axis]);
     assert(parts_block.Size[x_axis] <= remain_x);
@@ -186,7 +200,9 @@ bool Perebor2d::new_optimize(const Rect &rect, LayoutBuilder &layout)
 
         if (remain_x > 0) {
             // sublayout for right remain
-            Rect remain_right(remain_x, parts_block.Size[y_axis]);
+            Rect remain_right;
+            remain_right.Size[x_axis] = remain_x;
+            remain_right.Size[y_axis] = parts_block.Size[y_axis];
             std::unique_ptr<LayoutBuilder> pright_layout(new LayoutBuilder);
             if (new_optimize(remain_right, *pright_layout)) {
                 top_layout->append_sublayout(std::move(pright_layout), remain_x);
@@ -210,7 +226,9 @@ bool Perebor2d::new_optimize(const Rect &rect, LayoutBuilder &layout)
         if (remain_y > 0) {
             // create layout for bottom part
             std::unique_ptr<LayoutBuilder> pbottom_layout(new LayoutBuilder);
-            Rect remain_bottom(rect.Size[x_axis], remain_y);
+            Rect remain_bottom;
+            remain_bottom.Size[x_axis] = rect.Size[x_axis];
+            remain_bottom.Size[y_axis] = remain_y;
             if (new_optimize(remain_bottom, *pbottom_layout)) {
                 layout.append_sublayout(std::move(pbottom_layout), remain_y);
             } else {

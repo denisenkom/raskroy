@@ -129,27 +129,32 @@ struct Layout
 struct LayoutElementBuilder
 {
     scalar size;  // size of the element along layout axis
+    Rect rect;
     LayoutElementType type;  // rect, remain, cut or sub-layout
-    union {
-        const OtherSize * part;
-        struct LayoutBuilder * layout;  // if type == ELEM_SUBLAYOUT this
+    const OtherSize * part;
+    struct LayoutBuilder * layout;  // if type == ELEM_SUBLAYOUT this
                                  // is the pointer to sub-layout
-    };
-    LayoutElementBuilder() : type(ELEM_REMAIN), layout(0) {}
+    LayoutElementBuilder() : type(ELEM_REMAIN), layout(0), part(nullptr) {}
 
-    void _convert(LayoutElement & out);
+    void _convert(LayoutElement & out) const;
 };
 
 
 struct LayoutBuilder {
+    Rect rect;
     int axis;
     std::list<LayoutElementBuilder> elements;
+    scalar remain;
 
     LayoutBuilder() : axis(0) {}
 
     void simplify();
 
+    void begin_appending();
+
     void append_sublayout(std::unique_ptr<LayoutBuilder> sublayout, scalar size) {
+        assert(sublayout->rect.Size[axis] == size);
+        assert(size <= remain);
         if (sublayout->axis == axis) {
             elements.splice(elements.end(), sublayout->elements);
         }
@@ -158,23 +163,36 @@ struct LayoutBuilder {
             sublayout_el.type = ELEM_SUBLAYOUT;
             sublayout_el.layout = sublayout.release();
             sublayout_el.size = size;
+            sublayout_el.rect = rect;
+            sublayout_el.rect.Size[axis] = size;
             elements.push_back(sublayout_el);
         }
+        remain -= size;
     }
 
     void append_cut(scalar size) {
+        assert(size <= remain);
         LayoutElementBuilder cut_el;
         cut_el.type = ELEM_CUT;
         cut_el.size = size;
+        cut_el.rect = rect;
+        cut_el.rect.Size[axis] = size;
         elements.push_back(cut_el);
+        remain -= size;
     }
 
     void append_remain(scalar size) {
+        assert(size <= remain);
         LayoutElementBuilder remain_el;
         remain_el.type = ELEM_REMAIN;
         remain_el.size = size;
+        remain_el.rect = rect;
+        remain_el.rect.Size[axis] = size;
         elements.push_back(remain_el);
+        remain -= size;
     }
+
+    void append_part(const OtherSize * other_size, scalar size);
 
     void _free() {
         for (auto i = elements.begin();
@@ -189,7 +207,7 @@ struct LayoutBuilder {
         _free();
     }
 
-    void to_layout(Layout & out) {
+    void to_layout(Layout & out) const {
         out.clear();
         out.along = axis;
         out.num_elements = elements.size();
@@ -202,6 +220,7 @@ struct LayoutBuilder {
         }
     }
 
+    void check() const;
 };
 
 
