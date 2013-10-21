@@ -56,26 +56,6 @@ inline bool Perebor2d::Optimize(const Rect &rect, Stat &stat, int s, t_raskroy &
 }
 
 
-void _parts_layout_fill(LayoutBuilder & layout, int axis, const Rect & rect, const t_raskroy::t_details & details, scalar saw_size) {
-    scalar remain = rect.Size[axis];
-    for (auto parti = details.begin();
-            parti != details.end(); parti++)
-    {
-        // TODO: implement the case when there are many parts
-        // on the other_size
-        for (auto i = 0u; i < parti->num; i++) {
-            layout.append_part(parti->other_size, parti->size);
-
-            // adding cut element
-            if (layout.remain > 0) {
-                auto cut_size = std::min(saw_size, layout.remain);
-                layout.append_cut(cut_size);
-            }
-        }
-    }
-}
-
-
 bool Perebor2d::new_optimize(const Rect &rect, LayoutBuilder &layout)
 {
     // choose best (biggest) size to start with
@@ -187,7 +167,19 @@ bool Perebor2d::new_optimize(const Rect &rect, LayoutBuilder &layout)
     pparts_layout->axis = best_parts_axis;
     pparts_layout->rect = parts_block;
     pparts_layout->begin_appending();
-    _parts_layout_fill(*pparts_layout, best_parts_axis, parts_block, details, saw_size);
+    for (auto parti = details.begin();
+            parti != details.end(); parti++)
+    {
+        for (auto i = 0u; i < parti->num; i++) {
+            pparts_layout->append_part(parti->other_size, parti->size);
+
+            // adding cut element
+            if (pparts_layout->remain > 0) {
+                auto cut_size = std::min(saw_size, pparts_layout->remain);
+                pparts_layout->append_cut(cut_size);
+            }
+        }
+    }
     top_layout->append_sublayout(std::move(pparts_layout), parts_block.Size[x_axis]);
     assert(parts_block.Size[x_axis] <= remain_x);
     remain_x -= parts_block.Size[x_axis];
