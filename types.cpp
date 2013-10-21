@@ -71,6 +71,8 @@ void Sizes::AddSize(scalar size, scalar otherSize, unsigned amount,
 
 void Sizes::AddPart(Part &part, unsigned s, Amounts &amounts)
 {
+    if (part.Amount <= 0)
+        return;
 	AddSize(part.rect.Size[s], part.rect.Size[!s], part.Amount, amounts, s == 1, part.AmountOffset, &part);
 	if (part.Rotate && part.rect.Size[s] != part.rect.Size[!s])
 		AddSize(part.rect.Size[!s], part.rect.Size[s], part.Amount, amounts, true, part.AmountOffset, &part);

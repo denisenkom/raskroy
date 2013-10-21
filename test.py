@@ -137,3 +137,14 @@ class TestCase(unittest.TestCase):
                              res)
         self.assertEqual(1, rect1["amount"])
         self.assertEqual(2, rect2["amount"])
+
+    def test_zero_parts(self):
+        rect1 = {"size": (10, 5), "amount": 0}
+        rect2 = {"size": (5, 5), "amount": 3}
+        res = layout2d([rect1, rect2], (10, 5))
+        self.assertDictEqual({"along": 0, "elements": [{"type": 2, "rect": rect2, "size": 5},
+                                                       {"type": 1, "size": 0},
+                                                       {"type": 2, "rect": rect2, "size": 5}]},
+                             res)
+        self.assertEqual(0, rect1["amount"])
+        self.assertEqual(1, rect2["amount"])
