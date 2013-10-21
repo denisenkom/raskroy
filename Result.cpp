@@ -130,16 +130,17 @@ void LayoutBuilder::begin_appending() {
 
 
 void LayoutBuilder::append_part(const OtherSize * other_size, scalar size) {
-        LayoutElementBuilder part_el;
-        part_el.type = ELEM_RECT;
-        part_el.size = size;
-        // TODO: implement the case when there are many parts
-        // on the other_size
-        part_el.rect = rect;
-        part_el.rect.Size[axis] = size;
-        part_el.part = other_size;
-        elements.push_back(part_el);
-        remain -= size;
+    assert(size <= remain);
+    LayoutElementBuilder part_el;
+    part_el.type = ELEM_RECT;
+    part_el.size = size;
+    // TODO: implement the case when there are many parts
+    // on the other_size
+    part_el.rect = rect;
+    part_el.rect.Size[axis] = size;
+    part_el.part = other_size;
+    elements.push_back(part_el);
+    remain -= size;
 }
 
 
