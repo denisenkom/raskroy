@@ -176,3 +176,13 @@ class TestCase(unittest.TestCase):
                                       {"type": 1, "size": 0},
                                       {"type": 3, "layout": right_layout, "size": 7}]},
             res)
+
+    def test_cut_size(self):
+        rect = {"size": (2, 4), "amount": 2}
+        res = layout2d([rect], (7, 4), cut_size=2)
+        self.assertDictEqual(
+            {"along": 0, "elements": [{"type": 2, "rect": rect, "size": 2},
+                                      {"type": 1, "size": 2},
+                                      {"type": 2, "rect": rect, "size": 2},
+                                      {"type": 1, "size": 1}]},
+            res)

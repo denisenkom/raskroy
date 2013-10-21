@@ -120,7 +120,7 @@ bool Perebor2d::new_optimize(const Rect &rect, LayoutBuilder &layout)
     scalar saw_size = m_perebor.get_SawThickness();
     Rect parts_block;
     parts_block.Size[!best_parts_axis] = best_size->Value;
-    parts_block.Size[best_parts_axis] = rect.Size[best_parts_axis] - remain - saw_size;
+    parts_block.Size[best_parts_axis] = rect.Size[best_parts_axis] - remain - std::min(saw_size, remain);
     scalar remain_bottom_height = rect.Size[1] - parts_block.Size[1] - saw_size;
     scalar remain_right_width = rect.Size[0] - parts_block.Size[0] - saw_size;
 
