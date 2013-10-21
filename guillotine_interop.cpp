@@ -1,5 +1,6 @@
 // plain C interface to guillotine code
 #include <iostream>
+#include <map>
 #include <vector>
 #include <memory>
 #include "types.h"
@@ -231,9 +232,33 @@ extern "C" int DLLEXPORT new_layout2d(
         part.Tag = (int)i;
         parts.push_back(part);
     }
+
+    // merge parts with the same relevant characteristics
+    std::map<PartKey, std::list<Part*> > unique_parts_map;
+    for (auto i = parts.begin(); i != parts.end(); i++) {
+        PartKey part_key;
+        part_key.rect = i->rect;
+        part_key.can_rotate = i->Rotate;
+        part_key.normalize();
+        unique_parts_map[part_key].push_back(&*i);
+    }
+    Parts unique_parts;
+    for (auto i = unique_parts_map.begin(); i != unique_parts_map.end(); i++) {
+        Part part;
+        part.rect = i->first.rect;
+        part.Rotate = i->first.can_rotate;
+        part.parts = i->second;
+        // calculate combined amount
+        part.Amount = 0;
+        for_each(part.parts.begin(), part.parts.end(),
+                 [&part](Part * el) { part.Amount += el->Amount; });
+
+        unique_parts.push_back(part);
+    }
+
     Raskroy raskroy;
     LayoutBuilder layout_builder;
-    int ret = raskroy.new_optimize(sheet, parts, cut_size, layout_builder) ? 1 : 0;
+    int ret = raskroy.new_optimize(sheet, unique_parts, cut_size, layout_builder) ? 1 : 0;
     if (ret) {
         unique_ptr<Layout> layout(new Layout);
         layout_builder.simplify();

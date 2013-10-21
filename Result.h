@@ -11,7 +11,7 @@ struct t_raskroy {
     struct t_detail {
         scalar size;
         unsigned num;
-        const OtherSize * other_size;
+        std::list<std::pair<Part *, unsigned> > parts;
     };
 
 	typedef std::vector<t_detail> t_details;

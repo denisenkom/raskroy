@@ -72,8 +72,10 @@ bool Perebor2d::new_optimize(const Rect &rect, LayoutBuilder &layout)
                 for (auto osi = sizei->other_sizes.begin();
                      osi != sizei->other_sizes.end(); osi++)
                 {
-                    auto rem = (*m_remains)[osi->Offset];
-                    if (osi->Value <= rect.Size[!i] && rem > 0) {
+                    if (osi->Value <= rect.Size[!i] && 
+                        std::any_of(osi->parts.begin(), osi->parts.end(), [this](Part * part){ return (*m_remains)[part->AmountOffset] > 0; })
+                        )
+                    {
                         fits = true;
                         break;
                     }

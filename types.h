@@ -29,12 +29,23 @@ struct Rect {
     }
 };
 
+
+struct PartKey {
+    Rect rect;
+    bool can_rotate;
+
+    void normalize();
+    bool operator <(const PartKey &) const;
+};
+
+
 struct Part {
 	Rect rect;
 	bool Rotate;
 	unsigned Amount;
 	unsigned AmountOffset;
 	int Tag;
+    std::list<Part*> parts;
 
 	Part() {}
 	Part(scalar size0, scalar size1, bool rotate = false, unsigned amount = 0)
@@ -148,13 +159,14 @@ class OtherSize
 {
 public:
 	scalar Value;
-	unsigned Offset;
     std::list<Part*> parts;
 
 	OtherSize(void) {};
-	OtherSize(scalar value, unsigned amount, Amounts &amounts, bool haveOffset, unsigned &offset);
+	OtherSize(scalar value);
 	bool operator < (const OtherSize& b) const {return Value < b.Value;}
 	bool operator >= (const OtherSize& b) const {return Value >= b.Value;}
+
+    void set_consumption(unsigned amount, const Amounts & remains, Amounts & consumption) const;
 };
 
 class OtherSizes : public std::vector<OtherSize>
@@ -175,10 +187,9 @@ struct Size {
 
 class Sizes : public std::vector<Size> {
     iterator Find(scalar size);
-    void AddSize(scalar s, scalar otherSize, unsigned amount, Amounts &amounts,
-                bool haveOffset, unsigned &offset, Part * part);
+    void AddSize(scalar s, scalar otherSize, Part * part);
 public:
-    void AddPart(Part &part, unsigned s, Amounts &amounts);
+    void AddPart(Part &part, unsigned s);
 };
 
 } // namespace Denisenko

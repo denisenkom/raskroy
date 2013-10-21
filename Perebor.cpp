@@ -12,28 +12,31 @@ namespace Raskroy {
 //	[io] m_pOtherSize
 //	[i]  m_pEndOtherSize
 //	[i]  m_remains
-scalar Perebor::Recursion(scalar i_size, Amounts &o_rashods)
+scalar Perebor::Recursion(scalar i_size, std::list<std::pair<const OtherSize*, unsigned> > & layout)
 {
+    unsigned amount = 0;
+    std::for_each(m_pOtherSize->parts.begin(), m_pOtherSize->parts.end(),
+                  [&amount, this](Part * part){amount += (*m_remains)[part->AmountOffset];});
 	if (m_pOtherSize != m_pEndOtherSize)
 	{
 		scalar bestRemain = i_size;
 		bool first = true;
 		scalar size = i_size;
 		unsigned n = 0;
-		unsigned amount = (*m_remains)[m_pOtherSize->Offset];
 
 		while (n <= amount && size > m_sawThickness)
 		{
 			scalar remain;
-			Amounts rashods(m_remains->size());
+			//Amounts rashods(m_remains->size());
+            std::list<std::pair<const OtherSize *, unsigned> > sublayout;
 			m_pOtherSize++;
-			remain = Recursion(size, rashods);
+			remain = Recursion(size, sublayout);
 			m_pOtherSize--;
 			if (remain < bestRemain || first)
 			{
 				bestRemain = remain;
-				rashods[m_pOtherSize->Offset] = n;
-				o_rashods = rashods;
+                sublayout.push_front(std::make_pair(&*m_pOtherSize, n));
+                layout.swap(sublayout);
 				if (bestRemain <= 0) // лучше быть не может
 					return bestRemain;
 				first = false;
@@ -55,12 +58,13 @@ scalar Perebor::Recursion(scalar i_size, Amounts &o_rashods)
 	{
 		scalar fullSize = m_pOtherSize->Value + m_sawThickness;
 		unsigned n = unsigned((i_size + m_sawThickness) / fullSize);
-		unsigned amount = (*m_remains)[m_pOtherSize->Offset];
 		if (n > amount)
 			n = amount;
+        layout.clear();
+        layout.push_back(std::make_pair(&*m_pOtherSize, n));
 		//o_rashods.resize(m_remains->size());
-		std::fill(o_rashods.begin(), o_rashods.end(), 0);
-		o_rashods[m_pOtherSize->Offset] = n;
+		//std::fill(o_rashods.begin(), o_rashods.end(), 0);
+        //m_pOtherSize->set_consumption(n, *m_remains, o_rashods);
 		// результат здесь может быть < 0 что нормально если последний пил больше чем
 		// кромка
 		return i_size - n * fullSize;
@@ -85,24 +89,36 @@ bool Perebor::Make(const Size &size, scalar otherSize, t_raskroy::t_details &o_d
 	m_pEndOtherSize = size.other_sizes.end();
 	m_pEndOtherSize--;
 	// рекурсивный подбор для размеров [i..end]
-	scalar remain = Recursion(otherSize, o_rashods);
+    std::list<std::pair<const OtherSize *, unsigned> > layout;
+	scalar remain = Recursion(otherSize, layout);
 	if (remain == otherSize)	// если ничего небыло расположено
 		return false;
 
-	assert(!o_rashods.IsAllZeros());
-
-	unsigned cuts = 0;// количество пилов
-	for (OtherSizes::const_iterator pOtherSize = size.other_sizes.begin(); pOtherSize != size.other_sizes.end(); pOtherSize++)
+	auto cuts = 0;// количество пилов
+	for (auto sz = layout.begin(); sz != layout.end(); sz++)
 	{
-		unsigned rashod = o_rashods[pOtherSize->Offset];
-		if (rashod > 0)
+        auto consumed = sz->second;
+        auto os = sz->first;
+        if (consumed > 0)
 		{
+            auto consume_remain = consumed;
 			t_raskroy::t_detail detail;
-			detail.size = pOtherSize->Value;
-            detail.other_size = &*pOtherSize;
-			detail.num = rashod;
+            // fill o_rashods
+            // and fill parts attribute
+            for (auto part_iter = os->parts.begin();
+                 part_iter != os->parts.end(); part_iter++)
+            {
+                auto ppart = *part_iter;
+                auto part_remain = (*m_remains)[ppart->AmountOffset];
+                auto to_consume = std::min(part_remain, consume_remain);
+                o_rashods[ppart->AmountOffset] += to_consume;
+                consume_remain -= to_consume;
+                detail.parts.push_back(std::make_pair(ppart, to_consume));
+            }
+            detail.size = sz->first->Value;
+            detail.num = consumed;
 			o_details.push_back(detail);
-			cuts += rashod;	// количество пилов
+            cuts += consumed;	// количество пилов
 		}
 	}
 	// Вычисляем количество опилок

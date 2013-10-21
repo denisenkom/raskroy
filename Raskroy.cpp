@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include <algorithm>
 #include <functional>
 #include "errors.h"
 #include "Raskroy.h"
@@ -45,7 +46,7 @@ void Raskroy::Begin(Parts &parts, const Parts &sheets)
 	{
 		m_sizes[s].clear();
 		for (auto pPart = parts.begin(); pPart != parts.end(); pPart++)
-			m_sizes[s].AddPart(*pPart, s, m_remains);
+			m_sizes[s].AddPart(*pPart, s);
 
         // order from big to small
         std::sort(m_sizes[s].begin(), m_sizes[s].end(), std::greater_equal<Size>());
@@ -75,12 +76,18 @@ float Raskroy::GetPercentCompleted()
 
 bool Raskroy::new_optimize(Rect sheet, Parts & parts, scalar cut_size, LayoutBuilder & layout) {
     put_SawThickness(cut_size);
-	m_remains.clear();
+    // initialize amounts vector
+    m_remains.resize(parts.size());
+    std::fill(m_remains.begin(), m_remains.end(), 0);
+    // assing amount offsets to parts
+    auto offset = 0;
+    std::for_each(parts.begin(), parts.end(), [&offset](Part & part) {part.AmountOffset = offset++;});
+    // initialize sizes lookups
 	for (auto s = 0; s <= 1; s++)
 	{
 		m_sizes[s].clear();
 		for (auto pPart = parts.begin(); pPart != parts.end(); pPart++)
-			m_sizes[s].AddPart(*pPart, s, m_remains);
+			m_sizes[s].AddPart(*pPart, s);
 
         // order from big to small
         std::sort(m_sizes[s].begin(), m_sizes[s].end(), std::greater_equal<Size>());
@@ -91,6 +98,7 @@ bool Raskroy::new_optimize(Rect sheet, Parts & parts, scalar cut_size, LayoutBui
 			pSize->other_sizes.SetMin();
 		}
 	}
+
 	auto ret = m_perebor2d.new_optimize(sheet, layout);
     return ret;
 }

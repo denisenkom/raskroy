@@ -4,17 +4,52 @@
 namespace Denisenko {
 namespace Raskroy {
 
-OtherSize::OtherSize(scalar value, unsigned amount, Amounts &amounts, bool haveOffset, unsigned &offset)
+void PartKey::normalize() {
+    if (can_rotate) {
+        if (rect.Size[0] < rect.Size[1]) {
+            std::swap(rect.Size[0], rect.Size[1]);
+        }
+    }
+}
+
+
+bool PartKey::operator <(const PartKey & rhs) const {
+    if (rect.Size[0] < rhs.rect.Size[0])
+        return true;
+    else if (rect.Size[0] > rhs.rect.Size[0])
+        return false;
+    if (rect.Size[1] < rhs.rect.Size[1])
+        return true;
+    else if (rect.Size[1] > rhs.rect.Size[1])
+        return false;
+    if (!can_rotate && rhs.can_rotate)
+        return true;
+    else
+        return false;
+}
+
+
+OtherSize::OtherSize(scalar value)
 : Value(value)
 {
-	if (haveOffset)
-		Offset = offset;
-	else
-	{
-		Offset = offset = unsigned(amounts.size());
-		amounts.push_back(amount);
-	}
 }
+
+
+void OtherSize::set_consumption(unsigned amount, const Amounts & remains, Amounts & consumptions) const {
+    for (auto parti = parts.begin();
+         parti != parts.end();
+         parti++)
+    {
+        if (amount == 0)
+            break;
+        auto index = (*parti)->AmountOffset;
+        auto consume = std::min(amount, remains[index]);
+        consumptions[index] = consume;
+        amount -= consume;
+    }
+    assert(amount == 0);
+}
+
 
 OtherSizes::iterator OtherSizes::Find(scalar size)
 {
@@ -41,16 +76,14 @@ Sizes::iterator Sizes::Find(scalar size)
 	return end();
 }
 
-void Sizes::AddSize(scalar size, scalar otherSize, unsigned amount,
-                    Amounts &amounts, bool haveOffset, unsigned &offset,
-                    Part * part)
+void Sizes::AddSize(scalar size, scalar otherSize, Part * part)
 {
     auto pSize = Find(size);
     if (pSize == end())
     {
         Size newSize;
         newSize.Value = size;
-        OtherSize other_size(otherSize, amount, amounts, haveOffset, offset);
+        OtherSize other_size(otherSize);
         other_size.parts.push_back(part);
         newSize.other_sizes.push_back(other_size);
         push_back(newSize);
@@ -59,23 +92,22 @@ void Sizes::AddSize(scalar size, scalar otherSize, unsigned amount,
     {
         auto pOtherSize = pSize->other_sizes.Find(otherSize);
         if (pOtherSize == pSize->other_sizes.end()) {
-            OtherSize other_size(otherSize, amount, amounts, haveOffset, offset);
+            OtherSize other_size(otherSize);
             other_size.parts.push_back(part);
             pSize->other_sizes.push_back(other_size);
         } else {
-            amounts[pOtherSize->Offset] += amount;
             pOtherSize->parts.push_back(part);
         }
     }
 }
 
-void Sizes::AddPart(Part &part, unsigned s, Amounts &amounts)
+void Sizes::AddPart(Part &part, unsigned s)
 {
     if (part.Amount <= 0)
         return;
-	AddSize(part.rect.Size[s], part.rect.Size[!s], part.Amount, amounts, s == 1, part.AmountOffset, &part);
+	AddSize(part.rect.Size[s], part.rect.Size[!s], &part);
 	if (part.Rotate && part.rect.Size[s] != part.rect.Size[!s])
-		AddSize(part.rect.Size[!s], part.rect.Size[s], part.Amount, amounts, true, part.AmountOffset, &part);
+		AddSize(part.rect.Size[!s], part.rect.Size[s], &part);
 }
 
 Amounts& Amounts::operator += (const Amounts &amounts)

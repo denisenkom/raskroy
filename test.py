@@ -186,3 +186,9 @@ class TestCase(unittest.TestCase):
                                       {"type": 2, "rect": rect, "size": 2},
                                       {"type": 1, "size": 1}]},
             res)
+
+    def test_detail_rotate(self):
+        rect1 = {"size": (4, 2), "can_rotate": True}
+        rect2 = {"size": (2, 4)}
+        res = layout2d([rect1, rect2], (4, 4))
+        print res
