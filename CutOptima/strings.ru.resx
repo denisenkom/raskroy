@@ -117,6 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BeforeRunningLayoutShouldSaveChanges" xml:space="preserve">
+    <value>Прежде чем выполнять раскрой нужно сохранить изменения. 
+Сохранить изменения и выполнить раскрой?</value>
+  </data>
   <data name="ConfirmRemoveDatabase" xml:space="preserve">
     <value>Убрать базу из списка? База не будет удалена физически.</value>
   </data>
@@ -152,6 +156,12 @@
   </data>
   <data name="Inquiry" xml:space="preserve">
     <value>Запрос</value>
+  </data>
+  <data name="NewPartsList" xml:space="preserve">
+    <value>Новый список деталей</value>
+  </data>
+  <data name="PartsList" xml:space="preserve">
+    <value>Список Деталей</value>
   </data>
   <data name="Success" xml:space="preserve">
     <value>Успех</value>

@@ -51,13 +51,13 @@ namespace Denisenko.Cutting.CutOptima
 				this.detailsListsDetailsTableAdapter.FillBy(
 					this.dataSet.DetailsListsDetails, _detailsListID);
 
-				Text = "Список деталей - " + ((DataSet.DetailsListsRow)
+				Text = strings.PartsList + " - " + ((DataSet.DetailsListsRow)
 					(dataSet.DetailsLists.Rows[0])).OrderID;
 			}
 			else if (_openType == DetailsListOpenType.AddNew)
 			{
 				this.detailsListsBindingSource.AddNew();
-				Text = "Новый список деталей";
+				Text = strings.NewPartsList;
 			}
 		}
 
@@ -66,9 +66,7 @@ namespace Denisenko.Cutting.CutOptima
 			EndEdit();
 			if (dataSet.HasChanges())
 			{
-				DialogResult result = MessageBox.Show(
-					"Прежде чем выполнять раскрой нужно сохранить изменения. " +
-					"Сохранить изменения и выполнить раскрой?", "CutOptima", MessageBoxButtons.YesNo,
+				DialogResult result = MessageBox.Show(strings.BeforeRunningLayoutShouldSaveChanges, "CutOptima", MessageBoxButtons.YesNo,
 					MessageBoxIcon.Question);
 				if (result == DialogResult.Yes)
 				{

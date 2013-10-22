@@ -61,6 +61,15 @@ namespace Denisenko.Cutting.CutOptima {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Before running layout you should save changes. Save changes?.
+        /// </summary>
+        internal static string BeforeRunningLayoutShouldSaveChanges {
+            get {
+                return ResourceManager.GetString("BeforeRunningLayoutShouldSaveChanges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remove database from the list? The actual database files will not be deleted..
         /// </summary>
         internal static string ConfirmRemoveDatabase {
@@ -165,6 +174,24 @@ namespace Denisenko.Cutting.CutOptima {
         internal static string Inquiry {
             get {
                 return ResourceManager.GetString("Inquiry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Parts List.
+        /// </summary>
+        internal static string NewPartsList {
+            get {
+                return ResourceManager.GetString("NewPartsList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parts List.
+        /// </summary>
+        internal static string PartsList {
+            get {
+                return ResourceManager.GetString("PartsList", resourceCulture);
             }
         }
         
