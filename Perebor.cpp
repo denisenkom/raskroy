@@ -27,7 +27,6 @@ scalar Perebor::Recursion(scalar i_size, std::list<std::pair<const OtherSize*, u
 		while (n <= amount && size > m_sawThickness)
 		{
 			scalar remain;
-			//Amounts rashods(m_remains->size());
             std::list<std::pair<const OtherSize *, unsigned> > sublayout;
 			m_pOtherSize++;
 			remain = Recursion(size, sublayout);
@@ -63,8 +62,6 @@ scalar Perebor::Recursion(scalar i_size, std::list<std::pair<const OtherSize*, u
         layout.clear();
         layout.push_back(std::make_pair(&*m_pOtherSize, n));
 		//o_rashods.resize(m_remains->size());
-		//std::fill(o_rashods.begin(), o_rashods.end(), 0);
-        //m_pOtherSize->set_consumption(n, *m_remains, o_rashods);
 		// результат здесь может быть < 0 что нормально если последний пил больше чем
 		// кромка
 		return i_size - n * fullSize;
