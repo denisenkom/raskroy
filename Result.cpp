@@ -129,7 +129,7 @@ void LayoutBuilder::begin_appending() {
 }
 
 
-void LayoutBuilder::append_part(const OtherSize * other_size, scalar size) {
+void LayoutBuilder::append_part(Part * part, scalar size) {
     assert(size <= remain);
     LayoutElementBuilder part_el;
     part_el.type = ELEM_RECT;
@@ -138,7 +138,7 @@ void LayoutBuilder::append_part(const OtherSize * other_size, scalar size) {
     // on the other_size
     part_el.rect = rect;
     part_el.rect.Size[axis] = size;
-    part_el.part = other_size;
+    part_el.part = part;
     elements.push_back(part_el);
     remain -= size;
 }

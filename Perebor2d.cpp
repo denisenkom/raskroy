@@ -169,11 +169,15 @@ bool Perebor2d::new_optimize(const Rect &rect, LayoutBuilder &layout)
     pparts_layout->axis = best_parts_axis;
     pparts_layout->rect = parts_block;
     pparts_layout->begin_appending();
-    for (auto parti = details.begin();
-            parti != details.end(); parti++)
+    for (auto deti = details.begin();
+            deti != details.end(); deti++)
     {
-        for (auto i = 0u; i < parti->num; i++) {
-            pparts_layout->append_part(parti->other_size, parti->size);
+        for (auto parti = deti->parts.begin();
+             parti != deti->parts.end(); deti++)
+        {
+            auto ppart = parti->first;
+            auto amount = parti->second;
+            pparts_layout->append_part(ppart, deti->size);
 
             // adding cut element
             if (pparts_layout->remain > 0) {

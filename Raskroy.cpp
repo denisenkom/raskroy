@@ -9,34 +9,38 @@ namespace Raskroy {
 
 void Raskroy::RemoveExostedSizes(void)
 {
-	for (auto s = 0; s <= 1; s++)
-	{
-		auto pSize = m_sizes[s].begin();
-		while (pSize != m_sizes[s].end())
-		{
-			auto pOtherSize = pSize->other_sizes.begin();
-			while (pOtherSize != pSize->other_sizes.end())
-			{
-				if (m_remains[pOtherSize->Offset] == 0)
-				{
-					pSize->other_sizes.erase(pOtherSize);
-					pOtherSize = pSize->other_sizes.begin();
-				}
-				else
-					pOtherSize++;
-			}
-			if (pSize->other_sizes.empty())
-			{
-				m_sizes[s].erase(pSize);
-				pSize = m_sizes[s].begin();
-			}
-			else
-			{
-				pSize->other_sizes.SetMin();
-				pSize++;
-			}
-		}
-	}
+    for (auto s = 0; s <= 1; s++)
+    {
+        auto pSize = m_sizes[s].begin();
+        while (pSize != m_sizes[s].end())
+        {
+            auto pOtherSize = pSize->other_sizes.begin();
+            while (pOtherSize != pSize->other_sizes.end())
+            {
+                if (std::all_of(pOtherSize->parts.begin(),
+                                pOtherSize->parts.end(),
+                                [this](Part * part) {
+                                    return m_remains[part->AmountOffset] == 0;
+                                }))
+                {
+                    pSize->other_sizes.erase(pOtherSize);
+                    pOtherSize = pSize->other_sizes.begin();
+                }
+                else
+                    pOtherSize++;
+            }
+            if (pSize->other_sizes.empty())
+            {
+                m_sizes[s].erase(pSize);
+                pSize = m_sizes[s].begin();
+            }
+            else
+            {
+                pSize->other_sizes.SetMin();
+                pSize++;
+            }
+        }
+    }
 }
 
 void Raskroy::Begin(Parts &parts, const Parts &sheets)
