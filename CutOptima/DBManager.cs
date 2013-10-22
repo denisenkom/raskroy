@@ -218,8 +218,6 @@ namespace Denisenko.Cutting.CutOptima
                     progressFrm.Progress += delta;
                     progressFrm.Update();
                 }
-                UseDb(connection, "master");
-                DetachDb(connection, dbName);
                 progressFrm.Progress = 100;
                 progressFrm.Update();
                 createOk = true;
