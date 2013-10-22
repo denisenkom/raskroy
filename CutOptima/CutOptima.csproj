@@ -249,6 +249,9 @@
       <SubType>Designer</SubType>
       <DependentUpon>CuttingResultForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DetailsListsForm.ru.resx">
+      <DependentUpon>DetailsListsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ExistingDatabaseForm.resx">
       <DependentUpon>ExistingDatabaseForm.cs</DependentUpon>
     </EmbeddedResource>
