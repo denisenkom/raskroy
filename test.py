@@ -190,5 +190,10 @@ class TestCase(unittest.TestCase):
     def test_detail_rotate(self):
         rect1 = {"size": (4, 2), "can_rotate": True}
         rect2 = {"size": (2, 4)}
-        res = layout2d([rect1, rect2], (4, 4))
-        print res
+        res = layout2d([rect1, rect2], (2, 8))
+        self.assertDictEqual(
+            {"along": 1, "elements": [{"type": 2, "rect": rect2, "size": 4},
+                                      {"type": 1, "size": 0},
+                                      {"type": 2, "rect": rect1, "size": 4},
+                                      ]},
+            res)
