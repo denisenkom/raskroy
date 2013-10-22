@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data;
-using System.Data.SqlClient;
+using System.Data.Common;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
@@ -46,9 +46,9 @@ namespace Denisenko.Cutting.CutOptima
             Settings.Default.Save();
         }
 
-        private void UseDb(SqlConnection conn, string dbName)
+        private void UseDb(System.Data.SqlClient.SqlConnection conn, string dbName)
         {
-            using (SqlCommand cmd = conn.CreateCommand())
+            using (var cmd = conn.CreateCommand())
             {
                 cmd.CommandText = "USE [" + dbName + "]";
                 cmd.CommandType = CommandType.Text;
@@ -56,9 +56,9 @@ namespace Denisenko.Cutting.CutOptima
             }
         }
 
-        private void DetachDb(SqlConnection conn, string dbName)
+        private void DetachDb(System.Data.SqlClient.SqlConnection conn, string dbName)
         {
-            using (SqlCommand cmd = conn.CreateCommand())
+            using (var cmd = conn.CreateCommand())
             {
                 cmd.CommandText = "sp_detach_db";
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -90,13 +90,13 @@ namespace Denisenko.Cutting.CutOptima
             progressFrm.Show(owner);
             progressFrm.Update();
 
-			SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+            var builder = new System.Data.SqlClient.SqlConnectionStringBuilder();
             builder.DataSource = _new_db_dialog.Server;
             builder.IntegratedSecurity = _new_db_dialog.windows_auth_cb.Checked;
             builder.UserID = _new_db_dialog.username_tb.Text;
             builder.Password = _new_db_dialog.password_tb.Text;
-            SqlConnection connection = new SqlConnection(builder.ConnectionString);
-			SqlCommand cmd = connection.CreateCommand();
+            var connection = new System.Data.SqlClient.SqlConnection(builder.ConnectionString);
+			var cmd = connection.CreateCommand();
             bool createOk = false;
             bool dbCreated = false;
             String dbName = "";
@@ -111,7 +111,7 @@ namespace Denisenko.Cutting.CutOptima
                         connection.Open();
                         break;
                     }
-                    catch (SqlException ex)
+                    catch (DbException ex)
                     {
                         dr = MessageBox.Show(owner, "Ошибка при подключении к серверу: " + ex.Message, null,
                             MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
@@ -164,7 +164,7 @@ namespace Denisenko.Cutting.CutOptima
                         cmd.ExecuteNonQuery();
                         break;
                     }
-                    catch (SqlException ex)
+                    catch (DbException ex)
                     {
                         dr = MessageBox.Show(owner, "Ошибка при создании базы данных: " + ex.Message, null,
                             MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
@@ -188,7 +188,7 @@ namespace Denisenko.Cutting.CutOptima
                 {
                     UseDb(connection, dbName);
                 }
-                catch (SqlException ex)
+                catch (DbException ex)
                 {
                     MessageBox.Show(owner, "Ошибка при активации базы данных: " + ex.Message, null,
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -209,7 +209,7 @@ namespace Denisenko.Cutting.CutOptima
                     {
                         cmd.ExecuteNonQuery();
                     }
-                    catch (SqlException ex)
+                    catch (DbException ex)
                     {
                         MessageBox.Show(owner, "Ошибка при создании схемы базы данных: " + ex.Message, null,
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -233,7 +233,7 @@ namespace Denisenko.Cutting.CutOptima
                 }
                 connection.Close();
             }
-            builder = new SqlConnectionStringBuilder();
+            builder = new System.Data.SqlClient.SqlConnectionStringBuilder();
             builder.DataSource = _new_db_dialog.Server;
             builder.IntegratedSecurity = _new_db_dialog.windows_auth_cb.Checked;
             builder.UserID = _new_db_dialog.username_tb.Text;
@@ -269,7 +269,7 @@ namespace Denisenko.Cutting.CutOptima
             AddDatabaseForm dialog = new AddDatabaseForm();
 			if (dialog.ShowDialog(owner) != DialogResult.OK)
 				return;
-            var builder = new SqlConnectionStringBuilder();
+            var builder = new System.Data.SqlClient.SqlConnectionStringBuilder();
             builder.DataSource = dialog.Server;
             builder.InitialCatalog = dialog.DbLocation;
 			AddDatabase(builder.ConnectionString);
@@ -277,7 +277,7 @@ namespace Denisenko.Cutting.CutOptima
 
         public bool CheckConnectionString(IWin32Window owner, string connStr)
         {
-            SqlConnection conn = new SqlConnection();
+            var conn = new System.Data.SqlClient.SqlConnection();
             conn.ConnectionString = connStr;
             try
             {
@@ -285,7 +285,7 @@ namespace Denisenko.Cutting.CutOptima
                 conn.Close();
                 return true;
             }
-            catch (SqlException ex)
+            catch (DbException ex)
             {
                 MessageBox.Show(owner, "Ошибка соединения: " + ex.Message, null,
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -295,7 +295,7 @@ namespace Denisenko.Cutting.CutOptima
 
         public bool CmdCheckConnection(IWin32Window owner, String server, LocationType locType, String dbLocation)
         {
-            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+            var builder = new System.Data.SqlClient.SqlConnectionStringBuilder();
             builder.DataSource = server;
             builder.IntegratedSecurity = true;
             builder.AsynchronousProcessing = true;
