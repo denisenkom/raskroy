@@ -443,7 +443,7 @@ namespace Denisenko.Cutting.CutOptima
                         return ctrl as CuttingControl;
                     }
                 }
-                Debug.Fail("Не найден контрол на вкладке TabPage, хотя должен был быть, может забыли добавить?");
+                Debug.Fail("Not found CuttingControl on TabPage");
                 return null;
             }
         }
@@ -464,7 +464,7 @@ namespace Denisenko.Cutting.CutOptima
 					TabPage tabPage = new TabPage((index + 1).ToString());
 
 					Label label = new Label();
-					label.Text = String.Format("Схема: {0}  разм.: {1:0.0} x {2:0.0}  группа мат.: {3}", index + 1, scheme.Width, scheme.Height, scheme.Material.Name);
+					label.Text = String.Format(strings.LayoutTitleFormat, index + 1, scheme.Width, scheme.Height, scheme.Material.Name);
 					label.Dock = DockStyle.Top;
 
 					CuttingControl cuttingControl = new CuttingControl();

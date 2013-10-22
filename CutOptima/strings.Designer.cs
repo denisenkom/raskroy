@@ -178,6 +178,15 @@ namespace Denisenko.Cutting.CutOptima {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Layout: {0}  size: {1:0.0} x {2:0.0}  material: {3}.
+        /// </summary>
+        internal static string LayoutTitleFormat {
+            get {
+                return ResourceManager.GetString("LayoutTitleFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New Parts List.
         /// </summary>
         internal static string NewPartsList {

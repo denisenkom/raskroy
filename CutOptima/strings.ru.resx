@@ -157,6 +157,9 @@
   <data name="Inquiry" xml:space="preserve">
     <value>Запрос</value>
   </data>
+  <data name="LayoutTitleFormat" xml:space="preserve">
+    <value>Схема: {0}  разм.: {1:0.0} x {2:0.0}  группа мат.: {3}</value>
+  </data>
   <data name="NewPartsList" xml:space="preserve">
     <value>Новый список деталей</value>
   </data>

@@ -156,6 +156,9 @@
   <data name="Inquiry" xml:space="preserve">
     <value>Inquiry</value>
   </data>
+  <data name="LayoutTitleFormat" xml:space="preserve">
+    <value>Layout: {0}  size: {1:0.0} x {2:0.0}  material: {3}</value>
+  </data>
   <data name="NewPartsList" xml:space="preserve">
     <value>New Parts List</value>
   </data>
