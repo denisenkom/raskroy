@@ -37,8 +37,8 @@ namespace Denisenko.Cutting.CutOptima
 
         public void CmdRemoveDb(IWin32Window owner, int dbIndex)
         {
-            if (MessageBox.Show(owner, "Убрать базу из списка? База не будет удалена физически.",
-                "Запрос", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
+            if (MessageBox.Show(owner, strings.ConfirmRemoveDatabase,
+                strings.Inquiry, MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.Cancel)
             {
                 return;
             }
@@ -85,8 +85,8 @@ namespace Denisenko.Cutting.CutOptima
             }
 
             ProgressForm progressFrm = new ProgressForm(null);
-            progressFrm.Text = "Создается база";
-            progressFrm.Status = "Подключаемся к серверу";
+            progressFrm.Text = strings.DatabaseIsBeingCreated;
+            progressFrm.Status = strings.ConnectingToTheDatabaseServer;
             progressFrm.Show(owner);
             progressFrm.Update();
 
@@ -113,7 +113,7 @@ namespace Denisenko.Cutting.CutOptima
                     }
                     catch (DbException ex)
                     {
-                        dr = MessageBox.Show(owner, "Ошибка при подключении к серверу: " + ex.Message, null,
+                        dr = MessageBox.Show(owner, strings.CouldntConnectToTheDatabaseServer + ": " + ex.Message, null,
                             MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
                         switch (dr)
                         {
@@ -128,7 +128,7 @@ namespace Denisenko.Cutting.CutOptima
                     }
                 }
                 progressFrm.Progress = 10;
-                progressFrm.Status = "Создание базы";
+                progressFrm.Status = strings.CreatingDatabase;
                 progressFrm.Update();
 
 				// создание новой базы
@@ -166,7 +166,7 @@ namespace Denisenko.Cutting.CutOptima
                     }
                     catch (DbException ex)
                     {
-                        dr = MessageBox.Show(owner, "Ошибка при создании базы данных: " + ex.Message, null,
+                        dr = MessageBox.Show(owner, strings.CouldntCreateDatabase + ": " + ex.Message, null,
                             MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
                         switch (dr)
                         {
@@ -190,7 +190,7 @@ namespace Denisenko.Cutting.CutOptima
                 }
                 catch (DbException ex)
                 {
-                    MessageBox.Show(owner, "Ошибка при активации базы данных: " + ex.Message, null,
+                    MessageBox.Show(owner, strings.CouldntSwitchToDatabase + ": " + ex.Message, null,
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
@@ -211,7 +211,7 @@ namespace Denisenko.Cutting.CutOptima
                     }
                     catch (DbException ex)
                     {
-                        MessageBox.Show(owner, "Ошибка при создании схемы базы данных: " + ex.Message, null,
+                        MessageBox.Show(owner, strings.CouldntCreateDatabaseSchema + ": " + ex.Message, null,
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
@@ -241,7 +241,7 @@ namespace Denisenko.Cutting.CutOptima
             else
                 builder.AttachDBFilename = _new_db_dialog.DbLocation;
             AddDatabase(builder.ConnectionString);
-            MessageBox.Show(owner, "База данных успешно создана", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(owner, strings.DatabaseCreatedSuccessfully, strings.Success, MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
         public class MyWizard
@@ -285,7 +285,7 @@ namespace Denisenko.Cutting.CutOptima
             }
             catch (DbException ex)
             {
-                MessageBox.Show(owner, "Ошибка соединения: " + ex.Message, null,
+                MessageBox.Show(owner, strings.ConnectionError + ": " + ex.Message, null,
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
@@ -363,7 +363,7 @@ namespace Denisenko.Cutting.CutOptima
             {
                 if (conn.ToLower() == baseInfo)
                 {
-                    MessageBox.Show(owner, "База с такими параметрами уже есть в списке", null, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox.Show(owner, strings.DatabaseWithSuchParametersAlreadyPresent, null, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     return false;
                 }
             }

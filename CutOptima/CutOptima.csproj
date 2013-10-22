@@ -143,6 +143,11 @@
     <Compile Include="ExistingDatabaseForm.Designer.cs">
       <DependentUpon>ExistingDatabaseForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>strings.resx</DependentUpon>
+    </Compile>
     <Compile Include="WizardPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -247,6 +252,11 @@
     <EmbeddedResource Include="ExistingDatabaseForm.resx">
       <DependentUpon>ExistingDatabaseForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="strings.ru.resx" />
     <EmbeddedResource Include="WizardPage.resx">
       <SubType>Designer</SubType>
       <DependentUpon>WizardPage.cs</DependentUpon>
