@@ -97,6 +97,15 @@ namespace Denisenko.Cutting.CutOptima {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Continue.
+        /// </summary>
+        internal static string Continue {
+            get {
+                return ResourceManager.GetString("Continue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Couldn&apos;t connect to the database server.
         /// </summary>
         internal static string CouldntConnectToTheDatabaseServer {
@@ -165,6 +174,15 @@ namespace Denisenko.Cutting.CutOptima {
         internal static string DatabaseWithSuchParametersAlreadyPresent {
             get {
                 return ResourceManager.GetString("DatabaseWithSuchParametersAlreadyPresent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        internal static string Error {
+            get {
+                return ResourceManager.GetString("Error", resourceCulture);
             }
         }
         

@@ -130,6 +130,9 @@
   <data name="ConnectionError" xml:space="preserve">
     <value>Ошибка соединения</value>
   </data>
+  <data name="Continue" xml:space="preserve">
+    <value>Продолжить</value>
+  </data>
   <data name="CouldntConnectToTheDatabaseServer" xml:space="preserve">
     <value>Ошибка при подключении к серверу</value>
   </data>
@@ -153,6 +156,9 @@
   </data>
   <data name="DatabaseWithSuchParametersAlreadyPresent" xml:space="preserve">
     <value>База с такими параметрами уже есть в списке</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Ошибка</value>
   </data>
   <data name="Inquiry" xml:space="preserve">
     <value>Запрос</value>

@@ -45,7 +45,7 @@ namespace Denisenko.Cutting.CutOptima
 				catch (Exception ex)
 				{
 					if (MessageBox.Show(ex.Message + Environment.NewLine +
-						"Продолжить?", "Ошибка", MessageBoxButtons.YesNo,
+						strings.Continue + "?", strings.Error, MessageBoxButtons.YesNo,
 						MessageBoxIcon.Error) == DialogResult.Yes)
 					{
 						m_currentDB = databasesListBox.SelectedIndex;
@@ -71,7 +71,7 @@ namespace Denisenko.Cutting.CutOptima
 			catch (Exception ex)
 			{
 				if (MessageBox.Show(ex.Message + Environment.NewLine +
-					"Продолжить?", "Ошибка", MessageBoxButtons.YesNo,
+					strings.Continue + "?", strings.Error, MessageBoxButtons.YesNo,
 					MessageBoxIcon.Error) == DialogResult.No)
 				{
 					return;

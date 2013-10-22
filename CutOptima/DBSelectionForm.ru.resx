@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,61 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BeforeRunningLayoutShouldSaveChanges" xml:space="preserve">
-    <value>Before running layout you should save changes. Save changes?</value>
+  <data name="newButton.Text" xml:space="preserve">
+    <value>Новая...</value>
   </data>
-  <data name="ConfirmRemoveDatabase" xml:space="preserve">
-    <value>Remove database from the list? The actual database files will not be deleted.</value>
+  <data name="addButton.Text" xml:space="preserve">
+    <value>Добавить...</value>
   </data>
-  <data name="ConnectingToTheDatabaseServer" xml:space="preserve">
-    <value>Connecting to the database server</value>
+  <data name="buttonCancel.Text" xml:space="preserve">
+    <value>Отмена</value>
   </data>
-  <data name="ConnectionError" xml:space="preserve">
-    <value>Connection error</value>
+  <data name="buttonRemove.Text" xml:space="preserve">
+    <value>Убрать</value>
   </data>
-  <data name="Continue" xml:space="preserve">
-    <value>Continue</value>
-  </data>
-  <data name="CouldntConnectToTheDatabaseServer" xml:space="preserve">
-    <value>Couldn't connect to the database server</value>
-  </data>
-  <data name="CouldntCreateDatabase" xml:space="preserve">
-    <value>Couldn't create database</value>
-  </data>
-  <data name="CouldntCreateDatabaseSchema" xml:space="preserve">
-    <value>Couldn't create database schema</value>
-  </data>
-  <data name="CouldntSwitchToDatabase" xml:space="preserve">
-    <value>Couldn't switch to database</value>
-  </data>
-  <data name="CreatingDatabase" xml:space="preserve">
-    <value>Creating database</value>
-  </data>
-  <data name="DatabaseCreatedSuccessfully" xml:space="preserve">
-    <value>Database created successufully</value>
-  </data>
-  <data name="DatabaseIsBeingCreated" xml:space="preserve">
-    <value>Database is being created</value>
-  </data>
-  <data name="DatabaseWithSuchParametersAlreadyPresent" xml:space="preserve">
-    <value>Database with such parameters already present</value>
-  </data>
-  <data name="Error" xml:space="preserve">
-    <value>Error</value>
-  </data>
-  <data name="Inquiry" xml:space="preserve">
-    <value>Inquiry</value>
-  </data>
-  <data name="LayoutTitleFormat" xml:space="preserve">
-    <value>Layout: {0}  size: {1:0.0} x {2:0.0}  material: {3}</value>
-  </data>
-  <data name="NewPartsList" xml:space="preserve">
-    <value>New Parts List</value>
-  </data>
-  <data name="PartsList" xml:space="preserve">
-    <value>Parts List</value>
-  </data>
-  <data name="Success" xml:space="preserve">
-    <value>Success</value>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Выберите базу данных</value>
   </data>
 </root>
