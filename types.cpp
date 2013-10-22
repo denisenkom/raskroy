@@ -35,22 +35,6 @@ OtherSize::OtherSize(scalar value)
 }
 
 
-void OtherSize::set_consumption(unsigned amount, const Amounts & remains, Amounts & consumptions) const {
-    for (auto parti = parts.begin();
-         parti != parts.end();
-         parti++)
-    {
-        if (amount == 0)
-            break;
-        auto index = (*parti)->AmountOffset;
-        auto consume = std::min(amount, remains[index]);
-        consumptions[index] = consume;
-        amount -= consume;
-    }
-    assert(amount == 0);
-}
-
-
 OtherSizes::iterator OtherSizes::Find(scalar size)
 {
 	for (auto otherSize = begin(); otherSize != end(); otherSize++)

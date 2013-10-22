@@ -165,8 +165,6 @@ public:
 	OtherSize(scalar value);
 	bool operator < (const OtherSize& b) const {return Value < b.Value;}
 	bool operator >= (const OtherSize& b) const {return Value >= b.Value;}
-
-    void set_consumption(unsigned amount, const Amounts & remains, Amounts & consumption) const;
 };
 
 class OtherSizes : public std::vector<OtherSize>
