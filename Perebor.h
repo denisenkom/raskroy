@@ -13,7 +13,7 @@ class Perebor {
 	Amounts *m_remains;
 	scalar m_sawThickness;
 
-	scalar Recursion(scalar size, Amounts &rashods);
+    scalar Recursion(scalar size, std::list<std::pair<const OtherSize *, unsigned> > & layout);
 
 public:
 	scalar get_SawThickness() throw() {return m_sawThickness;};

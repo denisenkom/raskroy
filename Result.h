@@ -11,7 +11,7 @@ struct t_raskroy {
     struct t_detail {
         scalar size;
         unsigned num;
-        const OtherSize * other_size;
+        std::list<std::pair<Part *, unsigned> > parts;
     };
 
 	typedef std::vector<t_detail> t_details;
@@ -131,7 +131,7 @@ struct LayoutElementBuilder
     scalar size;  // size of the element along layout axis
     Rect rect;
     LayoutElementType type;  // rect, remain, cut or sub-layout
-    const OtherSize * part;
+    Part * part;
     struct LayoutBuilder * layout;  // if type == ELEM_SUBLAYOUT this
                                  // is the pointer to sub-layout
     LayoutElementBuilder() : type(ELEM_REMAIN), layout(0), part(nullptr) {}
@@ -192,7 +192,7 @@ struct LayoutBuilder {
         remain -= size;
     }
 
-    void append_part(const OtherSize * other_size, scalar size);
+    void append_part(Part * part, scalar size);
 
     void _free() {
         for (auto i = elements.begin();

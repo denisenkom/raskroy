@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include <algorithm>
 #include <functional>
 #include "errors.h"
 #include "Raskroy.h"
@@ -8,34 +9,38 @@ namespace Raskroy {
 
 void Raskroy::RemoveExostedSizes(void)
 {
-	for (auto s = 0; s <= 1; s++)
-	{
-		auto pSize = m_sizes[s].begin();
-		while (pSize != m_sizes[s].end())
-		{
-			auto pOtherSize = pSize->other_sizes.begin();
-			while (pOtherSize != pSize->other_sizes.end())
-			{
-				if (m_remains[pOtherSize->Offset] == 0)
-				{
-					pSize->other_sizes.erase(pOtherSize);
-					pOtherSize = pSize->other_sizes.begin();
-				}
-				else
-					pOtherSize++;
-			}
-			if (pSize->other_sizes.empty())
-			{
-				m_sizes[s].erase(pSize);
-				pSize = m_sizes[s].begin();
-			}
-			else
-			{
-				pSize->other_sizes.SetMin();
-				pSize++;
-			}
-		}
-	}
+    for (auto s = 0; s <= 1; s++)
+    {
+        auto pSize = m_sizes[s].begin();
+        while (pSize != m_sizes[s].end())
+        {
+            auto pOtherSize = pSize->other_sizes.begin();
+            while (pOtherSize != pSize->other_sizes.end())
+            {
+                if (std::all_of(pOtherSize->parts.begin(),
+                                pOtherSize->parts.end(),
+                                [this](Part * part) {
+                                    return m_remains[part->AmountOffset] == 0;
+                                }))
+                {
+                    pSize->other_sizes.erase(pOtherSize);
+                    pOtherSize = pSize->other_sizes.begin();
+                }
+                else
+                    pOtherSize++;
+            }
+            if (pSize->other_sizes.empty())
+            {
+                m_sizes[s].erase(pSize);
+                pSize = m_sizes[s].begin();
+            }
+            else
+            {
+                pSize->other_sizes.SetMin();
+                pSize++;
+            }
+        }
+    }
 }
 
 void Raskroy::Begin(Parts &parts, const Parts &sheets)
@@ -45,7 +50,7 @@ void Raskroy::Begin(Parts &parts, const Parts &sheets)
 	{
 		m_sizes[s].clear();
 		for (auto pPart = parts.begin(); pPart != parts.end(); pPart++)
-			m_sizes[s].AddPart(*pPart, s, m_remains);
+			m_sizes[s].AddPart(*pPart, s);
 
         // order from big to small
         std::sort(m_sizes[s].begin(), m_sizes[s].end(), std::greater_equal<Size>());
@@ -75,12 +80,24 @@ float Raskroy::GetPercentCompleted()
 
 bool Raskroy::new_optimize(Rect sheet, Parts & parts, scalar cut_size, LayoutBuilder & layout) {
     put_SawThickness(cut_size);
-	m_remains.clear();
+    // initialize amounts vector
+    m_remains.resize(parts.size());
+    std::fill(m_remains.begin(), m_remains.end(), 0);
+    // assing amount offsets to parts
+    // and amounts to m_remains
+    auto offset = 0;
+    std::for_each(parts.begin(),
+                  parts.end(),
+                  [&offset, this](Part & part) {
+                      part.AmountOffset = offset++;
+                      m_remains[part.AmountOffset] = part.Amount;
+                  });
+    // initialize sizes lookups
 	for (auto s = 0; s <= 1; s++)
 	{
 		m_sizes[s].clear();
 		for (auto pPart = parts.begin(); pPart != parts.end(); pPart++)
-			m_sizes[s].AddPart(*pPart, s, m_remains);
+			m_sizes[s].AddPart(*pPart, s);
 
         // order from big to small
         std::sort(m_sizes[s].begin(), m_sizes[s].end(), std::greater_equal<Size>());
@@ -91,7 +108,7 @@ bool Raskroy::new_optimize(Rect sheet, Parts & parts, scalar cut_size, LayoutBui
 			pSize->other_sizes.SetMin();
 		}
 	}
-    Amounts consume(m_remains.size());
+
 	auto ret = m_perebor2d.new_optimize(sheet, layout);
     return ret;
 }

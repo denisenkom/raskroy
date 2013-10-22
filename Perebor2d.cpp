@@ -72,8 +72,10 @@ bool Perebor2d::new_optimize(const Rect &rect, LayoutBuilder &layout)
                 for (auto osi = sizei->other_sizes.begin();
                      osi != sizei->other_sizes.end(); osi++)
                 {
-                    auto rem = (*m_remains)[osi->Offset];
-                    if (osi->Value <= rect.Size[!i] && rem > 0) {
+                    if (osi->Value <= rect.Size[!i] && 
+                        std::any_of(osi->parts.begin(), osi->parts.end(), [this](Part * part){ return (*m_remains)[part->AmountOffset] > 0; })
+                        )
+                    {
                         fits = true;
                         break;
                     }
@@ -167,16 +169,22 @@ bool Perebor2d::new_optimize(const Rect &rect, LayoutBuilder &layout)
     pparts_layout->axis = best_parts_axis;
     pparts_layout->rect = parts_block;
     pparts_layout->begin_appending();
-    for (auto parti = details.begin();
-            parti != details.end(); parti++)
+    for (auto deti = details.begin();
+            deti != details.end(); deti++)
     {
-        for (auto i = 0u; i < parti->num; i++) {
-            pparts_layout->append_part(parti->other_size, parti->size);
+        for (auto parti = deti->parts.begin();
+             parti != deti->parts.end(); parti++)
+        {
+            auto ppart = parti->first;
+            auto amount = parti->second;
+            for (; amount > 0; amount--) {
+                pparts_layout->append_part(ppart, deti->size);
 
-            // adding cut element
-            if (pparts_layout->remain > 0) {
-                auto cut_size = std::min(saw_size, pparts_layout->remain);
-                pparts_layout->append_cut(cut_size);
+                // adding cut element
+                if (pparts_layout->remain > 0) {
+                    auto cut_size = std::min(saw_size, pparts_layout->remain);
+                    pparts_layout->append_cut(cut_size);
+                }
             }
         }
     }
