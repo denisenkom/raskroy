@@ -173,16 +173,18 @@ bool Perebor2d::new_optimize(const Rect &rect, LayoutBuilder &layout)
             deti != details.end(); deti++)
     {
         for (auto parti = deti->parts.begin();
-             parti != deti->parts.end(); deti++)
+             parti != deti->parts.end(); parti++)
         {
             auto ppart = parti->first;
             auto amount = parti->second;
-            pparts_layout->append_part(ppart, deti->size);
+            for (; amount > 0; amount--) {
+                pparts_layout->append_part(ppart, deti->size);
 
-            // adding cut element
-            if (pparts_layout->remain > 0) {
-                auto cut_size = std::min(saw_size, pparts_layout->remain);
-                pparts_layout->append_cut(cut_size);
+                // adding cut element
+                if (pparts_layout->remain > 0) {
+                    auto cut_size = std::min(saw_size, pparts_layout->remain);
+                    pparts_layout->append_cut(cut_size);
+                }
             }
         }
     }

@@ -84,8 +84,14 @@ bool Raskroy::new_optimize(Rect sheet, Parts & parts, scalar cut_size, LayoutBui
     m_remains.resize(parts.size());
     std::fill(m_remains.begin(), m_remains.end(), 0);
     // assing amount offsets to parts
+    // and amounts to m_remains
     auto offset = 0;
-    std::for_each(parts.begin(), parts.end(), [&offset](Part & part) {part.AmountOffset = offset++;});
+    std::for_each(parts.begin(),
+                  parts.end(),
+                  [&offset, this](Part & part) {
+                      part.AmountOffset = offset++;
+                      m_remains[part.AmountOffset] = part.Amount;
+                  });
     // initialize sizes lookups
 	for (auto s = 0; s <= 1; s++)
 	{
