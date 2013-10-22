@@ -28,56 +28,56 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MaterialsForm));
-			this.dataSet = new Denisenko.Cutting.CutOptima.DataSet();
-			this.materialsBindingSource = new System.Windows.Forms.BindingSource(this.components);
-			this.materialsTableAdapter = new Denisenko.Cutting.CutOptima.DataSetTableAdapters.MaterialsTableAdapter();
-			this.materialsBindingNavigator = new System.Windows.Forms.BindingNavigator(this.components);
-			this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
-			this.bindingNavigatorCountItem = new System.Windows.Forms.ToolStripLabel();
-			this.bindingNavigatorDeleteItem = new System.Windows.Forms.ToolStripButton();
-			this.bindingNavigatorMoveFirstItem = new System.Windows.Forms.ToolStripButton();
-			this.bindingNavigatorMovePreviousItem = new System.Windows.Forms.ToolStripButton();
-			this.bindingNavigatorSeparator = new System.Windows.Forms.ToolStripSeparator();
-			this.bindingNavigatorPositionItem = new System.Windows.Forms.ToolStripTextBox();
-			this.bindingNavigatorSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-			this.bindingNavigatorMoveNextItem = new System.Windows.Forms.ToolStripButton();
-			this.bindingNavigatorMoveLastItem = new System.Windows.Forms.ToolStripButton();
-			this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-			this.materialsBindingNavigatorSaveItem = new System.Windows.Forms.ToolStripButton();
-			this.materialsDataGridView = new System.Windows.Forms.DataGridView();
-			this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-			this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-			((System.ComponentModel.ISupportInitialize)(this.dataSet)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.materialsBindingSource)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.materialsBindingNavigator)).BeginInit();
-			this.materialsBindingNavigator.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.materialsDataGridView)).BeginInit();
-			this.SuspendLayout();
-			// 
-			// dataSet
-			// 
-			this.dataSet.DataSetName = "DataSet";
-			this.dataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-			// 
-			// materialsBindingSource
-			// 
-			this.materialsBindingSource.DataMember = "Materials";
-			this.materialsBindingSource.DataSource = this.dataSet;
-			// 
-			// materialsTableAdapter
-			// 
-			this.materialsTableAdapter.ClearBeforeFill = true;
-			// 
-			// materialsBindingNavigator
-			// 
-			this.materialsBindingNavigator.AddNewItem = this.bindingNavigatorAddNewItem;
-			this.materialsBindingNavigator.BindingSource = this.materialsBindingSource;
-			this.materialsBindingNavigator.CountItem = this.bindingNavigatorCountItem;
-			this.materialsBindingNavigator.DeleteItem = this.bindingNavigatorDeleteItem;
-			this.materialsBindingNavigator.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MaterialsForm));
+            this.dataSet = new Denisenko.Cutting.CutOptima.DataSet();
+            this.materialsBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.materialsTableAdapter = new Denisenko.Cutting.CutOptima.DataSetTableAdapters.MaterialsTableAdapter();
+            this.materialsBindingNavigator = new System.Windows.Forms.BindingNavigator(this.components);
+            this.bindingNavigatorAddNewItem = new System.Windows.Forms.ToolStripButton();
+            this.bindingNavigatorCountItem = new System.Windows.Forms.ToolStripLabel();
+            this.bindingNavigatorDeleteItem = new System.Windows.Forms.ToolStripButton();
+            this.bindingNavigatorMoveFirstItem = new System.Windows.Forms.ToolStripButton();
+            this.bindingNavigatorMovePreviousItem = new System.Windows.Forms.ToolStripButton();
+            this.bindingNavigatorSeparator = new System.Windows.Forms.ToolStripSeparator();
+            this.bindingNavigatorPositionItem = new System.Windows.Forms.ToolStripTextBox();
+            this.bindingNavigatorSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.bindingNavigatorMoveNextItem = new System.Windows.Forms.ToolStripButton();
+            this.bindingNavigatorMoveLastItem = new System.Windows.Forms.ToolStripButton();
+            this.bindingNavigatorSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.materialsBindingNavigatorSaveItem = new System.Windows.Forms.ToolStripButton();
+            this.materialsDataGridView = new System.Windows.Forms.DataGridView();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewCheckBoxColumn1 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)(this.dataSet)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.materialsBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.materialsBindingNavigator)).BeginInit();
+            this.materialsBindingNavigator.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.materialsDataGridView)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // dataSet
+            // 
+            this.dataSet.DataSetName = "DataSet";
+            this.dataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // materialsBindingSource
+            // 
+            this.materialsBindingSource.DataMember = "Materials";
+            this.materialsBindingSource.DataSource = this.dataSet;
+            // 
+            // materialsTableAdapter
+            // 
+            this.materialsTableAdapter.ClearBeforeFill = true;
+            // 
+            // materialsBindingNavigator
+            // 
+            this.materialsBindingNavigator.AddNewItem = this.bindingNavigatorAddNewItem;
+            this.materialsBindingNavigator.BindingSource = this.materialsBindingSource;
+            this.materialsBindingNavigator.CountItem = this.bindingNavigatorCountItem;
+            this.materialsBindingNavigator.DeleteItem = this.bindingNavigatorDeleteItem;
+            this.materialsBindingNavigator.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.bindingNavigatorMoveFirstItem,
             this.bindingNavigatorMovePreviousItem,
             this.bindingNavigatorSeparator,
@@ -90,164 +90,128 @@
             this.bindingNavigatorAddNewItem,
             this.bindingNavigatorDeleteItem,
             this.materialsBindingNavigatorSaveItem});
-			this.materialsBindingNavigator.Location = new System.Drawing.Point(0, 0);
-			this.materialsBindingNavigator.MoveFirstItem = this.bindingNavigatorMoveFirstItem;
-			this.materialsBindingNavigator.MoveLastItem = this.bindingNavigatorMoveLastItem;
-			this.materialsBindingNavigator.MoveNextItem = this.bindingNavigatorMoveNextItem;
-			this.materialsBindingNavigator.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
-			this.materialsBindingNavigator.Name = "materialsBindingNavigator";
-			this.materialsBindingNavigator.PositionItem = this.bindingNavigatorPositionItem;
-			this.materialsBindingNavigator.Size = new System.Drawing.Size(576, 25);
-			this.materialsBindingNavigator.TabIndex = 0;
-			this.materialsBindingNavigator.Text = "bindingNavigator1";
-			// 
-			// bindingNavigatorAddNewItem
-			// 
-			this.bindingNavigatorAddNewItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.bindingNavigatorAddNewItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorAddNewItem.Image")));
-			this.bindingNavigatorAddNewItem.Name = "bindingNavigatorAddNewItem";
-			this.bindingNavigatorAddNewItem.RightToLeftAutoMirrorImage = true;
-			this.bindingNavigatorAddNewItem.Size = new System.Drawing.Size(23, 22);
-			this.bindingNavigatorAddNewItem.Text = "Add new";
-			// 
-			// bindingNavigatorCountItem
-			// 
-			this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
-			this.bindingNavigatorCountItem.Size = new System.Drawing.Size(41, 22);
-			this.bindingNavigatorCountItem.Text = "of {0}";
-			this.bindingNavigatorCountItem.ToolTipText = "Total number of items";
-			// 
-			// bindingNavigatorDeleteItem
-			// 
-			this.bindingNavigatorDeleteItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.bindingNavigatorDeleteItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorDeleteItem.Image")));
-			this.bindingNavigatorDeleteItem.Name = "bindingNavigatorDeleteItem";
-			this.bindingNavigatorDeleteItem.RightToLeftAutoMirrorImage = true;
-			this.bindingNavigatorDeleteItem.Size = new System.Drawing.Size(23, 22);
-			this.bindingNavigatorDeleteItem.Text = "Delete";
-			// 
-			// bindingNavigatorMoveFirstItem
-			// 
-			this.bindingNavigatorMoveFirstItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.bindingNavigatorMoveFirstItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveFirstItem.Image")));
-			this.bindingNavigatorMoveFirstItem.Name = "bindingNavigatorMoveFirstItem";
-			this.bindingNavigatorMoveFirstItem.RightToLeftAutoMirrorImage = true;
-			this.bindingNavigatorMoveFirstItem.Size = new System.Drawing.Size(23, 22);
-			this.bindingNavigatorMoveFirstItem.Text = "Move first";
-			// 
-			// bindingNavigatorMovePreviousItem
-			// 
-			this.bindingNavigatorMovePreviousItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.bindingNavigatorMovePreviousItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMovePreviousItem.Image")));
-			this.bindingNavigatorMovePreviousItem.Name = "bindingNavigatorMovePreviousItem";
-			this.bindingNavigatorMovePreviousItem.RightToLeftAutoMirrorImage = true;
-			this.bindingNavigatorMovePreviousItem.Size = new System.Drawing.Size(23, 22);
-			this.bindingNavigatorMovePreviousItem.Text = "Move previous";
-			// 
-			// bindingNavigatorSeparator
-			// 
-			this.bindingNavigatorSeparator.Name = "bindingNavigatorSeparator";
-			this.bindingNavigatorSeparator.Size = new System.Drawing.Size(6, 25);
-			// 
-			// bindingNavigatorPositionItem
-			// 
-			this.bindingNavigatorPositionItem.AccessibleName = "Position";
-			this.bindingNavigatorPositionItem.AutoSize = false;
-			this.bindingNavigatorPositionItem.Name = "bindingNavigatorPositionItem";
-			this.bindingNavigatorPositionItem.Size = new System.Drawing.Size(50, 22);
-			this.bindingNavigatorPositionItem.Text = "0";
-			this.bindingNavigatorPositionItem.ToolTipText = "Current position";
-			// 
-			// bindingNavigatorSeparator1
-			// 
-			this.bindingNavigatorSeparator1.Name = "bindingNavigatorSeparator1";
-			this.bindingNavigatorSeparator1.Size = new System.Drawing.Size(6, 25);
-			// 
-			// bindingNavigatorMoveNextItem
-			// 
-			this.bindingNavigatorMoveNextItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.bindingNavigatorMoveNextItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveNextItem.Image")));
-			this.bindingNavigatorMoveNextItem.Name = "bindingNavigatorMoveNextItem";
-			this.bindingNavigatorMoveNextItem.RightToLeftAutoMirrorImage = true;
-			this.bindingNavigatorMoveNextItem.Size = new System.Drawing.Size(23, 22);
-			this.bindingNavigatorMoveNextItem.Text = "Move next";
-			// 
-			// bindingNavigatorMoveLastItem
-			// 
-			this.bindingNavigatorMoveLastItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.bindingNavigatorMoveLastItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveLastItem.Image")));
-			this.bindingNavigatorMoveLastItem.Name = "bindingNavigatorMoveLastItem";
-			this.bindingNavigatorMoveLastItem.RightToLeftAutoMirrorImage = true;
-			this.bindingNavigatorMoveLastItem.Size = new System.Drawing.Size(23, 22);
-			this.bindingNavigatorMoveLastItem.Text = "Move last";
-			// 
-			// bindingNavigatorSeparator2
-			// 
-			this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator2";
-			this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 25);
-			// 
-			// materialsBindingNavigatorSaveItem
-			// 
-			this.materialsBindingNavigatorSaveItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.materialsBindingNavigatorSaveItem.Image = ((System.Drawing.Image)(resources.GetObject("materialsBindingNavigatorSaveItem.Image")));
-			this.materialsBindingNavigatorSaveItem.Name = "materialsBindingNavigatorSaveItem";
-			this.materialsBindingNavigatorSaveItem.Size = new System.Drawing.Size(23, 22);
-			this.materialsBindingNavigatorSaveItem.Text = "Save Data";
-			this.materialsBindingNavigatorSaveItem.Click += new System.EventHandler(this.materialsBindingNavigatorSaveItem_Click);
-			// 
-			// materialsDataGridView
-			// 
-			this.materialsDataGridView.AutoGenerateColumns = false;
-			this.materialsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            resources.ApplyResources(this.materialsBindingNavigator, "materialsBindingNavigator");
+            this.materialsBindingNavigator.MoveFirstItem = this.bindingNavigatorMoveFirstItem;
+            this.materialsBindingNavigator.MoveLastItem = this.bindingNavigatorMoveLastItem;
+            this.materialsBindingNavigator.MoveNextItem = this.bindingNavigatorMoveNextItem;
+            this.materialsBindingNavigator.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
+            this.materialsBindingNavigator.Name = "materialsBindingNavigator";
+            this.materialsBindingNavigator.PositionItem = this.bindingNavigatorPositionItem;
+            // 
+            // bindingNavigatorAddNewItem
+            // 
+            this.bindingNavigatorAddNewItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.bindingNavigatorAddNewItem, "bindingNavigatorAddNewItem");
+            this.bindingNavigatorAddNewItem.Name = "bindingNavigatorAddNewItem";
+            // 
+            // bindingNavigatorCountItem
+            // 
+            this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
+            resources.ApplyResources(this.bindingNavigatorCountItem, "bindingNavigatorCountItem");
+            // 
+            // bindingNavigatorDeleteItem
+            // 
+            this.bindingNavigatorDeleteItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.bindingNavigatorDeleteItem, "bindingNavigatorDeleteItem");
+            this.bindingNavigatorDeleteItem.Name = "bindingNavigatorDeleteItem";
+            // 
+            // bindingNavigatorMoveFirstItem
+            // 
+            this.bindingNavigatorMoveFirstItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.bindingNavigatorMoveFirstItem, "bindingNavigatorMoveFirstItem");
+            this.bindingNavigatorMoveFirstItem.Name = "bindingNavigatorMoveFirstItem";
+            // 
+            // bindingNavigatorMovePreviousItem
+            // 
+            this.bindingNavigatorMovePreviousItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.bindingNavigatorMovePreviousItem, "bindingNavigatorMovePreviousItem");
+            this.bindingNavigatorMovePreviousItem.Name = "bindingNavigatorMovePreviousItem";
+            // 
+            // bindingNavigatorSeparator
+            // 
+            this.bindingNavigatorSeparator.Name = "bindingNavigatorSeparator";
+            resources.ApplyResources(this.bindingNavigatorSeparator, "bindingNavigatorSeparator");
+            // 
+            // bindingNavigatorPositionItem
+            // 
+            resources.ApplyResources(this.bindingNavigatorPositionItem, "bindingNavigatorPositionItem");
+            this.bindingNavigatorPositionItem.Name = "bindingNavigatorPositionItem";
+            // 
+            // bindingNavigatorSeparator1
+            // 
+            this.bindingNavigatorSeparator1.Name = "bindingNavigatorSeparator1";
+            resources.ApplyResources(this.bindingNavigatorSeparator1, "bindingNavigatorSeparator1");
+            // 
+            // bindingNavigatorMoveNextItem
+            // 
+            this.bindingNavigatorMoveNextItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.bindingNavigatorMoveNextItem, "bindingNavigatorMoveNextItem");
+            this.bindingNavigatorMoveNextItem.Name = "bindingNavigatorMoveNextItem";
+            // 
+            // bindingNavigatorMoveLastItem
+            // 
+            this.bindingNavigatorMoveLastItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.bindingNavigatorMoveLastItem, "bindingNavigatorMoveLastItem");
+            this.bindingNavigatorMoveLastItem.Name = "bindingNavigatorMoveLastItem";
+            // 
+            // bindingNavigatorSeparator2
+            // 
+            this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator2";
+            resources.ApplyResources(this.bindingNavigatorSeparator2, "bindingNavigatorSeparator2");
+            // 
+            // materialsBindingNavigatorSaveItem
+            // 
+            this.materialsBindingNavigatorSaveItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.materialsBindingNavigatorSaveItem, "materialsBindingNavigatorSaveItem");
+            this.materialsBindingNavigatorSaveItem.Name = "materialsBindingNavigatorSaveItem";
+            this.materialsBindingNavigatorSaveItem.Click += new System.EventHandler(this.materialsBindingNavigatorSaveItem_Click);
+            // 
+            // materialsDataGridView
+            // 
+            this.materialsDataGridView.AutoGenerateColumns = false;
+            this.materialsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn2,
             this.dataGridViewCheckBoxColumn1,
             this.dataGridViewTextBoxColumn3});
-			this.materialsDataGridView.DataSource = this.materialsBindingSource;
-			this.materialsDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.materialsDataGridView.Location = new System.Drawing.Point(0, 25);
-			this.materialsDataGridView.Name = "materialsDataGridView";
-			this.materialsDataGridView.Size = new System.Drawing.Size(576, 305);
-			this.materialsDataGridView.TabIndex = 1;
-			// 
-			// dataGridViewTextBoxColumn2
-			// 
-			this.dataGridViewTextBoxColumn2.DataPropertyName = "Name";
-			this.dataGridViewTextBoxColumn2.HeaderText = "Название";
-			this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-			// 
-			// dataGridViewCheckBoxColumn1
-			// 
-			this.dataGridViewCheckBoxColumn1.DataPropertyName = "HaveDirection";
-			this.dataGridViewCheckBoxColumn1.HeaderText = "Направленный";
-			this.dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
-			this.dataGridViewCheckBoxColumn1.ToolTipText = "Имеет направление?";
-			// 
-			// dataGridViewTextBoxColumn3
-			// 
-			this.dataGridViewTextBoxColumn3.DataPropertyName = "Remarks";
-			this.dataGridViewTextBoxColumn3.HeaderText = "Дополнительно";
-			this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
-			this.dataGridViewTextBoxColumn3.Width = 300;
-			// 
-			// MaterialsForm
-			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(576, 330);
-			this.Controls.Add(this.materialsDataGridView);
-			this.Controls.Add(this.materialsBindingNavigator);
-			this.Name = "MaterialsForm";
-			this.Text = "Материалы";
-			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MaterialsForm_FormClosing);
-			this.Load += new System.EventHandler(this.MaterialsForm_Load);
-			((System.ComponentModel.ISupportInitialize)(this.dataSet)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.materialsBindingSource)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.materialsBindingNavigator)).EndInit();
-			this.materialsBindingNavigator.ResumeLayout(false);
-			this.materialsBindingNavigator.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.materialsDataGridView)).EndInit();
-			this.ResumeLayout(false);
-			this.PerformLayout();
+            this.materialsDataGridView.DataSource = this.materialsBindingSource;
+            resources.ApplyResources(this.materialsDataGridView, "materialsDataGridView");
+            this.materialsDataGridView.Name = "materialsDataGridView";
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.DataPropertyName = "Name";
+            resources.ApplyResources(this.dataGridViewTextBoxColumn2, "dataGridViewTextBoxColumn2");
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            // 
+            // dataGridViewCheckBoxColumn1
+            // 
+            this.dataGridViewCheckBoxColumn1.DataPropertyName = "HaveDirection";
+            resources.ApplyResources(this.dataGridViewCheckBoxColumn1, "dataGridViewCheckBoxColumn1");
+            this.dataGridViewCheckBoxColumn1.Name = "dataGridViewCheckBoxColumn1";
+            // 
+            // dataGridViewTextBoxColumn3
+            // 
+            this.dataGridViewTextBoxColumn3.DataPropertyName = "Remarks";
+            resources.ApplyResources(this.dataGridViewTextBoxColumn3, "dataGridViewTextBoxColumn3");
+            this.dataGridViewTextBoxColumn3.Name = "dataGridViewTextBoxColumn3";
+            // 
+            // MaterialsForm
+            // 
+            resources.ApplyResources(this, "$this");
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.materialsDataGridView);
+            this.Controls.Add(this.materialsBindingNavigator);
+            this.Name = "MaterialsForm";
+            this.Load += new System.EventHandler(this.MaterialsForm_Load);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MaterialsForm_FormClosing);
+            ((System.ComponentModel.ISupportInitialize)(this.dataSet)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.materialsBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.materialsBindingNavigator)).EndInit();
+            this.materialsBindingNavigator.ResumeLayout(false);
+            this.materialsBindingNavigator.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.materialsDataGridView)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
 
 		}
 
@@ -269,9 +233,9 @@
 		private System.Windows.Forms.ToolStripButton bindingNavigatorMoveLastItem;
 		private System.Windows.Forms.ToolStripSeparator bindingNavigatorSeparator2;
 		private System.Windows.Forms.ToolStripButton materialsBindingNavigatorSaveItem;
-		private System.Windows.Forms.DataGridView materialsDataGridView;
-		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-		private System.Windows.Forms.DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
-		private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
+        private System.Windows.Forms.DataGridView materialsDataGridView;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn dataGridViewCheckBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
 	}
 }

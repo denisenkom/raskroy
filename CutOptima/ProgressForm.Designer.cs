@@ -29,6 +29,7 @@
 		private void InitializeComponent()
 		{
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProgressForm));
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.cancelButton = new System.Windows.Forms.Button();
             this.pauseResumeButton = new System.Windows.Forms.Button();
@@ -38,33 +39,21 @@
             // 
             // progressBar
             // 
-            this.progressBar.Location = new System.Drawing.Point(16, 53);
-            this.progressBar.Margin = new System.Windows.Forms.Padding(4);
+            resources.ApplyResources(this.progressBar, "progressBar");
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(388, 19);
-            this.progressBar.TabIndex = 0;
             // 
             // cancelButton
             // 
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(232, 101);
-            this.cancelButton.Margin = new System.Windows.Forms.Padding(4);
+            resources.ApplyResources(this.cancelButton, "cancelButton");
             this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(100, 28);
-            this.cancelButton.TabIndex = 1;
-            this.cancelButton.Text = "Отменить";
             this.cancelButton.UseVisualStyleBackColor = true;
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
             // pauseResumeButton
             // 
-            this.pauseResumeButton.Enabled = false;
-            this.pauseResumeButton.Location = new System.Drawing.Point(87, 101);
-            this.pauseResumeButton.Margin = new System.Windows.Forms.Padding(4);
+            resources.ApplyResources(this.pauseResumeButton, "pauseResumeButton");
             this.pauseResumeButton.Name = "pauseResumeButton";
-            this.pauseResumeButton.Size = new System.Drawing.Size(100, 28);
-            this.pauseResumeButton.TabIndex = 2;
-            this.pauseResumeButton.Text = "Пауза";
             this.pauseResumeButton.UseVisualStyleBackColor = true;
             this.pauseResumeButton.Click += new System.EventHandler(this.pauseResumeButton_Click);
             // 
@@ -74,25 +63,18 @@
             // 
             // labelStatus
             // 
-            this.labelStatus.AutoSize = true;
-            this.labelStatus.Location = new System.Drawing.Point(13, 32);
+            resources.ApplyResources(this.labelStatus, "labelStatus");
             this.labelStatus.Name = "labelStatus";
-            this.labelStatus.Size = new System.Drawing.Size(0, 17);
-            this.labelStatus.TabIndex = 3;
             // 
             // ProgressForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(420, 160);
             this.Controls.Add(this.labelStatus);
             this.Controls.Add(this.pauseResumeButton);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.progressBar);
-            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "ProgressForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Выполняется оптимизация";
             this.Load += new System.EventHandler(this.ProgressForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
