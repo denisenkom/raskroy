@@ -8,9 +8,9 @@ namespace Raskroy {
 class ResultsGenerator {
 public:
 	bool ControlRemains;
-	ResultsGenerator(void)
-		: m_remains(0), m_layout2d(m_sizes, m_minSize, &m_remains),
-		ControlRemains(false)
+    ResultsGenerator(void)
+        : ControlRemains(false), m_remains(0),
+        m_layout2d(m_sizes, m_minSize, &m_remains)
 	{
 	}
 	void   put_SawThickness(scalar x) throw () {m_layout2d.put_SawThickness(x);}

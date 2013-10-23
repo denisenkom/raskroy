@@ -27,7 +27,7 @@ struct Sheet
 
 LayoutElement * _vector_to_array(const vector<LayoutElement> & elements) {
     auto array = new LayoutElement[elements.size()];
-    for (auto i = 0; i < elements.size(); i++) {
+    for (auto i = 0u; i < elements.size(); i++) {
         array[i] = elements[i];
     }
     return array;
@@ -291,7 +291,7 @@ extern "C" int DLLEXPORT new_layout2d(
         layout_builder.to_layout(*layout);
         *res = layout.release();
         // report back new amounts
-        for (int i = 0; i < parts.size(); i++) {
+        for (size_t i = 0; i < parts.size(); i++) {
             layout_rects[i].amount = parts[i].Amount;
         }
     }

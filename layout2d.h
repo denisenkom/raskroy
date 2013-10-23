@@ -21,7 +21,7 @@ class Layout2d {
 public:
 
 	Layout2d(Sizes sizes[], scalar minSize[], Amounts *remains)
-		: m_sizes(sizes), m_minSize(minSize), m_remains(remains),
+		: m_remains(remains), m_sizes(sizes), m_minSize(minSize),
 		m_layout1d(remains, DEFAULT_SAW_THICKNESS), m_nesting(0), m_completedCounter(0)
 	{
 	}

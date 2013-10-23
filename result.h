@@ -113,7 +113,7 @@ struct Layout
     }
 
     void clear() {
-        for (int i = 0; i < num_elements; i++) {
+        for (size_t i = 0; i < num_elements; i++) {
             if (elements[i].type == ELEM_SUBLAYOUT)
                 delete elements[i].layout;
         }
@@ -136,7 +136,7 @@ struct LayoutElementBuilder
     Part * part;
     struct LayoutBuilder * layout;  // if type == ELEM_SUBLAYOUT this
                                  // is the pointer to sub-layout
-    LayoutElementBuilder() : type(ELEM_REMAIN), layout(0), part(nullptr) {}
+    LayoutElementBuilder() : type(ELEM_REMAIN), part(nullptr), layout(0) {}
 
     void _convert(LayoutElement & out) const;
 };
