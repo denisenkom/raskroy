@@ -75,7 +75,7 @@ scalar Layout1d::Recursion(scalar i_size, std::list<std::pair<const OtherSize*, 
 //		[o] stat - statistics
 //		[o] details - layout result, empty container should be passed on input
 //		[o] rashod - consumption of segments
-// ¬озвращает true если хот€ бы одна деталь установлена
+// Returns true if has layout
 bool Layout1d::Make(const Size &size, scalar otherSize, t_raskroy::t_details &o_details, Amounts &o_rashods, scalar &o_remain, double &o_opilki)
 {
 	if (otherSize < size.other_sizes.Min->Value)
