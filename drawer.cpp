@@ -15,7 +15,7 @@ Drawer::Drawer(void)
 Drawer::Drawer(HWND hwnd)
 	: m_hwnd(hwnd)
 {
-	// владеем DC
+	// own DC
 	assert(IsWindow(hwnd));
 	m_hdc = GetDC(hwnd);
 	assert(m_hdc);
@@ -25,7 +25,7 @@ Drawer::Drawer(HWND hwnd)
 Drawer::Drawer(HDC hdc)
 	: m_hwnd(0), m_hdc(hdc)
 {
-	// не владеем DC
+	// don't own DC
 	assert(hdc);
 	CreatePensBrushes();
 }
@@ -64,7 +64,7 @@ void Drawer::CreatePensBrushes(void)
 
 void Drawer::IfOwnDCThanRelease(void)
 {
-	if (m_hwnd)	// это значит владение DC
+	if (m_hwnd)	// this means owning DC
 	{
 		assert(IsWindow(m_hwnd));
 		int ires = ReleaseDC(m_hwnd, m_hdc);
@@ -100,14 +100,14 @@ void Drawer::Draw(int width, int height, const t_parsed_parts& parts, const t_pa
 	HGDIOBJ hres = SelectObject(m_hdc, m_hblackpen);
 	assert(hres);
 
-	// рисуем лист
+	// drawing sheet
 	hres = SelectObject(m_hdc, m_hhatchbrush);
 	assert(hres != NULL);
 	BOOL bres = Rectangle(m_hdc, 0, 0, int(sheet.rect.Size[0] * scale),
 		int(sheet.rect.Size[1] * scale));
     assert(bres != FALSE);
 
-	// рисуем детали
+	// drawing parts
 	hres = SelectObject(m_hdc, m_hwhitebrush);
 	assert(hres != NULL);
     {for (t_parsed_parts::const_iterator i = parts.begin(); i != parts.end(); i++)
@@ -125,7 +125,7 @@ void Drawer::Draw(int width, int height, const t_parsed_parts& parts, const t_pa
 		assert(ires != 0);
     }}
 
-	// рисуем резы
+	// drawing cuts
 	hres = SelectObject(m_hdc, m_hredpen);
 	assert(hres != NULL);
     {for (t_parsed_cuts::const_iterator i = cuts.begin(); i != cuts.end(); i++)
