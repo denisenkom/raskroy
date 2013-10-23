@@ -10,7 +10,7 @@ project (raskroy_test)
 #find_package(GTest REQUIRED)
 #include_directories(${GTEST_INCLUDE_DIRS})
 
-#add_executable(raskroy_test Parser.cpp layout2d.cpp Perebor.cpp Raskroy.cpp Result.cpp types.cpp test.cpp)
+#add_executable(raskroy_test Parser.cpp layout2d.cpp layout1d.cpp Raskroy.cpp Result.cpp types.cpp test.cpp)
 #target_link_libraries(raskroy_test ${GTEST_LIBRARIES} pthread)
 
-add_library(guillotine_interop MODULE guillotine_interop.cpp perebor.cpp layout2d.cpp result.cpp raskroy.cpp types.cpp)
+add_library(guillotine_interop MODULE guillotine_interop.cpp layout1d.cpp layout2d.cpp result.cpp raskroy.cpp types.cpp)

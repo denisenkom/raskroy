@@ -135,6 +135,30 @@ guillotine_interop.cpp.s:
 	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/guillotine_interop.cpp.s
 .PHONY : guillotine_interop.cpp.s
 
+layout1d.o: layout1d.cpp.o
+.PHONY : layout1d.o
+
+# target to build an object file
+layout1d.cpp.o:
+	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/layout1d.cpp.o
+.PHONY : layout1d.cpp.o
+
+layout1d.i: layout1d.cpp.i
+.PHONY : layout1d.i
+
+# target to preprocess a source file
+layout1d.cpp.i:
+	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/layout1d.cpp.i
+.PHONY : layout1d.cpp.i
+
+layout1d.s: layout1d.cpp.s
+.PHONY : layout1d.s
+
+# target to generate assembly for a file
+layout1d.cpp.s:
+	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/layout1d.cpp.s
+.PHONY : layout1d.cpp.s
+
 layout2d.o: layout2d.cpp.o
 .PHONY : layout2d.o
 
@@ -158,30 +182,6 @@ layout2d.s: layout2d.cpp.s
 layout2d.cpp.s:
 	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/layout2d.cpp.s
 .PHONY : layout2d.cpp.s
-
-perebor.o: perebor.cpp.o
-.PHONY : perebor.o
-
-# target to build an object file
-perebor.cpp.o:
-	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/perebor.cpp.o
-.PHONY : perebor.cpp.o
-
-perebor.i: perebor.cpp.i
-.PHONY : perebor.i
-
-# target to preprocess a source file
-perebor.cpp.i:
-	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/perebor.cpp.i
-.PHONY : perebor.cpp.i
-
-perebor.s: perebor.cpp.s
-.PHONY : perebor.s
-
-# target to generate assembly for a file
-perebor.cpp.s:
-	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/perebor.cpp.s
-.PHONY : perebor.cpp.s
 
 raskroy.o: raskroy.cpp.o
 .PHONY : raskroy.o
@@ -267,12 +267,12 @@ help:
 	@echo "... guillotine_interop.o"
 	@echo "... guillotine_interop.i"
 	@echo "... guillotine_interop.s"
+	@echo "... layout1d.o"
+	@echo "... layout1d.i"
+	@echo "... layout1d.s"
 	@echo "... layout2d.o"
 	@echo "... layout2d.i"
 	@echo "... layout2d.s"
-	@echo "... perebor.o"
-	@echo "... perebor.i"
-	@echo "... perebor.s"
 	@echo "... raskroy.o"
 	@echo "... raskroy.i"
 	@echo "... raskroy.s"

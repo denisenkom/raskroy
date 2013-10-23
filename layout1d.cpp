@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "perebor.h"
+#include "layout1d.h"
 
 namespace Denisenko {
 namespace Raskroy {
@@ -12,7 +12,7 @@ namespace Raskroy {
 //	[io] m_pOtherSize
 //	[i]  m_pEndOtherSize
 //	[i]  m_remains
-scalar Perebor::Recursion(scalar i_size, std::list<std::pair<const OtherSize*, unsigned> > & layout)
+scalar Layout1d::Recursion(scalar i_size, std::list<std::pair<const OtherSize*, unsigned> > & layout)
 {
     unsigned amount = 0;
     std::for_each(m_pOtherSize->parts.begin(), m_pOtherSize->parts.end(),
@@ -76,7 +76,7 @@ scalar Perebor::Recursion(scalar i_size, std::list<std::pair<const OtherSize*, u
 //		[o] details - layout result, empty container should be passed on input
 //		[o] rashod - consumption of segments
 // ¬озвращает true если хот€ бы одна деталь установлена
-bool Perebor::Make(const Size &size, scalar otherSize, t_raskroy::t_details &o_details, Amounts &o_rashods, scalar &o_remain, double &o_opilki)
+bool Layout1d::Make(const Size &size, scalar otherSize, t_raskroy::t_details &o_details, Amounts &o_rashods, scalar &o_remain, double &o_opilki)
 {
 	if (otherSize < size.other_sizes.Min->Value)
 		return false;

@@ -1,12 +1,12 @@
-#ifndef PereborH
-#define PereborH
+#ifndef Layout1dH
+#define Layout1dH
 
 #include "result.h"
 
 namespace Denisenko {
 namespace Raskroy {
 
-class Perebor {
+class Layout1d {
 	OtherSizes::const_iterator m_pOtherSize;
 	OtherSizes::const_iterator m_pEndOtherSize;
 	Amounts *m_remains;
@@ -18,11 +18,11 @@ public:
 	scalar get_SawThickness() throw() {return m_sawThickness;};
 	void   put_SawThickness(scalar newVal) throw() {m_sawThickness = newVal;}
 
-	Perebor(Amounts *remains, scalar sawThickness) : m_remains(remains), m_sawThickness(sawThickness) {}
+	Layout1d(Amounts *remains, scalar sawThickness) : m_remains(remains), m_sawThickness(sawThickness) {}
 	bool Make(const Size &size, scalar otherSize, t_raskroy::t_details& o_details, Amounts &o_rashods, scalar &o_remain, double &o_opilki);
 };
 
 } // namespace Denisenko
 } // namespace Raskroy
 
-#endif // PereborH
+#endif // Layout1dH

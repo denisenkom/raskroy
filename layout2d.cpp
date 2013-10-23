@@ -20,10 +20,10 @@ inline bool Layout2d::Optimize(const Rect &rect, Stat &stat, int s, t_raskroy &r
 		// If success then try to layout using !s sizes
 #ifdef _DEBUG
 		Stat checkStat;
-		raskroy.CheckAndCalcStat(m_perebor.get_SawThickness(), rect, &checkStat);
+		raskroy.CheckAndCalcStat(m_layout1d.get_SawThickness(), rect, &checkStat);
 		if(!checkStat.IsEqual(stat1))
 		{
-			raskroy.CheckAndCalcStat(m_perebor.get_SawThickness(), rect, &checkStat);
+			raskroy.CheckAndCalcStat(m_layout1d.get_SawThickness(), rect, &checkStat);
 			assert(checkStat.IsEqual(stat1));
 		}
 #endif
@@ -36,7 +36,7 @@ inline bool Layout2d::Optimize(const Rect &rect, Stat &stat, int s, t_raskroy &r
 			// If success and is better than s result than return it
 #ifdef _DEBUG
 			Stat checkStat;
-			raskroy2.CheckAndCalcStat(m_perebor.get_SawThickness(), rect, &checkStat);
+			raskroy2.CheckAndCalcStat(m_layout1d.get_SawThickness(), rect, &checkStat);
 			if(!checkStat.IsEqual(stat2))
 				assert(checkStat.IsEqual(stat2));
 #endif
@@ -110,16 +110,16 @@ bool Layout2d::new_optimize(const Rect &rect, LayoutBuilder &layout)
     }
 
     // do 1D bin packing optimization
-	double cut;
-	Amounts rashodPerebor(m_remains->size());
-	scalar remain;
+    double cut;
+    Amounts consumption(m_remains->size());
+    scalar remain;
     t_raskroy::t_details details;
-	if (!m_perebor.Make(*best_size, rect.Size[best_parts_axis], details, rashodPerebor, remain, cut))
-		return false;
+    if (!m_layout1d.Make(*best_size, rect.Size[best_parts_axis], details, consumption, remain, cut))
+        return false;
 
-    *m_remains -= rashodPerebor;
+    *m_remains -= consumption;
 
-    scalar saw_size = m_perebor.get_SawThickness();
+    scalar saw_size = m_layout1d.get_SawThickness();
     Rect parts_block;
     parts_block.Size[!best_parts_axis] = best_size->Value;
     parts_block.Size[best_parts_axis] = rect.Size[best_parts_axis] - remain - std::min(saw_size, remain);
@@ -310,13 +310,13 @@ bool Layout2d::Recursion(Sizes::iterator begin, const Rect &rect, Stat &stat, in
 		double opilki;
 		scalar remain;
 		details.clear();
-		if (!m_perebor.Make(*i, rect.Size[!s], details, rashodPerebor, remain, opilki))
+		if (!m_layout1d.Make(*i, rect.Size[!s], details, rashodPerebor, remain, opilki))
 			continue;
 
 		//stat1.sum_cut_length += rect.size[!s];
 		// Add sawdust
-		double opilki1 = opilki + (double)(rect.Size[!s] - remain) * (double)m_perebor.get_SawThickness();
-		double opilki2 = (double)remain * (double)m_perebor.get_SawThickness();
+		double opilki1 = opilki + (double)(rect.Size[!s] - remain) * (double)m_layout1d.get_SawThickness();
+		double opilki2 = (double)remain * (double)m_layout1d.get_SawThickness();
 		// Calculating remaining rectangle
 		Rect remainRect;
 		remainRect.Size[s] = i->Value;
@@ -324,10 +324,10 @@ bool Layout2d::Recursion(Sizes::iterator begin, const Rect &rect, Stat &stat, in
 		// Calculating recursion rectangle
 		Rect recurseRect(rect);
 		// Recursion rectanble will be reduced by this value
-		scalar reduce = i->Value + m_perebor.get_SawThickness();
+		scalar reduce = i->Value + m_layout1d.get_SawThickness();
 
 		// Calculating multiplicity
-		int maxKratnostj = int((rect.Size[s] + m_perebor.get_SawThickness()) / (i->Value + m_perebor.get_SawThickness()));
+		int maxKratnostj = int((rect.Size[s] + m_layout1d.get_SawThickness()) / (i->Value + m_layout1d.get_SawThickness()));
 		if (maxKratnostj > 1)
 		{
 			int kolKrat = *m_remains / rashodPerebor;
@@ -346,7 +346,7 @@ bool Layout2d::Recursion(Sizes::iterator begin, const Rect &rect, Stat &stat, in
 			if (kratnostj > 1)
 			{
 				rashod1 = rashodPerebor * kratnostj;
-				remainRect.Size[s] += m_perebor.get_SawThickness() + i->Value;
+				remainRect.Size[s] += m_layout1d.get_SawThickness() + i->Value;
 			}
 			else if(kratnostj == 1)
 			{
@@ -388,10 +388,10 @@ bool Layout2d::Recursion(Sizes::iterator begin, const Rect &rect, Stat &stat, in
 			{
 #ifdef _DEBUG
 				Stat checkStat;
-				recurseRaskroy.CheckAndCalcStat(m_perebor.get_SawThickness(), recurseRect, &checkStat);
+				recurseRaskroy.CheckAndCalcStat(m_layout1d.get_SawThickness(), recurseRect, &checkStat);
 				if(!checkStat.IsEqual(recurseStat))
 				{
-					//recurseRaskroy.CheckAndCalcStat(m_perebor.get_SawThickness(), recurseRect, &checkStat);
+					//recurseRaskroy.CheckAndCalcStat(m_layout1d.get_SawThickness(), recurseRect, &checkStat);
 					assert(checkStat.IsEqual(recurseStat));
 				}
 #endif
