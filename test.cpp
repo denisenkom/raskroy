@@ -140,7 +140,7 @@ TEST(OriginalTests, test_gilotine)
 		cout << "Raskroy.\n";
 		prinOldLayoutResult(0, res.raskroy);
 		Parser pr;
-		t_parsed_result pres;
+		ParsedResult pres;
 		pr.Parse(res, pres, g.get_SawThickness());
 		assert(pr.get_DetailsSummarySquare() == s.begin()->rect.Size[0] * s.begin()->rect.Size[1] - res.Statistics.Opilki - res.Statistics.UnusefulRemain - res.Statistics.UsefulRemain);
 		//stringstream fname;
@@ -185,7 +185,7 @@ TEST(OriginalTests, test_gilotine2)
     while (g.NextResult(res))
     {
         Parser pr;
-        t_parsed_result pres;
+        ParsedResult pres;
         pr.Parse(res, pres, g.get_SawThickness());
         ASSERT_EQ(pr.get_DetailsSummarySquare(),
             s.begin()->rect.Size[0] * s.begin()->rect.Size[1] - res.Statistics.Opilki - res.Statistics.UnusefulRemain - res.Statistics.UsefulRemain);

@@ -28,7 +28,7 @@ STDMETHODIMP CRaskroy::NextResult(IResult **pResult, BOOL *bRes)
 		*bRes = ResultsGenerator::NextResult(res);
 		if(*bRes) {
 			Parser parser;
-			t_parsed_result parsedResult;
+			ParsedResult parsedResult;
 			parser.Parse(res, parsedResult, get_SawThickness());
 			*pResult = convert(parsedResult);
 		}

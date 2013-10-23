@@ -95,9 +95,9 @@ Parts convert(ISheets &Sheets)
 	return parts;
 }
 
-t_parsed_result convert(IResult &Result)
+ParsedResult convert(IResult &Result)
 {
-	t_parsed_result result;
+	ParsedResult result;
 
 	long amount;
 	Result.get_Amount(&amount);
@@ -246,7 +246,7 @@ template <class Var> void readfn(BSTR &ss, Var &var)
 	}
 }
 
-IResult* convert(const t_parsed_result &res)
+IResult* convert(const ParsedResult &res)
 {
 	HRESULT hres;
 	IResult *Result;
@@ -314,9 +314,9 @@ IResult* convert(const t_parsed_result &res)
 	return Result;
 }
 
-t_parsed_result convert(BSTR str)
+ParsedResult convert(BSTR str)
 {
-	t_parsed_result res;
+	ParsedResult res;
 	readfn(str, res.sheet.Rect.Size[0]);
 	readfn(str, res.sheet.Rect.Size[1]);
 	readfn(str, res.amount);	// Количество листов

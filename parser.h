@@ -22,7 +22,7 @@ struct t_parsed_cut {
 typedef std::vector<ParsedPart> ParsedParts;
 typedef std::vector<t_parsed_cut> ParsedCuts;
 
-struct t_parsed_result
+struct ParsedResult
 {
 	ParsedParts parts;
 	ParsedCuts cuts;
@@ -31,13 +31,10 @@ struct t_parsed_result
 	unsigned amount;
 };
 
-// new preferred name for class
-typedef t_parsed_result ParsedResult;
-
 
 class Parser
 {
-	t_parsed_result *m_pOutResult;
+	ParsedResult *m_pOutResult;
 	scalar m_sawThickness;
 	scalar m_halfSawThickness;
 	scalar m_detailsSummarySquare;	// total parts square
@@ -47,7 +44,7 @@ class Parser
 public:
 	scalar get_DetailsSummarySquare() {return m_detailsSummarySquare;};
 	Parser(void) : m_pOutResult(0), m_sawThickness(0), m_halfSawThickness(0), m_detailsSummarySquare(0) {}
-	void Parse(const Result&, t_parsed_result&, scalar cutThickness);
+	void Parse(const Result&, ParsedResult&, scalar cutThickness);
 };
 
 } // namespace Denisenko

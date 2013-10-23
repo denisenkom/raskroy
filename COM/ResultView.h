@@ -86,7 +86,7 @@ public:
 	HRESULT OnDraw(ATL_DRAWINFO& di);
 
 private:
-	Denisenko::Raskroy::t_parsed_result result;
+	Denisenko::Raskroy::ParsedResult result;
 	//IResult *iresult;
 	BSTR m_Value;
 public:
