@@ -1,7 +1,6 @@
 #ifndef ParserH
 #define ParserH
 
-#include "common.h"
 #include "types.h"
 #include "Result.h"
 

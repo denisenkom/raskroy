@@ -1,7 +1,6 @@
 #ifndef PereborH
 #define PereborH
 
-#include "common.h"
 #include "Result.h"
 
 namespace Denisenko {

@@ -2,6 +2,7 @@
 #define ResultH
 
 #include <memory>
+#include <cassert>
 #include "types.h"
 
 namespace Denisenko {

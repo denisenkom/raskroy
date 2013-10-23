@@ -1,6 +1,5 @@
 #pragma once
 
-#include "common.h"
 #include "Perebor2d.h"
 
 namespace Denisenko {
