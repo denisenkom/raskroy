@@ -9,13 +9,13 @@ namespace Denisenko {
 namespace Raskroy {
 
 struct OldLayoutResult {
-    struct t_detail {
+    struct Detail {
         scalar size;
         unsigned num;
         std::list<std::pair<Part *, unsigned> > parts;
     };
 
-	typedef std::vector<t_detail> Details;
+	typedef std::vector<Detail> Details;
 
 	unsigned s; // cut goes perpendicular to this axis
 	unsigned kratnostj;

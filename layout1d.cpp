@@ -99,7 +99,7 @@ bool Layout1d::Make(const Size &size, scalar otherSize, OldLayoutResult::Details
         if (consumed > 0)
 		{
             auto consume_remain = consumed;
-			OldLayoutResult::t_detail detail;
+			OldLayoutResult::Detail detail;
             // fill o_rashods
             // and fill parts attribute
             for (auto part_iter = os->parts.begin();
