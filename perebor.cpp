@@ -4,10 +4,10 @@
 namespace Denisenko {
 namespace Raskroy {
 
-// Рекурсивный перебор
-// Параметры:
-//	[i] size - размер на котором нужно расположить детали
-//	[o] rashod - количество расположенных деталей
+// 1D layout recursion
+// Parameters:
+//	[i] size - maximum size where to fit segments
+//	[o] rashod - consumption of segments
 // this:
 //	[io] m_pOtherSize
 //	[i]  m_pEndOtherSize
@@ -36,16 +36,16 @@ scalar Perebor::Recursion(scalar i_size, std::list<std::pair<const OtherSize*, u
 				bestRemain = remain;
                 sublayout.push_front(std::make_pair(&*m_pOtherSize, n));
                 layout.swap(sublayout);
-				if (bestRemain <= 0) // лучше быть не может
+				if (bestRemain <= 0) // this is the best possible
 					return bestRemain;
 				first = false;
 			}
 			size -= m_pOtherSize->Value + m_sawThickness;
 			n++;
-			// size здесь может быть < 0 что нормально если последний пил больше чем
-			// кромка
+            // here size can be < 0 which is ok if remain is smaller than
+            // the saw size
 		}
-		// если ничего небыло расположено то возвращаем нули
+        // if nothing layed out return zeros
 		//if (best == size)
 		//{
 		//	rashod.resize(remains.size());
@@ -62,36 +62,36 @@ scalar Perebor::Recursion(scalar i_size, std::list<std::pair<const OtherSize*, u
         layout.clear();
         layout.push_back(std::make_pair(&*m_pOtherSize, n));
 		//o_rashods.resize(m_remains->size());
-		// результат здесь может быть < 0 что нормально если последний пил больше чем
-		// кромка
+        // here size can be < 0 which is ok if remain is smaller than
+        // the saw size
 		return i_size - n * fullSize;
 	}
 }
 
-// Перебор деталей одного базисного размера на другом размере с контролем остатков
-// Параметры:
-//		[i] size - базисный размер
-//		[i] other_size - перпендикулярный размер
-//		[o] stat - статистика
-//		[o] details - расположение деталей, на вход подается пустой контейнер
-//		[o] rashod - расход деталей
+// 1D layout
+// Parameters:
+//		[i] size - list of segments is in size.other_sizes
+//		[i] other_size - target size
+//		[o] stat - statistics
+//		[o] details - layout result, empty container should be passed on input
+//		[o] rashod - consumption of segments
 // Возвращает true если хотя бы одна деталь установлена
 bool Perebor::Make(const Size &size, scalar otherSize, t_raskroy::t_details &o_details, Amounts &o_rashods, scalar &o_remain, double &o_opilki)
 {
 	if (otherSize < size.other_sizes.Min->Value)
 		return false;
 
-	// настройка переменных для рекурсии
+	// setting up variables for recursion
 	m_pOtherSize = size.other_sizes.begin();
 	m_pEndOtherSize = size.other_sizes.end();
 	m_pEndOtherSize--;
-	// рекурсивный подбор для размеров [i..end]
+	// recursively try sizes [i..end]
     std::list<std::pair<const OtherSize *, unsigned> > layout;
 	scalar remain = Recursion(otherSize, layout);
-	if (remain == otherSize)	// если ничего небыло расположено
+	if (remain == otherSize)	// if nothing was layed out
 		return false;
 
-	auto cuts = 0;// количество пилов
+	auto cuts = 0;  // number of cuts
 	for (auto sz = layout.begin(); sz != layout.end(); sz++)
 	{
         auto consumed = sz->second;
@@ -115,12 +115,12 @@ bool Perebor::Make(const Size &size, scalar otherSize, t_raskroy::t_details &o_d
             detail.size = sz->first->Value;
             detail.num = consumed;
 			o_details.push_back(detail);
-            cuts += consumed;	// количество пилов
+            cuts += consumed;  // number of cuts
 		}
 	}
-	// Вычисляем количество опилок
+	// Calculating sawdust
 	double opilki = (double)size.Value * (double)m_sawThickness * (double)cuts;
-	// Если последний пил проходит по кромке то уменьшить количество опилок
+	// If last cut is't full than reduce sawdust
 	if (remain < 0)
 	{
 		opilki += (double)size.Value * (double)remain;
