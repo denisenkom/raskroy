@@ -15,12 +15,12 @@ struct OldLayoutResult {
         std::list<std::pair<Part *, unsigned> > parts;
     };
 
-	typedef std::vector<t_detail> t_details;
+	typedef std::vector<t_detail> Details;
 
 	unsigned s; // cut goes perpendicular to this axis
 	unsigned kratnostj;
 	scalar cut;
-	t_details details;
+	Details details;
 
 	OldLayoutResult() : premain(0), precurse(0) {}
 	OldLayoutResult(const OldLayoutResult &orig)
@@ -40,7 +40,7 @@ struct OldLayoutResult {
 		delete precurse;
 	}
 
-	void set(int s, unsigned kratnostj, scalar cut, t_details &details, OldLayoutResult *premain, OldLayoutResult *precurse);
+	void set(int s, unsigned kratnostj, scalar cut, Details &details, OldLayoutResult *premain, OldLayoutResult *precurse);
 	OldLayoutResult& operator = (const OldLayoutResult &orig);
 	void attachRemain(OldLayoutResult &remain);
 	void attachRecurse(OldLayoutResult &recurse);

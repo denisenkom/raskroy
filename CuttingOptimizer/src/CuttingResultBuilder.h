@@ -77,10 +77,10 @@ private:
 		}
 	}
 
-	Decimal GetDetailsLength(const Raskroy::OldLayoutResult::t_details& details)
+	Decimal GetDetailsLength(const Raskroy::OldLayoutResult::Details& details)
 	{
 		Decimal result;
-		for(Raskroy::OldLayoutResult::t_details::const_iterator i = details.begin();
+		for(Raskroy::OldLayoutResult::Details::const_iterator i = details.begin();
 			i != details.end(); i++)
 		{
 			result += FromScaled(i->size + ToScaled(m_parameters->CutterThickness)) *
@@ -90,10 +90,10 @@ private:
 		return result;
 	}
 
-	Section^ AddDetails(const Raskroy::OldLayoutResult::t_details& details, Section^ output, CutType cutType)
+	Section^ AddDetails(const Raskroy::OldLayoutResult::Details& details, Section^ output, CutType cutType)
 	{
 		Section^ result = output;
-		for(Raskroy::OldLayoutResult::t_details::const_iterator i = details.begin();
+		for(Raskroy::OldLayoutResult::Details::const_iterator i = details.begin();
 			i != details.end(); i++)
 		{
 			for(Int32 j = i->num; j > 0; j--)

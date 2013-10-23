@@ -113,7 +113,7 @@ bool Layout2d::new_optimize(const Rect &rect, LayoutBuilder &layout)
     double cut;
     Amounts consumption(m_remains->size());
     scalar remain;
-    OldLayoutResult::t_details details;
+    OldLayoutResult::Details details;
     if (!m_layout1d.Make(*best_size, rect.Size[best_parts_axis], details, consumption, remain, cut))
         return false;
 
@@ -297,7 +297,7 @@ bool Layout2d::Recursion(Sizes::iterator begin, const Rect &rect, Stat &stat, in
 	Amounts rashod1(rashod.size());
 	OldLayoutResult remainRaskroy;	
 	OldLayoutResult recurseRaskroy;
-	OldLayoutResult::t_details details;
+	OldLayoutResult::Details details;
 	for (Sizes::iterator i = begin; i != m_sizes[s].end(); i++)
 	{
 		CompletedCounterGuard completedCounterGuard(&m_nesting, &m_completedCounter);

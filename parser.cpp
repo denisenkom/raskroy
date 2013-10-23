@@ -5,10 +5,10 @@
 namespace Denisenko {
 namespace Raskroy {
 
-scalar Parser::Details(unsigned s, scalar pos[2], const Rect &rect, const OldLayoutResult::t_details &details)
+scalar Parser::Details(unsigned s, scalar pos[2], const Rect &rect, const OldLayoutResult::Details &details)
 {
 	scalar acc = 0;
-	for (OldLayoutResult::t_details::const_iterator i = details.begin(); i != details.end(); i++)
+	for (OldLayoutResult::Details::const_iterator i = details.begin(); i != details.end(); i++)
 		for (unsigned n = 0; n < i->num; n++)
 		{
 			t_parsed_part part;

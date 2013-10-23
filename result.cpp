@@ -7,7 +7,7 @@ namespace Raskroy {
 void OldLayoutResult::set(int s,
 	unsigned kratnostj,
 	scalar cut,
-	t_details &details,
+	Details &details,
 	OldLayoutResult *premain,
 	OldLayoutResult *precurse)
 {
@@ -60,7 +60,7 @@ void OldLayoutResult::CheckAndCalcStat(scalar cutThickness, const Rect& rect, St
 	stat.Opilki += (double)rect.Size[!s] * (double)std::min(cutThickness, rect.Size[s] - (cut + cutThickness) * kratnostj + cutThickness);
 	scalar detailsWithCutsLength = 0;
 	unsigned cuts = 0;
-	for(t_details::const_iterator i = details.begin(); i != details.end(); i++)
+	for(Details::const_iterator i = details.begin(); i != details.end(); i++)
 	{
 		detailsWithCutsLength += (i->size + cutThickness) * i->num;
 		cuts += i->num;

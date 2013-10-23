@@ -7,7 +7,7 @@
 class order
 {
 	time_t date_of_release;
-	//t_details details;
+	//Details details;
 };
 
 typedef std::list<order> t_orders;

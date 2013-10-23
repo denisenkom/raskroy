@@ -37,7 +37,7 @@ TEST(OriginalTests, test_perebor)
 
 	Perebor p(&rem, 4);
 	Stat stat;
-	OldLayoutResult::t_details det;
+	OldLayoutResult::Details det;
 	Amounts rash(3);
 	scalar size = 260+4*4;
 	double opilki;
@@ -82,7 +82,7 @@ void prinOldLayoutResult(int level, const OldLayoutResult &ras)
 #endif
 	cout << endl;
 	cout << spaces << "details: ";
-	for (OldLayoutResult::t_details::const_iterator i = ras.details.begin(); i != ras.details.end(); i++)
+	for (OldLayoutResult::Details::const_iterator i = ras.details.begin(); i != ras.details.end(); i++)
 		cout << i->size << " " << i->num << ", ";
 	cout << endl;
 	if (ras.watchRemain())
