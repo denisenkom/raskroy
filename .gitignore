@@ -31,5 +31,6 @@ dlldata.c
 .*.swp
 CMakeCache.txt
 CMakeFiles
+cmake_install.cmake
 *.pyc
 *.so
