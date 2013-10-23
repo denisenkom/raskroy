@@ -255,7 +255,7 @@ class CompletedCounterGuard
 {
 public:
 	CompletedCounterGuard(int* nestingPtr, int* counterPtr)
-		: m_nestingPtr(nestingPtr), m_counterPtr(counterPtr)
+		: m_counterPtr(counterPtr), m_nestingPtr(nestingPtr)
 	{
 	}
 
