@@ -131,7 +131,7 @@
 				RelativePath=".\MainFrm.cpp">
 			</File>
 			<File
-				RelativePath=".\raskroy.cpp">
+				RelativePath=".\results_generator.cpp">
 			</File>
 			<File
 				RelativePath=".\RaskroyDoc.cpp">
@@ -166,7 +166,7 @@
 				RelativePath=".\MainFrm.h">
 			</File>
 			<File
-				RelativePath=".\raskroy.h">
+				RelativePath=".\results_generator.h">
 			</File>
 			<File
 				RelativePath=".\RaskroyDoc.h">

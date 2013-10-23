@@ -2,7 +2,7 @@
 
 #pragma once
 #include "resource.h"       // main symbols
-#include "../raskroy.h"
+#include "../results_generator.h"
 #include "Sheets.h"
 
 
@@ -77,6 +77,6 @@ public:
 	}
 
 private:
-	Denisenko::Raskroy::Raskroy m_optimizer;
+	Denisenko::Raskroy::ResultsGenerator m_optimizer;
 	CComPtr<ISheets> m_sheets;
 };

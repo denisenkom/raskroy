@@ -5,7 +5,7 @@
 #include <vector>
 #include <memory>
 #include "types.h"
-#include "raskroy.h"
+#include "results_generator.h"
 
 using namespace std;
 using namespace Denisenko::Raskroy;
@@ -194,17 +194,12 @@ extern "C" int DLLEXPORT layout2d(
     }
     Parts sheets;
     sheets.push_back(Part(sheet.size[0], sheet.size[1]));
-    Raskroy raskroy;
-    raskroy.put_SawThickness(cut_size);
-    raskroy.Begin(parts, sheets);
+    ResultsGenerator generator;
+    generator.put_SawThickness(cut_size);
+    generator.Begin(parts, sheets);
     Result outer_result;
-    int ret = raskroy.NextResult(outer_result) ? 1 : 0;
+    int ret = generator.NextResult(outer_result) ? 1 : 0;
     if (ret) {
-        cout << "ret:" << ret << endl;
-        cout << "calling make_raskroy_layout" << endl;
-        cout << "&outer_result.raskroy: " << &outer_result.raskroy << endl;
-        cout << "cut_size: " << cut_size << endl;
-        cout << "sheet: " << sheet.size[0] << 'x' << sheet.size[1] << endl;
         *res = _make_raskroy_layout(&outer_result.raskroy,
                                     cut_size,
                                     sheet);

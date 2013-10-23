@@ -3,7 +3,7 @@
 #pragma once
 
 #include "errors.h"
-#include "raskroy.h"
+#include "results_generator.h"
 
 using namespace std;
 using namespace System;
@@ -31,7 +31,7 @@ namespace Optimizing {
 			m_parts = gcnew List<Part^>();
 			m_sheets = gcnew List<Sheet^>();
 			m_parameters = gcnew ParametersCollection();
-			m_raskroy = new Denisenko::Raskroy::Raskroy();
+			m_raskroy = new Denisenko::Raskroy::ResultsGenerator();
 		}
 
 		~Optimizer()
@@ -85,7 +85,7 @@ namespace Optimizing {
 		}
 
 	private:
-		Denisenko::Raskroy::Raskroy* m_raskroy;
+		Denisenko::Raskroy::ResultsGenerator* m_raskroy;
 		List<Part^>^ m_parts;
 		List<Sheet^>^ m_sheets;
 		Boolean m_started;

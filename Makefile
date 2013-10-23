@@ -183,30 +183,6 @@ layout2d.cpp.s:
 	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/layout2d.cpp.s
 .PHONY : layout2d.cpp.s
 
-raskroy.o: raskroy.cpp.o
-.PHONY : raskroy.o
-
-# target to build an object file
-raskroy.cpp.o:
-	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/raskroy.cpp.o
-.PHONY : raskroy.cpp.o
-
-raskroy.i: raskroy.cpp.i
-.PHONY : raskroy.i
-
-# target to preprocess a source file
-raskroy.cpp.i:
-	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/raskroy.cpp.i
-.PHONY : raskroy.cpp.i
-
-raskroy.s: raskroy.cpp.s
-.PHONY : raskroy.s
-
-# target to generate assembly for a file
-raskroy.cpp.s:
-	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/raskroy.cpp.s
-.PHONY : raskroy.cpp.s
-
 result.o: result.cpp.o
 .PHONY : result.o
 
@@ -230,6 +206,30 @@ result.s: result.cpp.s
 result.cpp.s:
 	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/result.cpp.s
 .PHONY : result.cpp.s
+
+results_generator.o: results_generator.cpp.o
+.PHONY : results_generator.o
+
+# target to build an object file
+results_generator.cpp.o:
+	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/results_generator.cpp.o
+.PHONY : results_generator.cpp.o
+
+results_generator.i: results_generator.cpp.i
+.PHONY : results_generator.i
+
+# target to preprocess a source file
+results_generator.cpp.i:
+	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/results_generator.cpp.i
+.PHONY : results_generator.cpp.i
+
+results_generator.s: results_generator.cpp.s
+.PHONY : results_generator.s
+
+# target to generate assembly for a file
+results_generator.cpp.s:
+	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/results_generator.cpp.s
+.PHONY : results_generator.cpp.s
 
 types.o: types.cpp.o
 .PHONY : types.o
@@ -273,12 +273,12 @@ help:
 	@echo "... layout2d.o"
 	@echo "... layout2d.i"
 	@echo "... layout2d.s"
-	@echo "... raskroy.o"
-	@echo "... raskroy.i"
-	@echo "... raskroy.s"
 	@echo "... result.o"
 	@echo "... result.i"
 	@echo "... result.s"
+	@echo "... results_generator.o"
+	@echo "... results_generator.i"
+	@echo "... results_generator.s"
 	@echo "... types.o"
 	@echo "... types.i"
 	@echo "... types.s"

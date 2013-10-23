@@ -5,10 +5,10 @@
 namespace Denisenko {
 namespace Raskroy {
 
-class Raskroy {
+class ResultsGenerator {
 public:
 	bool ControlRemains;
-	Raskroy(void)
+	ResultsGenerator(void)
 		: m_remains(0), m_layout2d(m_sizes, m_minSize, &m_remains),
 		ControlRemains(false)
 	{

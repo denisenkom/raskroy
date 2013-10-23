@@ -2,12 +2,12 @@
 #include <algorithm>
 #include <functional>
 #include "errors.h"
-#include "raskroy.h"
+#include "results_generator.h"
 
 namespace Denisenko {
 namespace Raskroy {
 
-void Raskroy::RemoveExostedSizes(void)
+void ResultsGenerator::RemoveExostedSizes(void)
 {
     for (auto s = 0; s <= 1; s++)
     {
@@ -43,7 +43,7 @@ void Raskroy::RemoveExostedSizes(void)
     }
 }
 
-void Raskroy::Begin(Parts &parts, const Parts &sheets)
+void ResultsGenerator::Begin(Parts &parts, const Parts &sheets)
 {
 	m_remains.clear();
 	for (auto s = 0; s <= 1; s++)
@@ -65,7 +65,7 @@ void Raskroy::Begin(Parts &parts, const Parts &sheets)
 	m_sheets = sheets;
 }
 
-float Raskroy::GetPercentCompleted()
+float ResultsGenerator::GetPercentCompleted()
 {
 	float total = (float)(m_sheets.size() * (m_sizes[0].size() + m_sizes[1].size()));
 	if(total == 0.0f)
@@ -79,7 +79,7 @@ float Raskroy::GetPercentCompleted()
 }
 
 
-bool Raskroy::NextResult(Result& out)
+bool ResultsGenerator::NextResult(Result& out)
 {
 	// check if there are still remaining parts
 	auto pRemain = m_remains.begin();
@@ -127,7 +127,7 @@ bool Raskroy::NextResult(Result& out)
 	return true;
 }
 
-void Raskroy::CheckResult(const Result& result)
+void ResultsGenerator::CheckResult(const Result& result)
 {
 	Stat stat;
 	result.raskroy.CheckAndCalcStat(this->get_SawThickness(), result.sheet->rect, &stat);

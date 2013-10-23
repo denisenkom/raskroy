@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Raskroy.h"
+#include "results_generator.h"
 
 using namespace System;
 using namespace System::Collections::Generic;

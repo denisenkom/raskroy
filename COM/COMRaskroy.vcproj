@@ -964,7 +964,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\raskroy.cpp"
+				RelativePath="..\results_generator.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -976,7 +976,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\raskroy.h"
+				RelativePath="..\results_generator.h"
 				>
 			</File>
 			<File

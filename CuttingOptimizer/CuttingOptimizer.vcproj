@@ -398,27 +398,27 @@
 				>
 			</File>
 			<File
-				RelativePath="..\Perebor.cpp"
+				RelativePath="..\layout1d.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Perebor.h"
+				RelativePath="..\layout1d.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Perebor2d.cpp"
+				RelativePath="..\layout2d.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Perebor2d.h"
+				RelativePath="..\layout2d.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Raskroy.cpp"
+				RelativePath="..\results_generator.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Raskroy.h"
+				RelativePath="..\results_generator.h"
 				>
 			</File>
 			<File

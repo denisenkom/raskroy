@@ -15,7 +15,7 @@ CRaskroy::CRaskroy()
 STDMETHODIMP CRaskroy::Begin(ISheets *parts, ISheets *sheets)
 {
 	assert(parts && sheets);
-	Raskroy::Begin(convert(*parts), convert(*sheets));
+	ResultsGenerator::Begin(convert(*parts), convert(*sheets));
 	return S_OK;
 }
 
@@ -25,7 +25,7 @@ STDMETHODIMP CRaskroy::NextResult(IResult **pResult, BOOL *bRes)
 	try
 	{
 		Result res;
-		*bRes = Raskroy::NextResult(res);
+		*bRes = ResultsGenerator::NextResult(res);
 		if(*bRes) {
 			Parser parser;
 			t_parsed_result parsedResult;

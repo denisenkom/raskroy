@@ -2,13 +2,13 @@
 #define __RASKROY_H_
 
 #include "resource.h"
-#include "..\raskroy.h"
+#include "..\results_generator.h"
 
 class ATL_NO_VTABLE CRaskroy : 
 	public CComObjectRootEx<CComSingleThreadModel>,
 	public CComCoClass<CRaskroy, &CLSID_Raskroy>,
 	public IDispatchImpl<IRaskroy, &IID_IRaskroy, &LIBID_COMRASKROYLib>,
-	Denisenko::Raskroy::Raskroy
+	Denisenko::Raskroy::ResultsGenerator
 {
 public:
 	CRaskroy();

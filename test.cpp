@@ -4,8 +4,8 @@
 #include "stdafx.h"
 #include <iostream>
 #include <gtest/gtest.h>
-#include "Raskroy.h"
-#include "Parser.h"
+#include "results_generator.h"
+#include "parser.h"
 
 using namespace Denisenko::Raskroy;
 using namespace std;
@@ -100,7 +100,7 @@ void prinOldLayoutResult(int level, const OldLayoutResult &ras)
 
 TEST(OriginalTests, test_gilotine)
 {
-	Raskroy g;
+	ResultsGenerator g;
 	Parts p;
 
 	p.push_back(Part(900, 605, true, 2));
@@ -170,7 +170,7 @@ TEST(OriginalTests, test_gilotine)
 
 TEST(OriginalTests, test_gilotine2)
 {
-    Raskroy g;
+    ResultsGenerator g;
     Parts p;
 
     p.push_back(Part(9, 6, true, 1));
@@ -198,7 +198,7 @@ TEST(OriginalTests, test_gilotine2)
 
 TEST(OriginalTests, test_skiny_details)
 {
-    Raskroy g;
+    ResultsGenerator g;
     Parts p;
 
     p.push_back(Part(9, 1, true, 1));
@@ -228,7 +228,7 @@ TEST(OriginalTests, test_skiny_details)
 
 TEST(OriginalTests, Chorometrage)
 {
-	Raskroy g;
+	ResultsGenerator g;
 	Parts p;
 
 	p.push_back(Part(900, 605, true, 2));
@@ -267,7 +267,7 @@ TEST(OriginalTests, Chorometrage)
 
 TEST(OriginalTests, Chorometrage2)
 {
-	Raskroy g;
+	ResultsGenerator g;
 	Parts p;
 
 	p.push_back(Part(900, 605, true, 2));
@@ -309,7 +309,7 @@ TEST(OriginalTests, Chorometrage2)
 
 TEST(OriginalTests, RealKitchen)
 {
-	Raskroy g;
+	ResultsGenerator g;
 	Parts p;
 
 	p.push_back(Part(810, 480, true, 1));
