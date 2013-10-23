@@ -4,20 +4,20 @@
 namespace Denisenko {
 namespace Raskroy {
 
-// Раскрой листа по длине и по ширине, возвращает лучший выриант
-// Параметры:
-//		[i] rect - размер листа
-//		[o] stat - статистика
-//		[o] raskroy - раскрой листа
-//		[o] rashod - расход деталей
+// Cut sheet by lenght and by width, returns best result
+// Parameters:
+//		[i] rect - sheet size
+//		[o] stat - statistics
+//		[o] raskroy - sheet layout
+//		[o] rashod - parts consumption
 //
 inline bool Perebor2d::Optimize(const Rect &rect, Stat &stat, int s, t_raskroy &raskroy, Amounts &rashod)
 {
-	// Пробуем расположить по размеру s
+	// Try to layout using s sizes
 	Stat stat1;
 	if (Recursion(m_sizes[s].begin(), rect, stat1, s, raskroy, rashod))
 	{
-		// Если удачно, то пробуем расположить по размеру !s
+		// If success then try to layout using !s sizes
 #ifdef _DEBUG
 		Stat checkStat;
 		raskroy.CheckAndCalcStat(m_perebor.get_SawThickness(), rect, &checkStat);
@@ -33,7 +33,7 @@ inline bool Perebor2d::Optimize(const Rect &rect, Stat &stat, int s, t_raskroy &
 		if (Recursion(m_sizes[!s].begin(), rect, stat2, !s, raskroy2, rashod2)
 			&& /*pcriteria->quality(*/stat1/*)*/ < /*pcriteria->quality(*/stat2/*)*/)
 		{
-			// Если удачно и личше чем по s, то результат будет как по !s
+			// If success and is better than s result than return it
 #ifdef _DEBUG
 			Stat checkStat;
 			raskroy2.CheckAndCalcStat(m_perebor.get_SawThickness(), rect, &checkStat);
@@ -48,10 +48,10 @@ inline bool Perebor2d::Optimize(const Rect &rect, Stat &stat, int s, t_raskroy &
 		{
 			stat = stat1;
 		}
-		// Иначе результат как по s
+		// Otherwise use s result
 		return true;
 	}
-	// Иначе нет результата как по s
+	// Otherwise there is no layout
 	return false;
 }
 
@@ -270,13 +270,13 @@ private:
 	int* m_nestingPtr;
 };
 
-// Рекурсивный перебор всех делений листа по длине/ширине (s=0/1) с возможностью кратного расположения
-// Параметры:
-//		[i] list - размеры листа
-//		[o] stat - статистика
-//		[i] s - выбор направления раскроя по длине/ширине s=0/1
-//		[o] raskroy - раскрой листа
-//		[o] rashod - расход деталей
+// Recursively try all layouts using length/width (s=0/1)
+// Parameters:
+//		[i] list - sheet size
+//		[o] stat - statistics
+//		[i] s - direction
+//		[o] raskroy - layout result
+//		[o] rashod - details consumption
 //
 bool Perebor2d::Recursion(Sizes::iterator begin, const Rect &rect, Stat &stat, int s, t_raskroy &raskroy, Amounts &rashod)
 {
@@ -284,14 +284,14 @@ bool Perebor2d::Recursion(Sizes::iterator begin, const Rect &rect, Stat &stat, i
 
 	if (begin == m_sizes[s].end())
 	{
-		// здесь может произойти зацикливание
+		// it is possible to have infinite loop here
 		return Recursion(m_sizes[!s].begin(), rect, stat, !s, raskroy, rashod);
 	}
 
 	bool first = true;
-	Stat bestStat;	// лучшая статистика внутри цикла, при выходе прибавляется к входной статистике
+	Stat bestStat;	// best stat inside loop, will be combined with resulting stat on exit
 
-	// переменные располагаем здесь чтобы избежать лишней инициализации
+    // variables are here to save on initialization time
 	Amounts rashodPerebor(rashod.size());
 	Amounts vrashod(rashod.size());
 	Amounts rashod1(rashod.size());
@@ -302,8 +302,8 @@ bool Perebor2d::Recursion(Sizes::iterator begin, const Rect &rect, Stat &stat, i
 	{
 		CompletedCounterGuard completedCounterGuard(&m_nesting, &m_completedCounter);
 
-		// если размер слишком большой, то закончить цикл,
-		// т.к. следующие размеры будут еще больше
+        // if size is too big then terminate loop, other sizes will be
+        // bigger
 		if (i->Value > rect.Size[s])
 			break;
 
@@ -314,19 +314,19 @@ bool Perebor2d::Recursion(Sizes::iterator begin, const Rect &rect, Stat &stat, i
 			continue;
 
 		//stat1.sum_cut_length += rect.size[!s];
-		// Добавляем опилки
+		// Add sawdust
 		double opilki1 = opilki + (double)(rect.Size[!s] - remain) * (double)m_perebor.get_SawThickness();
 		double opilki2 = (double)remain * (double)m_perebor.get_SawThickness();
-		// Вычисляем остаточный квадрат
+		// Calculating remaining rectangle
 		Rect remainRect;
 		remainRect.Size[s] = i->Value;
 		remainRect.Size[!s] = remain;
-		// Вычисляем квадрат для рекурсии
+		// Calculating recursion rectangle
 		Rect recurseRect(rect);
-		// Величина, на которую будет уменьшен квадрат рекурсии
+		// Recursion rectanble will be reduced by this value
 		scalar reduce = i->Value + m_perebor.get_SawThickness();
 
-		// Рассчет кратности
+		// Calculating multiplicity
 		int maxKratnostj = int((rect.Size[s] + m_perebor.get_SawThickness()) / (i->Value + m_perebor.get_SawThickness()));
 		if (maxKratnostj > 1)
 		{
@@ -342,7 +342,7 @@ bool Perebor2d::Recursion(Sizes::iterator begin, const Rect &rect, Stat &stat, i
 		for (int kratnostj = 1; kratnostj <= maxKratnostj; kratnostj++)
 		{
 			stat1.MakeZero();
-			// Корректировка расхода, статистики, квадратов в зависимости от кратности
+            // Modify consumption according to multiplicity
 			if (kratnostj > 1)
 			{
 				rashod1 = rashodPerebor * kratnostj;
@@ -360,15 +360,15 @@ bool Perebor2d::Recursion(Sizes::iterator begin, const Rect &rect, Stat &stat, i
 				recurseRect.Size[s] = 0;
 			}
 
-			// Кроим остаточный квадрат
-			// Корректируем остатки в зависимости от получившегося расхода
-			*m_remains -= rashod1;	// потом нужно будет восстановить остатки
+            // Doing layout for remain rectangle
+            // Modifying remains according to layout
+			*m_remains -= rashod1;	// should be restored for the next iteration
 			Stat remainStat;
 			bool haveRemain = Optimize(remainRect, remainStat, !s, remainRaskroy, vrashod);
 			if (haveRemain)
 			//if (Recursion(sizes[!s].begin(), rect1, stat1, !s, remain_raskroy, rashod))
 			{
-				// Если есть крой, то дополнительно корректируем остатки и расход
+				// If have layout then need to correct remains and consumption
 				stat1 += remainStat;
 				rashod1 += vrashod;
 				*m_remains -= vrashod;
@@ -381,7 +381,7 @@ bool Perebor2d::Recursion(Sizes::iterator begin, const Rect &rect, Stat &stat, i
 			//if (!first && pcriteria->compare(&best_stat, &stat1))	// already bad
 			//	continue;
 
-			// Вызываем рекурсию
+			// Doing recursion part
 			Stat recurseStat;
 			bool haveRecurse = Recursion(i + 1, recurseRect, recurseStat, s, recurseRaskroy, vrashod);
 			if(haveRecurse)
@@ -401,9 +401,9 @@ bool Perebor2d::Recursion(Sizes::iterator begin, const Rect &rect, Stat &stat, i
 			{
 				stat1.AddScrap(recurseRect);
 			}
-			*m_remains += rashod1;	// восстанавливаем остатки
+			*m_remains += rashod1;	// restoring remains
 
-			// если результат лучше лучшего или первый то
+			// if result is better than current best or is first result then...
 			if (bestStat < stat1 || first)
 			{
 				bestStat = stat1;
@@ -413,8 +413,8 @@ bool Perebor2d::Recursion(Sizes::iterator begin, const Rect &rect, Stat &stat, i
 					haveRemain ? &remainRaskroy : 0,
 					haveRecurse ? &recurseRaskroy : 0);
 
-				// rashod1 - расход в переборе+в остаточной части
-				// vrashod - расход в ресурсивной части
+				// rashod1 - consumption in remain rectangle
+				// vrashod - cunsumption in recursion rectangle
 				rashod = rashod1;
 				if (haveRecurse)
 					rashod += vrashod;
@@ -424,12 +424,12 @@ bool Perebor2d::Recursion(Sizes::iterator begin, const Rect &rect, Stat &stat, i
 		if (!first)
 			break;
 	}
-	// Если был результат
+	// If had result
 	if (!first)
 	{
-		// Добавляем нашу лучшую статистику к входной статистике
+		// Add best stat to resulting stat
 		stat = bestStat;
-		// Раскрой и расход уже хранится в нужном месте
+		// Layout and consumption output parameters are already set
 		return true;
 	}
 	return false;
