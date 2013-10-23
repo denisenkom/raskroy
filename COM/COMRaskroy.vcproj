@@ -948,19 +948,19 @@
 				>
 			</File>
 			<File
-				RelativePath="..\perebor.cpp"
+				RelativePath="..\layout1d.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\perebor.h"
+				RelativePath="..\layout1d.h"
 				>
 			</File>
 			<File
-				RelativePath="..\Perebor2d.cpp"
+				RelativePath="..\layout2d.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\Perebor2d.h"
+				RelativePath="..\layout2d.h"
 				>
 			</File>
 			<File
