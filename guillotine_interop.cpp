@@ -257,9 +257,39 @@ extern "C" int DLLEXPORT new_layout2d(
         unique_parts.push_back(part);
     }
 
-    Raskroy raskroy;
     LayoutBuilder layout_builder;
-    int ret = raskroy.new_optimize(sheet, unique_parts, cut_size, layout_builder) ? 1 : 0;
+    // initialize amounts vector
+    Amounts remains(parts.size());
+    std::fill(remains.begin(), remains.end(), 0);
+    // assing amount offsets to parts
+    // and amounts to remains
+    auto offset = 0;
+    std::for_each(parts.begin(),
+                  parts.end(),
+                  [&offset, &remains](Part & part) {
+                      part.AmountOffset = offset++;
+                      remains[part.AmountOffset] = part.Amount;
+                  });
+    // initialize sizes lookups
+    Sizes sizes[2];
+    for (auto s = 0; s <= 1; s++)
+    {
+        for (auto pPart = parts.begin(); pPart != parts.end(); pPart++)
+            sizes[s].AddPart(*pPart, s);
+
+        // order from big to small
+        std::sort(sizes[s].begin(), sizes[s].end(), std::greater_equal<Size>());
+        for (auto pSize = sizes[s].begin(); pSize != sizes[s].end(); pSize++)
+        {
+            std::sort(pSize->other_sizes.begin(), pSize->other_sizes.end(),
+                    std::greater_equal<OtherSize>());
+            pSize->other_sizes.SetMin();
+        }
+    }
+    scalar min_size[2];
+    Layout2d optimizer(sizes, min_size, &remains);
+    optimizer.put_SawThickness(cut_size);
+    int ret = optimizer.new_optimize(sheet, layout_builder) ? 1 : 0;
     if (ret) {
         unique_ptr<Layout> layout(new Layout);
         layout_builder.simplify();

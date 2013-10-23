@@ -17,7 +17,6 @@ public:
 	scalar get_SawThickness(void) throw () {return m_layout2d.get_SawThickness();}
 	void Begin(Parts &parts, const Parts &sheets);
 	bool NextResult(Result &res);
-    bool new_optimize(Rect sheet, Parts & parts, scalar cut_size, LayoutBuilder & layout);
 
 	float GetPercentCompleted();
 

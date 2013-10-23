@@ -78,40 +78,6 @@ float Raskroy::GetPercentCompleted()
 	}
 }
 
-bool Raskroy::new_optimize(Rect sheet, Parts & parts, scalar cut_size, LayoutBuilder & layout) {
-    put_SawThickness(cut_size);
-    // initialize amounts vector
-    m_remains.resize(parts.size());
-    std::fill(m_remains.begin(), m_remains.end(), 0);
-    // assing amount offsets to parts
-    // and amounts to m_remains
-    auto offset = 0;
-    std::for_each(parts.begin(),
-                  parts.end(),
-                  [&offset, this](Part & part) {
-                      part.AmountOffset = offset++;
-                      m_remains[part.AmountOffset] = part.Amount;
-                  });
-    // initialize sizes lookups
-	for (auto s = 0; s <= 1; s++)
-	{
-		m_sizes[s].clear();
-		for (auto pPart = parts.begin(); pPart != parts.end(); pPart++)
-			m_sizes[s].AddPart(*pPart, s);
-
-        // order from big to small
-        std::sort(m_sizes[s].begin(), m_sizes[s].end(), std::greater_equal<Size>());
-		for (auto pSize = m_sizes[s].begin(); pSize != m_sizes[s].end(); pSize++)
-		{
-            std::sort(pSize->other_sizes.begin(), pSize->other_sizes.end(),
-                      std::greater_equal<OtherSize>());
-			pSize->other_sizes.SetMin();
-		}
-	}
-
-	auto ret = m_layout2d.new_optimize(sheet, layout);
-    return ret;
-}
 
 bool Raskroy::NextResult(Result& out)
 {
