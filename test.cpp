@@ -132,7 +132,7 @@ TEST(OriginalTests, test_gilotine)
 
 	s.push_back(Part(1810, 1210));
 	//s.push_back(Part(1000, 1000));
-	t_result res;
+	Result res;
 	g.Begin(p, s);
 	//int index = 1;
 	while (g.NextResult(res))
@@ -179,7 +179,7 @@ TEST(OriginalTests, test_gilotine2)
     Parts s;
     g.put_SawThickness(1);
     s.push_back(Part(11, 11));
-    t_result res;
+    Result res;
     g.Begin(p, s);
     int num = 0;
     while (g.NextResult(res))
@@ -257,7 +257,7 @@ TEST(OriginalTests, Chorometrage)
 
 	s.push_back(Part(1810, 1210));
 	//s.push_back(Part(1000, 1000));
-	t_result res;
+	Result res;
 	g.Begin(p, s);
 	//int index = 1;
 	while (g.NextResult(res))
@@ -299,7 +299,7 @@ TEST(OriginalTests, Chorometrage2)
 
 	s.push_back(Part(1810, 1210));
 	//s.push_back(Part(1000, 1000));
-	t_result res;
+	Result res;
 	g.Begin(p, s);
 	//int index = 1;
 	while (g.NextResult(res))
@@ -351,7 +351,7 @@ TEST(OriginalTests, RealKitchen)
 
 	s.push_back(Part(1810, 1210));
 	//s.push_back(Part(1000, 1000));
-	t_result res;
+	Result res;
 	g.Begin(p, s);
 	//int index = 1;
 	while (g.NextResult(res))

@@ -54,14 +54,15 @@ private:
 	mutable OldLayoutResult *precurse;
 };
 
-class t_result {
+
+class Result {
 public:
 	OldLayoutResult raskroy;
 	Parts::iterator sheet;
 	Stat Statistics;
 	unsigned amount;
 
-	t_result(void) : amount(0) {}
+	Result(void) : amount(0) {}
 };
 
 
@@ -224,9 +225,6 @@ struct LayoutBuilder {
     void check() const;
 };
 
-
-// new preferred name for type
-typedef t_result Result;
 
 } // namespace Denisenko
 } // namespace Raskroy

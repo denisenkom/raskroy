@@ -24,7 +24,7 @@ STDMETHODIMP CRaskroy::NextResult(IResult **pResult, BOOL *bRes)
 	assert(pResult && bRes);
 	try
 	{
-		t_result res;
+		Result res;
 		*bRes = Raskroy::NextResult(res);
 		if(*bRes) {
 			Parser parser;

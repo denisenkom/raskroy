@@ -16,7 +16,7 @@ public:
 	void   put_SawThickness(scalar x) throw () {m_layout2d.put_SawThickness(x);}
 	scalar get_SawThickness(void) throw () {return m_layout2d.get_SawThickness();}
 	void Begin(Parts &parts, const Parts &sheets);
-	bool NextResult(t_result &res);
+	bool NextResult(Result &res);
     bool new_optimize(Rect sheet, Parts & parts, scalar cut_size, LayoutBuilder & layout);
 
 	float GetPercentCompleted();
@@ -32,7 +32,7 @@ private:
 	//Parts m_splitedParts;
 
 	void RemoveExostedSizes(void);
-	void CheckResult(const t_result& result);
+	void CheckResult(const Result& result);
 	//void SubstractPartsAmounts(const Amounts& amounts);
 };
 

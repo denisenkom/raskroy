@@ -47,7 +47,7 @@ class Parser
 public:
 	scalar get_DetailsSummarySquare() {return m_detailsSummarySquare;};
 	Parser(void) : m_pOutResult(0), m_sawThickness(0), m_halfSawThickness(0), m_detailsSummarySquare(0) {}
-	void Parse(const t_result&, t_parsed_result&, scalar cutThickness);
+	void Parse(const Result&, t_parsed_result&, scalar cutThickness);
 };
 
 } // namespace Denisenko

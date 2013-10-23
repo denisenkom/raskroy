@@ -98,7 +98,7 @@ void Parser::Recursion(scalar pos[2], const Rect &rect, const OldLayoutResult &r
 	}
 }
 
-void Parser::Parse(const t_result& result1, t_parsed_result& result2, scalar sawThickness)
+void Parser::Parse(const Result& result1, t_parsed_result& result2, scalar sawThickness)
 {
 	m_sawThickness = sawThickness;
 	m_halfSawThickness = sawThickness / 2;

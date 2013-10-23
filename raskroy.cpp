@@ -113,7 +113,7 @@ bool Raskroy::new_optimize(Rect sheet, Parts & parts, scalar cut_size, LayoutBui
     return ret;
 }
 
-bool Raskroy::NextResult(t_result& out)
+bool Raskroy::NextResult(Result& out)
 {
 	// check if there are still remaining parts
 	auto pRemain = m_remains.begin();
@@ -123,7 +123,7 @@ bool Raskroy::NextResult(t_result& out)
 	if (pRemain == m_remains.end())
 		return false;  // no more parts
 
-	t_result bestResult;
+	Result bestResult;
 	Amounts bestRashod(m_remains.size());
 	bool first = true;
 	m_layout2d.ResetCompletedCounter();
@@ -161,7 +161,7 @@ bool Raskroy::NextResult(t_result& out)
 	return true;
 }
 
-void Raskroy::CheckResult(const t_result& result)
+void Raskroy::CheckResult(const Result& result)
 {
 	Stat stat;
 	result.raskroy.CheckAndCalcStat(this->get_SawThickness(), result.sheet->rect, &stat);

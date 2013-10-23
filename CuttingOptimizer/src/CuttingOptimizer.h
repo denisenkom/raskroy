@@ -60,7 +60,7 @@ namespace Optimizing {
 				m_raskroy->Begin(convParts, convSheets);
 				m_started = true;
 			}
-			Denisenko::Raskroy::t_result result;
+			Denisenko::Raskroy::Result result;
 			try
 			{
 				if(m_raskroy->NextResult(result))
@@ -123,7 +123,7 @@ namespace Optimizing {
 			return result;
 		}
 
-		CuttingScheme^ ConvertResult(const Denisenko::Raskroy::t_result& input)
+		CuttingScheme^ ConvertResult(const Denisenko::Raskroy::Result& input)
 		{
 			CuttingScheme^ result = gcnew CuttingScheme();
 			result->Sheet = Sheets[input.sheet->Tag];
