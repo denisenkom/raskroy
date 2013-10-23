@@ -259,13 +259,12 @@ extern "C" int DLLEXPORT new_layout2d(
 
     LayoutBuilder layout_builder;
     // initialize amounts vector
-    Amounts remains(parts.size());
-    std::fill(remains.begin(), remains.end(), 0);
+    Amounts remains(unique_parts.size());
     // assing amount offsets to parts
     // and amounts to remains
     auto offset = 0;
-    std::for_each(parts.begin(),
-                  parts.end(),
+    std::for_each(unique_parts.begin(),
+                  unique_parts.end(),
                   [&offset, &remains](Part & part) {
                       part.AmountOffset = offset++;
                       remains[part.AmountOffset] = part.Amount;
@@ -274,7 +273,7 @@ extern "C" int DLLEXPORT new_layout2d(
     Sizes sizes[2];
     for (auto s = 0; s <= 1; s++)
     {
-        for (auto pPart = parts.begin(); pPart != parts.end(); pPart++)
+        for (auto pPart = unique_parts.begin(); pPart != unique_parts.end(); pPart++)
             sizes[s].AddPart(*pPart, s);
 
         // order from big to small
