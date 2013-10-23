@@ -87,7 +87,7 @@ struct Stat {
 		return *this;
 	}
 
-	// меньше значит хуже
+	// less means worse
 	bool operator < (const Stat &b)
 	{
 		if (UsefulRemain + UnusefulRemain + Opilki > b.UsefulRemain + b.UnusefulRemain + b.Opilki)
