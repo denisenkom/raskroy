@@ -58,7 +58,7 @@ void Raskroy::Begin(Parts &parts, const Parts &sheets)
 		{
             std::sort(pSize->other_sizes.begin(), pSize->other_sizes.end(),
                       std::greater_equal<OtherSize>());
-			// установка указателя на минимальный размер
+			// set pointer to the smallest size
 			pSize->other_sizes.SetMin();
 		}
 	}
@@ -115,13 +115,13 @@ bool Raskroy::new_optimize(Rect sheet, Parts & parts, scalar cut_size, LayoutBui
 
 bool Raskroy::NextResult(t_result& out)
 {
-	// проверить остались ли детали
+	// check if there are still remaining parts
 	auto pRemain = m_remains.begin();
 	for (; pRemain != m_remains.end(); pRemain++)
 		if (*pRemain > 0)
 			break;
 	if (pRemain == m_remains.end())
-		return false; // детали кончились
+		return false;  // no more parts
 
 	t_result bestResult;
 	Amounts bestRashod(m_remains.size());
@@ -138,7 +138,7 @@ bool Raskroy::NextResult(t_result& out)
 		if (bestResult.Statistics < stat || first) {
 			bestResult.amount = m_remains / rashod;
 			if (ControlRemains && bestResult.amount > pSheet->Amount)
-				continue; // недостаточно листов
+				continue;  // not enough sheets
 
 			bestResult.Statistics = stat;
 			bestResult.raskroy = raskroy;

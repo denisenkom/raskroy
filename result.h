@@ -17,7 +17,7 @@ struct t_raskroy {
 
 	typedef std::vector<t_detail> t_details;
 
-	unsigned s; // разрез проходит перпендикул€рно этой стороне
+	unsigned s; // cut goes perpendicular to this axis
 	unsigned kratnostj;
 	scalar cut;
 	t_details details;
