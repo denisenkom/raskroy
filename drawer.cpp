@@ -88,7 +88,7 @@ void Drawer::ResetWnd(HWND hwnd)
 	assert(m_hdc);
 }
 
-void Drawer::Draw(int width, int height, const ParsedParts& parts, const t_parsed_cuts& cuts, const Part& sheet)
+void Drawer::Draw(int width, int height, const ParsedParts& parts, const ParsedCuts& cuts, const Part& sheet)
 {
 	double scalex = width / (double)sheet.rect.Size[0];
     double scaley = height / (double)sheet.rect.Size[1];
@@ -128,7 +128,7 @@ void Drawer::Draw(int width, int height, const ParsedParts& parts, const t_parse
 	// drawing cuts
 	hres = SelectObject(m_hdc, m_hredpen);
 	assert(hres != NULL);
-    {for (t_parsed_cuts::const_iterator i = cuts.begin(); i != cuts.end(); i++)
+    {for (ParsedCuts::const_iterator i = cuts.begin(); i != cuts.end(); i++)
     {
 		bres = MoveToEx(m_hdc, int(i->pos[0] * scale), int(i->pos[1] * scale), NULL);
 		assert(bres);

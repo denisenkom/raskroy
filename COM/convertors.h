@@ -7,7 +7,7 @@ Denisenko::Raskroy::t_parsed_cut
 Denisenko::Raskroy::ParsedPart
 	convert(struct IParsedPart &Part);
 
-Denisenko::Raskroy::t_parsed_cuts
+Denisenko::Raskroy::ParsedCuts
 	convert(struct IParsedCuts &Cuts);
 
 Denisenko::Raskroy::ParsedParts

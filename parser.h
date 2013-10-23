@@ -20,12 +20,12 @@ struct t_parsed_cut {
 };
 
 typedef std::vector<ParsedPart> ParsedParts;
-typedef std::vector<t_parsed_cut> t_parsed_cuts;
+typedef std::vector<t_parsed_cut> ParsedCuts;
 
 struct t_parsed_result
 {
 	ParsedParts parts;
-	t_parsed_cuts cuts;
+	ParsedCuts cuts;
 	Stat stat;
 	Part sheet;
 	unsigned amount;

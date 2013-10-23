@@ -32,11 +32,11 @@ ParsedPart convert(IParsedPart &Part)
 	return part;
 }
 
-t_parsed_cuts convert(IParsedCuts &Cuts)
+ParsedCuts convert(IParsedCuts &Cuts)
 {
 	long count;
 	Cuts.get_Count(&count);
-	t_parsed_cuts cuts(count);
+	ParsedCuts cuts(count);
 	for (long i = 0; i < count; i++)
 	{
 		IParsedCut *Cut;
@@ -174,7 +174,7 @@ public:
 	}
 };
 
-IParsedCuts* convert(const t_parsed_cuts &cuts)
+IParsedCuts* convert(const ParsedCuts &cuts)
 {
 	IParsedCuts *res;
 	HRESULT hres;
@@ -281,7 +281,7 @@ IResult* convert(const t_parsed_result &res)
 		}
 		x = res.cuts.size();
 		writefn(ss, x);	// Количество резов
-		for (t_parsed_cuts::const_iterator i = res.cuts.begin(); i != res.cuts.end(); i++)
+		for (ParsedCuts::const_iterator i = res.cuts.begin(); i != res.cuts.end(); i++)
 		{
 			writefn(ss, i->pos[0]);	// X
 			writefn(ss, i->pos[1]);	// Y
@@ -332,7 +332,7 @@ t_parsed_result convert(BSTR str)
 	}
 	readfn(str, x);	// Количество резов
 	res.cuts.resize(x);
-	for (t_parsed_cuts::const_iterator i = res.cuts.begin(); i != res.cuts.end(); i++)
+	for (ParsedCuts::const_iterator i = res.cuts.begin(); i != res.cuts.end(); i++)
 	{
 		readfn(str, i->pos[0]);	// X
 		readfn(str, i->pos[1]);	// Y
