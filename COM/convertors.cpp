@@ -47,11 +47,11 @@ t_parsed_cuts convert(IParsedCuts &Cuts)
 	return cuts;
 }
 
-t_parsed_parts convert(IParsedParts &Parts)
+ParsedParts convert(IParsedParts &Parts)
 {
 	long count;
 	Parts.get_Count(&count);
-	t_parsed_parts parts(count);
+	ParsedParts parts(count);
 	for (long i = 0; i < count; i++)
 	{
 		IParsedPart *Part;
@@ -185,7 +185,7 @@ IParsedCuts* convert(const t_parsed_cuts &cuts)
 	return res;
 }
 
-IParsedParts* convert(const t_parsed_parts &parts)
+IParsedParts* convert(const ParsedParts &parts)
 {
 	IParsedParts *res;
 	HRESULT hres;
@@ -272,7 +272,7 @@ IResult* convert(const t_parsed_result &res)
 		writefn(ss, res.amount);	// Количество листов
 		short x = res.parts.size();
 		writefn(ss, x);	// Количество деталей
-		for (t_parsed_parts::const_iterator i = res.parts.begin(); i != res.parts.end(); i++)
+		for (ParsedParts::const_iterator i = res.parts.begin(); i != res.parts.end(); i++)
 		{
 			writefn(ss, i->pos[0]);	// X
 			writefn(ss, i->pos[1]);	// Y
@@ -323,7 +323,7 @@ t_parsed_result convert(BSTR str)
 	short x;
 	readfn(str, x);	// Количество деталей
 	res.parts.resize(x);
-	for (t_parsed_parts::const_iterator i = res.parts.begin(); i != res.parts.end(); i++)
+	for (ParsedParts::const_iterator i = res.parts.begin(); i != res.parts.end(); i++)
 	{
 		readfn(str, i->pos[0]);	// X
 		readfn(str, i->pos[1]);	// Y

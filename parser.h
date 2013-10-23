@@ -19,12 +19,12 @@ struct t_parsed_cut {
 	unsigned s;	// cut direction along 0=length or 1=width
 };
 
-typedef std::vector<t_parsed_part> t_parsed_parts;
+typedef std::vector<t_parsed_part> ParsedParts;
 typedef std::vector<t_parsed_cut> t_parsed_cuts;
 
 struct t_parsed_result
 {
-	t_parsed_parts parts;
+	ParsedParts parts;
 	t_parsed_cuts cuts;
 	Stat stat;
 	Part sheet;

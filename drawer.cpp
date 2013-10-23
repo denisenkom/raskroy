@@ -88,7 +88,7 @@ void Drawer::ResetWnd(HWND hwnd)
 	assert(m_hdc);
 }
 
-void Drawer::Draw(int width, int height, const t_parsed_parts& parts, const t_parsed_cuts& cuts, const Part& sheet)
+void Drawer::Draw(int width, int height, const ParsedParts& parts, const t_parsed_cuts& cuts, const Part& sheet)
 {
 	double scalex = width / (double)sheet.rect.Size[0];
     double scaley = height / (double)sheet.rect.Size[1];
@@ -110,7 +110,7 @@ void Drawer::Draw(int width, int height, const t_parsed_parts& parts, const t_pa
 	// drawing parts
 	hres = SelectObject(m_hdc, m_hwhitebrush);
 	assert(hres != NULL);
-    {for (t_parsed_parts::const_iterator i = parts.begin(); i != parts.end(); i++)
+    {for (ParsedParts::const_iterator i = parts.begin(); i != parts.end(); i++)
     {
     	RECT Rect;
         Rect.left = LONG(i->pos[0] * scale);

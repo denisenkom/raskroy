@@ -12,7 +12,7 @@ class ATL_NO_VTABLE CParsedParts :
 	public CComObjectRootEx<CComSingleThreadModel>,
 	public CComCoClass<CParsedParts, &CLSID_ParsedParts>,
 	public IDispatchImpl<IParsedParts, &IID_IParsedParts, &LIBID_COMRASKROYLib>,
-	public Denisenko::Raskroy::t_parsed_parts
+	public Denisenko::Raskroy::ParsedParts
 {
 public:
 	CParsedParts()

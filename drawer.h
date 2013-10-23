@@ -26,7 +26,7 @@ public:
 
 	void ResetDC(HDC = 0);
 	void ResetWnd(HWND);
-	void Draw(int width, int height, const t_parsed_parts&, const t_parsed_cuts&, const Part& sheet);
+	void Draw(int width, int height, const ParsedParts&, const t_parsed_cuts&, const Part& sheet);
 };
 
 } // namespace Denisenko
