@@ -22,7 +22,7 @@ scalar Parser::Details(unsigned s, scalar pos[2], const Rect &rect, const t_rask
 			//part.part = 
 			assert(m_pOutResult);
 			m_pOutResult->parts.push_back(part);
-			// нужно найти деталь
+			// need to find part
 			acc += i->size;
 			if (n < i->num-1)
 			{
