@@ -5,10 +5,10 @@
 namespace Denisenko {
 namespace Raskroy {
 
-scalar Parser::Details(unsigned s, scalar pos[2], const Rect &rect, const t_raskroy::t_details &details)
+scalar Parser::Details(unsigned s, scalar pos[2], const Rect &rect, const OldLayoutResult::t_details &details)
 {
 	scalar acc = 0;
-	for (t_raskroy::t_details::const_iterator i = details.begin(); i != details.end(); i++)
+	for (OldLayoutResult::t_details::const_iterator i = details.begin(); i != details.end(); i++)
 		for (unsigned n = 0; n < i->num; n++)
 		{
 			t_parsed_part part;
@@ -40,7 +40,7 @@ scalar Parser::Details(unsigned s, scalar pos[2], const Rect &rect, const t_rask
 	return acc;
 }
 
-void Parser::Recursion(scalar pos[2], const Rect &rect, const t_raskroy &raskroy)
+void Parser::Recursion(scalar pos[2], const Rect &rect, const OldLayoutResult &raskroy)
 {
 	t_parsed_cut cut;
 	cut.s = !raskroy.s;

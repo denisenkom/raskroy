@@ -8,7 +8,7 @@
 namespace Denisenko {
 namespace Raskroy {
 
-struct t_raskroy {
+struct OldLayoutResult {
     struct t_detail {
         scalar size;
         unsigned num;
@@ -22,8 +22,8 @@ struct t_raskroy {
 	scalar cut;
 	t_details details;
 
-	t_raskroy() : premain(0), precurse(0) {}
-	t_raskroy(const t_raskroy &orig)
+	OldLayoutResult() : premain(0), precurse(0) {}
+	OldLayoutResult(const OldLayoutResult &orig)
 		: s(orig.s),
 		kratnostj(orig.kratnostj),
 		cut(orig.cut),
@@ -35,28 +35,28 @@ struct t_raskroy {
 		orig.precurse = 0;
 	}
 
-	~t_raskroy() {
+	~OldLayoutResult() {
 		delete premain;
 		delete precurse;
 	}
 
-	void set(int s, unsigned kratnostj, scalar cut, t_details &details, t_raskroy *premain, t_raskroy *precurse);
-	t_raskroy& operator = (const t_raskroy &orig);
-	void attachRemain(t_raskroy &remain);
-	void attachRecurse(t_raskroy &recurse);
-	t_raskroy * watchRemain(void) const {return premain;}
-	t_raskroy * watchRecurse(void) const {return precurse;}
+	void set(int s, unsigned kratnostj, scalar cut, t_details &details, OldLayoutResult *premain, OldLayoutResult *precurse);
+	OldLayoutResult& operator = (const OldLayoutResult &orig);
+	void attachRemain(OldLayoutResult &remain);
+	void attachRecurse(OldLayoutResult &recurse);
+	OldLayoutResult * watchRemain(void) const {return premain;}
+	OldLayoutResult * watchRecurse(void) const {return precurse;}
 
 	void CheckAndCalcStat(scalar cutThickness, const Rect& rect, Stat* outStat) const;
 
 private:
-	mutable t_raskroy *premain;
-	mutable t_raskroy *precurse;
+	mutable OldLayoutResult *premain;
+	mutable OldLayoutResult *precurse;
 };
 
 class t_result {
 public:
-	t_raskroy raskroy;
+	OldLayoutResult raskroy;
 	Parts::iterator sheet;
 	Stat Statistics;
 	unsigned amount;

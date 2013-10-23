@@ -4,24 +4,24 @@
 namespace Denisenko {
 namespace Raskroy {
 
-void t_raskroy::set(int s,
+void OldLayoutResult::set(int s,
 	unsigned kratnostj,
 	scalar cut,
 	t_details &details,
-	t_raskroy *premain,
-	t_raskroy *precurse)
+	OldLayoutResult *premain,
+	OldLayoutResult *precurse)
 {
 	this->s = s;
 	this->kratnostj = kratnostj;
 	this->cut = cut;
 	this->details = details;
 	delete this->premain;
-	this->premain = premain ? new t_raskroy(*premain) : 0;
+	this->premain = premain ? new OldLayoutResult(*premain) : 0;
 	delete this->precurse;
-	this->precurse = precurse ? new t_raskroy(*precurse) : 0;
+	this->precurse = precurse ? new OldLayoutResult(*precurse) : 0;
 }
 
-t_raskroy& t_raskroy::operator = (const t_raskroy &orig)
+OldLayoutResult& OldLayoutResult::operator = (const OldLayoutResult &orig)
 {
 	delete premain;
 	delete precurse;
@@ -39,21 +39,21 @@ t_raskroy& t_raskroy::operator = (const t_raskroy &orig)
 	return *this;
 }
 
-void t_raskroy::attachRemain(t_raskroy &remain) {
+void OldLayoutResult::attachRemain(OldLayoutResult &remain) {
 	if (premain)
 		*premain = remain;
 	else
-		premain = new t_raskroy(remain);
+		premain = new OldLayoutResult(remain);
 }
 
-void t_raskroy::attachRecurse(t_raskroy &recurse) {
+void OldLayoutResult::attachRecurse(OldLayoutResult &recurse) {
 	if (precurse)
 		*precurse = recurse;
 	else
-		precurse = new t_raskroy(recurse);
+		precurse = new OldLayoutResult(recurse);
 }
 
-void t_raskroy::CheckAndCalcStat(scalar cutThickness, const Rect& rect, Stat* outStat) const
+void OldLayoutResult::CheckAndCalcStat(scalar cutThickness, const Rect& rect, Stat* outStat) const
 {
 	Stat stat;
 	stat.MakeZero();

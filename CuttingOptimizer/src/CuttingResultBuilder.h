@@ -26,7 +26,7 @@ public:
 	{
 	}
 
-	void LoadSections(const Denisenko::Raskroy::t_raskroy& input, ParametersCollection^ parameters, CuttingScheme^ output)
+	void LoadSections(const Denisenko::Raskroy::OldLayoutResult& input, ParametersCollection^ parameters, CuttingScheme^ output)
 	{
 		m_result = output;
 		m_parameters = parameters;
@@ -38,7 +38,7 @@ private:
 	CuttingScheme^ m_result;
 	ParametersCollection^ m_parameters;
 
-	void Recursive(const Denisenko::Raskroy::t_raskroy& input, CutType cutType, Section^ output)
+	void Recursive(const Denisenko::Raskroy::OldLayoutResult& input, CutType cutType, Section^ output)
 	{
 		m_result->MakeSureEdgeEven(output, cutType);
 
@@ -77,10 +77,10 @@ private:
 		}
 	}
 
-	Decimal GetDetailsLength(const Raskroy::t_raskroy::t_details& details)
+	Decimal GetDetailsLength(const Raskroy::OldLayoutResult::t_details& details)
 	{
 		Decimal result;
-		for(Raskroy::t_raskroy::t_details::const_iterator i = details.begin();
+		for(Raskroy::OldLayoutResult::t_details::const_iterator i = details.begin();
 			i != details.end(); i++)
 		{
 			result += FromScaled(i->size + ToScaled(m_parameters->CutterThickness)) *
@@ -90,10 +90,10 @@ private:
 		return result;
 	}
 
-	Section^ AddDetails(const Raskroy::t_raskroy::t_details& details, Section^ output, CutType cutType)
+	Section^ AddDetails(const Raskroy::OldLayoutResult::t_details& details, Section^ output, CutType cutType)
 	{
 		Section^ result = output;
-		for(Raskroy::t_raskroy::t_details::const_iterator i = details.begin();
+		for(Raskroy::OldLayoutResult::t_details::const_iterator i = details.begin();
 			i != details.end(); i++)
 		{
 			for(Int32 j = i->num; j > 0; j--)

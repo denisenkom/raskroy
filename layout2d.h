@@ -16,7 +16,7 @@ class Layout2d {
 	int m_nesting;
 	int m_completedCounter;
 
-	bool Recursion(Sizes::iterator begin, const Rect&, Stat&, int s, t_raskroy&, Amounts &rashod);
+	bool Recursion(Sizes::iterator begin, const Rect&, Stat&, int s, OldLayoutResult&, Amounts &rashod);
 
 public:
 
@@ -28,7 +28,7 @@ public:
 
 	void put_SawThickness(scalar x) throw () {m_layout1d.put_SawThickness(x);}
 	scalar get_SawThickness(void) throw () {return m_layout1d.get_SawThickness();}
-	bool Optimize(const Rect&, Stat&, int s, t_raskroy&, Amounts &rashod);
+	bool Optimize(const Rect&, Stat&, int s, OldLayoutResult&, Amounts &rashod);
     bool new_optimize(const Rect &rect, LayoutBuilder &layout);
 	void ResetCompletedCounter() { m_completedCounter = 0; }
 	int GetCompletedCounter() { return m_completedCounter; }

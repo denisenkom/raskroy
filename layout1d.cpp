@@ -76,7 +76,7 @@ scalar Layout1d::Recursion(scalar i_size, std::list<std::pair<const OtherSize*, 
 //		[o] details - layout result, empty container should be passed on input
 //		[o] rashod - consumption of segments
 // Returns true if has layout
-bool Layout1d::Make(const Size &size, scalar otherSize, t_raskroy::t_details &o_details, Amounts &o_rashods, scalar &o_remain, double &o_opilki)
+bool Layout1d::Make(const Size &size, scalar otherSize, OldLayoutResult::t_details &o_details, Amounts &o_rashods, scalar &o_remain, double &o_opilki)
 {
 	if (otherSize < size.other_sizes.Min->Value)
 		return false;
@@ -99,7 +99,7 @@ bool Layout1d::Make(const Size &size, scalar otherSize, t_raskroy::t_details &o_
         if (consumed > 0)
 		{
             auto consume_remain = consumed;
-			t_raskroy::t_detail detail;
+			OldLayoutResult::t_detail detail;
             // fill o_rashods
             // and fill parts attribute
             for (auto part_iter = os->parts.begin();

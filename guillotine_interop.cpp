@@ -35,13 +35,13 @@ LayoutElement * _vector_to_array(const vector<LayoutElement> & elements) {
 
 
 // forward declaration
-Layout * _make_raskroy_layout(t_raskroy * raskroy,
+Layout * _make_raskroy_layout(OldLayoutResult * raskroy,
                               scalar cut_size,
                               Sheet sheet);
 
 
 void _make_details_layout(Layout * detail_layout,
-                              t_raskroy * raskroy,
+                              OldLayoutResult * raskroy,
                               scalar cut_size,
                               Sheet sheet) {
     cout << "in make_details_layout" << endl;
@@ -91,7 +91,7 @@ void _make_details_layout(Layout * detail_layout,
 }
 
 
-Layout * _make_raskroy_layout(t_raskroy * raskroy,
+Layout * _make_raskroy_layout(OldLayoutResult * raskroy,
                               scalar cut_size,
                               Sheet sheet) {
     cout << "in make_raskroy_layout" << endl;

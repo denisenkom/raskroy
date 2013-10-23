@@ -37,7 +37,7 @@ TEST(OriginalTests, test_perebor)
 
 	Perebor p(&rem, 4);
 	Stat stat;
-	t_raskroy::t_details det;
+	OldLayoutResult::t_details det;
 	Amounts rash(3);
 	scalar size = 260+4*4;
 	double opilki;
@@ -72,7 +72,7 @@ std::ostream& operator << (std::ostream &os, const std::string &str)
 	return os << str.c_str();
 }
 
-void print_raskroy(int level, const t_raskroy &ras)
+void prinOldLayoutResult(int level, const OldLayoutResult &ras)
 {
 	string spaces(level, ' ');
 	cout << spaces << "begin {\n";
@@ -82,18 +82,18 @@ void print_raskroy(int level, const t_raskroy &ras)
 #endif
 	cout << endl;
 	cout << spaces << "details: ";
-	for (t_raskroy::t_details::const_iterator i = ras.details.begin(); i != ras.details.end(); i++)
+	for (OldLayoutResult::t_details::const_iterator i = ras.details.begin(); i != ras.details.end(); i++)
 		cout << i->size << " " << i->num << ", ";
 	cout << endl;
 	if (ras.watchRemain())
 	{
 		cout << spaces << "remain raskroy\n";
-		print_raskroy(level + 1, *ras.watchRemain());
+		prinOldLayoutResult(level + 1, *ras.watchRemain());
 	}
 	if (ras.watchRecurse())
 	{
 		cout << spaces << "recurse raskroy\n";
-		print_raskroy(level + 1, *ras.watchRecurse());
+		prinOldLayoutResult(level + 1, *ras.watchRecurse());
 	}
 	cout << spaces << "} end\n";
 }
@@ -138,7 +138,7 @@ TEST(OriginalTests, test_gilotine)
 	while (g.NextResult(res))
 	{
 		cout << "Raskroy.\n";
-		print_raskroy(0, res.raskroy);
+		prinOldLayoutResult(0, res.raskroy);
 		Parser pr;
 		t_parsed_result pres;
 		pr.Parse(res, pres, g.get_SawThickness());

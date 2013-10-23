@@ -131,7 +131,7 @@ bool Raskroy::NextResult(t_result& out)
 	{
 		Stat stat;
 		stat.MakeZero();
-		t_raskroy raskroy;
+		OldLayoutResult raskroy;
 		Amounts rashod(m_remains.size());
 		if (!m_layout2d.Optimize(pSheet->rect, stat, 0, raskroy, rashod))
 			continue;

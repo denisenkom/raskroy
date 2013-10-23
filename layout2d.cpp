@@ -11,7 +11,7 @@ namespace Raskroy {
 //		[o] raskroy - sheet layout
 //		[o] rashod - parts consumption
 //
-inline bool Layout2d::Optimize(const Rect &rect, Stat &stat, int s, t_raskroy &raskroy, Amounts &rashod)
+inline bool Layout2d::Optimize(const Rect &rect, Stat &stat, int s, OldLayoutResult &raskroy, Amounts &rashod)
 {
 	// Try to layout using s sizes
 	Stat stat1;
@@ -28,7 +28,7 @@ inline bool Layout2d::Optimize(const Rect &rect, Stat &stat, int s, t_raskroy &r
 		}
 #endif
 		Amounts rashod2(rashod.size());
-		t_raskroy raskroy2;
+		OldLayoutResult raskroy2;
 		Stat stat2;
 		if (Recursion(m_sizes[!s].begin(), rect, stat2, !s, raskroy2, rashod2)
 			&& /*pcriteria->quality(*/stat1/*)*/ < /*pcriteria->quality(*/stat2/*)*/)
@@ -113,7 +113,7 @@ bool Layout2d::new_optimize(const Rect &rect, LayoutBuilder &layout)
     double cut;
     Amounts consumption(m_remains->size());
     scalar remain;
-    t_raskroy::t_details details;
+    OldLayoutResult::t_details details;
     if (!m_layout1d.Make(*best_size, rect.Size[best_parts_axis], details, consumption, remain, cut))
         return false;
 
@@ -278,7 +278,7 @@ private:
 //		[o] raskroy - layout result
 //		[o] rashod - details consumption
 //
-bool Layout2d::Recursion(Sizes::iterator begin, const Rect &rect, Stat &stat, int s, t_raskroy &raskroy, Amounts &rashod)
+bool Layout2d::Recursion(Sizes::iterator begin, const Rect &rect, Stat &stat, int s, OldLayoutResult &raskroy, Amounts &rashod)
 {
 	NestingCounterGuard nestingCounterGuard(&m_nesting);
 
@@ -295,9 +295,9 @@ bool Layout2d::Recursion(Sizes::iterator begin, const Rect &rect, Stat &stat, in
 	Amounts rashodPerebor(rashod.size());
 	Amounts vrashod(rashod.size());
 	Amounts rashod1(rashod.size());
-	t_raskroy remainRaskroy;	
-	t_raskroy recurseRaskroy;
-	t_raskroy::t_details details;
+	OldLayoutResult remainRaskroy;	
+	OldLayoutResult recurseRaskroy;
+	OldLayoutResult::t_details details;
 	for (Sizes::iterator i = begin; i != m_sizes[s].end(); i++)
 	{
 		CompletedCounterGuard completedCounterGuard(&m_nesting, &m_completedCounter);

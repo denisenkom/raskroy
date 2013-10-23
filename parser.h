@@ -42,8 +42,8 @@ class Parser
 	scalar m_halfSawThickness;
 	scalar m_detailsSummarySquare;	// total parts square
 
-	scalar Details(unsigned s, scalar pos[2], const Rect&, const t_raskroy::t_details&);
-	void Recursion(scalar pos[2], const Rect&, const t_raskroy&);
+	scalar Details(unsigned s, scalar pos[2], const Rect&, const OldLayoutResult::t_details&);
+	void Recursion(scalar pos[2], const Rect&, const OldLayoutResult&);
 public:
 	scalar get_DetailsSummarySquare() {return m_detailsSummarySquare;};
 	Parser(void) : m_pOutResult(0), m_sawThickness(0), m_halfSawThickness(0), m_detailsSummarySquare(0) {}

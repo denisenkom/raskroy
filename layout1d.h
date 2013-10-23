@@ -19,7 +19,7 @@ public:
 	void   put_SawThickness(scalar newVal) throw() {m_sawThickness = newVal;}
 
 	Layout1d(Amounts *remains, scalar sawThickness) : m_remains(remains), m_sawThickness(sawThickness) {}
-	bool Make(const Size &size, scalar otherSize, t_raskroy::t_details& o_details, Amounts &o_rashods, scalar &o_remain, double &o_opilki);
+	bool Make(const Size &size, scalar otherSize, OldLayoutResult::t_details& o_details, Amounts &o_rashods, scalar &o_remain, double &o_opilki);
 };
 
 } // namespace Denisenko
