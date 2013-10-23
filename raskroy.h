@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Perebor2d.h"
+#include "perebor2d.h"
 
 namespace Denisenko {
 namespace Raskroy {

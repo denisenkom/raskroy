@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <functional>
 #include "errors.h"
-#include "Raskroy.h"
+#include "raskroy.h"
 
 namespace Denisenko {
 namespace Raskroy {

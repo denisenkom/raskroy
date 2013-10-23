@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "Perebor.h"
+#include "perebor.h"
 
 namespace Denisenko {
 namespace Raskroy {

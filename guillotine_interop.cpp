@@ -5,7 +5,7 @@
 #include <vector>
 #include <memory>
 #include "types.h"
-#include "Raskroy.h"
+#include "raskroy.h"
 
 using namespace std;
 using namespace Denisenko::Raskroy;

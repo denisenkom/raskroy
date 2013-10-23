@@ -1,7 +1,7 @@
 #ifndef PereborH
 #define PereborH
 
-#include "Result.h"
+#include "result.h"
 
 namespace Denisenko {
 namespace Raskroy {

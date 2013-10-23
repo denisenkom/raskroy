@@ -39,10 +39,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/misha/raskroy
+CMAKE_SOURCE_DIR = /home/denisenk/raskroy
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/misha/raskroy
+CMAKE_BINARY_DIR = /home/denisenk/raskroy
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -69,9 +69,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/misha/raskroy/CMakeFiles /home/misha/raskroy/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/denisenk/raskroy/CMakeFiles /home/denisenk/raskroy/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/misha/raskroy/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/denisenk/raskroy/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -111,151 +111,6 @@ guillotine_interop/fast:
 	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/build
 .PHONY : guillotine_interop/fast
 
-#=============================================================================
-# Target rules for targets named raskroy_test
-
-# Build rule for target.
-raskroy_test: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 raskroy_test
-.PHONY : raskroy_test
-
-# fast build rule for target.
-raskroy_test/fast:
-	$(MAKE) -f CMakeFiles/raskroy_test.dir/build.make CMakeFiles/raskroy_test.dir/build
-.PHONY : raskroy_test/fast
-
-Parser.o: Parser.cpp.o
-.PHONY : Parser.o
-
-# target to build an object file
-Parser.cpp.o:
-	$(MAKE) -f CMakeFiles/raskroy_test.dir/build.make CMakeFiles/raskroy_test.dir/Parser.cpp.o
-.PHONY : Parser.cpp.o
-
-Parser.i: Parser.cpp.i
-.PHONY : Parser.i
-
-# target to preprocess a source file
-Parser.cpp.i:
-	$(MAKE) -f CMakeFiles/raskroy_test.dir/build.make CMakeFiles/raskroy_test.dir/Parser.cpp.i
-.PHONY : Parser.cpp.i
-
-Parser.s: Parser.cpp.s
-.PHONY : Parser.s
-
-# target to generate assembly for a file
-Parser.cpp.s:
-	$(MAKE) -f CMakeFiles/raskroy_test.dir/build.make CMakeFiles/raskroy_test.dir/Parser.cpp.s
-.PHONY : Parser.cpp.s
-
-Perebor.o: Perebor.cpp.o
-.PHONY : Perebor.o
-
-# target to build an object file
-Perebor.cpp.o:
-	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/Perebor.cpp.o
-	$(MAKE) -f CMakeFiles/raskroy_test.dir/build.make CMakeFiles/raskroy_test.dir/Perebor.cpp.o
-.PHONY : Perebor.cpp.o
-
-Perebor.i: Perebor.cpp.i
-.PHONY : Perebor.i
-
-# target to preprocess a source file
-Perebor.cpp.i:
-	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/Perebor.cpp.i
-	$(MAKE) -f CMakeFiles/raskroy_test.dir/build.make CMakeFiles/raskroy_test.dir/Perebor.cpp.i
-.PHONY : Perebor.cpp.i
-
-Perebor.s: Perebor.cpp.s
-.PHONY : Perebor.s
-
-# target to generate assembly for a file
-Perebor.cpp.s:
-	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/Perebor.cpp.s
-	$(MAKE) -f CMakeFiles/raskroy_test.dir/build.make CMakeFiles/raskroy_test.dir/Perebor.cpp.s
-.PHONY : Perebor.cpp.s
-
-Perebor2d.o: Perebor2d.cpp.o
-.PHONY : Perebor2d.o
-
-# target to build an object file
-Perebor2d.cpp.o:
-	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/Perebor2d.cpp.o
-	$(MAKE) -f CMakeFiles/raskroy_test.dir/build.make CMakeFiles/raskroy_test.dir/Perebor2d.cpp.o
-.PHONY : Perebor2d.cpp.o
-
-Perebor2d.i: Perebor2d.cpp.i
-.PHONY : Perebor2d.i
-
-# target to preprocess a source file
-Perebor2d.cpp.i:
-	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/Perebor2d.cpp.i
-	$(MAKE) -f CMakeFiles/raskroy_test.dir/build.make CMakeFiles/raskroy_test.dir/Perebor2d.cpp.i
-.PHONY : Perebor2d.cpp.i
-
-Perebor2d.s: Perebor2d.cpp.s
-.PHONY : Perebor2d.s
-
-# target to generate assembly for a file
-Perebor2d.cpp.s:
-	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/Perebor2d.cpp.s
-	$(MAKE) -f CMakeFiles/raskroy_test.dir/build.make CMakeFiles/raskroy_test.dir/Perebor2d.cpp.s
-.PHONY : Perebor2d.cpp.s
-
-Raskroy.o: Raskroy.cpp.o
-.PHONY : Raskroy.o
-
-# target to build an object file
-Raskroy.cpp.o:
-	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/Raskroy.cpp.o
-	$(MAKE) -f CMakeFiles/raskroy_test.dir/build.make CMakeFiles/raskroy_test.dir/Raskroy.cpp.o
-.PHONY : Raskroy.cpp.o
-
-Raskroy.i: Raskroy.cpp.i
-.PHONY : Raskroy.i
-
-# target to preprocess a source file
-Raskroy.cpp.i:
-	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/Raskroy.cpp.i
-	$(MAKE) -f CMakeFiles/raskroy_test.dir/build.make CMakeFiles/raskroy_test.dir/Raskroy.cpp.i
-.PHONY : Raskroy.cpp.i
-
-Raskroy.s: Raskroy.cpp.s
-.PHONY : Raskroy.s
-
-# target to generate assembly for a file
-Raskroy.cpp.s:
-	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/Raskroy.cpp.s
-	$(MAKE) -f CMakeFiles/raskroy_test.dir/build.make CMakeFiles/raskroy_test.dir/Raskroy.cpp.s
-.PHONY : Raskroy.cpp.s
-
-Result.o: Result.cpp.o
-.PHONY : Result.o
-
-# target to build an object file
-Result.cpp.o:
-	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/Result.cpp.o
-	$(MAKE) -f CMakeFiles/raskroy_test.dir/build.make CMakeFiles/raskroy_test.dir/Result.cpp.o
-.PHONY : Result.cpp.o
-
-Result.i: Result.cpp.i
-.PHONY : Result.i
-
-# target to preprocess a source file
-Result.cpp.i:
-	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/Result.cpp.i
-	$(MAKE) -f CMakeFiles/raskroy_test.dir/build.make CMakeFiles/raskroy_test.dir/Result.cpp.i
-.PHONY : Result.cpp.i
-
-Result.s: Result.cpp.s
-.PHONY : Result.s
-
-# target to generate assembly for a file
-Result.cpp.s:
-	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/Result.cpp.s
-	$(MAKE) -f CMakeFiles/raskroy_test.dir/build.make CMakeFiles/raskroy_test.dir/Result.cpp.s
-.PHONY : Result.cpp.s
-
 guillotine_interop.o: guillotine_interop.cpp.o
 .PHONY : guillotine_interop.o
 
@@ -280,29 +135,101 @@ guillotine_interop.cpp.s:
 	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/guillotine_interop.cpp.s
 .PHONY : guillotine_interop.cpp.s
 
-test.o: test.cpp.o
-.PHONY : test.o
+perebor.o: perebor.cpp.o
+.PHONY : perebor.o
 
 # target to build an object file
-test.cpp.o:
-	$(MAKE) -f CMakeFiles/raskroy_test.dir/build.make CMakeFiles/raskroy_test.dir/test.cpp.o
-.PHONY : test.cpp.o
+perebor.cpp.o:
+	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/perebor.cpp.o
+.PHONY : perebor.cpp.o
 
-test.i: test.cpp.i
-.PHONY : test.i
+perebor.i: perebor.cpp.i
+.PHONY : perebor.i
 
 # target to preprocess a source file
-test.cpp.i:
-	$(MAKE) -f CMakeFiles/raskroy_test.dir/build.make CMakeFiles/raskroy_test.dir/test.cpp.i
-.PHONY : test.cpp.i
+perebor.cpp.i:
+	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/perebor.cpp.i
+.PHONY : perebor.cpp.i
 
-test.s: test.cpp.s
-.PHONY : test.s
+perebor.s: perebor.cpp.s
+.PHONY : perebor.s
 
 # target to generate assembly for a file
-test.cpp.s:
-	$(MAKE) -f CMakeFiles/raskroy_test.dir/build.make CMakeFiles/raskroy_test.dir/test.cpp.s
-.PHONY : test.cpp.s
+perebor.cpp.s:
+	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/perebor.cpp.s
+.PHONY : perebor.cpp.s
+
+perebor2d.o: perebor2d.cpp.o
+.PHONY : perebor2d.o
+
+# target to build an object file
+perebor2d.cpp.o:
+	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/perebor2d.cpp.o
+.PHONY : perebor2d.cpp.o
+
+perebor2d.i: perebor2d.cpp.i
+.PHONY : perebor2d.i
+
+# target to preprocess a source file
+perebor2d.cpp.i:
+	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/perebor2d.cpp.i
+.PHONY : perebor2d.cpp.i
+
+perebor2d.s: perebor2d.cpp.s
+.PHONY : perebor2d.s
+
+# target to generate assembly for a file
+perebor2d.cpp.s:
+	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/perebor2d.cpp.s
+.PHONY : perebor2d.cpp.s
+
+raskroy.o: raskroy.cpp.o
+.PHONY : raskroy.o
+
+# target to build an object file
+raskroy.cpp.o:
+	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/raskroy.cpp.o
+.PHONY : raskroy.cpp.o
+
+raskroy.i: raskroy.cpp.i
+.PHONY : raskroy.i
+
+# target to preprocess a source file
+raskroy.cpp.i:
+	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/raskroy.cpp.i
+.PHONY : raskroy.cpp.i
+
+raskroy.s: raskroy.cpp.s
+.PHONY : raskroy.s
+
+# target to generate assembly for a file
+raskroy.cpp.s:
+	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/raskroy.cpp.s
+.PHONY : raskroy.cpp.s
+
+result.o: result.cpp.o
+.PHONY : result.o
+
+# target to build an object file
+result.cpp.o:
+	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/result.cpp.o
+.PHONY : result.cpp.o
+
+result.i: result.cpp.i
+.PHONY : result.i
+
+# target to preprocess a source file
+result.cpp.i:
+	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/result.cpp.i
+.PHONY : result.cpp.i
+
+result.s: result.cpp.s
+.PHONY : result.s
+
+# target to generate assembly for a file
+result.cpp.s:
+	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/result.cpp.s
+.PHONY : result.cpp.s
 
 types.o: types.cpp.o
 .PHONY : types.o
@@ -310,7 +237,6 @@ types.o: types.cpp.o
 # target to build an object file
 types.cpp.o:
 	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/types.cpp.o
-	$(MAKE) -f CMakeFiles/raskroy_test.dir/build.make CMakeFiles/raskroy_test.dir/types.cpp.o
 .PHONY : types.cpp.o
 
 types.i: types.cpp.i
@@ -319,7 +245,6 @@ types.i: types.cpp.i
 # target to preprocess a source file
 types.cpp.i:
 	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/types.cpp.i
-	$(MAKE) -f CMakeFiles/raskroy_test.dir/build.make CMakeFiles/raskroy_test.dir/types.cpp.i
 .PHONY : types.cpp.i
 
 types.s: types.cpp.s
@@ -328,7 +253,6 @@ types.s: types.cpp.s
 # target to generate assembly for a file
 types.cpp.s:
 	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/types.cpp.s
-	$(MAKE) -f CMakeFiles/raskroy_test.dir/build.make CMakeFiles/raskroy_test.dir/types.cpp.s
 .PHONY : types.cpp.s
 
 # Help Target
@@ -339,29 +263,22 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... guillotine_interop"
-	@echo "... raskroy_test"
 	@echo "... rebuild_cache"
-	@echo "... Parser.o"
-	@echo "... Parser.i"
-	@echo "... Parser.s"
-	@echo "... Perebor.o"
-	@echo "... Perebor.i"
-	@echo "... Perebor.s"
-	@echo "... Perebor2d.o"
-	@echo "... Perebor2d.i"
-	@echo "... Perebor2d.s"
-	@echo "... Raskroy.o"
-	@echo "... Raskroy.i"
-	@echo "... Raskroy.s"
-	@echo "... Result.o"
-	@echo "... Result.i"
-	@echo "... Result.s"
 	@echo "... guillotine_interop.o"
 	@echo "... guillotine_interop.i"
 	@echo "... guillotine_interop.s"
-	@echo "... test.o"
-	@echo "... test.i"
-	@echo "... test.s"
+	@echo "... perebor.o"
+	@echo "... perebor.i"
+	@echo "... perebor.s"
+	@echo "... perebor2d.o"
+	@echo "... perebor2d.i"
+	@echo "... perebor2d.s"
+	@echo "... raskroy.o"
+	@echo "... raskroy.i"
+	@echo "... raskroy.s"
+	@echo "... result.o"
+	@echo "... result.i"
+	@echo "... result.s"
 	@echo "... types.o"
 	@echo "... types.i"
 	@echo "... types.s"
