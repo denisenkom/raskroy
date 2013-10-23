@@ -74,7 +74,7 @@ float Raskroy::GetPercentCompleted()
 	}
 	else
 	{
-		return (float)m_perebor2d.GetCompletedCounter() / total * 100.0f;
+		return (float)m_layout2d.GetCompletedCounter() / total * 100.0f;
 	}
 }
 
@@ -109,7 +109,7 @@ bool Raskroy::new_optimize(Rect sheet, Parts & parts, scalar cut_size, LayoutBui
 		}
 	}
 
-	auto ret = m_perebor2d.new_optimize(sheet, layout);
+	auto ret = m_layout2d.new_optimize(sheet, layout);
     return ret;
 }
 
@@ -126,14 +126,14 @@ bool Raskroy::NextResult(t_result& out)
 	t_result bestResult;
 	Amounts bestRashod(m_remains.size());
 	bool first = true;
-	m_perebor2d.ResetCompletedCounter();
+	m_layout2d.ResetCompletedCounter();
 	for (auto pSheet = m_sheets.begin(); pSheet != m_sheets.end(); pSheet++)
 	{
 		Stat stat;
 		stat.MakeZero();
 		t_raskroy raskroy;
 		Amounts rashod(m_remains.size());
-		if (!m_perebor2d.Optimize(pSheet->rect, stat, 0, raskroy, rashod))
+		if (!m_layout2d.Optimize(pSheet->rect, stat, 0, raskroy, rashod))
 			continue;
 		if (bestResult.Statistics < stat || first) {
 			bestResult.amount = m_remains / rashod;

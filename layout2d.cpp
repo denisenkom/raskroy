@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "perebor2d.h"
+#include "layout2d.h"
 
 namespace Denisenko {
 namespace Raskroy {
@@ -11,7 +11,7 @@ namespace Raskroy {
 //		[o] raskroy - sheet layout
 //		[o] rashod - parts consumption
 //
-inline bool Perebor2d::Optimize(const Rect &rect, Stat &stat, int s, t_raskroy &raskroy, Amounts &rashod)
+inline bool Layout2d::Optimize(const Rect &rect, Stat &stat, int s, t_raskroy &raskroy, Amounts &rashod)
 {
 	// Try to layout using s sizes
 	Stat stat1;
@@ -56,7 +56,7 @@ inline bool Perebor2d::Optimize(const Rect &rect, Stat &stat, int s, t_raskroy &
 }
 
 
-bool Perebor2d::new_optimize(const Rect &rect, LayoutBuilder &layout)
+bool Layout2d::new_optimize(const Rect &rect, LayoutBuilder &layout)
 {
     // choose best (biggest) size to start with
     const Size * best_by[2] = {0};
@@ -278,7 +278,7 @@ private:
 //		[o] raskroy - layout result
 //		[o] rashod - details consumption
 //
-bool Perebor2d::Recursion(Sizes::iterator begin, const Rect &rect, Stat &stat, int s, t_raskroy &raskroy, Amounts &rashod)
+bool Layout2d::Recursion(Sizes::iterator begin, const Rect &rect, Stat &stat, int s, t_raskroy &raskroy, Amounts &rashod)
 {
 	NestingCounterGuard nestingCounterGuard(&m_nesting);
 

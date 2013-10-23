@@ -135,6 +135,30 @@ guillotine_interop.cpp.s:
 	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/guillotine_interop.cpp.s
 .PHONY : guillotine_interop.cpp.s
 
+layout2d.o: layout2d.cpp.o
+.PHONY : layout2d.o
+
+# target to build an object file
+layout2d.cpp.o:
+	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/layout2d.cpp.o
+.PHONY : layout2d.cpp.o
+
+layout2d.i: layout2d.cpp.i
+.PHONY : layout2d.i
+
+# target to preprocess a source file
+layout2d.cpp.i:
+	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/layout2d.cpp.i
+.PHONY : layout2d.cpp.i
+
+layout2d.s: layout2d.cpp.s
+.PHONY : layout2d.s
+
+# target to generate assembly for a file
+layout2d.cpp.s:
+	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/layout2d.cpp.s
+.PHONY : layout2d.cpp.s
+
 perebor.o: perebor.cpp.o
 .PHONY : perebor.o
 
@@ -158,30 +182,6 @@ perebor.s: perebor.cpp.s
 perebor.cpp.s:
 	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/perebor.cpp.s
 .PHONY : perebor.cpp.s
-
-perebor2d.o: perebor2d.cpp.o
-.PHONY : perebor2d.o
-
-# target to build an object file
-perebor2d.cpp.o:
-	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/perebor2d.cpp.o
-.PHONY : perebor2d.cpp.o
-
-perebor2d.i: perebor2d.cpp.i
-.PHONY : perebor2d.i
-
-# target to preprocess a source file
-perebor2d.cpp.i:
-	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/perebor2d.cpp.i
-.PHONY : perebor2d.cpp.i
-
-perebor2d.s: perebor2d.cpp.s
-.PHONY : perebor2d.s
-
-# target to generate assembly for a file
-perebor2d.cpp.s:
-	$(MAKE) -f CMakeFiles/guillotine_interop.dir/build.make CMakeFiles/guillotine_interop.dir/perebor2d.cpp.s
-.PHONY : perebor2d.cpp.s
 
 raskroy.o: raskroy.cpp.o
 .PHONY : raskroy.o
@@ -267,12 +267,12 @@ help:
 	@echo "... guillotine_interop.o"
 	@echo "... guillotine_interop.i"
 	@echo "... guillotine_interop.s"
+	@echo "... layout2d.o"
+	@echo "... layout2d.i"
+	@echo "... layout2d.s"
 	@echo "... perebor.o"
 	@echo "... perebor.i"
 	@echo "... perebor.s"
-	@echo "... perebor2d.o"
-	@echo "... perebor2d.i"
-	@echo "... perebor2d.s"
 	@echo "... raskroy.o"
 	@echo "... raskroy.i"
 	@echo "... raskroy.s"

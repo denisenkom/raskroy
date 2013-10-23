@@ -1,5 +1,5 @@
-#ifndef Perebor2dH
-#define Perebor2dH
+#ifndef Layout2dH
+#define Layout2dH
 
 #include "perebor.h"
 
@@ -8,7 +8,7 @@ namespace Raskroy {
 
 const scalar DEFAULT_SAW_THICKNESS = 4;
 
-class Perebor2d {
+class Layout2d {
 	Amounts *m_remains;
 	Sizes *m_sizes;
 	scalar *m_minSize;
@@ -20,7 +20,7 @@ class Perebor2d {
 
 public:
 
-	Perebor2d(Sizes sizes[], scalar minSize[], Amounts *remains)
+	Layout2d(Sizes sizes[], scalar minSize[], Amounts *remains)
 		: m_sizes(sizes), m_minSize(minSize), m_remains(remains),
 		m_perebor(remains, DEFAULT_SAW_THICKNESS), m_nesting(0), m_completedCounter(0)
 	{
@@ -37,4 +37,4 @@ public:
 } // namespace Denisenko
 } // namespace Raskroy
 
-#endif // Perebor2dH
+#endif // Layout2dH
