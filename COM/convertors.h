@@ -4,7 +4,7 @@
 Denisenko::Raskroy::t_parsed_cut
 	convert(struct IParsedCut &Cut);
 
-Denisenko::Raskroy::t_parsed_part
+Denisenko::Raskroy::ParsedPart
 	convert(struct IParsedPart &Part);
 
 Denisenko::Raskroy::t_parsed_cuts
@@ -29,7 +29,7 @@ struct IParsedCut*
 	convert(const Denisenko::Raskroy::t_parsed_cut&);
 
 struct IParsedPart*
-	convert(const Denisenko::Raskroy::t_parsed_part&);
+	convert(const Denisenko::Raskroy::ParsedPart&);
 
 struct IResult*
 	convert(const Denisenko::Raskroy::t_parsed_result&);

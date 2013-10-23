@@ -22,9 +22,9 @@ t_parsed_cut convert(IParsedCut &Cut)
 	return cut;
 }
 
-t_parsed_part convert(IParsedPart &Part)
+ParsedPart convert(IParsedPart &Part)
 {
-	t_parsed_part part;
+	ParsedPart part;
 	Part.get_X(&part.pos[0]);
 	Part.get_Y(&part.pos[1]);
 	Part.get_Length(&part.rect.Size[0]);
@@ -143,7 +143,7 @@ IParsedCut* convert(const t_parsed_cut &in)
 	return out;
 }
 
-IParsedPart* convert(const t_parsed_part &in)
+IParsedPart* convert(const ParsedPart &in)
 {
 	IParsedPart *out;
 	HRESULT hres;
@@ -169,7 +169,7 @@ class fn_add_part {
 	IParsedParts &Parts;
 public:
 	fn_add_part(IParsedParts &Parts) :	Parts(Parts) {}
-	void operator () (t_parsed_part x) {
+	void operator () (ParsedPart x) {
 		IParsedPart *Part = convert(x); Parts.Add(Part); Part->Release();
 	}
 };

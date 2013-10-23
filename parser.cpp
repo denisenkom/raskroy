@@ -11,7 +11,7 @@ scalar Parser::Details(unsigned s, scalar pos[2], const Rect &rect, const OldLay
 	for (OldLayoutResult::Details::const_iterator i = details.begin(); i != details.end(); i++)
 		for (unsigned n = 0; n < i->num; n++)
 		{
-			t_parsed_part part;
+			ParsedPart part;
 			part.pos[s] = pos[s];
 			part.pos[!s] = pos[!s] + acc;
 			part.rect.Size[s] = rect.Size[s];
