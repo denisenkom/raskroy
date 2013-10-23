@@ -12,15 +12,15 @@ class ATL_NO_VTABLE CParsedCut :
 	public CComObjectRootEx<CComSingleThreadModel>,
 	public CComCoClass<CParsedCut, &CLSID_ParsedCut>,
 	public IDispatchImpl<IParsedCut, &IID_IParsedCut, &LIBID_COMRASKROYLib>,
-	private Denisenko::Raskroy::t_parsed_cut
+	private Denisenko::Raskroy::ParsedCut
 {
 public:
 	CParsedCut()
 	{
 	}
 
-	CParsedCut(const Denisenko::Raskroy::t_parsed_cut &cut)
-		: Denisenko::Raskroy::t_parsed_cut(cut)
+	CParsedCut(const Denisenko::Raskroy::ParsedCut &cut)
+		: Denisenko::Raskroy::ParsedCut(cut)
 	{
 	}
 

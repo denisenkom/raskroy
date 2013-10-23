@@ -1,7 +1,7 @@
 #include "errors.h"
 #include "..\parser.h"
 
-Denisenko::Raskroy::t_parsed_cut
+Denisenko::Raskroy::ParsedCut
 	convert(struct IParsedCut &Cut);
 
 Denisenko::Raskroy::ParsedPart
@@ -26,7 +26,7 @@ Denisenko::Raskroy::t_parsed_result
 	convert(struct IResult &Result);
 
 struct IParsedCut*
-	convert(const Denisenko::Raskroy::t_parsed_cut&);
+	convert(const Denisenko::Raskroy::ParsedCut&);
 
 struct IParsedPart*
 	convert(const Denisenko::Raskroy::ParsedPart&);

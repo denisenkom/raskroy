@@ -26,7 +26,7 @@ scalar Parser::Details(unsigned s, scalar pos[2], const Rect &rect, const OldLay
 			acc += i->size;
 			if (n < i->num-1)
 			{
-				t_parsed_cut cut;
+				ParsedCut cut;
 				cut.pos[s] = pos[s];
 				cut.pos[!s] = pos[!s] + acc + m_halfSawThickness;
 				cut.s = s;
@@ -42,7 +42,7 @@ scalar Parser::Details(unsigned s, scalar pos[2], const Rect &rect, const OldLay
 
 void Parser::Recursion(scalar pos[2], const Rect &rect, const OldLayoutResult &raskroy)
 {
-	t_parsed_cut cut;
+	ParsedCut cut;
 	cut.s = !raskroy.s;
 	cut.length = rect.Size[!raskroy.s];
 	cut.pos[!raskroy.s] = pos[!raskroy.s];

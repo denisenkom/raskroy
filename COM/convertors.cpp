@@ -10,9 +10,9 @@
 
 using namespace Denisenko::Raskroy;
 
-t_parsed_cut convert(IParsedCut &Cut)
+ParsedCut convert(IParsedCut &Cut)
 {
-	t_parsed_cut cut;
+	ParsedCut cut;
 	Cut.get_Length(&cut.length);
 	long x;
 	Cut.get_S(&x);
@@ -128,7 +128,7 @@ void _CoCreateInstance(REFCLSID rclsid, LPUNKNOWN pUnkOuter, DWORD dwClsContext,
 		throw error_COM("CoCreateInstance", hres);
 }
 
-IParsedCut* convert(const t_parsed_cut &in)
+IParsedCut* convert(const ParsedCut &in)
 {
 	IParsedCut *out;
 	_CoCreateInstance(CLSID_ParsedCut, NULL, CLSCTX_ALL, IID_IParsedCut, (void**)&out);
@@ -160,7 +160,7 @@ class fn_add_cut {
 	IParsedCuts &Cuts;
 public:
 	fn_add_cut(IParsedCuts &Cuts) :	Cuts(Cuts) {}
-	void operator () (t_parsed_cut x)	{
+	void operator () (ParsedCut x)	{
 		IParsedCut *Cut = convert(x); Cuts.Add(Cut); Cut->Release();
 	}
 };

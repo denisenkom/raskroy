@@ -13,14 +13,14 @@ struct ParsedPart {
 	Rect rect;
 };
 
-struct t_parsed_cut {
+struct ParsedCut {
 	scalar pos[2];
 	scalar length;
 	unsigned s;	// cut direction along 0=length or 1=width
 };
 
 typedef std::vector<ParsedPart> ParsedParts;
-typedef std::vector<t_parsed_cut> ParsedCuts;
+typedef std::vector<ParsedCut> ParsedCuts;
 
 struct ParsedResult
 {

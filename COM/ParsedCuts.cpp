@@ -48,7 +48,7 @@ STDMETHODIMP CParsedCuts::get_Item(long Index, IParsedCut **Cut)
 	*Cut = new CComObject<CParsedCut>();
 	if (*Cut)
 	{
-		t_parsed_cut &cut = *(begin()+Index);
+		ParsedCut &cut = *(begin()+Index);
 		(*Cut)->put_X(cut.pos[0]);
 		(*Cut)->put_Y(cut.pos[1]);
 		(*Cut)->put_S(cut.s);
