@@ -34,3 +34,5 @@ CMakeFiles
 cmake_install.cmake
 *.pyc
 *.so
+build/
+dist/
