@@ -1,5 +1,6 @@
 import unittest
-from guillotine import layout2d
+from guillotineopt import layout2d
+
 
 class TestCase(unittest.TestCase):
     def test_simple(self):
