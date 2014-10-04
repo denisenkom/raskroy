@@ -5,9 +5,15 @@
 *.sdf
 *.opensdf
 *.suo
-*.vcxproj.user
+*.user
 *.plg
 *.ncb
+*.vssscc
+*.vspscc
+*.scc
+*.psess
+bin
+obj
 Debug
 Release
 ipch
