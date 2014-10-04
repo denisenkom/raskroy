@@ -1,5 +1,6 @@
 // plain C interface to guillotine code
 #include <algorithm>
+#include <functional>
 #include <iostream>
 #include <map>
 #include <vector>
